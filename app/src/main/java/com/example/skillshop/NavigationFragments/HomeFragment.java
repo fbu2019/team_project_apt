@@ -53,7 +53,7 @@ public class HomeFragment extends Fragment {
         //set the adapter
         rvClasses.setAdapter(classAdapter);
     }
-    
+
 
 
     public void getAllClasses() {
