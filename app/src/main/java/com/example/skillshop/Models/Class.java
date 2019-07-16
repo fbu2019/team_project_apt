@@ -9,6 +9,8 @@ public class Class extends ParseObject {
     public final static String KEY_NAME = "name";
     public final static String KEY_DESCRIPTION = "description";
     public final static String KEY_DATE = "date";
+    public final static String KEY_LOCATION = "location";
+
 
     public  String getName() {
         return getString(KEY_NAME);
@@ -26,6 +28,8 @@ public class Class extends ParseObject {
     public void setDescription(String description) {
         put(KEY_DESCRIPTION,description);
     }
+
+
 
 
 
