@@ -39,6 +39,7 @@ public class ClassesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         connectRecyclerView(view);
         findButtonViews(view);
+        setButtonListeners(view);
         getAllTaking();
 }
 
@@ -47,10 +48,22 @@ public class ClassesFragment extends Fragment {
         btTaking = view.findViewById(R.id.btTaking);
         btTeaching = view.findViewById(R.id.btTeaching);
 
-        //TODO set onclick listeners and add logic based on queries
     }
 
-    private void setButtonListeners(){
+    private void setButtonListeners(View view){
+        btTaking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO add the appropriate query here
+            }
+        });
+
+        btTeaching.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                //TODO add the appropriate query here
+            }
+        });
 
     }
 
