@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.example.skillshop.Models.Class;
 
 import com.example.skillshop.ClassAdapter;
+import com.example.skillshop.Models.Class;
 import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -58,6 +59,7 @@ public class HomeFragment extends Fragment {
         //set the adapter
         rvClasses.setAdapter(classAdapter);
     }
+    
 
 
     public void getAllClasses() {
@@ -79,3 +81,4 @@ public class HomeFragment extends Fragment {
         });
     }
 }
+
