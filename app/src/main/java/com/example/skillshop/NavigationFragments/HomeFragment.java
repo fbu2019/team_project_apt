@@ -64,6 +64,12 @@ public class HomeFragment extends Fragment {
 
                     for (int i = 0; i < objects.size(); i++) {
                         Log.d("HOME", "Class: " + objects.get(i).getName()+" "+objects.get(i).getDescription()+" "+objects.get(i).getDate());
+                        Class classItem = objects.get(i);
+
+                        mClasses.add(classItem);
+
+                        classAdapter.notifyItemInserted(mClasses.size()-1);
+
                     }
 
                 } else {
