@@ -2,7 +2,6 @@ package com.example.skillshop.NavigationFragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +14,6 @@ import java.util.ArrayList;
 
 public class ClassesFragment extends Fragment {
 
-    private RecyclerView rvClasses;
-    protected ArrayList<Class> mClasses;
-    protected ClassAdapter classAdapter;
 
 
     @Override
@@ -26,21 +22,10 @@ public class ClassesFragment extends Fragment {
     }
     @Override
     public void onViewCreated(View view,Bundle savedInstanceState) {
-        connectRecyclerView(view);
+        super.onViewCreated(view, savedInstanceState);
     }
 
-    private void connectRecyclerView(View view) {
-        //find the RecyclerView
-        rvClasses = (RecyclerView) view.findViewById(R.id.rvClasses);
-        //init the arraylist (data source)
-        mClasses = new ArrayList<>();
-        //construct the adapter from this datasource
-        classAdapter = new ClassAdapter(mClasses, getContext());
-        //RecyclerView setup (layout manager, use adapter)
-        rvClasses.setLayoutManager(new LinearLayoutManager(getContext()));
-        //set the adapter
-        rvClasses.setAdapter(classAdapter);
-    }
+
 
 
 }
