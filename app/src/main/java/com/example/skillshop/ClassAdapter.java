@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.skillshop.Models.Class;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder>  {
@@ -18,7 +21,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
     private Context context;
 
     //pass in the Posts array in the constructor
-    public ClassAdapter(List<Class> classes, Context context) {
+    public ClassAdapter(ArrayList<Class> classes, Context context) {
         this.mClasses = classes;
         this.context = context;
     }
