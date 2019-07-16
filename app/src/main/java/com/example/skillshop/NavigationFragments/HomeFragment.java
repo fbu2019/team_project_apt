@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.skillshop.ClassAdapter;
+import com.example.skillshop.Models.Class;
 import com.example.skillshop.R;
 
 import java.util.ArrayList;
@@ -41,4 +42,5 @@ public class HomeFragment extends Fragment {
         //set the adapter
         rvClasses.setAdapter(classAdapter);
     }
+
 }
