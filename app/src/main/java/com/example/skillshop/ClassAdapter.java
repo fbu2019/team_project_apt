@@ -74,7 +74,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
             tvInstructor = (TextView) itemView.findViewById(R.id.tvInstructor);
             tvDate = (TextView) itemView.findViewById(R.id.tvDate);
             tvTime = (TextView) itemView.findViewById(R.id.tvTime);
-            tvLocation = (TextView) itemView.findViewById(R.id.tvLocation); //TODO fix et versus tv
+            tvLocation = (TextView) itemView.findViewById(R.id.tvLocation);
             tvCost = (TextView) itemView.findViewById(R.id.tvCost);
         }
 
