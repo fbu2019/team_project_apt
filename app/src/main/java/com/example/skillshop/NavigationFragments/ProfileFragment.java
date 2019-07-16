@@ -1,4 +1,4 @@
-package com.example.skillshop;
+package com.example.skillshop.NavigationFragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

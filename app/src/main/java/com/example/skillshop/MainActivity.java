@@ -8,6 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.skillshop.NavigationFragments.CalendarFragment;
+import com.example.skillshop.NavigationFragments.ClassesFragment;
+import com.example.skillshop.NavigationFragments.HomeFragment;
+import com.example.skillshop.NavigationFragments.ProfileFragment;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
