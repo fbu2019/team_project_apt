@@ -2,15 +2,11 @@ package com.example.skillshop.NavigationFragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.skillshop.ClassAdapter;
 import com.example.skillshop.R;
-
-import java.util.ArrayList;
 
 public class ClassesFragment extends Fragment {
 
