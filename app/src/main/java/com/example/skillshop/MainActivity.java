@@ -23,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
+
         // define manager to decide which fragment to display
         final FragmentManager fragmentManager = getSupportFragmentManager();
 

@@ -86,9 +86,9 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
 
         private void setAllViews(Class tClass) {
 
-            tvClassName.setText("Name;");
+            tvClassName.setText(tClass.getName());
             tvInstructor.setText("Instructor");
-            tvDate.setText("Date");
+            tvDate.setText(tClass.getDate());
             tvTime.setText("Time");
             tvLocation.setText("Location");
             tvCost.setText("Cost");

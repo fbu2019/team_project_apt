@@ -2,17 +2,12 @@ package com.example.skillshop.NavigationFragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-
-import android.util.Log;
-
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-
-import com.example.skillshop.Models.Class;
 
 import com.example.skillshop.ClassAdapter;
 import com.example.skillshop.Models.Class;
@@ -21,9 +16,8 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
-import java.util.List;
-
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -70,6 +64,12 @@ public class HomeFragment extends Fragment {
 
                     for (int i = 0; i < objects.size(); i++) {
                         Log.d("HOME", "Class: " + objects.get(i).getName()+" "+objects.get(i).getDescription()+" "+objects.get(i).getDate());
+                        Class classItem = objects.get(i);
+
+                        mClasses.add(classItem);
+
+                        classAdapter.notifyItemInserted(mClasses.size()-1);
+
                     }
 
                 } else {
