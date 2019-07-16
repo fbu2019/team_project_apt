@@ -22,10 +22,12 @@ public class LoginActivity extends AppCompatActivity {
     AccessTokenTracker accessTokenTracker;
     ProfileTracker profileTracker;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
 
         //  handles login responses
         callbackManager = CallbackManager.Factory.create();
@@ -102,5 +104,6 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(main);
             //  TODO: ADD INFO TO DATABASE HERE
         }
+
     }
 }

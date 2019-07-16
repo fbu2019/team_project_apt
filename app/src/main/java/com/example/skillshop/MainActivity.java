@@ -7,6 +7,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import com.example.skillshop.NavigationFragments.CalendarFragment;
+import com.example.skillshop.NavigationFragments.ClassesFragment;
+import com.example.skillshop.NavigationFragments.HomeFragment;
+import com.example.skillshop.NavigationFragments.ProfileFragment;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -15,6 +19,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+
 
 
         // define manager to decide which fragment to display
@@ -40,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.profile_fragment:
                         fragment = new ProfileFragment();
                         break;
+
+                    case R.id.classes_fragment:
+                        fragment = new ClassesFragment();
+                        break;
+
 
                     default: break;
                 }
