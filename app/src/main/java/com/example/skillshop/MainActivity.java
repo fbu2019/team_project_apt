@@ -40,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new ProfileFragment();
                         break;
 
+                    case R.id.classes_fragment:
+                        fragment = new ClassesFragment();
+                        break;
+
+
                     default: break;
                 }
 
