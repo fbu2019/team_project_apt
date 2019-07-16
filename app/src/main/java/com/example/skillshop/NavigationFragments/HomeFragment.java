@@ -67,7 +67,7 @@ public class HomeFragment extends Fragment {
                 if (e == null) {
 
                     for (int i = 0; i < objects.size(); i++) {
-                        Log.d("HOME", "Class: " + objects.get(i).getName());
+                        Log.d("HOME", "Class: " + objects.get(i).getName()+" "+objects.get(i).getDescription()+" "+objects.get(i).getDate());
                     }
 
                 } else {
