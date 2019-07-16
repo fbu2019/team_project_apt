@@ -11,10 +11,10 @@ import android.view.ViewGroup;
 
 import com.example.skillshop.ClassAdapter;
 import com.example.skillshop.Models.Class;
+import com.example.skillshop.Models.Query;
 import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +57,11 @@ public class HomeFragment extends Fragment {
 
 
     public void getAllClasses() {
-        ParseQuery.getQuery(Class.class).findInBackground(new FindCallback<Class>() {
+
+        Query parseQuery = new Query();
+        parseQuery.getAllClasses();
+
+        parseQuery.findInBackground(new FindCallback<Class>() {
             @Override
             public void done(List<Class> objects, ParseException e) {
                 if (e == null) {
@@ -65,9 +69,7 @@ public class HomeFragment extends Fragment {
                     for (int i = 0; i < objects.size(); i++) {
                         Log.d("HOME", "Class: " + objects.get(i).getName()+" "+objects.get(i).getDescription()+" "+objects.get(i).getDate());
                         Class classItem = objects.get(i);
-
                         mClasses.add(classItem);
-
                         classAdapter.notifyItemInserted(mClasses.size()-1);
 
                     }
