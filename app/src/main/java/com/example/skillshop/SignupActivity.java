@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.skillshop.NavigationFragments.FragmentHandler;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -114,7 +115,7 @@ public class SignupActivity extends AppCompatActivity {
 
     private void nextActivity(Profile profile) {
         if (profile != null) {
-            Intent main = new Intent(SignupActivity.this, MainActivity.class);
+            Intent main = new Intent(SignupActivity.this, FragmentHandler.class);
             main.putExtra("name", profile.getFirstName());
             main.putExtra("surname", profile.getLastName());
             main.putExtra("id", profile.getId());
