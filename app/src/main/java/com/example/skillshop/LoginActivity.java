@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.skillshop.NavigationFragments.FragmentHandler;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -118,8 +119,10 @@ public class LoginActivity extends AppCompatActivity {
 
     //  Passes intent to move app to MainActivity
     private void nextActivity(Profile profile) {
-        if (profile != null) {
-            Intent main = new Intent(LoginActivity.this, MainActivity.class);
+
+        if (profile != null){
+            Intent main = new Intent (LoginActivity.this, FragmentHandler.class);
+
             main.putExtra("name", profile.getFirstName()); //   retrieving and putting profile attributes
             main.putExtra("surname", profile.getLastName());
             main.putExtra("id", profile.getId());

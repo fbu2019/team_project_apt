@@ -1,5 +1,6 @@
 package com.example.skillshop.NavigationFragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -7,7 +8,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.example.skillshop.NewClassActivity;
 import com.example.skillshop.R;
 
 public class CalendarFragment extends Fragment {
@@ -21,6 +24,13 @@ public class CalendarFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        TextView newClass = view.findViewById(R.id.etCalendar);
+        newClass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(), NewClassActivity.class);
+            }
+        });
     }
 
 }
