@@ -11,4 +11,12 @@
     <string name="Phone_Number">Phone Number</string>
     <string name="Email_Address">Email</string>
     <string name="promt_zipcode">Zipcode</string>
+
+    <string-array name="categories">
+        <item>Cooking</item>
+        <item>Education</item>
+        <item>Fitness</item>
+        <item>Other</item>
+    </string-array>
+
 </resources>

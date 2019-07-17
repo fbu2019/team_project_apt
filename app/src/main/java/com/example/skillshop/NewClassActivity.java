@@ -8,8 +8,10 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.skillshop.Models.Workshop;
@@ -28,7 +30,7 @@ public class NewClassActivity extends AppCompatActivity {
     TextView etDate;
     TextView etLocation;
     TextView etDescription;
-    TextView etCategory;
+    Spinner spinCategory;
     TextView etCost;
     ImageView ivClassImage;
 
@@ -60,6 +62,14 @@ public class NewClassActivity extends AppCompatActivity {
             }
         });
 
+        // Create an ArrayAdapter using the string array and a default spinner layout
+    /*    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.categories, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinCategory.setAdapter(adapter);
+*/
 
     }
 
@@ -96,11 +106,17 @@ public class NewClassActivity extends AppCompatActivity {
         }
 
         location = etLocation.getText().toString();
-        description = etDescription.getText().toString();
-        category = etCategory.getText().toString();
 
-      //  category;
-      //  cost;
+        //   location;
+        description = etDescription.getText().toString();
+        //category = spinCategory.getText().toString();
+
+
+
+
+
+
+        //  cost;
 
 
     }
@@ -111,7 +127,7 @@ public class NewClassActivity extends AppCompatActivity {
         etDate = findViewById(R.id.etDate);
         etLocation = findViewById(R.id.etLocation);
         etDescription = findViewById(R.id.etDescription);
-        etCategory = findViewById(R.id.etCategory);
+        spinCategory = findViewById(R.id.spinCategory);
         etCost = findViewById(R.id.etCost);
         btSubmit = findViewById(R.id.btSubmit);
         ivClassImage = findViewById(R.id.ivClassImage);
