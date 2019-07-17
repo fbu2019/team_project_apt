@@ -13,6 +13,7 @@ public class Class extends ParseObject {
     public final static String KEY_LOCATION = "location";
     public final static String KEY_MENTOR = "mentor";
     public final static String KEY_CREATED_AT = "createdAt";
+    public final static String KEY_COST = "cost";
 
 
     public  String getName() {
@@ -23,6 +24,9 @@ public class Class extends ParseObject {
     }
     public  String getDate() {
         return getDate(KEY_DATE).toString();
+    }
+    public  Double getCost() {
+        return getDouble(KEY_COST);
     }
 
     public void setName(String name) {

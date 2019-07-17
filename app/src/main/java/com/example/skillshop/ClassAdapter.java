@@ -3,6 +3,8 @@ package com.example.skillshop;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -114,7 +116,18 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
             tvDate.setText(date.substring(0,11));
             tvTime.setText(date.substring(11,16));
             tvLocation.setText("Location");
-            tvCost.setText("Cost");
+
+            Double cost = tClass.getCost();
+            if(cost == 0)
+            {
+                tvCost.setText("Free");
+                tvCost.setBackground(new ColorDrawable(Color.parseColor("#00FF00")));
+            }
+            else
+            {
+                tvCost.setText("$"+Double.toHexString(cost));
+            }
+
         }
 
 

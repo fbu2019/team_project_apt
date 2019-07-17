@@ -1,5 +1,7 @@
 package com.example.skillshop;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
@@ -47,7 +49,17 @@ public class ClassDetailsActivity extends AppCompatActivity {
         tvDate.setText(date.substring(0,11));
         tvTime.setText(date.substring(11,16));
         tvLocation.setText("Location");
-        tvCost.setText("Cost");
+
+        Double cost = detailedClass.getCost();
+        if(cost == 0)
+        {
+            tvCost.setText("Free");
+            tvCost.setBackground(new ColorDrawable(Color.parseColor("#00FF00")));
+        }
+        else
+        {
+            tvCost.setText("$"+Double.toHexString(cost));
+        }
 
 
     }
