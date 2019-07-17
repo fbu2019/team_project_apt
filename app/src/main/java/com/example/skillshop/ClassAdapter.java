@@ -19,6 +19,10 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.skillshop.LoginActivity.userId;
+import static com.example.skillshop.LoginActivity.userName;
+
+
 public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder>  {
 
 
@@ -109,7 +113,15 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
         private void setAllViews(Class tClass) {
 
             tvClassName.setText(tClass.getName());
+
+            tvInstructor.setText(userName );
+            tvDate.setText(tClass.getDate());
+            tvTime.setText(userId);
+            tvLocation.setText("Location");
+            tvCost.setText("Cost");
+
             tvInstructor.setText(tClass.getTeacher().getUsername());
+
 
             String date = tClass.getDate();
 

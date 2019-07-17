@@ -1,5 +1,6 @@
 package com.example.skillshop.NavigationFragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -10,9 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+
 import com.example.skillshop.Models.ClassesListFragments.ClassesTakingFragment;
 import com.example.skillshop.Models.ClassesListFragments.ClassesTeachingFragment;
 import com.example.skillshop.R;
+
 
 public class ClassesFragment extends Fragment {
 
@@ -36,6 +39,7 @@ public class ClassesFragment extends Fragment {
                 Fragment fragment = new HomeFragment();
                 switch (item.getItemId()) {
 
+
                     case R.id.taking:
                         fragment = new ClassesTakingFragment();
                         break;
@@ -50,12 +54,14 @@ public class ClassesFragment extends Fragment {
                 fragmentManager.beginTransaction().replace(R.id.classes_take_teach, fragment).commit();
                 return true;
 
+
             }
         });
         // default fragment in home fragment
         topNavigationBar.setSelectedItemId(R.id.taking);
 
     }
+
 
 
 }
