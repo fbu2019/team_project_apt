@@ -17,8 +17,6 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.skillshop.LoginActivity.userName;
-
 public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder>  {
 
 
@@ -91,13 +89,13 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
 
         private void findAllViews() {
             //perform findViewById lookups by id in the xml file
-            ivClassIcon = (ImageView) itemView.findViewById(R.id.ivClassIcon);
-            tvClassName = (TextView) itemView.findViewById(R.id.tvClassName);
-            tvInstructor = (TextView) itemView.findViewById(R.id.tvInstructor);
-            tvDate = (TextView) itemView.findViewById(R.id.tvDate);
-            tvTime = (TextView) itemView.findViewById(R.id.tvTime);
-            tvLocation = (TextView) itemView.findViewById(R.id.tvLocation);
-            tvCost = (TextView) itemView.findViewById(R.id.tvCost);
+            ivClassIcon = itemView.findViewById(R.id.ivClassIcon);
+            tvClassName = itemView.findViewById(R.id.tvClassName);
+            tvInstructor = itemView.findViewById(R.id.tvInstructor);
+            tvDate = itemView.findViewById(R.id.tvDate);
+            tvTime =itemView.findViewById(R.id.tvTime);
+            tvLocation =  itemView.findViewById(R.id.tvLocation);
+            tvCost =  itemView.findViewById(R.id.tvCost);
         }
 
 
@@ -110,8 +108,11 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
 
             tvClassName.setText(tClass.getName());
             tvInstructor.setText(tClass.getTeacher().getUsername());
-            tvDate.setText(tClass.getDate());
-            tvTime.setText("Time");
+
+            String date = tClass.getDate();
+
+            tvDate.setText(date.substring(0,11));
+            tvTime.setText(date.substring(11,16));
             tvLocation.setText("Location");
             tvCost.setText("Cost");
         }
