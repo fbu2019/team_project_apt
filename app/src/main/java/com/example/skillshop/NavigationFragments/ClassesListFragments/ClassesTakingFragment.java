@@ -1,4 +1,4 @@
-package com.example.skillshop.Models.ClassesListFragments;
+package com.example.skillshop.NavigationFragments.ClassesListFragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
