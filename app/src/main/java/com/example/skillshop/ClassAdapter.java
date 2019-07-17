@@ -17,6 +17,8 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.skillshop.LoginActivity.userName;
+
 public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder>  {
 
 
