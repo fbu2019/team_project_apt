@@ -1,4 +1,4 @@
-package com.example.skillshop.NavigationFragments;
+package com.example.skillshop;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,6 +8,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.example.skillshop.NavigationFragments.CalendarFragment;
+import com.example.skillshop.NavigationFragments.ClassesFragment;
+import com.example.skillshop.NavigationFragments.HomeFragment;
+import com.example.skillshop.NavigationFragments.ProfileFragment;
 import com.example.skillshop.R;
 
 
