@@ -3,14 +3,14 @@ package com.example.skillshop.Models;
 
 import com.parse.ParseQuery;
 
-import static com.example.skillshop.Models.Class.KEY_CREATED_AT;
-import static com.example.skillshop.Models.Class.KEY_DATE;
-import static com.example.skillshop.Models.Class.KEY_MENTOR;
+import static com.example.skillshop.Models.Workshop.KEY_CREATED_AT;
+import static com.example.skillshop.Models.Workshop.KEY_DATE;
+import static com.example.skillshop.Models.Workshop.KEY_MENTOR;
 
-public class Query extends ParseQuery<Class> {
+public class Query extends ParseQuery<Workshop> {
 
     public Query(){
-        super(Class.class);
+        super(Workshop.class);
     }
 
     public Query getAllClasses() {
