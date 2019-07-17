@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.skillshop.Models.Class;
+import com.example.skillshop.Models.Workshop;
 
 import org.parceler.Parcels;
 
@@ -26,12 +26,12 @@ import static com.example.skillshop.LoginActivity.userName;
 public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder>  {
 
 
-    private static List<Class> mClasses;
+    private static List<Workshop> mWorkshops;
     private Context context;
 
     //pass in the Posts array in the constructor
-    public ClassAdapter(ArrayList<Class> classes, Context context) {
-        this.mClasses = classes;
+    public ClassAdapter(ArrayList<Workshop> workshops, Context context) {
+        this.mWorkshops = workshops;
         this.context = context;
     }
     //for each row, inflate the layout and cache references into the ViewHolder
@@ -48,9 +48,9 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         //get the data according to position
-        final Class tClass = mClasses.get(position);
+        final Workshop tWorkshop = mWorkshops.get(position);
         //populate the views according to this data
-        holder.bind(tClass);
+        holder.bind(tWorkshop);
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +59,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
 
                 final Intent profileDetailsIntent = new Intent(context, ClassDetailsActivity.class);
                 //pass in class that was selected
-                profileDetailsIntent.putExtra(Class.class.getSimpleName(), Parcels.wrap(tClass));
+                profileDetailsIntent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(tWorkshop));
                 context.startActivity(profileDetailsIntent);
             }
         });
@@ -71,7 +71,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
     //gets the number of items
     @Override
     public int getItemCount() {
-        return mClasses.size();
+        return mWorkshops.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
@@ -105,31 +105,31 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
         }
 
 
-        public void bind(final Class tClass) {
+        public void bind(final Workshop tWorkshop) {
 
-            setAllViews(tClass);
+            setAllViews(tWorkshop);
         }
 
-        private void setAllViews(Class tClass) {
+        private void setAllViews(Workshop tWorkshop) {
 
-            tvClassName.setText(tClass.getName());
+            tvClassName.setText(tWorkshop.getName());
 
             tvInstructor.setText(userName );
-            tvDate.setText(tClass.getDate());
+            tvDate.setText(tWorkshop.getDate());
             tvTime.setText(userId);
             tvLocation.setText("Location");
             tvCost.setText("Cost");
 
-            tvInstructor.setText(tClass.getTeacher().getUsername());
+            tvInstructor.setText(tWorkshop.getTeacher().getUsername());
 
 
-            String date = tClass.getDate();
+            String date = tWorkshop.getDate();
 
             tvDate.setText(date.substring(0,11));
             tvTime.setText(date.substring(11,16));
             tvLocation.setText("Location");
 
-            Double cost = tClass.getCost();
+            Double cost = tWorkshop.getCost();
             if(cost == 0)
             {
                 tvCost.setText("Free");

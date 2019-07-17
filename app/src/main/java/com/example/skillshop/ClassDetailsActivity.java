@@ -7,13 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.skillshop.Models.Class;
+import com.example.skillshop.Models.Workshop;
 
 import org.parceler.Parcels;
 
 public class ClassDetailsActivity extends AppCompatActivity {
 
-    private Class detailedClass;
+    private Workshop detailedWorkshop;
     private ImageView ivClassIcon;
     private TextView tvClassName;
     private TextView tvInstructor;
@@ -27,7 +27,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_details);
 
-        detailedClass = Parcels.unwrap(getIntent().getParcelableExtra(Class.class.getSimpleName()));
+        detailedWorkshop = Parcels.unwrap(getIntent().getParcelableExtra(Workshop.class.getSimpleName()));
 
         //perform findViewById lookups by id in the xml file
         tvClassName = findViewById(R.id.tvClassName);
@@ -43,14 +43,14 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
     private void populateFields() {
 
-        tvClassName.setText(detailedClass.getName());
-        tvInstructor.setText(detailedClass.getTeacher().getUsername());
-        String date = detailedClass.getDate();
+        tvClassName.setText(detailedWorkshop.getName());
+        tvInstructor.setText(detailedWorkshop.getTeacher().getUsername());
+        String date = detailedWorkshop.getDate();
         tvDate.setText(date.substring(0,11));
         tvTime.setText(date.substring(11,16));
         tvLocation.setText("Location");
 
-        Double cost = detailedClass.getCost();
+        Double cost = detailedWorkshop.getCost();
         if(cost == 0)
         {
             tvCost.setText("Free");

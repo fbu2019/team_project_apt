@@ -11,14 +11,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.skillshop.Models.Workshop;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import static okhttp3.internal.http.HttpDate.format;
 
 
 public class NewClassActivity extends AppCompatActivity {
@@ -69,28 +68,36 @@ public class NewClassActivity extends AppCompatActivity {
         btSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setAllViews();
+                getViewContent();
+                submitClass();
             }
         });
     }
 
-    private void setAllViews() {
+    private void submitClass() {
+        final Workshop newClass = new Workshop();
+
+    }
+
+
+
+    private void getViewContent() {
         classname = etClassname.getText().toString();
         String dateString = etDate.getText().toString();
-        Toast.makeText(this, classname, Toast.LENGTH_LONG).show();
+      //  Toast.makeText(this, classname, Toast.LENGTH_LONG).show();
         try {
             Date date = new SimpleDateFormat("dd/MM/yyyy kk:mm").parse(dateString);
-            String dateConverted = format(date);
-            Toast.makeText(this, dateConverted, Toast.LENGTH_LONG).show();
+          //  String dateConverted = format(date);
+           // Toast.makeText(this, dateConverted, Toast.LENGTH_LONG).show();
 
         } catch (ParseException e) {
             Log.e(TAG, "Error parsing date.");
             e.printStackTrace();
         }
 
-     //   location;
+        location = etLocation.getText().toString();
         description = etDescription.getText().toString();
-
+        category = etCategory.getText().toString();
 
       //  category;
       //  cost;
