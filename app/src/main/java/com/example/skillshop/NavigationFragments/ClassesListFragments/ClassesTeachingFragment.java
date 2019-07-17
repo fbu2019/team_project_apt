@@ -71,7 +71,6 @@ public class ClassesTeachingFragment extends Fragment {
                 Intent i = new Intent(getContext(), NewClassActivity.class);
                 startActivity(i);
             }
-            }
         });
 
     }
