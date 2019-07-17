@@ -59,7 +59,7 @@ public class HomeFragment extends Fragment {
     public void getAllClasses() {
 
         Query parseQuery = new Query();
-        parseQuery.getAllClasses();
+        parseQuery.getAllClasses().withTeacher();
 
         parseQuery.findInBackground(new FindCallback<Class>() {
             @Override
@@ -71,15 +71,11 @@ public class HomeFragment extends Fragment {
                         Class classItem = objects.get(i);
                         mClasses.add(classItem);
                         classAdapter.notifyItemInserted(mClasses.size()-1);
-
                     }
-
                 } else {
-
                     e.printStackTrace();
                 }
             }
-
         });
     }
 }
