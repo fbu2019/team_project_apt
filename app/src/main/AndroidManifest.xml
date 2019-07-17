@@ -53,7 +53,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity"> </activity>
+        <activity android:name=".NavigationFragments.FragmentHandler"> </activity>
 
     </application>
 
