@@ -4,6 +4,8 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.util.Date;
+
 @ParseClassName("Class")
 public class Class extends ParseObject {
 
@@ -25,8 +27,16 @@ public class Class extends ParseObject {
     public  String getDate() {
         return getDate(KEY_DATE).toString();
     }
+
+    public void setDate(Date date) {
+        put(KEY_DATE,date);
+    }
     public  Double getCost() {
         return getDouble(KEY_COST);
+    }
+
+    public  void setCost(Double cost) {
+         put(KEY_COST,cost);
     }
 
     public void setName(String name) {
@@ -38,6 +48,10 @@ public class Class extends ParseObject {
 
     public ParseUser getTeacher() {
         return getParseUser("mentor");
+    }
+
+    public void setTeacher(ParseUser user) {
+         put("mentor",user);
     }
 
 }

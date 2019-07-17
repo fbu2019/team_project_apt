@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -15,12 +14,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.example.skillshop.Models.Class;
+import com.parse.LogInCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
-import static okhttp3.internal.http.HttpDate.format;
+import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
 
 
 public class NewClassActivity extends AppCompatActivity {
@@ -79,37 +81,67 @@ public class NewClassActivity extends AppCompatActivity {
         btSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setAllViews();
+                login("Moises","123");
             }
         });
     }
 
-    private void setAllViews() {
-        classname = etClassname.getText().toString();
+    private void login(String username, String password)
+    {
+        // try to login in background
+        ParseUser.logInInBackground(username, password, new LogInCallback() {
+            @Override
+            public void done(ParseUser user, ParseException e) {
+                if (e == null) {
+                    postClass();
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void postClass() {
+
+        final Class newClass = new Class();
+
+        newClass.setDescription(etDescription.getText().toString());
+        newClass.setName(etClassname.getText().toString());
+
         String dateString = etDate.getText().toString();
-        Toast.makeText(this, classname, Toast.LENGTH_LONG).show();
-        try {
-            Date date = new SimpleDateFormat("dd/MM/yyyy kk:mm").parse(dateString);
-            String dateConverted = format(date);
-            Toast.makeText(this, dateConverted, Toast.LENGTH_LONG).show();
 
-        } catch (ParseException e) {
-            Log.e(TAG, "Error parsing date.");
-            e.printStackTrace();
-        }
+        HashMap<String, Integer> dateMap = new HashMap<>();
 
-        //   location;
-        description = etDescription.getText().toString();
+        dateMap.put("year", Integer.parseInt(dateString.substring(6,10)));
+        dateMap.put("month", Integer.parseInt(dateString.substring(3,5)));
+        dateMap.put("day", Integer.parseInt(dateString.substring(0,2)));
+        dateMap.put("hrs", Integer.parseInt(dateString.substring(11,13)));
+        dateMap.put("min", Integer.parseInt(dateString.substring(14,16)));
 
+        Date date = new Date(dateMap.get("year"),dateMap.get("month"),dateMap.get("day"),dateMap.get("hrs"),dateMap.get("min"));
 
+        newClass.setDate(date);
 
+        newClass.setCost(Double.parseDouble(etCost.getText().toString()));
 
-
+        newClass.setTeacher(ParseUser.getCurrentUser());
 
 
-        //  cost;
-
-
+        newClass.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e == null)
+                {
+                    Toast.makeText(NewClassActivity.this, "Class was made", Toast.LENGTH_SHORT).show();
+                    ParseUser.logOut();
+                    finish();
+                }
+                else
+                {
+                    Toast.makeText(NewClassActivity.this, "Class wasn't made", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void findAllViews() {
