@@ -2,10 +2,20 @@ package com.example.skillshop;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 public class NewClassActivity extends AppCompatActivity {
 
+    public static final String TAG = "NewClassActivity";
 
     TextView etClassname;
     TextView etDate;
@@ -14,28 +24,53 @@ public class NewClassActivity extends AppCompatActivity {
     TextView etCategory;
     TextView etCost;
 
+    Button btSubmit;
+
     String classname;
     String date;
     String location;
     String description;
     String category;
     String cost;
+    String dateString;
+  //  String dateConverted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_class);
         findAllViews();
-        setAllViews();
+        setSubmitListener();
+    }
+
+    private void setSubmitListener() {
+
+        btSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setAllViews();
+            }
+        });
     }
 
     private void setAllViews() {
-        String classname = etClassname.getText().toString();
-        String date;
-        String location;
-        String description = etDescription.getText().toString();
-        String category;
-        String cost;
+        classname = etClassname.getText().toString();
+        dateString = etDate.getText().toString();
+        Toast.makeText(this, classname, Toast.LENGTH_LONG);
+        try {
+            Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
+       //     dateConverted = format(date);
+
+        } catch (ParseException e) {
+            Log.e(TAG, "Error parsing date.");
+            e.printStackTrace();
+        }
+
+     //   location;
+        description = etDescription.getText().toString();
+
+      //  category;
+      //  cost;
 
 
     }
@@ -48,6 +83,7 @@ public class NewClassActivity extends AppCompatActivity {
         etDescription = findViewById(R.id.etDescription);
         etCategory = findViewById(R.id.etCategory);
         etCost = findViewById(R.id.etCost);
+        btSubmit = findViewById(R.id.btSubmit);
 ;
     }
 
