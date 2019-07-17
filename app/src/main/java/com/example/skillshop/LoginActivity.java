@@ -2,6 +2,7 @@ package com.example.skillshop;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -13,10 +14,14 @@ import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.Profile;
-import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Arrays;
 
@@ -26,11 +31,11 @@ public class LoginActivity extends AppCompatActivity {
     public static String userName;
     LoginButton fbLoginButton;
     Button signUpButton;
+    Button loginButton;
     Button testButton;
     TextView welcomeMessage;
     CallbackManager callbackManager;
-    AccessTokenTracker accessTokenTracker;
-    ProfileTracker profileTracker;
+
 
 
     @Override
@@ -40,48 +45,30 @@ public class LoginActivity extends AppCompatActivity {
 
         welcomeMessage = findViewById(R.id.welcomeMessage);
         testButton = findViewById(R.id.continueNext);
-        fbLoginButton = (LoginButton) findViewById(R.id.login_button);
-        fbLoginButton.setReadPermissions(Arrays.asList("email", "public_profile"));
+        loginButton = findViewById(R.id.loginButton);
 
         callbackManager = CallbackManager.Factory.create();
-        accessTokenTracker = new AccessTokenTracker() {
+        fbLoginButton = (LoginButton) findViewById(R.id.login_button);
+        fbLoginButton.setReadPermissions(Arrays.asList("email", "public_profile"));
+        checkLoginStatus();
+
+        fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
-            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-
-            }
-        };
-
-        profileTracker = new ProfileTracker() {
-            @Override
-            protected void onCurrentProfileChanged(Profile oldProfile, Profile newProfile) {
-                nextActivity(newProfile);
-            }
-        };
-
-        accessTokenTracker.startTracking();
-        profileTracker.startTracking();
-
-        FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Profile profile = Profile.getCurrentProfile();
-                //TODO: check for a way to check in database if user already exists nvm just use buttons
-                nextActivity(profile);
-                //Toast.makeText(getApplicationContext(), "Logging in", Toast.LENGTH_SHORT).show();
+            public void onSuccess (LoginResult loginResult)
+            {
+                nextActivity(Profile.getCurrentProfile());
             }
 
             @Override
-            public void onCancel() {
-                setResult(RESULT_CANCELED);
+            public void onCancel () {
+
             }
 
             @Override
-            public void onError(FacebookException error) {
+            public void onError (FacebookException error){
 
             }
-        };
-
-        fbLoginButton.registerCallback(callbackManager, callback);
+        });
 
         signUpButton = findViewById(R.id.signUpButton);
         signUpButton.setOnClickListener(new View.OnClickListener() {
@@ -100,46 +87,80 @@ public class LoginActivity extends AppCompatActivity {
                 continueToMain();
             }
         });
-
-    }
-
-    private void continueToMain() {
-        Intent main = new Intent(LoginActivity.this, FragmentHandler.class);
-        userId = "1234";
-        userName = "Test User";
-        startActivity(main);
-
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        Profile profile = Profile.getCurrentProfile();
-        nextActivity(profile);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    protected void onStop() {
-        super.onStop();
-        accessTokenTracker.stopTracking();
-        profileTracker.stopTracking();
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int responseCode, Intent intent) {
-        super.onActivityResult(requestCode, responseCode, intent);
+    protected void onActivityResult(int requestCode, int responseCode, @Nullable Intent intent) {
         callbackManager.onActivityResult(requestCode, responseCode, intent);
+        super.onActivityResult(requestCode, responseCode, intent);
+    }
+
+
+    AccessTokenTracker tokenTracker = new AccessTokenTracker() {
+        @Override
+        protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
+
+            if(currentAccessToken==null)
+            {
+                //txtName.setText("");
+                //txtEmail.setText("");
+                //circleImageView.setImageResource(0);
+                Toast.makeText(LoginActivity.this,"User Logged out",Toast.LENGTH_LONG).show();
+            }
+            else
+                loadUserProfile(currentAccessToken);
+        }
+    };
+
+    private void loadUserProfile(AccessToken newAccessToken)
+    {
+        GraphRequest request = GraphRequest.newMeRequest(newAccessToken, new GraphRequest.GraphJSONObjectCallback() {
+            @Override
+            public void onCompleted(JSONObject object, GraphResponse response)
+            {
+                try {
+                    String first_name = object.getString("first_name");
+                    String last_name = object.getString("last_name");
+                    String email = object.getString("email");
+                    String id = object.getString("id");
+                    String image_url = "https://graph.facebook.com/"+id+ "/picture?type=normal";
+
+                    /*
+                    txtEmail.setText(email);
+                    txtName.setText(first_name +" "+last_name);
+                    RequestOptions requestOptions = new RequestOptions();
+                    requestOptions.dontAnimate();
+
+                    Glide.with(MainActivity.this).load(image_url).into(circleImageView);
+                    */
+                    //  implement later
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+        Bundle parameters = new Bundle();
+        parameters.putString("fields","first_name,last_name,email,id");
+        request.setParameters(parameters);
+        request.executeAsync();
+    }
+
+    private void checkLoginStatus()
+    {
+        if(AccessToken.getCurrentAccessToken()!=null)
+        {
+            loadUserProfile(AccessToken.getCurrentAccessToken());
+        }
     }
 
     //  Passes intent to move app to MainActivity
     private void nextActivity(Profile profile) {
 
         if (profile != null){
+            //TODO - Determine if this is the best way to bundle
             Intent main = new Intent (LoginActivity.this, FragmentHandler.class);
 
             main.putExtra("name", profile.getFirstName()); //   retrieving and putting profile attributes
@@ -152,5 +173,12 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(main);
         }
 
+    }
+
+    private void continueToMain(){
+        Intent main = new Intent (LoginActivity.this, FragmentHandler.class);
+        userId = "1234";
+        userName = "Test User";
+        startActivity(main);
     }
 }
