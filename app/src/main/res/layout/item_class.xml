@@ -100,7 +100,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        android:src="@drawable/com_facebook_button_icon_blue" />
+        android:src="@drawable/ic_loading_class" />
 
     <TextView
         android:id="@+id/tvDate"

@@ -19,16 +19,16 @@
 
     <ImageView
         android:id="@+id/ivClassPicture"
-        android:layout_width="409dp"
-        android:layout_height="255dp"
+        android:layout_width="385dp"
+        android:layout_height="244dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/cooking"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/com_facebook_button_icon_blue" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/ivProfile"
@@ -37,7 +37,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="200dp"
-        android:src="@drawable/com_facebook_button_icon_blue"
+        android:src="@drawable/ic_profile_loading"
         app:layout_constraintStart_toStartOf="@+id/ivClassPicture"
         app:layout_constraintTop_toTopOf="@+id/ivClassPicture" />
 
