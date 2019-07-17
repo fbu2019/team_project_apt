@@ -14,11 +14,7 @@
         android:layout_marginLeft="8dp"
         app:layout_constraintBottom_toTopOf="@+id/etClassname"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.024"
-        app:srcCompat="@android:color/black" />
+        app:layout_constraintHorizontal_bias="0.5" />
 
     <TextView
         android:id="@+id/tvClassname"
@@ -30,9 +26,7 @@
         android:textSize="18dp"
         app:layout_constraintBottom_toTopOf="@+id/tvLocation"
         app:layout_constraintEnd_toStartOf="@+id/etClassname"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivClassImage" />
+        app:layout_constraintHorizontal_bias="0.5" />
 
     <TextView
         android:id="@+id/tvLocation"
@@ -88,7 +82,55 @@
         app:layout_constraintStart_toStartOf="@+id/tvCost"
         app:layout_constraintTop_toBottomOf="@+id/tvCost" />
 
-    <EditText
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginBottom="8dp"
+        android:text="Date and time"
+        app:layout_constraintBottom_toTopOf="@+id/tvLocation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etDate"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tvCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:text="Category"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etCategory" />
+
+    <TextView
+        android:id="@+id/tvCost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginBottom="8dp"
+        android:text="Cost"
+        app:layout_constraintBottom_toTopOf="@+id/tvCategory"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etCost"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginBottom="8dp"
+        android:text="Description"
+        app:layout_constraintBottom_toTopOf="@+id/tvDate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etDescription"
+        app:layout_constraintVertical_bias="0.0" />
+ <EditText
         android:id="@+id/etClassname"
         android:layout_width="215dp"
         android:layout_height="wrap_content"
@@ -105,11 +147,11 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tvClassname"
         app:layout_constraintTop_toBottomOf="@+id/ivClassImage" />
-
-    <EditText
+<EditText
         android:id="@+id/etLocation"
         android:layout_width="215dp"
         android:layout_height="wrap_content"
+
         android:ems="10"
         android:hint="Location"
         android:inputType="textPersonName"
@@ -118,8 +160,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/etClassname"
         app:layout_constraintTop_toBottomOf="@+id/etClassname" />
-
-    <EditText
+ <EditText
         android:id="@+id/etDate"
         android:layout_width="215dp"
         android:layout_height="wrap_content"
@@ -131,8 +172,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/etLocation"
         app:layout_constraintTop_toBottomOf="@+id/etLocation" />
-
-    <EditText
+ <EditText
         android:id="@+id/etCategory"
         android:layout_width="215dp"
         android:layout_height="wrap_content"
@@ -144,8 +184,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/etDate"
         app:layout_constraintTop_toBottomOf="@+id/etDate" />
-
-    <EditText
+<EditText
         android:id="@+id/etCost"
         android:layout_width="215dp"
         android:layout_height="wrap_content"
@@ -157,7 +196,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/etCategory"
         app:layout_constraintTop_toBottomOf="@+id/etCategory" />
-
     <EditText
         android:id="@+id/etDescription"
         android:layout_width="215dp"
@@ -170,6 +208,16 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/etCost"
         app:layout_constraintTop_toBottomOf="@+id/etCost" />
+=======
+        android:layout_marginEnd="52dp"
+        android:layout_marginRight="52dp"
+        android:layout_marginBottom="16dp"
+        android:ems="10"
+        android:hint="Description"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/etDate"
+        app:layout_constraintEnd_toEndOf="parent" />
+>>>>>>> 9ca843f71f8e790dc4032393950133ac24ce719d
 
     <Button
         android:id="@+id/btSubmit"
@@ -184,6 +232,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
-
+/>
 </android.support.constraint.ConstraintLayout>
