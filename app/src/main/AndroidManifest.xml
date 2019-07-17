@@ -27,12 +27,7 @@
             />
         <activity android:name=".LoginActivity"
             >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity
@@ -53,7 +48,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".NavigationFragments.FragmentHandler"> </activity>
+        <activity android:name=".NavigationFragments.FragmentHandler"> <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter></activity>
 
     </application>
 
