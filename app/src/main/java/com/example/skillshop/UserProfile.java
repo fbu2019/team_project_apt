@@ -15,8 +15,6 @@ public class UserProfile  extends AppCompatActivity {
 
         nameView = (TextView) findViewById(R.id.nameView);
 
-
     }
-
 
 }
