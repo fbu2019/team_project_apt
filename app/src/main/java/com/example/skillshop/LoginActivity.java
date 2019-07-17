@@ -69,7 +69,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onCancel() {
                 setResult(RESULT_CANCELED);
-                finish();
             }
 
             @Override
@@ -88,7 +87,6 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Clicked signup", Toast.LENGTH_SHORT).show();
                 Intent main = new Intent(LoginActivity.this, SignupActivity.class);
                 startActivity(main);
-                //continue to signup activity... get information and make a new login
             }
         });
 
@@ -130,12 +128,7 @@ public class LoginActivity extends AppCompatActivity {
             userId = profile.getId();
             userName = profile.getFirstName() + " " + profile.getLastName();
             startActivity(main);
-
         }
-
-    }
-
-    private void signUpActivity(Profile profile) {
 
     }
 
