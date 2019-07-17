@@ -12,6 +12,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static okhttp3.internal.http.HttpDate.format;
+
 
 public class NewClassActivity extends AppCompatActivity {
 
@@ -33,7 +35,7 @@ public class NewClassActivity extends AppCompatActivity {
     String category;
     String cost;
     String dateString;
-  //  String dateConverted;
+    String dateConverted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +60,8 @@ public class NewClassActivity extends AppCompatActivity {
         dateString = etDate.getText().toString();
         Toast.makeText(this, classname, Toast.LENGTH_LONG);
         try {
-            Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
-       //     dateConverted = format(date);
+            Date date = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(dateString);
+            dateConverted = format(date);
 
         } catch (ParseException e) {
             Log.e(TAG, "Error parsing date.");
