@@ -14,7 +14,8 @@ public class SignupActivity extends AppCompatActivity {
     public static String userName;
 
     TextView signupMessage;
-    EditText etEmail;
+    EditText etUsername;
+    EditText etPassword;
     EditText etZipCode;
     Button submit;
 
@@ -24,7 +25,7 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         signupMessage = findViewById(R.id.signUpMessage);
-        etEmail = findViewById(R.id.emailAddress);
+        etUsername = findViewById(R.id.emailAddress);
         etZipCode = findViewById(R.id.zipCode);
 
         submit = findViewById(R.id.submit);
@@ -40,7 +41,7 @@ public class SignupActivity extends AppCompatActivity {
     private void nextActivity() {
 
             Intent main = new Intent(SignupActivity.this, LoginActivity.class);
-            main.putExtra("email", etEmail.getText() );
+            main.putExtra("usernam", etUsername.getText() );
             main.putExtra("zipCode", etZipCode.getText());
             startActivity(main);
         }
