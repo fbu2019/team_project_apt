@@ -11,7 +11,8 @@ public class Class extends ParseObject {
     public final static String KEY_DESCRIPTION = "description";
     public final static String KEY_DATE = "date";
     public final static String KEY_LOCATION = "location";
-    public final static String KEY_TEACHER = "teacher";
+    public final static String KEY_MENTOR = "mentor";
+    public final static String KEY_CREATED_AT = "createdAt";
 
 
     public  String getName() {
@@ -34,6 +35,6 @@ public class Class extends ParseObject {
     public ParseUser getTeacher() {
         return getParseUser("mentor");
     }
-    
+
 }
 

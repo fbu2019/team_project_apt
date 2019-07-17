@@ -66,7 +66,7 @@ public class HomeFragment extends Fragment {
     public void getAllClasses() {
 
         Query parseQuery = new Query();
-        parseQuery.getAllClasses().withTeacher();
+        parseQuery.getAllClasses().withTeacher().byTimeOfClass();
 
         parseQuery.findInBackground(new FindCallback<Class>() {
             @Override
