@@ -14,6 +14,8 @@ import com.example.skillshop.Models.Class;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.skillshop.LoginActivity.userName;
+
 public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder>  {
 
 
@@ -87,7 +89,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
         private void setAllViews(Class tClass) {
 
             tvClassName.setText(tClass.getName());
-            tvInstructor.setText("Instructor");
+            tvInstructor.setText(userName );
             tvDate.setText(tClass.getDate());
             tvTime.setText("Time");
             tvLocation.setText("Location");
