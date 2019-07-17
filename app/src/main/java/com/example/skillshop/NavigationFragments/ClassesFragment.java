@@ -1,5 +1,6 @@
 package com.example.skillshop.NavigationFragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,10 +13,11 @@ import android.widget.Button;
 
 import com.example.skillshop.ClassAdapter;
 import com.example.skillshop.Models.Class;
+import com.example.skillshop.Models.Query;
+import com.example.skillshop.NewClassActivity;
 import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +42,7 @@ public class ClassesFragment extends Fragment {
         connectRecyclerView(view);
         findButtonViews(view);
         setButtonListeners(view);
-        getAllTaking();
+        getAllClasses();
 }
 
 
@@ -62,6 +64,10 @@ public class ClassesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //TODO add the appropriate query here
+
+                Intent openAdd = new Intent(getContext(), NewClassActivity.class);
+                startActivity(openAdd);
+
             }
         });
 
@@ -83,8 +89,12 @@ public class ClassesFragment extends Fragment {
 
 
 
-    public void getAllTeaching() {
-        ParseQuery.getQuery(Class.class).findInBackground(new FindCallback<Class>() {
+    public void getAllClasses() {
+
+        Query parseQuery = new Query();
+        parseQuery.getAllClasses().withTeacher().byTimeOfClass();
+
+        parseQuery.findInBackground(new FindCallback<Class>() {
             @Override
             public void done(List<Class> objects, ParseException e) {
                 if (e == null) {
@@ -92,46 +102,16 @@ public class ClassesFragment extends Fragment {
                     for (int i = 0; i < objects.size(); i++) {
                         Log.d("HOME", "Class: " + objects.get(i).getName()+" "+objects.get(i).getDescription()+" "+objects.get(i).getDate());
                         Class classItem = objects.get(i);
-
                         mClasses.add(classItem);
-
                         classAdapter.notifyItemInserted(mClasses.size()-1);
-
                     }
-
                 } else {
-
                     e.printStackTrace();
                 }
             }
-
         });
     }
 
-    public void getAllTaking() {
-        ParseQuery.getQuery(Class.class).findInBackground(new FindCallback<Class>() {
-            @Override
-            public void done(List<Class> objects, ParseException e) {
-                if (e == null) {
-
-                    for (int i = 0; i < objects.size(); i++) {
-                        Log.d("HOME", "Class: " + objects.get(i).getName()+" "+objects.get(i).getDescription()+" "+objects.get(i).getDate());
-                        Class classItem = objects.get(i);
-
-                        mClasses.add(classItem);
-
-                        classAdapter.notifyItemInserted(mClasses.size()-1);
-
-                    }
-
-                } else {
-
-                    e.printStackTrace();
-                }
-            }
-
-        });
-    }
 
 
 }
