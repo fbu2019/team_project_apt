@@ -29,6 +29,7 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getContext(), NewClassActivity.class);
+                startActivity(i);
             }
         });
     }
