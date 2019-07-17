@@ -10,4 +10,6 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
     }
+
+    //TODO - ADD TEXTVIEWS AND A FACEBOOK LOGIN BUTTON
 }
