@@ -32,7 +32,7 @@
         android:layout_marginRight="8dp"
         android:text="Name"
         app:layout_constraintBottom_toTopOf="@+id/tvLocation"
-        app:layout_constraintEnd_toStartOf="@+id/etName"
+        app:layout_constraintEnd_toStartOf="@+id/etClassname"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivClassImage" />
@@ -109,7 +109,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvCost" />
 
     <EditText
-        android:id="@+id/etName"
+        android:id="@+id/etClassname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
@@ -136,7 +136,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tvLocation"
-        app:layout_constraintTop_toBottomOf="@+id/etName" />
+        app:layout_constraintTop_toBottomOf="@+id/etClassname" />
 
     <EditText
         android:id="@+id/etDate"
@@ -199,5 +199,19 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tvDescription"
         app:layout_constraintTop_toBottomOf="@+id/etCost" />
+
+    <Button
+        android:id="@+id/btSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="SUBMIT"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.915"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etDescription" />
 
 </android.support.constraint.ConstraintLayout>

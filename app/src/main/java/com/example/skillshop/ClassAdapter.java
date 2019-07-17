@@ -2,19 +2,26 @@ package com.example.skillshop;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.example.skillshop.Models.Class;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.skillshop.LoginActivity.userId;
 import static com.example.skillshop.LoginActivity.userName;
+
 
 public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder>  {
 
@@ -41,9 +48,23 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         //get the data according to position
-        Class tClass = mClasses.get(position);
+        final Class tClass = mClasses.get(position);
         //populate the views according to this data
         holder.bind(tClass);
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final Intent profileDetailsIntent = new Intent(context, ClassDetailsActivity.class);
+                //pass in class that was selected
+                profileDetailsIntent.putExtra(Class.class.getSimpleName(), Parcels.wrap(tClass));
+                context.startActivity(profileDetailsIntent);
+            }
+        });
+
+
     }
 
 
@@ -67,17 +88,20 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
             super(itemView);
             findAllViews();
           //  TODO itemView.setOnClickListener(this);
+
+
+
         }
 
         private void findAllViews() {
             //perform findViewById lookups by id in the xml file
-            ivClassIcon = (ImageView) itemView.findViewById(R.id.ivClassIcon);
-            tvClassName = (TextView) itemView.findViewById(R.id.tvClassName);
-            tvInstructor = (TextView) itemView.findViewById(R.id.tvInstructor);
-            tvDate = (TextView) itemView.findViewById(R.id.tvDate);
-            tvTime = (TextView) itemView.findViewById(R.id.tvTime);
-            tvLocation = (TextView) itemView.findViewById(R.id.tvLocation);
-            tvCost = (TextView) itemView.findViewById(R.id.tvCost);
+            ivClassIcon = itemView.findViewById(R.id.ivClassIcon);
+            tvClassName = itemView.findViewById(R.id.tvClassName);
+            tvInstructor = itemView.findViewById(R.id.tvInstructor);
+            tvDate = itemView.findViewById(R.id.tvDate);
+            tvTime =itemView.findViewById(R.id.tvTime);
+            tvLocation =  itemView.findViewById(R.id.tvLocation);
+            tvCost =  itemView.findViewById(R.id.tvCost);
         }
 
 
@@ -89,15 +113,36 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
         private void setAllViews(Class tClass) {
 
             tvClassName.setText(tClass.getName());
+
             tvInstructor.setText(userName );
             tvDate.setText(tClass.getDate());
             tvTime.setText(userId);
             tvLocation.setText("Location");
             tvCost.setText("Cost");
 
+            tvInstructor.setText(tClass.getTeacher().getUsername());
 
+
+            String date = tClass.getDate();
+
+            tvDate.setText(date.substring(0,11));
+            tvTime.setText(date.substring(11,16));
+            tvLocation.setText("Location");
+
+            Double cost = tClass.getCost();
+            if(cost == 0)
+            {
+                tvCost.setText("Free");
+                tvCost.setBackground(new ColorDrawable(Color.parseColor("#00FF00")));
+            }
+            else
+            {
+                tvCost.setText("$"+Double.toHexString(cost));
+            }
 
         }
+
+
     }
 
 

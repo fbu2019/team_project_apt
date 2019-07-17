@@ -2,6 +2,7 @@ package com.example.skillshop.NavigationFragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -52,6 +53,12 @@ public class HomeFragment extends Fragment {
         rvClasses.setLayoutManager(new LinearLayoutManager(getContext()));
         //set the adapter
         rvClasses.setAdapter(classAdapter);
+
+
+        // add dividers on posts
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvClasses.getContext(),
+                new LinearLayoutManager(getContext()).getOrientation());
+        rvClasses.addItemDecoration(dividerItemDecoration);
     }
 
 
@@ -59,7 +66,7 @@ public class HomeFragment extends Fragment {
     public void getAllClasses() {
 
         Query parseQuery = new Query();
-        parseQuery.getAllClasses();
+        parseQuery.getAllClasses().withTeacher().byTimeOfClass();
 
         parseQuery.findInBackground(new FindCallback<Class>() {
             @Override
@@ -71,15 +78,11 @@ public class HomeFragment extends Fragment {
                         Class classItem = objects.get(i);
                         mClasses.add(classItem);
                         classAdapter.notifyItemInserted(mClasses.size()-1);
-
                     }
-
                 } else {
-
                     e.printStackTrace();
                 }
             }
-
         });
     }
 }
