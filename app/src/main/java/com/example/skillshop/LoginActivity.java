@@ -3,9 +3,11 @@ package com.example.skillshop;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
     Button loginButton;
     Button testButton;
     TextView welcomeMessage;
+    EditText etUsernameInput;
+    EditText etPasswordInput;
     CallbackManager callbackManager;
 
 
@@ -70,9 +74,17 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        loginButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                //TODO: STORE INFORMATION INTO PARSER
+                Intent main = new Intent(LoginActivity.this, FragmentManager.class);
+                startActivity(main);
+            }
+        });
+
         signUpButton = findViewById(R.id.signUpButton);
         signUpButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 Toast.makeText(LoginActivity.this, "Clicked signup", Toast.LENGTH_SHORT).show();
