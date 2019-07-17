@@ -1,6 +1,8 @@
-package com.example.skillshop.Models.ClassesListFragments;
+package com.example.skillshop.NavigationFragments.ClassesListFragments;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +15,7 @@ import android.view.ViewGroup;
 import com.example.skillshop.ClassAdapter;
 import com.example.skillshop.Models.Class;
 import com.example.skillshop.Models.Query;
+import com.example.skillshop.NewClassActivity;
 import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -58,6 +61,19 @@ public class ClassesTeachingFragment extends Fragment {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvClasses.getContext(),
                 new LinearLayoutManager(getContext()).getOrientation());
         rvClasses.addItemDecoration(dividerItemDecoration);
+
+
+        FloatingActionButton fabAddClass = view.findViewById(R.id.fabAddClass);
+
+        fabAddClass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(), NewClassActivity.class);
+                startActivity(i);
+            }
+            }
+        });
+
     }
 
 
