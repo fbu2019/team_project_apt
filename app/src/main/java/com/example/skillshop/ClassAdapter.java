@@ -96,6 +96,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
             tvCost.setText("Cost");
 
 
+
         }
     }
 

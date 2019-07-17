@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.skillshop.ClassAdapter;
 import com.example.skillshop.Models.Class;
@@ -23,6 +24,8 @@ public class ClassesFragment extends Fragment {
 
 
     private RecyclerView rvClasses;
+    private Button btTeaching;
+    private Button btTaking;
     protected ArrayList<Class> mClasses;
     protected ClassAdapter classAdapter;
     //TODO create a query on the classes being taken/taught that runs based which button is pressed
@@ -35,8 +38,35 @@ public class ClassesFragment extends Fragment {
     public void onViewCreated(View view,Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         connectRecyclerView(view);
-        getAllClasses();
+        findButtonViews(view);
+        setButtonListeners(view);
+        getAllTaking();
 }
+
+
+    private void findButtonViews(View view){
+        btTaking = view.findViewById(R.id.btTaking);
+        btTeaching = view.findViewById(R.id.btTeaching);
+
+    }
+
+    private void setButtonListeners(View view){
+        btTaking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO add the appropriate query here
+            }
+        });
+
+        btTeaching.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                //TODO add the appropriate query here
+            }
+        });
+
+    }
+
 
     private void connectRecyclerView(View view) {
         //find the RecyclerView
@@ -53,7 +83,7 @@ public class ClassesFragment extends Fragment {
 
 
 
-    public void getAllClasses() {
+    public void getAllTeaching() {
         ParseQuery.getQuery(Class.class).findInBackground(new FindCallback<Class>() {
             @Override
             public void done(List<Class> objects, ParseException e) {
@@ -61,6 +91,37 @@ public class ClassesFragment extends Fragment {
 
                     for (int i = 0; i < objects.size(); i++) {
                         Log.d("HOME", "Class: " + objects.get(i).getName()+" "+objects.get(i).getDescription()+" "+objects.get(i).getDate());
+                        Class classItem = objects.get(i);
+
+                        mClasses.add(classItem);
+
+                        classAdapter.notifyItemInserted(mClasses.size()-1);
+
+                    }
+
+                } else {
+
+                    e.printStackTrace();
+                }
+            }
+
+        });
+    }
+
+    public void getAllTaking() {
+        ParseQuery.getQuery(Class.class).findInBackground(new FindCallback<Class>() {
+            @Override
+            public void done(List<Class> objects, ParseException e) {
+                if (e == null) {
+
+                    for (int i = 0; i < objects.size(); i++) {
+                        Log.d("HOME", "Class: " + objects.get(i).getName()+" "+objects.get(i).getDescription()+" "+objects.get(i).getDate());
+                        Class classItem = objects.get(i);
+
+                        mClasses.add(classItem);
+
+                        classAdapter.notifyItemInserted(mClasses.size()-1);
+
                     }
 
                 } else {
