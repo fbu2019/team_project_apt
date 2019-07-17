@@ -2,6 +2,7 @@ package com.example.skillshop;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.skillshop.Models.Class;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,9 +42,23 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         //get the data according to position
-        Class tClass = mClasses.get(position);
+        final Class tClass = mClasses.get(position);
         //populate the views according to this data
         holder.bind(tClass);
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final Intent profileDetailsIntent = new Intent(context, ClassDetailsActivity.class);
+                //pass in class that was selected
+                profileDetailsIntent.putExtra(Class.class.getSimpleName(), Parcels.wrap(tClass));
+                context.startActivity(profileDetailsIntent);
+            }
+        });
+
+
     }
 
 
@@ -65,6 +82,9 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
             super(itemView);
             findAllViews();
           //  TODO itemView.setOnClickListener(this);
+
+
+
         }
 
         private void findAllViews() {
@@ -92,14 +112,9 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
             tvTime.setText("Time");
             tvLocation.setText("Location");
             tvCost.setText("Cost");
-
-
-
-
-
-
-
         }
+
+
     }
 
 
