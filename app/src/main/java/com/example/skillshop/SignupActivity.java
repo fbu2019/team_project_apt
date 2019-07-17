@@ -8,11 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
-import com.facebook.CallbackManager;
-import com.facebook.ProfileTracker;
-
 public class SignupActivity extends AppCompatActivity {
 
     public static String userId;
@@ -23,16 +18,11 @@ public class SignupActivity extends AppCompatActivity {
     EditText etZipCode;
     Button submit;
 
-    AccessTokenTracker accessTokenTracker;
-    ProfileTracker profileTracker;
-    CallbackManager callbackManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        //fbLoginButton = findViewById(R.id.login_button);
         signupMessage = findViewById(R.id.signUpMessage);
         etEmail = findViewById(R.id.emailAddress);
         etZipCode = findViewById(R.id.zipCode);
@@ -45,9 +35,7 @@ public class SignupActivity extends AppCompatActivity {
                 nextActivity();
             }
         });
-
     }
-
 
     private void nextActivity() {
 
