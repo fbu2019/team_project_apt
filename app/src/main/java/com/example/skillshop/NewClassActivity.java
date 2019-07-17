@@ -34,8 +34,6 @@ public class NewClassActivity extends AppCompatActivity {
     String description;
     String category;
     String cost;
-    String dateString;
-    String dateConverted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +55,12 @@ public class NewClassActivity extends AppCompatActivity {
 
     private void setAllViews() {
         classname = etClassname.getText().toString();
-        dateString = etDate.getText().toString();
-        Toast.makeText(this, classname, Toast.LENGTH_LONG);
+        String dateString = etDate.getText().toString();
+        Toast.makeText(this, classname, Toast.LENGTH_LONG).show();
         try {
-            Date date = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(dateString);
-            dateConverted = format(date);
+            Date date = new SimpleDateFormat("dd/MM/yyyy kk:mm").parse(dateString);
+            String dateConverted = format(date);
+            Toast.makeText(this, dateConverted, Toast.LENGTH_LONG).show();
 
         } catch (ParseException e) {
             Log.e(TAG, "Error parsing date.");
@@ -70,6 +69,7 @@ public class NewClassActivity extends AppCompatActivity {
 
      //   location;
         description = etDescription.getText().toString();
+
 
       //  category;
       //  cost;
