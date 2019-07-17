@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.skillshop.Models.Workshop;
-import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -23,7 +22,6 @@ import com.parse.SaveCallback;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 
 
 
@@ -84,30 +82,13 @@ public class NewClassActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                login("Moises","123");
+                postWorkshop();
             }
         });
     }
 
 
-    private void login(String username, String password)
-    {
-        // try to login in background
-        ParseUser.logInInBackground(username, password, new LogInCallback() {
-            @Override
-            public void done(ParseUser user, ParseException e) {
-                if (e == null) {
-                    Toast.makeText(NewClassActivity.this, "Logged In", Toast.LENGTH_SHORT).show();
-                    postClass();
-                } else {
-                    e.printStackTrace();
-                    Toast.makeText(NewClassActivity.this, "Not Logged In", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-    private void postClass() {
+    private void postWorkshop() {
 
         final Workshop newClass = new Workshop();
 
@@ -140,7 +121,6 @@ public class NewClassActivity extends AppCompatActivity {
                 if(e == null)
                 {
                     Toast.makeText(NewClassActivity.this, "Class was made", Toast.LENGTH_SHORT).show();
-                    ParseUser.logOut();
                     finish();
                 }
                 else
