@@ -3,8 +3,8 @@ package com.example.skillshop;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +21,9 @@ import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.parse.LogInCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,61 +48,91 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (currentUser != null) {
+            //  continue to next activity if user previously logged in
+            Intent i = new Intent(LoginActivity.this, FragmentHandler.class);
+            startActivity(i);
 
-        welcomeMessage = findViewById(R.id.welcomeMessage);
-        testButton = findViewById(R.id.continueNext);
-        loginButton = findViewById(R.id.loginButton);
+        } else {
+            setContentView(R.layout.activity_login);
 
-        callbackManager = CallbackManager.Factory.create();
-        fbLoginButton = (LoginButton) findViewById(R.id.login_button);
-        fbLoginButton.setReadPermissions(Arrays.asList("email", "public_profile"));
-        checkLoginStatus();
+            welcomeMessage = findViewById(R.id.welcomeMessage);
+            testButton = findViewById(R.id.continueNext);
+            loginButton = findViewById(R.id.loginButton);
+            etUsernameInput = findViewById(R.id.etUsername);
+            etPasswordInput = findViewById(R.id.etPassword);
 
-        fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            callbackManager = CallbackManager.Factory.create();
+            fbLoginButton = (LoginButton) findViewById(R.id.login_button);
+            fbLoginButton.setReadPermissions(Arrays.asList("email", "public_profile"));
+            checkLoginStatus();
+
+            fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    nextActivity(Profile.getCurrentProfile());
+                }
+
+                @Override
+                public void onCancel() {
+
+                }
+
+                @Override
+                public void onError(FacebookException error) {
+
+                }
+            });
+
+            loginButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final String username = etUsernameInput.getText().toString();
+                    final String password = etPasswordInput.getText().toString();
+                    Log.i("Login Activity", username);
+                    Log.i("Login Activity", password);
+                    login(username, password);
+                }
+            });
+
+            signUpButton = findViewById(R.id.signUpButton);
+            signUpButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(LoginActivity.this, "Clicked signup", Toast.LENGTH_SHORT).show();
+                    Intent main = new Intent(LoginActivity.this, SignupActivity.class);
+                    startActivity(main);
+                }
+            });
+
+            testButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    continueToMain();
+                }
+            });
+        }
+    }
+
+    private void login(String username, String password) {
+
+        ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
-            public void onSuccess (LoginResult loginResult)
-            {
-                nextActivity(Profile.getCurrentProfile());
-            }
-
-            @Override
-            public void onCancel () {
-
-            }
-
-            @Override
-            public void onError (FacebookException error){
-
-            }
-        });
-
-        loginButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                //TODO: STORE INFORMATION INTO PARSER
-                Intent main = new Intent(LoginActivity.this, FragmentManager.class);
-                startActivity(main);
-            }
-        });
-
-        signUpButton = findViewById(R.id.signUpButton);
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(LoginActivity.this, "Clicked signup", Toast.LENGTH_SHORT).show();
-                Intent main = new Intent(LoginActivity.this, SignupActivity.class);
-                startActivity(main);
-            }
-        });
-
-        testButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                continueToMain();
+            public void done(ParseUser user, ParseException e) {
+                if (e == null) {
+                    Log.d("LoginActivity", "Login successful");
+                    final Intent intent = new Intent(LoginActivity.this, FragmentHandler.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Log.e("LoginActivity", "Login failure");
+                    e.printStackTrace();
+                }
             }
         });
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int responseCode, @Nullable Intent intent) {
