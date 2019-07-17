@@ -6,23 +6,25 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.skillshop.Models.Class;
+import com.example.skillshop.Models.Workshop;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+
 
 
 public class NewClassActivity extends AppCompatActivity {
@@ -66,13 +68,13 @@ public class NewClassActivity extends AppCompatActivity {
         });
 
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+    /*    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.categories, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinCategory.setAdapter(adapter);
-
+*/
 
     }
 
@@ -81,10 +83,12 @@ public class NewClassActivity extends AppCompatActivity {
         btSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 login("Moises","123");
             }
         });
     }
+
 
     private void login(String username, String password)
     {
@@ -93,9 +97,11 @@ public class NewClassActivity extends AppCompatActivity {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (e == null) {
+                    Toast.makeText(NewClassActivity.this, "Logged In", Toast.LENGTH_SHORT).show();
                     postClass();
                 } else {
                     e.printStackTrace();
+                    Toast.makeText(NewClassActivity.this, "Not Logged In", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -103,22 +109,23 @@ public class NewClassActivity extends AppCompatActivity {
 
     private void postClass() {
 
-        final Class newClass = new Class();
+        final Workshop newClass = new Workshop();
 
         newClass.setDescription(etDescription.getText().toString());
         newClass.setName(etClassname.getText().toString());
 
+
         String dateString = etDate.getText().toString();
 
-        HashMap<String, Integer> dateMap = new HashMap<>();
+        Date date = new Date();
+        try {
+            date = new SimpleDateFormat("dd/MM/yyyy kk:mm").parse(dateString);
 
-        dateMap.put("year", Integer.parseInt(dateString.substring(6,10)));
-        dateMap.put("month", Integer.parseInt(dateString.substring(3,5)));
-        dateMap.put("day", Integer.parseInt(dateString.substring(0,2)));
-        dateMap.put("hrs", Integer.parseInt(dateString.substring(11,13)));
-        dateMap.put("min", Integer.parseInt(dateString.substring(14,16)));
 
-        Date date = new Date(dateMap.get("year"),dateMap.get("month"),dateMap.get("day"),dateMap.get("hrs"),dateMap.get("min"));
+        } catch (java.text.ParseException e) {
+            Log.e(TAG, "Error parsing date.");
+            e.printStackTrace();
+        }
 
         newClass.setDate(date);
 

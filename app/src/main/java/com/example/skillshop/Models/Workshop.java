@@ -4,10 +4,12 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+
 import java.util.Date;
 
-@ParseClassName("Class")
-public class Class extends ParseObject {
+
+@ParseClassName("Workshop")
+public class Workshop extends ParseObject {
 
     public final static String KEY_NAME = "name";
     public final static String KEY_DESCRIPTION = "description";

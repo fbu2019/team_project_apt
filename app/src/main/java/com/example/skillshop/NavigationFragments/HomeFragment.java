@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.skillshop.ClassAdapter;
-import com.example.skillshop.Models.Class;
+import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.R;
 import com.parse.FindCallback;
@@ -24,7 +24,7 @@ public class HomeFragment extends Fragment {
 
 
     private RecyclerView rvClasses;
-    protected ArrayList<Class> mClasses;
+    protected ArrayList<Workshop> mWorkshops;
     protected ClassAdapter classAdapter;
 
     @Override
@@ -46,9 +46,9 @@ public class HomeFragment extends Fragment {
         //find the RecyclerView
         rvClasses = (RecyclerView) view.findViewById(R.id.rvClasses);
         //init the arraylist (data source)
-        mClasses = new ArrayList<>();
+        mWorkshops = new ArrayList<>();
         //construct the adapter from this datasource
-        classAdapter = new ClassAdapter(mClasses, getContext());
+        classAdapter = new ClassAdapter(mWorkshops, getContext());
         //RecyclerView setup (layout manager, use adapter)
         rvClasses.setLayoutManager(new LinearLayoutManager(getContext()));
         //set the adapter
@@ -68,16 +68,16 @@ public class HomeFragment extends Fragment {
         Query parseQuery = new Query();
         parseQuery.getAllClasses().withTeacher().byTimeOfClass();
 
-        parseQuery.findInBackground(new FindCallback<Class>() {
+        parseQuery.findInBackground(new FindCallback<Workshop>() {
             @Override
-            public void done(List<Class> objects, ParseException e) {
+            public void done(List<Workshop> objects, ParseException e) {
                 if (e == null) {
 
                     for (int i = 0; i < objects.size(); i++) {
-                        Log.d("HOME", "Class: " + objects.get(i).getName()+" "+objects.get(i).getDescription()+" "+objects.get(i).getDate());
-                        Class classItem = objects.get(i);
-                        mClasses.add(classItem);
-                        classAdapter.notifyItemInserted(mClasses.size()-1);
+                        Log.d("HOME", "Workshop: " + objects.get(i).getName()+" "+objects.get(i).getDescription()+" "+objects.get(i).getDate());
+                        Workshop workshopItem = objects.get(i);
+                        mWorkshops.add(workshopItem);
+                        classAdapter.notifyItemInserted(mWorkshops.size()-1);
                     }
                 } else {
                     e.printStackTrace();
