@@ -19,12 +19,15 @@ import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import java.util.Arrays;
+
 public class LoginActivity extends AppCompatActivity {
 
     public static String userId;
     public static String userName;
     LoginButton fbLoginButton;
     Button signUpButton;
+    Button testButton;
     TextView welcomeMessage;
     CallbackManager callbackManager;
     AccessTokenTracker accessTokenTracker;
@@ -37,8 +40,10 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         welcomeMessage = findViewById(R.id.welcomeMessage);
+        testButton = findViewById(R.id.continueNext);
+        fbLoginButton = (LoginButton) findViewById(R.id.login_button);
+        fbLoginButton.setReadPermissions(Arrays.asList("email", "public_profile"));
 
-        //  handles login responses
         callbackManager = CallbackManager.Factory.create();
         accessTokenTracker = new AccessTokenTracker() {
             @Override
@@ -57,7 +62,6 @@ public class LoginActivity extends AppCompatActivity {
         accessTokenTracker.startTracking();
         profileTracker.startTracking();
 
-        fbLoginButton = (LoginButton) findViewById(R.id.login_button);
         FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -77,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         };
-        fbLoginButton.setReadPermissions("user_friends"); //    allows to use/access FB friends - can be changed
+
         fbLoginButton.registerCallback(callbackManager, callback);
 
         signUpButton = findViewById(R.id.signUpButton);
@@ -90,6 +94,21 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(main);
             }
         });
+
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                continueToMain();
+            }
+        });
+
+    }
+
+    private void continueToMain() {
+        Intent main = new Intent(LoginActivity.this, FragmentHandler.class);
+        userId = "1234";
+        userName = "Test User";
+        startActivity(main);
 
     }
 
@@ -110,6 +129,7 @@ public class LoginActivity extends AppCompatActivity {
         accessTokenTracker.stopTracking();
         profileTracker.stopTracking();
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int responseCode, Intent intent) {
@@ -134,5 +154,4 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
-
 }
