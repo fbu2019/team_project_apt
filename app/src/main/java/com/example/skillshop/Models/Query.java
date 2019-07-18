@@ -35,17 +35,19 @@ public class Query extends ParseQuery<Workshop> {
         return this;
     }
 
-    // TODO login as user with facebook login as parselogin
+
     public Query getClassesTeaching(){
-        whereEqualTo("mentor", ParseUser.getCurrentUser());
+        whereEqualTo(KEY_MENTOR, ParseUser.getCurrentUser());
         return this;
     }
 
-// TODO be able to sign up for classes
-//    public Query getClassesTaking(){
-//        whereContainedIn('attendees',)
-//        return this;
-//    }
+
+    public Query getClassesTaking(){
+
+        whereEqualTo(KEY_STUDENTS,ParseUser.getCurrentUser());
+
+        return this;
+    }
 
 
 

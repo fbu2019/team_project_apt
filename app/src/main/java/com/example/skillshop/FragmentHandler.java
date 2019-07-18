@@ -15,18 +15,22 @@ import com.example.skillshop.NavigationFragments.ProfileFragment;
 
 
 public class FragmentHandler extends AppCompatActivity {
+    FragmentManager fragmentManager;
+    BottomNavigationView bottomNavigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        fragmentManager = getSupportFragmentManager();
 
 
         // define manager to decide which fragment to display
-        final FragmentManager fragmentManager = getSupportFragmentManager();
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -66,7 +70,16 @@ public class FragmentHandler extends AppCompatActivity {
         // default fragment in home fragment
         bottomNavigationView.setSelectedItemId(R.id.home_fragment);
 
+    }
 
+    @Override
+    public void onBackPressed() {
+
+        Fragment fragment = new HomeFragment();
+
+        fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+
+        bottomNavigationView.setSelectedItemId(R.id.home_fragment);
 
 
     }

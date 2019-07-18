@@ -56,7 +56,7 @@ public class Workshop extends ParseObject {
     }
 
     public void setTeacher(ParseUser user) {
-         put(KEY_MENTOR,user);
+        put(KEY_MENTOR,user);
     }
 
     public String getCategory() {
@@ -70,13 +70,8 @@ public class Workshop extends ParseObject {
 
     public ParseRelation getStudents() {
         return getRelation(KEY_STUDENTS);
-
-
     }
 
-    public void userSignUp(ParseRelation relation) {
-        put(KEY_MENTOR,relation);
-    }
 
 }
 
