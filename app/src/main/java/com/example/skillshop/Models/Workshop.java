@@ -59,7 +59,7 @@ public class Workshop extends ParseObject {
         put(KEY_LOCATION_NAME,locationName);
     }
     public void setLocation(ParseGeoPoint location)  {
-        put(KEY_LOCATION_NAME,location);
+        put(KEY_LOCATION,location);
     }
     public ParseUser getTeacher() {
         return getParseUser(KEY_MENTOR);
