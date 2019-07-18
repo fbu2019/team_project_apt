@@ -1,18 +1,21 @@
 package com.example.skillshop;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.skillshop.Models.Workshop;
@@ -21,37 +24,33 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 
-
-public class NewClassActivity extends AppCompatActivity {
+public class NewClassActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener{
 
     public static final String TAG = "NewClassActivity";
 
     TextView etClassname;
     TextView etDate;
+    TextView etTime;
     TextView etLocation;
     TextView etDescription;
     Spinner spinCategory;
     TextView etCost;
     ImageView ivClassImage;
-
     Button btSubmit;
 
-    String classname;
-    String date;
-    String location;
-    String description;
-    String category;
-    String cost;
+    HashMap<String, Integer> dateMap;
+
+
 
 
     // PICK_PHOTO_CODE is a constant integer
     public final static int PICK_PHOTO_CODE = 1046;
 
-    private final String apiKey = getResources().getString(R.string.places_api_key);
+    private final String apiKey = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,46 +58,35 @@ public class NewClassActivity extends AppCompatActivity {
         findAllViews();
         setSubmitListener();
 
-        final TextView txtVw = findViewById(R.id.placeName);
+        final DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this, NewClassActivity.this, 2019, 7, 1);
 
-        // Initialize Places.
-/*        Places.initialize(getApplicationContext(), apiKey);
+        final TimePickerDialog timePickerDialog = new TimePickerDialog(this,NewClassActivity.this,0,0,true);
 
+        dateMap = new HashMap<>();
 
-        // Create a new Places client instance.
-        PlacesClient placesClient = Places.createClient(this);
-        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
-               getSupportFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
-
-
-        // Specify the types of place data to return.
-        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected place.
-                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
-
-
-           }
-           @Override
-            public void onError(Status status) {
-               // TODO: Handle the error.
-               Log.i(TAG, "An error occurred: " + status);
-            }
-
-
-
-
-
-
-        });*/
         ivClassImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onPickPhoto(v);
             }
         });
+
+
+        etDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePickerDialog.show();
+            }
+        });
+
+        etTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timePickerDialog.show();
+            }
+        });
+
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -116,12 +104,29 @@ public class NewClassActivity extends AppCompatActivity {
         btSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 postWorkshop();
             }
         });
     }
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+        dateMap.put("year",year);
+        dateMap.put("month",month);
+        dateMap.put("dayOfMonth",dayOfMonth);
+        etDate.setText(String.format("%d/%d/%d",month,dayOfMonth,year));
+
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        dateMap.put("hourOfDay",hourOfDay);
+        dateMap.put("minute",minute);
+        etTime.setText(String.format("%d:%d",hourOfDay,minute));
+
+
+    }
 
     private void postWorkshop() {
 
@@ -130,19 +135,7 @@ public class NewClassActivity extends AppCompatActivity {
         newClass.setDescription(etDescription.getText().toString());
         newClass.setName(etClassname.getText().toString());
 
-
-        String dateString = etDate.getText().toString();
-
-        Date date = new Date();
-        try {
-            date = new SimpleDateFormat("dd/MM/yyyy kk:mm").parse(dateString);
-
-
-        } catch (java.text.ParseException e) {
-            Log.e(TAG, "Error parsing date.");
-            e.printStackTrace();
-        }
-
+        Date date = new Date(dateMap.get("year"),dateMap.get("month"),dateMap.get("dayOfMonth"),dateMap.get("hourOfDay"),dateMap.get("minute"));
         newClass.setDate(date);
 
         newClass.setCost(Double.parseDouble(etCost.getText().toString()));
@@ -178,14 +171,9 @@ public class NewClassActivity extends AppCompatActivity {
         etCost = findViewById(R.id.etCost);
         btSubmit = findViewById(R.id.btSubmit);
         ivClassImage = findViewById(R.id.ivClassImage);
-;
+        etTime = findViewById(R.id.etTime);
+        ;
     }
-
-    //TODO fix type issues
-    //TODO send to parse
-
-
-
 
     // Trigger gallery selection for a photo
     public void onPickPhoto(View view) {
@@ -223,3 +211,4 @@ public class NewClassActivity extends AppCompatActivity {
 
 
 }
+
