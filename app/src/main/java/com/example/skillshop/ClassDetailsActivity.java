@@ -111,13 +111,9 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
     public void signUpForWorkshop()
     {
-        ParseRelation signedUpStudents = detailedWorkshop.getStudents();
+        ParseRelation<ParseUser> signedUpStudents = detailedWorkshop.getStudents();
 
         signedUpStudents.add(ParseUser.getCurrentUser());
-
-        detailedWorkshop.userSignUp(signedUpStudents);
-
-        detailedWorkshop.setTeacher(ParseUser.getCurrentUser());
 
         detailedWorkshop.saveInBackground(new SaveCallback() {
             @Override

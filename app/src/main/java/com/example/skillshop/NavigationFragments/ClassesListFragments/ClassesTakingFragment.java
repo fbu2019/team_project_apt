@@ -65,7 +65,7 @@ public class ClassesTakingFragment extends Fragment {
     public void getAllClasses() {
 
         Query parseQuery = new Query();
-        parseQuery.getAllClasses().withItems().byTimeOfClass();
+        parseQuery.getAllClasses().getClassesTaking().withItems().byTimeOfClass();
 
         parseQuery.findInBackground(new FindCallback<Workshop>() {
             @Override
