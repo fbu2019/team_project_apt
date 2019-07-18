@@ -18,6 +18,7 @@ public class Workshop extends ParseObject {
     public final static String KEY_MENTOR = "mentor";
     public final static String KEY_CREATED_AT = "createdAt";
     public final static String KEY_COST = "cost";
+    public final static String KEY_CATEGORY = "category";
 
 
     public  String getName() {
@@ -54,6 +55,14 @@ public class Workshop extends ParseObject {
 
     public void setTeacher(ParseUser user) {
          put("mentor",user);
+    }
+
+    public String getCategory() {
+        return getString(KEY_CATEGORY);
+    }
+
+    public void setCategory(String category) {
+        put(KEY_CATEGORY,category);
     }
 
 }

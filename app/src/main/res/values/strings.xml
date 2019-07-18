@@ -13,9 +13,10 @@
     <string name="promt_zipcode">Zipcode</string>
 
     <string-array name="categories">
-        <item>Cooking</item>
+        <item>Culinary</item>
         <item>Education</item>
         <item>Fitness</item>
+        <item>Arts/Crafts</item>
         <item>Other</item>
     </string-array>
 
