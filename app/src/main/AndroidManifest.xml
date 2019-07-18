@@ -22,6 +22,8 @@
             tools:replace="android:value"
             android:value="@string/facebook_app_id" />
 
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="@string/places_api_key"/>
+
         <activity android:name=".SignupActivity"></activity>
         <activity android:name=".EditClassActivity" />
         <activity android:name=".NewClassActivity" />

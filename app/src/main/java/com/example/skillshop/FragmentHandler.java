@@ -12,7 +12,6 @@ import com.example.skillshop.NavigationFragments.CalendarFragment;
 import com.example.skillshop.NavigationFragments.ClassesFragment;
 import com.example.skillshop.NavigationFragments.HomeFragment;
 import com.example.skillshop.NavigationFragments.ProfileFragment;
-import com.example.skillshop.R;
 
 
 public class FragmentHandler extends AppCompatActivity {

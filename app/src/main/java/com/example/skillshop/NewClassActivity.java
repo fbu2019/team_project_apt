@@ -8,17 +8,23 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.skillshop.Models.Workshop;
+import com.google.android.gms.common.api.Status;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 
@@ -47,7 +53,7 @@ public class NewClassActivity extends AppCompatActivity {
     // PICK_PHOTO_CODE is a constant integer
     public final static int PICK_PHOTO_CODE = 1046;
 
-
+    private final String apiKey = "AIzaSyARv5bJ1b1bnym8eUwPZlGm_7HN__WsbFE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +61,40 @@ public class NewClassActivity extends AppCompatActivity {
         findAllViews();
         setSubmitListener();
 
+        final TextView txtVw = findViewById(R.id.placeName);
+
+        // Initialize Places.
+        Places.initialize(getApplicationContext(), apiKey);
+
+
+        // Create a new Places client instance.
+        PlacesClient placesClient = Places.createClient(this);
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+               getSupportFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+
+
+        // Specify the types of place data to return.
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                // TODO: Get info about the selected place.
+                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+
+
+           }
+           @Override
+            public void onError(Status status) {
+               // TODO: Handle the error.
+               Log.i(TAG, "An error occurred: " + status);
+            }
+
+
+
+
+
+
+        });
         ivClassImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
