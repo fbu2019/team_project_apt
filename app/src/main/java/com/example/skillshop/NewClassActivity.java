@@ -58,7 +58,7 @@ public class NewClassActivity extends AppCompatActivity {
     // PICK_PHOTO_CODE is a constant integer
     public final static int PICK_PHOTO_CODE = 1046;
 
-    private final String apiKey = "";
+    private final String apiKey = this.getString(R.string.facebook_app_id);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
