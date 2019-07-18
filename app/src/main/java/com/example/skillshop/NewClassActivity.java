@@ -16,19 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.skillshop.Models.Workshop;
-import com.google.android.gms.common.api.Status;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.net.PlacesClient;
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 
 
@@ -58,7 +51,7 @@ public class NewClassActivity extends AppCompatActivity {
     // PICK_PHOTO_CODE is a constant integer
     public final static int PICK_PHOTO_CODE = 1046;
 
-    private final String apiKey = "";
+    private final String apiKey = getResources().getString(R.string.places_api_key);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +62,7 @@ public class NewClassActivity extends AppCompatActivity {
         final TextView txtVw = findViewById(R.id.placeName);
 
         // Initialize Places.
-        Places.initialize(getApplicationContext(), apiKey);
+/*        Places.initialize(getApplicationContext(), apiKey);
 
 
         // Create a new Places client instance.
@@ -99,7 +92,7 @@ public class NewClassActivity extends AppCompatActivity {
 
 
 
-        });
+        });*/
         ivClassImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
