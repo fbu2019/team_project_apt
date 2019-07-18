@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,17 +28,19 @@ public class ProfileFragment extends Fragment {
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        //super.onViewCreated(view, savedInstanceState);
+
+        ParseUser user = ParseUser.getCurrentUser();
 
         nameView = view.findViewById(R.id.nameView);
         logoutButton = view.findViewById(R.id.logoutButton);
+
+        Log.i("Profile Frag", user.getUsername());
+        //nameView.setText("Welcome "+user.getUsername());
 
         logoutButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 ParseUser.logOut();
-                ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
-                //  send user back to login activity
                 Intent i = new Intent(getContext(), LoginActivity.class); // todo: check if this works?
                 startActivity(i);
             }
