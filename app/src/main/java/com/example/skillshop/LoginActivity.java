@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -43,12 +45,11 @@ public class LoginActivity extends AppCompatActivity {
     EditText etPasswordInput;
     CallbackManager callbackManager;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ParseUser currentUser = ParseUser.getCurrentUser();
+
         if (currentUser != null) {
             //  continue to next activity if user previously logged in
             Intent i = new Intent(LoginActivity.this, FragmentHandler.class);
@@ -85,14 +86,53 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
 
+            // loginButton is not functional until user has completed all fields
+            loginButton.setEnabled(false);
+            TextWatcher watcher = new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int
+                        count, int after) {
+                    loginButton.setEnabled(false);
+                }
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before,
+                                          int count) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    for (EditText et  : new EditText[] {etUsernameInput,
+                            etPasswordInput}) {
+                        try {
+                            et.getText();
+                        } catch (NumberFormatException e) {
+                            // Disable button, show error label, etc.
+                            loginButton.setEnabled(false);
+                            return;
+                        }
+                    }
+                    loginButton.setEnabled(true);
+                }
+            };
+
+            etUsernameInput.addTextChangedListener(watcher);
+            etPasswordInput.addTextChangedListener(watcher);
+
             loginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     final String username = etUsernameInput.getText().toString();
                     final String password = etPasswordInput.getText().toString();
                     Log.i("Login Activity", username);
                     Log.i("Login Activity", password);
-                    login(username, password);
+
+                    if (username.trim().length()==0 || password.trim().length()==0){
+                        Log.i("Signup", "Username is "+username+". Password is "+password+".");
+                        Toast.makeText(LoginActivity.this, "All fields must be filled", Toast.LENGTH_LONG).show();
+                    } else {
+                        login(username, password);
+                    }
                 }
             });
 
@@ -128,6 +168,7 @@ public class LoginActivity extends AppCompatActivity {
                     finish();
                 } else {
                     Log.e("LoginActivity", "Login failure");
+                    Toast.makeText(LoginActivity.this, "Incorrect username or password", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
             }
@@ -184,7 +225,6 @@ public class LoginActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         });
 
@@ -218,7 +258,6 @@ public class LoginActivity extends AppCompatActivity {
             userName = profile.getFirstName() + " " + profile.getLastName();
             startActivity(main);
         }
-
     }
 
     private void continueToMain(){
