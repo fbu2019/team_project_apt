@@ -11,6 +11,7 @@
     <string name="Phone_Number">Phone Number</string>
     <string name="Email_Address">Email</string>
     <string name="promt_zipcode">Zipcode</string>
+    <string name= "places_api_key" >AIzaSyARv5bJ1b1bnym8eUwPZlGm_7HN__WsbFE</string>
 
     <string-array name="categories">
         <item>Culinary</item>
