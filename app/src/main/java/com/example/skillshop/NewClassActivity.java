@@ -45,18 +45,38 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     HashMap<String, Integer> dateMap;
 
 
-
-
-    // PICK_PHOTO_CODE is a constant integer
-    public final static int PICK_PHOTO_CODE = 1046;
-
-    private final String apiKey = "";
+    //    private final String apiKey = getResources().getString(R.string.places_api_key);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_class);
         findAllViews();
         setSubmitListener();
+
+//        final TextView txtVw = findViewById(R.id.placeName);
+
+        // Initialize Places.
+/*        Places.initialize(getApplicationContext(), apiKey);
+        // Create a new Places client instance.
+        PlacesClient placesClient = Places.createClient(this);
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+               getSupportFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+
+
+        // Specify the types of place data to return.
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                // TODO: Get info about the selected place.
+                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+           }
+           @Override
+            public void onError(Status status) {
+               // TODO: Handle the error.
+               Log.i(TAG, "An error occurred: " + status);
+            }
+        });*/
 
         final DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this, NewClassActivity.this, 2019, 7, 1);
