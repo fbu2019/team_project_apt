@@ -21,12 +21,15 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.skillshop.Models.Workshop;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -51,6 +54,9 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     ImageView ivClassImage;
     Button btSubmit;
 
+
+    ParseGeoPoint location;
+    String locationName;
 
     HashMap<String, Integer> dateMap;
 
@@ -170,6 +176,9 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
 
         newClass.setTeacher(ParseUser.getCurrentUser());
 
+       // newClass.setLocationName(locationName);
+     //   newClass.setLocation(location);
+
 
         newClass.saveInBackground(new SaveCallback() {
             @Override
@@ -234,7 +243,12 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         }
         if ((data != null) && (requestCode == AUTOCOMPLETE_REQUEST_CODE)){
             Place place = Autocomplete.getPlaceFromIntent(data);
-            btLocation.setText(place.getName());
+            locationName = place.getName();
+            btLocation.setText(locationName);
+            LatLng latLng = place.getLatLng();
+            location = new ParseGeoPoint(latLng.latitude, latLng.longitude);
+
+
 
         }
 
@@ -243,7 +257,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     private void launchIntent() {
         Log.i(TAG, "placelookuplaunched");
         // Specify the types of place data to return.
-        List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
+        List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
 
         // Start the autocomplete intent.
         Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
