@@ -44,6 +44,8 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
 
     HashMap<String, Integer> dateMap;
 
+    // PICK_PHOTO_CODE is a constant integer
+    public final static int PICK_PHOTO_CODE = 1046;
 
     //    private final String apiKey = getResources().getString(R.string.places_api_key);
     @Override
