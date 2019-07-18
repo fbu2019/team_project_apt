@@ -18,7 +18,7 @@ import com.parse.ParseUser;
 
 public class ProfileFragment extends Fragment {
 
-    TextView nameView;
+    TextView nameViewText;
     Button logoutButton;
 
     @Nullable
@@ -30,18 +30,21 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         ParseUser user = ParseUser.getCurrentUser();
+        String username = user.getUsername();
+        String zipCode = (user.getString("zipCode"));
 
-        nameView = view.findViewById(R.id.nameView);
+        nameViewText = view.findViewById(R.id.nameView);
         logoutButton = view.findViewById(R.id.logoutButton);
 
-        Log.i("Profile Frag", user.getUsername());
-        //nameView.setText("Welcome "+user.getUsername());
+
+        Log.i("Profile Frag", zipCode);
+        nameViewText.setText("Hello "+username+". Your current zipcode is "+zipCode);
 
         logoutButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 ParseUser.logOut();
-                Intent i = new Intent(getContext(), LoginActivity.class); // todo: check if this works?
+                Intent i = new Intent(getContext(), LoginActivity.class);
                 startActivity(i);
             }
         });
