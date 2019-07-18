@@ -10,15 +10,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.skillshop.LoginActivity;
 import com.example.skillshop.R;
+import com.parse.ParseFile;
 import com.parse.ParseUser;
+
+import java.io.File;
 
 public class ProfileFragment extends Fragment {
 
+    public String photoFileName = "photo.jpg";
+    File photoFile;
+
     TextView nameViewText;
+    ImageView ivProfilePic;
     Button logoutButton;
 
     @Nullable
@@ -35,10 +44,19 @@ public class ProfileFragment extends Fragment {
 
         nameViewText = view.findViewById(R.id.nameView);
         logoutButton = view.findViewById(R.id.logoutButton);
+        ivProfilePic = view.findViewById(R.id.profilePicture);
 
+        //  only attempts to display profile image if user has one
+        ParseFile profileImageFile = user.getParseFile("profilePicture");
+        if (profileImageFile != null) {
+            Glide.with(getContext()).load(profileImageFile.getUrl()).into(ivProfilePic);
+            Log.i("Profile Frag", "There is a profile image");
+        } else {
+            ivProfilePic.setImageBitmap(null);
+            Log.i("Profile Frag", "No profile image");
+        }
 
-        Log.i("Profile Frag", zipCode);
-        nameViewText.setText("Hello "+username+". Your current zipcode is "+zipCode);
+        nameViewText.setText("Hello "+username+". Your current zipcode is "+zipCode+".");
 
         logoutButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -52,3 +70,5 @@ public class ProfileFragment extends Fragment {
     }
 
 }
+
+
