@@ -36,7 +36,7 @@ public class Workshop extends ParseObject {
     }
     public ParseGeoPoint getLocation() {return getParseGeoPoint(KEY_LOCATION); }
     public  String getLocationName() {
-        return getDate(KEY_LOCATION_NAME).toString();
+        return getString(KEY_LOCATION_NAME).toString();
     }
     public void setDate(Date date) {
         put(KEY_DATE,date);

@@ -176,8 +176,8 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
 
         newClass.setTeacher(ParseUser.getCurrentUser());
 
-       // newClass.setLocationName(locationName);
-     //   newClass.setLocation(location);
+        newClass.setLocationName(locationName);
+        newClass.setLocation(location);
 
 
         newClass.saveInBackground(new SaveCallback() {

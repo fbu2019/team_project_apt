@@ -114,7 +114,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
 
             tvDate.setText(date.substring(0,11));
             tvTime.setText(date.substring(11,16));
-            //tvLocation.setText(tWorkshop.getLocationName());
+            tvLocation.setText(tWorkshop.getLocationName());
 
             Double cost = tWorkshop.getCost();
             if(cost == 0)
