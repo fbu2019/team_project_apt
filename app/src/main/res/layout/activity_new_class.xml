@@ -17,7 +17,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="32dp"
         android:text="Date"
-        app:layout_constraintBottom_toTopOf="@+id/etLocation"
+        app:layout_constraintBottom_toTopOf="@+id/btLocation"
         app:layout_constraintEnd_toStartOf="@+id/etDate"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +53,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/etLocation"
+        android:id="@+id/tvLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -62,7 +62,7 @@
         android:text="Location"
         app:layout_constraintBottom_toTopOf="@+id/tvCost"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/etLocation"
+        app:layout_constraintTop_toTopOf="@+id/btLocation"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
@@ -122,15 +122,15 @@
         app:layout_constraintBottom_toTopOf="@+id/etDescription"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <EditText
-        android:id="@+id/etLocation"
+    <Button
+        android:id="@+id/btLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="52dp"
         android:layout_marginRight="52dp"
         android:layout_marginBottom="16dp"
         android:ems="10"
-        android:hint="Location"
+        android:text="Select Location"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/etCost"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -145,7 +145,7 @@
         android:ems="10"
         android:hint="MM/DD/YYYY"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/etLocation"
+        app:layout_constraintBottom_toTopOf="@+id/btLocation"
         app:layout_constraintEnd_toStartOf="@+id/tvTime" />
 
     <EditText
@@ -211,37 +211,4 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/idCardView"
-        android:layout_width="209dp"
-        android:layout_height="30dp"
-        android:layout_margin="5dp"
-
-        app:cardCornerRadius="4dp"
-        app:layout_constraintBottom_toBottomOf="@+id/etLocation"
-        app:layout_constraintEnd_toEndOf="@+id/etLocation"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/etLocation"
-        app:layout_constraintTop_toTopOf="@+id/etLocation"
-        app:layout_constraintVertical_bias="0.533">
-
-        <fragment
-            android:id="@+id/place_autocomplete_fragment"
-            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </android.support.v7.widget.CardView>
-
-    <TextView
-        android:id="@+id/placeName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="No Place selected"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.883"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.063" />
 </android.support.constraint.ConstraintLayout>
