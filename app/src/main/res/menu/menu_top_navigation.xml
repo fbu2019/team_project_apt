@@ -14,5 +14,4 @@
         android:icon="@drawable/ic_teaching_class"
         app:showAsAction="ifRoom" />
 
-
 </menu>
