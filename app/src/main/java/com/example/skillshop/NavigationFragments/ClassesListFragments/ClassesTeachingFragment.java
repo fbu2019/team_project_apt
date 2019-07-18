@@ -80,7 +80,7 @@ public class ClassesTeachingFragment extends Fragment {
     public void getAllClasses() {
 
         Query parseQuery = new Query();
-        parseQuery.getAllClasses().withTeacher().byTimeOfClass();
+        parseQuery.getAllClasses().withTeacher().byTimeOfClass().getClassesTeaching();
 
         parseQuery.findInBackground(new FindCallback<Workshop>() {
             @Override

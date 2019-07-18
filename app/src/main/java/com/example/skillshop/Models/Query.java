@@ -2,6 +2,7 @@ package com.example.skillshop.Models;
 
 
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import static com.example.skillshop.Models.Workshop.KEY_CREATED_AT;
 import static com.example.skillshop.Models.Workshop.KEY_DATE;
@@ -33,10 +34,11 @@ public class Query extends ParseQuery<Workshop> {
     }
 
     // TODO login as user with facebook login as parselogin
-//    public Query getClassesTeaching(){
-//        whereEqualTo("teacher", ParseUser.getCurrentUser());
-//        return this;
-//    }
+    public Query getClassesTeaching(){
+        whereEqualTo("mentor", ParseUser.getCurrentUser());
+        return this;
+    }
+
 //
 //    public Query getClassesTaking(){
 //        whereContainedIn('attendees',)
