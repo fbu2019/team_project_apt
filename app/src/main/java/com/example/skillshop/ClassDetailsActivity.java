@@ -74,8 +74,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
                 ivClassPicture.setImageResource(R.drawable.misc);
                 break;
 
-
-
             default: break;
         }
 

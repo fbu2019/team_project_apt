@@ -140,6 +140,29 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
                 tvCost.setText("$"+cost);
             }
 
+            switch (tWorkshop.getCategory()) {
+
+                case "Culinary":
+                    ivClassIcon.setImageResource(R.drawable.cooking);
+                    break;
+
+                case "Education":
+                    ivClassIcon.setImageResource(R.drawable.education);
+                    break;
+                case "Fitness":
+                    ivClassIcon.setImageResource(R.drawable.fitness);
+                    break;
+                case "Arts/Crafts":
+                    ivClassIcon.setImageResource(R.drawable.arts);
+                    break;
+
+                case "Other":
+                    ivClassIcon.setImageResource(R.drawable.misc);
+                    break;
+
+                default: break;
+            }
+
         }
 
 
