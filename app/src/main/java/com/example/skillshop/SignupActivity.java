@@ -87,7 +87,11 @@ public class SignupActivity extends AppCompatActivity {
                 if (username.trim().length()==0 || password.trim().length()==0 || zipCode.trim().length()==0){
                     Log.i("Signup", "Username is "+username+". Password is "+password+". zipcode is "+zipCode);
                     Toast.makeText(SignupActivity.this, "All fields must be filled", Toast.LENGTH_LONG).show();
-                } else {
+                }
+                else if(zipCode.trim().length()!=5 ){
+                    Toast.makeText(SignupActivity.this, "Zipcode must be correct length", Toast.LENGTH_LONG).show();
+                }
+                else {
 
                     user.setUsername(username);
                     user.setPassword(password);
