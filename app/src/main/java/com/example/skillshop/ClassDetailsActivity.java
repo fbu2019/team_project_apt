@@ -35,7 +35,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
         tvInstructor = findViewById(R.id.tvInstructor);
         tvDate = findViewById(R.id.tvDate);
         tvTime =findViewById(R.id.tvTime);
-        tvLocation =  findViewById(R.id.tvLocation);
+        tvLocation =  findViewById(R.id.etLocation);
         tvCost =  findViewById(R.id.tvCost);
         tvClassDescription = findViewById(R.id.tvClassDescription);
         ivClassPicture = findViewById(R.id.ivClassPicture);

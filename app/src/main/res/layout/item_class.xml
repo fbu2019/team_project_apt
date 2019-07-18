@@ -20,7 +20,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvInstructor" />
 
     <TextView
-        android:id="@+id/tvLocation"
+        android:id="@+id/etLocation"
         android:layout_width="wrap_content"
         android:layout_height="17dp"
         android:layout_marginStart="8dp"
@@ -106,7 +106,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="June 12, 2019"
-        app:layout_constraintBottom_toTopOf="@+id/tvLocation"
+        app:layout_constraintBottom_toTopOf="@+id/etLocation"
         app:layout_constraintEnd_toStartOf="@+id/tvTime"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/ivClassIcon"

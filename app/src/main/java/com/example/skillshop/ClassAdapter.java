@@ -19,9 +19,6 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.skillshop.LoginActivity.userId;
-import static com.example.skillshop.LoginActivity.userName;
-
 
 public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder>  {
 
@@ -87,10 +84,6 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
         public ViewHolder(View itemView) {
             super(itemView);
             findAllViews();
-          //  TODO itemView.setOnClickListener(this);
-
-
-
         }
 
         private void findAllViews() {
@@ -100,7 +93,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
             tvInstructor = itemView.findViewById(R.id.tvInstructor);
             tvDate = itemView.findViewById(R.id.tvDate);
             tvTime =itemView.findViewById(R.id.tvTime);
-            tvLocation =  itemView.findViewById(R.id.tvLocation);
+            tvLocation =  itemView.findViewById(R.id.etLocation);
             tvCost =  itemView.findViewById(R.id.tvCost);
         }
 
@@ -113,12 +106,6 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
         private void setAllViews(Workshop tWorkshop) {
 
             tvClassName.setText(tWorkshop.getName());
-
-            tvInstructor.setText(userName );
-            tvDate.setText(tWorkshop.getDate());
-            tvTime.setText(userId);
-            tvLocation.setText("Location");
-            tvCost.setText("Cost");
 
             tvInstructor.setText(tWorkshop.getTeacher().getUsername());
 

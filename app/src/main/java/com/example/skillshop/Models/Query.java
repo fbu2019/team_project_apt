@@ -39,7 +39,7 @@ public class Query extends ParseQuery<Workshop> {
         return this;
     }
 
-//
+// TODO be able to sign up for classes
 //    public Query getClassesTaking(){
 //        whereContainedIn('attendees',)
 //        return this;
