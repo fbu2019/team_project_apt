@@ -7,6 +7,7 @@ import com.parse.ParseUser;
 import static com.example.skillshop.Models.Workshop.KEY_CREATED_AT;
 import static com.example.skillshop.Models.Workshop.KEY_DATE;
 import static com.example.skillshop.Models.Workshop.KEY_MENTOR;
+import static com.example.skillshop.Models.Workshop.KEY_STUDENTS;
 
 public class Query extends ParseQuery<Workshop> {
 
@@ -18,8 +19,9 @@ public class Query extends ParseQuery<Workshop> {
         return this;
     }
 
-    public Query withTeacher() {
+    public Query withItems() {
         include(KEY_MENTOR);
+        include(KEY_STUDENTS);
         return this;
     }
 

@@ -2,6 +2,7 @@ package com.example.skillshop.Models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 
@@ -19,6 +20,7 @@ public class Workshop extends ParseObject {
     public final static String KEY_CREATED_AT = "createdAt";
     public final static String KEY_COST = "cost";
     public final static String KEY_CATEGORY = "category";
+    public final static String KEY_STUDENTS = "students";
 
 
     public  String getName() {
@@ -50,11 +52,11 @@ public class Workshop extends ParseObject {
     }
 
     public ParseUser getTeacher() {
-        return getParseUser("mentor");
+        return getParseUser(KEY_MENTOR);
     }
 
     public void setTeacher(ParseUser user) {
-         put("mentor",user);
+         put(KEY_MENTOR,user);
     }
 
     public String getCategory() {
@@ -63,6 +65,17 @@ public class Workshop extends ParseObject {
 
     public void setCategory(String category) {
         put(KEY_CATEGORY,category);
+    }
+
+
+    public ParseRelation getStudents() {
+        return getRelation(KEY_STUDENTS);
+
+
+    }
+
+    public void userSignUp(ParseRelation relation) {
+        put(KEY_MENTOR,relation);
     }
 
 }

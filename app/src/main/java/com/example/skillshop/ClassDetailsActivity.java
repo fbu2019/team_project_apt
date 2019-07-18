@@ -4,10 +4,20 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Workshop;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
@@ -22,6 +32,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
     private TextView tvLocation;
     private TextView tvCost;
     private TextView tvClassDescription;
+    private Button btnSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +50,15 @@ public class ClassDetailsActivity extends AppCompatActivity {
         tvCost =  findViewById(R.id.tvCost);
         tvClassDescription = findViewById(R.id.tvClassDescription);
         ivClassPicture = findViewById(R.id.ivClassPicture);
-
         populateFields();
+
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signUpForWorkshop();
+            }
+        });
+
 
     }
 
@@ -53,6 +71,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
         tvTime.setText(date.substring(11,16));
         tvLocation.setText("Location");
         tvClassDescription.setText(detailedWorkshop.getDescription());
+        btnSignUp = findViewById(R.id.btnSignUp);
 
         switch (detailedWorkshop.getCategory()) {
 
@@ -88,8 +107,39 @@ public class ClassDetailsActivity extends AppCompatActivity {
             tvCost.setText("$"+cost);
         }
 
+    }
+
+    public void signUpForWorkshop()
+    {
+        ParseRelation signedUpStudents = detailedWorkshop.getStudents();
+
+        signedUpStudents.add(ParseUser.getCurrentUser());
+
+        detailedWorkshop.userSignUp(signedUpStudents);
+
+        detailedWorkshop.setTeacher(ParseUser.getCurrentUser());
+
+        detailedWorkshop.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e == null)
+                {
+                    Toast.makeText(ClassDetailsActivity.this, "You're signed up for this class!", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                else
+                {
+                    Toast.makeText(ClassDetailsActivity.this, "You weren't able to sign up ", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
     }
+
+
+
+
+
 
 
 }
