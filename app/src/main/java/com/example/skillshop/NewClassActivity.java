@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,13 +21,20 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.skillshop.Models.Workshop;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class NewClassActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener{
@@ -35,19 +44,21 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     TextView etClassname;
     TextView etDate;
     TextView etTime;
-    TextView etLocation;
+    Button btLocation;
     TextView etDescription;
     Spinner spinCategory;
     TextView etCost;
     ImageView ivClassImage;
     Button btSubmit;
 
+
     HashMap<String, Integer> dateMap;
 
     // PICK_PHOTO_CODE is a constant integer
     public final static int PICK_PHOTO_CODE = 1046;
+    public final static int AUTOCOMPLETE_REQUEST_CODE = 42;
 
-    //    private final String apiKey = getResources().getString(R.string.places_api_key);
+    private final String apiKey = "AIzaSyARv5bJ1b1bnym8eUwPZlGm_7HN__WsbFE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,30 +66,23 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         findAllViews();
         setSubmitListener();
 
-//        final TextView txtVw = findViewById(R.id.placeName);
+
 
         // Initialize Places.
-/*        Places.initialize(getApplicationContext(), apiKey);
-        // Create a new Places client instance.
-        PlacesClient placesClient = Places.createClient(this);
-        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
-               getSupportFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+          if (!Places.isInitialized()){
+           Places.initialize(getApplicationContext(), apiKey);
+         }
+
+        //Create a new Places client instance.
+         PlacesClient placesClient = Places.createClient(NewClassActivity.this);
 
 
-        // Specify the types of place data to return.
-        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+        btLocation.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected place.
-                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
-           }
-           @Override
-            public void onError(Status status) {
-               // TODO: Handle the error.
-               Log.i(TAG, "An error occurred: " + status);
+            public void onClick(View v) {
+                  launchIntent();
             }
-        });*/
+        });
 
         final DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this, NewClassActivity.this, 2019, 7, 1);
@@ -187,14 +191,14 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
 
         etClassname = findViewById(R.id.etClassname);
         etDate = findViewById(R.id.etDate);
-        etLocation = findViewById(R.id.etLocation);
+        btLocation = findViewById(R.id.btLocation);
         etDescription = findViewById(R.id.etDescription);
         spinCategory = findViewById(R.id.spinCategory);
         etCost = findViewById(R.id.etCost);
         btSubmit = findViewById(R.id.btSubmit);
         ivClassImage = findViewById(R.id.ivClassImage);
         etTime = findViewById(R.id.etTime);
-        ;
+
     }
 
     // Trigger gallery selection for a photo
@@ -213,7 +217,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data != null) {
+        if ((data != null) && (requestCode == PICK_PHOTO_CODE)){
             Uri photoUri = data.getData();
             // Do something with the photo based on Uri
 
@@ -228,8 +232,24 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
             ImageView ivPreview = findViewById(R.id.ivClassImage);
             ivPreview.setImageBitmap(selectedImage);
         }
+        if ((data != null) && (requestCode == AUTOCOMPLETE_REQUEST_CODE)){
+            Place place = Autocomplete.getPlaceFromIntent(data);
+            btLocation.setText(place.getName());
+
+        }
+
     }
 
+    private void launchIntent() {
+        Log.i(TAG, "placelookuplaunched");
+        // Specify the types of place data to return.
+        List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
+
+        // Start the autocomplete intent.
+        Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+                .build(this);
+        startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+    }
 
 
 }
