@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     LoginButton fbLoginButton;
     Button signUpButton;
     Button loginButton;
-    Button testButton;
+    //  Button testButton;
     TextView welcomeMessage;
     EditText etUsernameInput;
     EditText etPasswordInput;
@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
             setContentView(R.layout.activity_login);
 
             welcomeMessage = findViewById(R.id.welcomeMessage);
-            testButton = findViewById(R.id.continueNext);
+            //  testButton = findViewById(R.id.continueNext);
             loginButton = findViewById(R.id.loginButton);
             etUsernameInput = findViewById(R.id.etUsername);
             etPasswordInput = findViewById(R.id.etPassword);
@@ -106,12 +106,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
 
+            /*
             testButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     continueToMain();
                 }
             });
+            */
         }
     }
 

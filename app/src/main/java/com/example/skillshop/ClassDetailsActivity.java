@@ -14,13 +14,14 @@ import org.parceler.Parcels;
 public class ClassDetailsActivity extends AppCompatActivity {
 
     private Workshop detailedWorkshop;
-    private ImageView ivClassIcon;
+    private ImageView ivClassPicture;
     private TextView tvClassName;
     private TextView tvInstructor;
     private TextView tvDate;
     private TextView tvTime;
     private TextView tvLocation;
     private TextView tvCost;
+    private TextView tvClassDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,8 @@ public class ClassDetailsActivity extends AppCompatActivity {
         tvTime =findViewById(R.id.tvTime);
         tvLocation =  findViewById(R.id.tvLocation);
         tvCost =  findViewById(R.id.tvCost);
+        tvClassDescription = findViewById(R.id.tvClassDescription);
+        ivClassPicture = findViewById(R.id.ivClassPicture);
 
         populateFields();
 
@@ -49,6 +52,30 @@ public class ClassDetailsActivity extends AppCompatActivity {
         tvDate.setText(date.substring(0,11));
         tvTime.setText(date.substring(11,16));
         tvLocation.setText("Location");
+        tvClassDescription.setText(detailedWorkshop.getDescription());
+
+        switch (detailedWorkshop.getCategory()) {
+
+            case "Culinary":
+                ivClassPicture.setImageResource(R.drawable.cooking);
+                break;
+
+            case "Education":
+                ivClassPicture.setImageResource(R.drawable.education);
+                break;
+            case "Fitness":
+                ivClassPicture.setImageResource(R.drawable.fitness);
+                break;
+            case "Arts/Crafts":
+                ivClassPicture.setImageResource(R.drawable.arts);
+                break;
+
+            case "Other":
+                ivClassPicture.setImageResource(R.drawable.misc);
+                break;
+
+            default: break;
+        }
 
         Double cost = detailedWorkshop.getCost();
         if(cost == 0)
@@ -58,7 +85,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
         }
         else
         {
-            tvCost.setText("$"+Double.toHexString(cost));
+            tvCost.setText("$"+cost);
         }
 
 

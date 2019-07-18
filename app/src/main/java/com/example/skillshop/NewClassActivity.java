@@ -8,10 +8,12 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.skillshop.Models.Workshop;
 import com.google.android.gms.common.api.Status;
@@ -20,12 +22,15 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+
 
 
 public class NewClassActivity extends AppCompatActivity {
@@ -103,13 +108,13 @@ public class NewClassActivity extends AppCompatActivity {
         });
 
         // Create an ArrayAdapter using the string array and a default spinner layout
-    /*    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.categories, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinCategory.setAdapter(adapter);
-*/
+
 
     }
 
@@ -118,47 +123,56 @@ public class NewClassActivity extends AppCompatActivity {
         btSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getViewContent();
-                submitClass();
+
+                postWorkshop();
             }
         });
     }
 
-    private void submitClass() {
+
+    private void postWorkshop() {
+
         final Workshop newClass = new Workshop();
 
-    }
+        newClass.setDescription(etDescription.getText().toString());
+        newClass.setName(etClassname.getText().toString());
 
 
-
-    private void getViewContent() {
-        classname = etClassname.getText().toString();
         String dateString = etDate.getText().toString();
-      //  Toast.makeText(this, classname, Toast.LENGTH_LONG).show();
-        try {
-            Date date = new SimpleDateFormat("dd/MM/yyyy kk:mm").parse(dateString);
-          //  String dateConverted = format(date);
-           // Toast.makeText(this, dateConverted, Toast.LENGTH_LONG).show();
 
-        } catch (ParseException e) {
+        Date date = new Date();
+        try {
+            date = new SimpleDateFormat("dd/MM/yyyy kk:mm").parse(dateString);
+
+
+        } catch (java.text.ParseException e) {
             Log.e(TAG, "Error parsing date.");
             e.printStackTrace();
         }
 
-        location = etLocation.getText().toString();
+        newClass.setDate(date);
 
-        //   location;
-        description = etDescription.getText().toString();
-        //category = spinCategory.getText().toString();
+        newClass.setCost(Double.parseDouble(etCost.getText().toString()));
 
+        newClass.setCategory(spinCategory.getSelectedItem().toString());
 
-
-
+        newClass.setTeacher(ParseUser.getCurrentUser());
 
 
-        //  cost;
-
-
+        newClass.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e == null)
+                {
+                    Toast.makeText(NewClassActivity.this, "Class was made", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                else
+                {
+                    Toast.makeText(NewClassActivity.this, "Class wasn't made", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void findAllViews() {

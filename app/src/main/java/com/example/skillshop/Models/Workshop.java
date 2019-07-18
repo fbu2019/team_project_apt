@@ -4,6 +4,10 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+
+import java.util.Date;
+
+
 @ParseClassName("Workshop")
 public class Workshop extends ParseObject {
 
@@ -14,6 +18,7 @@ public class Workshop extends ParseObject {
     public final static String KEY_MENTOR = "mentor";
     public final static String KEY_CREATED_AT = "createdAt";
     public final static String KEY_COST = "cost";
+    public final static String KEY_CATEGORY = "category";
 
 
     public  String getName() {
@@ -25,8 +30,16 @@ public class Workshop extends ParseObject {
     public  String getDate() {
         return getDate(KEY_DATE).toString();
     }
+
+    public void setDate(Date date) {
+        put(KEY_DATE,date);
+    }
     public  Double getCost() {
         return getDouble(KEY_COST);
+    }
+
+    public  void setCost(Double cost) {
+         put(KEY_COST,cost);
     }
 
     public void setName(String name) {
@@ -38,6 +51,18 @@ public class Workshop extends ParseObject {
 
     public ParseUser getTeacher() {
         return getParseUser("mentor");
+    }
+
+    public void setTeacher(ParseUser user) {
+         put("mentor",user);
+    }
+
+    public String getCategory() {
+        return getString(KEY_CATEGORY);
+    }
+
+    public void setCategory(String category) {
+        put(KEY_CATEGORY,category);
     }
 
 }

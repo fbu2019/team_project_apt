@@ -67,7 +67,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvClassName" />
 
     <TextView
-        android:id="@+id/tcClassDescription"
+        android:id="@+id/tvClassDescription"
         android:layout_width="305dp"
         android:layout_height="90dp"
         android:layout_marginStart="8dp"
