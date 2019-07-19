@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Workshop;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
@@ -20,6 +21,9 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClassDetailsActivity extends AppCompatActivity {
 
@@ -65,7 +69,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
         ParseUser teacher = detailedWorkshop.getTeacher();
 
 
-
+        // if user is teacher
         if(teacher.getUsername().equals(ParseUser.getCurrentUser().getUsername()))
         {
             btnSignUp.setClickable(false);
@@ -74,20 +78,53 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
 
 
-        if(detailedWorkshop.getStudents().equals(ParseUser.getCurrentUser().getObjectId())) {
+
+        detailedWorkshop.getStudents().getQuery().findInBackground(new FindCallback() {
+            @Override
+            public void done(List objects, ParseException e) {
+
+            }
+            @Override
+            public void done(Object o, Throwable throwable) {
+
+
+                for(int i = 0 ; i < ((ArrayList) o).size();i++)
+                {
+                    if(((ArrayList<ParseUser>) o).get(i).getUsername().equals(ParseUser.getCurrentUser().getUsername()))
+                    {
+                        toggleClassSignUp(true);
+                    }
+                }
+                toggleClassSignUp(false);
+
+
+            }
+        });
+    }
+
+    private void toggleClassSignUp(final boolean enrolled)
+    {
+
+        if(enrolled)
+        {
             btnSignUp.setText("Drop Class");
+        }
+        else
+        {
+            btnSignUp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    signUpForWorkshop();
+
+                }
+            });
         }
 
 
 
-
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signUpForWorkshop();
-            }
-        });
     }
+
+
 
     private void populateFields() {
 
