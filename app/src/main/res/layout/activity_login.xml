@@ -16,7 +16,7 @@
         android:layout_marginTop="220dp"
         android:background="@color/grey_1"
         android:ems="10"
-        android:hint="@string/promt_username"
+        android:hint="@string/prompt_username"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,7 +30,7 @@
         android:layout_marginTop="292dp"
         android:background="@color/grey_1"
         android:ems="10"
-        android:hint="@string/promt_password"
+        android:hint="@string/prompt_password"
         android:inputType="textPassword"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -25,6 +25,7 @@ import com.example.skillshop.LoginActivity;
 import com.example.skillshop.NewClassActivity;
 import com.example.skillshop.R;
 import com.example.skillshop.SignupActivity;
+import com.facebook.Profile;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.parse.ParseException;
@@ -64,12 +65,23 @@ public class ProfileFragment extends Fragment {
         final ParseUser user = ParseUser.getCurrentUser();
         final String username = user.getUsername();
         final String zipCode = (user.getString("zipCode"));
+        final String profilePhotoUrl = user.getString("profilePicUrl");
 
         nameViewText = view.findViewById(R.id.nameView);
         nameViewText.setText("Hello "+user.getString("firstName")+". Your current zipcode is "+zipCode+".");
 
-        //  only attempts to display profile image if user has one
         ivProfilePic = view.findViewById(R.id.profilePicture);
+
+        if (profilePhotoUrl != null) {
+            Log.i("ProfileFragment", profilePhotoUrl);
+            Glide.with(getContext()).load(profilePhotoUrl).into(ivProfilePic);
+        } else {
+            ivProfilePic.setImageBitmap(null);
+            Log.i("Profile Frag", "No profile image");
+        }
+
+        /*
+        //  only attempts to display profile image if user has one
         ParseFile profileImageFile = user.getParseFile("profilePicture");
         if (profileImageFile != null) {
             Glide.with(getContext()).load(profileImageFile.getUrl()).into(ivProfilePic);
@@ -78,6 +90,7 @@ public class ProfileFragment extends Fragment {
             ivProfilePic.setImageBitmap(null);
             Log.i("Profile Frag", "No profile image");
         }
+        */
 
         zipcodeInput = view.findViewById(R.id.etZipcode);
         submitZipcodeButton = view.findViewById(R.id.zipCodeModify);

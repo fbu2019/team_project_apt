@@ -107,6 +107,9 @@ public class SignupActivity extends AppCompatActivity {
                     user.put("firstName", firstName);
                     user.put("lastName", lastName);
 
+                    String image_url = "https://graph.facebook.com/"+fbID+ "/picture?type=normal";
+                    user.put("profilePicUrl", image_url);
+
                     login(fbID, fbID);
 
                     user.signUpInBackground(new SignUpCallback() {
