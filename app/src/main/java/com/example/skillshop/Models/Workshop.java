@@ -1,6 +1,7 @@
 package com.example.skillshop.Models;
 
 import com.parse.ParseClassName;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
@@ -15,6 +16,7 @@ public class Workshop extends ParseObject {
     public final static String KEY_NAME = "name";
     public final static String KEY_DESCRIPTION = "description";
     public final static String KEY_DATE = "date";
+    public final static String KEY_LOCATION_NAME = "locationName";
     public final static String KEY_LOCATION = "location";
     public final static String KEY_MENTOR = "mentor";
     public final static String KEY_CREATED_AT = "createdAt";
@@ -32,7 +34,10 @@ public class Workshop extends ParseObject {
     public  String getDate() {
         return getDate(KEY_DATE).toString();
     }
-
+    public ParseGeoPoint getLocation() {return getParseGeoPoint(KEY_LOCATION); }
+    public  String getLocationName() {
+        return getString(KEY_LOCATION_NAME).toString();
+    }
     public void setDate(Date date) {
         put(KEY_DATE,date);
     }
@@ -50,7 +55,12 @@ public class Workshop extends ParseObject {
     public void setDescription(String description) {
         put(KEY_DESCRIPTION,description);
     }
-
+    public void setLocationName(String locationName) {
+        put(KEY_LOCATION_NAME,locationName);
+    }
+    public void setLocation(ParseGeoPoint location)  {
+        put(KEY_LOCATION,location);
+    }
     public ParseUser getTeacher() {
         return getParseUser(KEY_MENTOR);
     }

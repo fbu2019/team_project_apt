@@ -46,7 +46,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
         tvInstructor = findViewById(R.id.tvInstructor);
         tvDate = findViewById(R.id.tvDate);
         tvTime =findViewById(R.id.tvTime);
-        tvLocation =  findViewById(R.id.etLocation);
+        tvLocation =  findViewById(R.id.tvLocation);
         tvCost =  findViewById(R.id.tvCost);
         tvClassDescription = findViewById(R.id.tvClassDescription);
         ivClassPicture = findViewById(R.id.ivClassPicture);
@@ -96,7 +96,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
         String date = detailedWorkshop.getDate();
         tvDate.setText(date.substring(0,11));
         tvTime.setText(date.substring(11,16));
-        tvLocation.setText("Location");
+        tvLocation.setText(detailedWorkshop.getLocationName());
         tvClassDescription.setText(detailedWorkshop.getDescription());
         btnSignUp = findViewById(R.id.btnSignUp);
 
