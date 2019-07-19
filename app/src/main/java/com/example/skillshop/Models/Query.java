@@ -49,6 +49,13 @@ public class Query extends ParseQuery<Workshop> {
         return this;
     }
 
+    public Query getClassesNotTaking(){
+
+        whereNotEqualTo(KEY_STUDENTS,ParseUser.getCurrentUser());
+
+        return this;
+    }
+
 
 
 
