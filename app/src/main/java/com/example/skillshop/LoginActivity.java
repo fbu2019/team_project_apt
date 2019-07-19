@@ -18,9 +18,11 @@ import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
+import com.facebook.login.Login;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.parse.LogInCallback;
@@ -49,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ParseUser currentUser = ParseUser.getCurrentUser();
+        FacebookSdk.sdkInitialize(getApplicationContext());
 
         if (currentUser != null) {
             //  continue to next activity if user previously logged in
@@ -66,13 +69,14 @@ public class LoginActivity extends AppCompatActivity {
 
             callbackManager = CallbackManager.Factory.create();
             fbLoginButton = (LoginButton) findViewById(R.id.login_button);
-            fbLoginButton.setReadPermissions(Arrays.asList("email", "public_profile"));
             checkLoginStatus();
 
             fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                 @Override
                 public void onSuccess(LoginResult loginResult) {
-                    nextActivity(Profile.getCurrentProfile());
+                    //nextActivity(Profile.getCurrentProfile());
+                    Intent i = new Intent(LoginActivity.this, FragmentHandler.class);
+                    startActivity(i);
                 }
 
                 @Override
@@ -86,37 +90,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
 
-            // loginButton is not functional until user has completed all fields
-            loginButton.setEnabled(false);
-            TextWatcher watcher = new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int
-                        count, int after) {
-                    loginButton.setEnabled(false);
-                }
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before,
-                                          int count) {
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    for (EditText et  : new EditText[] {etUsernameInput,
-                            etPasswordInput}) {
-                        try {
-                            et.getText();
-                        } catch (NumberFormatException e) {
-                            // Disable button, show error label, etc.
-                            loginButton.setEnabled(false);
-                            return;
-                        }
-                    }
-                    loginButton.setEnabled(true);
-                }
-            };
-
-            etUsernameInput.addTextChangedListener(watcher);
-            etPasswordInput.addTextChangedListener(watcher);
 
             loginButton.setOnClickListener(new View.OnClickListener() {
                 @Override

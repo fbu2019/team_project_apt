@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Skillshop</string>
-    <string name="facebook_app_id">578761632529105</string>
-    <string name="fb_login_protocol_scheme">fb578761632529105</string>
+    <string name="facebook_app_id">715997278836783</string>
+    <string name="fb_login_protocol_scheme">fb715997278836783</string>
     <string name="title_activity_main2">UserProfile</string>
     <string name="log_in">login</string>
     <string name="promt_password">Password</string>
