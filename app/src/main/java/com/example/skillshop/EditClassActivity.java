@@ -290,6 +290,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
                 .build(this);
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+        Integer test = 0;
     }
 
 
