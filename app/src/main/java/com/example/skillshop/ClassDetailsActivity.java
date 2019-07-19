@@ -1,5 +1,6 @@
 package com.example.skillshop;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -57,6 +58,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
         tvCost =  findViewById(R.id.tvCost);
         tvClassDescription = findViewById(R.id.tvClassDescription);
         ivClassPicture = findViewById(R.id.ivClassPicture);
+        btnEditClass = findViewById(R.id.btEditClass);
         populateFields();
 
 
@@ -101,6 +103,18 @@ public class ClassDetailsActivity extends AppCompatActivity {
                     }
                 }
                 toggleClassSignUp(enrolled);
+            }
+        });
+
+
+        btnEditClass.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                final Intent editClassIntent = new Intent(ClassDetailsActivity.this, EditClassActivity.class);
+                //pass in class that was selected
+                editClassIntent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(detailedWorkshop));
+
+                startActivity(editClassIntent);
             }
         });
 
