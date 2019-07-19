@@ -1,10 +1,12 @@
 package com.example.skillshop;
 
+import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -36,8 +38,9 @@ import com.parse.SaveCallback;
 import org.parceler.Parcels;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -57,18 +60,19 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     TextView etCost;
     ImageView ivClassImage;
     Button btSubmit;
+    Workshop currentWorkshop;
 
 
     ParseGeoPoint location;
     String locationName;
-
-    Workshop editedWorkshop;
-
+    ArrayAdapter<CharSequence> adapter;
     HashMap<String, Integer> dateMap;
 
     // PICK_PHOTO_CODE is a constant integer
     public final static int PICK_PHOTO_CODE = 1046;
     public final static int AUTOCOMPLETE_REQUEST_CODE = 42;
+    public final static int YEAR_OFFSET = 1900;
+    public final static int HOUR_OFFSET = 1900;
 
     private final String apiKey = "AIzaSyARv5bJ1b1bnym8eUwPZlGm_7HN__WsbFE";
     @Override
@@ -77,27 +81,10 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         setContentView(R.layout.activity_new_class);
         findAllViews();
         setSubmitListener();
+        setupPlacesApi();
 
 
 
-        // Initialize Places.
-        if (!Places.isInitialized()){
-            Places.initialize(getApplicationContext(), apiKey);
-        }
-
-
-
-
-        //Create a new Places client instance.
-        PlacesClient placesClient = Places.createClient(EditClassActivity.this);
-
-
-        btLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchIntent();
-            }
-        });
 
         final DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this, EditClassActivity.this, 2019, 7, 1);
@@ -130,32 +117,59 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
 
 
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+        adapter = ArrayAdapter.createFromResource(this,
                 R.array.categories, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinCategory.setAdapter(adapter);
-
-        editedWorkshop = Parcels.unwrap(getIntent().getParcelableExtra(Workshop.class.getSimpleName()));
-
-        fillViews(editedWorkshop);
+        setCurrentDetails();
 
 
     }
 
-    private void fillViews(Workshop editedWorkshop) {
+    @TargetApi(Build.VERSION_CODES.O)
+    private void setCurrentDetails() {
+        currentWorkshop = Parcels.unwrap(getIntent().getParcelableExtra(Workshop.class.getSimpleName()));
+        etClassname.setText(currentWorkshop.getName());
+        etDescription.setText(currentWorkshop.getDescription());
+        //TODO set date
+        btLocation.setText(currentWorkshop.getLocationName());
+        etCost.setText(currentWorkshop.getCost().toString());
+        Integer categoryPosition = adapter.getPosition(currentWorkshop.getCategory());
+        spinCategory.setSelection(categoryPosition);
+        Date currentDate = currentWorkshop.getJavaDate();
 
-        etClassname.setText(editedWorkshop.getName());
-        etCost.setText(editedWorkshop.getCost().toString());
+        LocalDateTime localDateTime = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        //TODO figure out year offset
+        int year  = localDateTime.getYear() - YEAR_OFFSET;
+        int month = localDateTime.getMonthValue();
+        int day   = localDateTime.getDayOfMonth();
+        int hour = localDateTime.getHour();
+        int minute = localDateTime.getMinute();
+        etDate.setText(String.format("%d/%d/%d",month,day,year));
+        etTime.setText(String.format("%d:%d",hour,minute));
 
-        DateFormat df = new SimpleDateFormat("E MMM dd yyyy");
 
-        Date date = new Date(editedWorkshop.getDate());
-        etDate.setText(df.format(date));
-        etTime.setText(editedWorkshop.getDate().substring(10,16));
-        etDescription.setText(editedWorkshop.getDescription());
+    }
 
+    private void setupPlacesApi() {
+
+        // Initialize Places.
+        if (!Places.isInitialized()){
+            Places.initialize(getApplicationContext(), apiKey);
+        }
+
+        //Create a new Places client instance.
+        PlacesClient placesClient = Places.createClient(EditClassActivity.this);
+
+
+        btLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchSelectPlaceIntent();
+            }
+        });
     }
 
     private void setSubmitListener() {
@@ -281,8 +295,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
 
     }
 
-    private void launchIntent() {
-        Log.i(TAG, "placelookuplaunched");
+    private void launchSelectPlaceIntent() {
         // Specify the types of place data to return.
         List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
 
@@ -290,9 +303,9 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
                 .build(this);
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
-        Integer test = 0;
     }
 
 
 }
+
 

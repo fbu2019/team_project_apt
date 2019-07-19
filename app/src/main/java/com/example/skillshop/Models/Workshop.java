@@ -38,6 +38,9 @@ public class Workshop extends ParseObject {
     public  String getLocationName() {
         return getString(KEY_LOCATION_NAME).toString();
     }
+    public Date getJavaDate(){
+        return getDate(KEY_DATE);
+    }
     public void setDate(Date date) {
         put(KEY_DATE,date);
     }
