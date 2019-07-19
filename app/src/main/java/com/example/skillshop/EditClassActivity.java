@@ -33,7 +33,11 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.parceler.Parcels;
+
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -58,6 +62,8 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     ParseGeoPoint location;
     String locationName;
 
+    Workshop editedWorkshop;
+
     HashMap<String, Integer> dateMap;
 
     // PICK_PHOTO_CODE is a constant integer
@@ -78,6 +84,9 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         if (!Places.isInitialized()){
             Places.initialize(getApplicationContext(), apiKey);
         }
+
+
+
 
         //Create a new Places client instance.
         PlacesClient placesClient = Places.createClient(EditClassActivity.this);
@@ -128,6 +137,24 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         // Apply the adapter to the spinner
         spinCategory.setAdapter(adapter);
 
+        editedWorkshop = Parcels.unwrap(getIntent().getParcelableExtra(Workshop.class.getSimpleName()));
+
+        fillViews(editedWorkshop);
+
+
+    }
+
+    private void fillViews(Workshop editedWorkshop) {
+
+        etClassname.setText(editedWorkshop.getName());
+        etCost.setText(editedWorkshop.getCost().toString());
+
+        DateFormat df = new SimpleDateFormat("E MMM dd yyyy");
+
+        Date date = new Date(editedWorkshop.getDate());
+        etDate.setText(df.format(date));
+        etTime.setText(editedWorkshop.getDate().substring(10,16));
+        etDescription.setText(editedWorkshop.getDescription());
 
     }
 
