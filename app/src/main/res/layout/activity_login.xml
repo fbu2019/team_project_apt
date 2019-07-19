@@ -60,7 +60,6 @@
         android:layout_marginTop="132dp"
         android:fontFamily="sans-serif-smallcaps"
         android:text="Welcome to Skillshop"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"

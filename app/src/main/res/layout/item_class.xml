@@ -74,7 +74,6 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:text="Cooking 101"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintBottom_toTopOf="@+id/tvInstructor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

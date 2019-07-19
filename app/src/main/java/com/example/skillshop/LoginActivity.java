@@ -74,9 +74,20 @@ public class LoginActivity extends AppCompatActivity {
             fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                 @Override
                 public void onSuccess(LoginResult loginResult) {
-                    //nextActivity(Profile.getCurrentProfile());
-                    Intent i = new Intent(LoginActivity.this, FragmentHandler.class);
-                    startActivity(i);
+                   Profile profile = Profile.getCurrentProfile();
+                   ParseUser user = ParseUser.getCurrentUser();
+
+                   String firstName = profile.getFirstName();
+                   String lastName = profile.getLastName();
+                   String fbID = profile.getId();
+
+                   user.put("firstName", firstName);
+                   user.put("lastName", lastName);
+                   user.put("facebookID", fbID);
+
+
+                   Intent i = new Intent(LoginActivity.this, FragmentHandler.class);
+                   startActivity(i);
                 }
 
                 @Override

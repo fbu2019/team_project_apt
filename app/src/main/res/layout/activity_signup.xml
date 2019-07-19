@@ -14,7 +14,6 @@
         android:layout_marginTop="160dp"
         android:fontFamily="sans-serif-smallcaps"
         android:text="Sign Up Here"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"

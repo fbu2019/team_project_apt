@@ -13,7 +13,6 @@
         android:layout_marginEnd="100dp"
         android:layout_marginRight="100dp"
         android:text="$$"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvTime" />
 
@@ -51,7 +50,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="Soccer"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.228"
         app:layout_constraintStart_toEndOf="@+id/ivProfile"
@@ -65,7 +63,6 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:text="Moises"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintStart_toEndOf="@+id/etInstructor"
         app:layout_constraintTop_toBottomOf="@+id/tvClassName" />
 
@@ -79,7 +76,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="Soccer"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
@@ -92,7 +88,6 @@
         android:layout_marginStart="48dp"
         android:layout_marginLeft="48dp"
         android:text="Sep 6 2019"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvTime" />
 
@@ -106,7 +101,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="2 pm"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintEnd_toStartOf="@+id/tvCost"
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toEndOf="@+id/tvDate"
@@ -120,7 +114,6 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="20dp"
         android:text="Menlo Park"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintStart_toEndOf="@+id/etInstructor"
         app:layout_constraintTop_toBottomOf="@+id/tvInstructor" />
 
