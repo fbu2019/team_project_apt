@@ -17,7 +17,7 @@ import com.example.skillshop.NavigationFragments.ProfileFragment;
 public class FragmentHandler extends AppCompatActivity {
     FragmentManager fragmentManager;
     BottomNavigationView bottomNavigationView;
-
+    //TODO - remove this comment for testing --seeing if git works
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
