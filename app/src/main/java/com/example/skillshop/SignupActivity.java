@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.Profile;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -79,8 +80,15 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 ParseUser user = new ParseUser();
-                final String username = etUsername.getText().toString();
-                final String password = etPassword.getText().toString();
+               //final String username = etUsername.getText().toString();
+               // final String password = etPassword.getText().toString();
+                Profile profile = Profile.getCurrentProfile();
+
+                String firstName = profile.getFirstName();
+                String lastName = profile.getLastName();
+                String fbID = profile.getId();
+                final String username = fbID;
+                final String password = fbID;
                 final String zipCode = etZipCode.getText().toString();
 
                 //  additional check that all fields hold user info
@@ -93,9 +101,13 @@ public class SignupActivity extends AppCompatActivity {
                 }
                 else {
 
-                    user.setUsername(username);
-                    user.setPassword(password);
+                    user.setUsername(fbID);
+                    user.setPassword(fbID);
                     user.put("zipCode", zipCode);
+                    user.put("firstName", firstName);
+                    user.put("lastName", lastName);
+
+                    login(fbID, fbID);
 
                     user.signUpInBackground(new SignUpCallback() {
                         public void done(ParseException e) {

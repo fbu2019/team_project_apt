@@ -22,6 +22,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.facebook.login.Login;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -38,10 +39,12 @@ public class LoginActivity extends AppCompatActivity {
 
     public static String userId;
     public static String userName;
+
+    ProfileTracker mProfileTracker;
+
     LoginButton fbLoginButton;
     Button signUpButton;
     Button loginButton;
-    //  Button testButton;
     TextView welcomeMessage;
     EditText etUsernameInput;
     EditText etPasswordInput;
@@ -64,7 +67,6 @@ public class LoginActivity extends AppCompatActivity {
             setContentView(R.layout.activity_login);
 
             welcomeMessage = findViewById(R.id.welcomeMessage);
-            //  testButton = findViewById(R.id.continueNext);
             loginButton = findViewById(R.id.loginButton);
             etUsernameInput = findViewById(R.id.etUsername);
             etPasswordInput = findViewById(R.id.etPassword);
@@ -73,47 +75,39 @@ public class LoginActivity extends AppCompatActivity {
             fbLoginButton = (LoginButton) findViewById(R.id.login_button);
             checkLoginStatus();
 
-            fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
+
                 @Override
                 public void onSuccess(LoginResult loginResult) {
-                   Profile profile = Profile.getCurrentProfile();
-                   ParseUser user = ParseUser.getCurrentUser();
-
-                   String firstName = profile.getFirstName();
-                   String lastName = profile.getLastName();
-                   String fbID = profile.getId();
-
-                   user.put("firstName", firstName);
-                   user.put("lastName", lastName);
-                   user.put("facebookID", fbID);
-
-
-                    final String username = etUsernameInput.getText().toString();
-                    final String password = etPasswordInput.getText().toString();
-                    Log.i("Login Activity", username);
-                    Log.i("Login Activity", password);
-
-                    if (username.trim().length()==0 || password.trim().length()==0){
-                        Log.i("Signup", "Username is "+username+". Password is "+password+".");
-                        Toast.makeText(LoginActivity.this, "All fields must be filled", Toast.LENGTH_LONG).show();
-                    } else {
-                        login(username, password);
+                    if(Profile.getCurrentProfile() == null) {
+                        mProfileTracker = new ProfileTracker() {
+                          @Override
+                         protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+                              Log.v("facebook - profile", currentProfile.getFirstName());
+                              nextActivity(currentProfile);
+                              mProfileTracker.stopTracking();
+                          }
+                     };
                     }
-
-                   Intent i = new Intent(LoginActivity.this, FragmentHandler.class);
-                   startActivity(i);
+                    else {
+                    Profile profile = Profile.getCurrentProfile();
+                    nextActivity(profile);
+                    Log.v("facebook - profile", profile.getFirstName());
+                    }
                 }
 
                 @Override
                 public void onCancel() {
-
+                    setResult(RESULT_CANCELED);
                 }
 
                 @Override
                 public void onError(FacebookException error) {
 
                 }
-            });
+            };
+
+            fbLoginButton.registerCallback(callbackManager, callback);
 
 
             loginButton.setOnClickListener(new View.OnClickListener() {
@@ -134,6 +128,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
 
+
             signUpButton = findViewById(R.id.signUpButton);
             signUpButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -143,36 +138,33 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
 
-            /*
-            testButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    continueToMain();
-                }
-            });
-            */
         }
     }
 
     private void login(String username, String password) {
 
+        Log.i("LoginActivity", "Readched login method");
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (e == null) {
                     Log.d("LoginActivity", "Login successful");
                     final Intent intent = new Intent(LoginActivity.this, FragmentHandler.class);
+                    Log.i("LoginActivity", "Readched login success");
                     startActivity(intent);
                     finish();
                 } else {
                     Log.e("LoginActivity", "Login failure");
                     Toast.makeText(LoginActivity.this, "Incorrect username or password", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
+
+                    //  continues to sign up activity if does not recognize facebook user
+                    Intent main = new Intent(LoginActivity.this, SignupActivity.class);
+                    startActivity(main);
                 }
             }
         });
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int responseCode, @Nullable Intent intent) {
@@ -180,22 +172,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, responseCode, intent);
     }
 
-
-    AccessTokenTracker tokenTracker = new AccessTokenTracker() {
-        @Override
-        protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-
-            if(currentAccessToken==null)
-            {
-                //txtName.setText("");
-                //txtEmail.setText("");
-                //circleImageView.setImageResource(0);
-                Toast.makeText(LoginActivity.this,"User Logged out",Toast.LENGTH_LONG).show();
-            }
-            else
-                loadUserProfile(currentAccessToken);
-        }
-    };
 
     private void loadUserProfile(AccessToken newAccessToken)
     {
@@ -240,28 +216,15 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    //  Passes intent to move app to MainActivity
     private void nextActivity(Profile profile) {
-
+        Log.i("LoginActivity", "Reached nextActivity");
         if (profile != null){
-            //TODO - Determine if this is the best way to bundle
-            Intent main = new Intent (LoginActivity.this, FragmentHandler.class);
-
-            main.putExtra("name", profile.getFirstName()); //   retrieving and putting profile attributes
-            main.putExtra("surname", profile.getLastName());
-            main.putExtra("id", profile.getId());
-            main.putExtra("imageUrl", profile.getProfilePictureUri(200, 200).toString());
-
             userId = profile.getId();
             userName = profile.getFirstName() + " " + profile.getLastName();
-            startActivity(main);
+            login(userId, userId);
+
         }
+        Log.i("LoginActivity", "rip profile is null");
     }
 
-    private void continueToMain(){
-        Intent main = new Intent (LoginActivity.this, FragmentHandler.class);
-        userId = "1234";
-        userName = "Test User";
-        startActivity(main);
-    }
 }

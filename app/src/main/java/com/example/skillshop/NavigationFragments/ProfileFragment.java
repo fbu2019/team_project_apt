@@ -66,7 +66,7 @@ public class ProfileFragment extends Fragment {
         final String zipCode = (user.getString("zipCode"));
 
         nameViewText = view.findViewById(R.id.nameView);
-        nameViewText.setText("Hello "+username+". Your current zipcode is "+zipCode+".");
+        nameViewText.setText("Hello "+user.getString("firstName")+". Your current zipcode is "+zipCode+".");
 
         //  only attempts to display profile image if user has one
         ivProfilePic = view.findViewById(R.id.profilePicture);
