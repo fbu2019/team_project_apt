@@ -1,5 +1,6 @@
 package com.example.skillshop;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -7,6 +8,8 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -21,6 +24,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.skillshop.Models.Workshop;
+import com.example.skillshop.NavigationFragments.HomeFragment;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
@@ -178,6 +182,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
                 {
                     Toast.makeText(NewClassActivity.this, "Class was made", Toast.LENGTH_SHORT).show();
                     finish();
+
                 }
                 else
                 {
@@ -186,6 +191,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
             }
         });
     }
+
 
     private void findAllViews() {
 

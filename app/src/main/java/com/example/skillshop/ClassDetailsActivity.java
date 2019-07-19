@@ -52,14 +52,41 @@ public class ClassDetailsActivity extends AppCompatActivity {
         ivClassPicture = findViewById(R.id.ivClassPicture);
         populateFields();
 
+
+        setUpClassOptions();
+
+
+
+
+    }
+
+    private void setUpClassOptions() {
+
+        ParseUser teacher = detailedWorkshop.getTeacher();
+
+
+
+        if(teacher.getUsername().equals(ParseUser.getCurrentUser().getUsername()))
+        {
+            btnSignUp.setClickable(false);
+            btnSignUp.setEnabled(false);
+        }
+
+
+
+        if(detailedWorkshop.getStudents().equals(ParseUser.getCurrentUser().getObjectId())) {
+            btnSignUp.setText("Drop Class");
+        }
+
+
+
+
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signUpForWorkshop();
             }
         });
-
-
     }
 
     private void populateFields() {
