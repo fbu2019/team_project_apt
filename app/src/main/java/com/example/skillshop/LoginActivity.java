@@ -88,6 +88,18 @@ public class LoginActivity extends AppCompatActivity {
                    user.put("facebookID", fbID);
 
 
+                    final String username = etUsernameInput.getText().toString();
+                    final String password = etPasswordInput.getText().toString();
+                    Log.i("Login Activity", username);
+                    Log.i("Login Activity", password);
+
+                    if (username.trim().length()==0 || password.trim().length()==0){
+                        Log.i("Signup", "Username is "+username+". Password is "+password+".");
+                        Toast.makeText(LoginActivity.this, "All fields must be filled", Toast.LENGTH_LONG).show();
+                    } else {
+                        login(username, password);
+                    }
+
                    Intent i = new Intent(LoginActivity.this, FragmentHandler.class);
                    startActivity(i);
                 }
