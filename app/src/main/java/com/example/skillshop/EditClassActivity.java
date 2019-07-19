@@ -82,6 +82,8 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         findAllViews();
         setSubmitListener();
         setupPlacesApi();
+        int i = 0;
+        i = 20;
 
 
 
