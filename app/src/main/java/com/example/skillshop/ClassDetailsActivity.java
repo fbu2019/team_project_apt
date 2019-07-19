@@ -35,7 +35,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
     private TextView tvCost;
     private TextView tvClassDescription;
     private Button btnClassOptions;
-    Boolean isTeacher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_class_details);
 
         detailedWorkshop = Parcels.unwrap(getIntent().getParcelableExtra(Workshop.class.getSimpleName()));
-        isTeacher = Parcels.unwrap(getIntent().getParcelableExtra("isTeacher"));
 
         //perform findViewById lookups by id in the xml file
         tvClassName = findViewById(R.id.tvClassName);
