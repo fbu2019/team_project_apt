@@ -82,6 +82,8 @@ public class Workshop extends ParseObject {
         return getRelation(KEY_STUDENTS);
     }
 
+    public Boolean isTeacher(){return (ParseUser.getCurrentUser() == getParseUser(KEY_MENTOR));}
+
 
 
 
