@@ -5,18 +5,15 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Workshop;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -37,9 +34,8 @@ public class ClassDetailsActivity extends AppCompatActivity {
     private TextView tvLocation;
     private TextView tvCost;
     private TextView tvClassDescription;
-    private Button btnSignUp;
+    private Button btnClassOptions;
     Boolean isTeacher;
-    private Button btnEditClass; //TODO add logic for showing
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +54,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
         tvCost =  findViewById(R.id.tvCost);
         tvClassDescription = findViewById(R.id.tvClassDescription);
         ivClassPicture = findViewById(R.id.ivClassPicture);
-        btnEditClass = findViewById(R.id.btEditClass);
         populateFields();
 
 
@@ -77,47 +72,48 @@ public class ClassDetailsActivity extends AppCompatActivity {
         // if user is teacher
         if(teacher.getUsername().equals(ParseUser.getCurrentUser().getUsername()))
         {
-            btnSignUp.setClickable(false);
-            btnSignUp.setEnabled(false);
+            setUpTeacherSettings();
+        }
+        else {
+
+
+            detailedWorkshop.getStudents().getQuery().findInBackground(new FindCallback() {
+                @Override
+                public void done(List objects, ParseException e) {
+
+                }
+
+                @Override
+                public void done(Object o, Throwable throwable) {
+
+                    boolean enrolled = false;
+
+
+                    for (int i = 0; i < ((ArrayList) o).size(); i++) {
+                        if (((ArrayList<ParseUser>) o).get(i).getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
+                            enrolled = true;
+                        }
+                    }
+                    toggleClassSignUp(enrolled);
+                }
+            });
         }
 
 
 
+    }
 
-        detailedWorkshop.getStudents().getQuery().findInBackground(new FindCallback() {
-            @Override
-            public void done(List objects, ParseException e) {
-
-            }
-            @Override
-            public void done(Object o, Throwable throwable) {
-
-                boolean enrolled = false;
-
-
-                for(int i = 0 ; i < ((ArrayList) o).size();i++)
-                {
-                    if(((ArrayList<ParseUser>) o).get(i).getUsername().equals(ParseUser.getCurrentUser().getUsername()))
-                    {
-                        enrolled = true;
-                    }
-                }
-                toggleClassSignUp(enrolled);
-            }
-        });
-
-
-        btnEditClass.setOnClickListener(new View.OnClickListener(){
+    private void setUpTeacherSettings() {
+        btnClassOptions.setText("Edit Class");
+        btnClassOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Intent editClassIntent = new Intent(ClassDetailsActivity.this, EditClassActivity.class);
+                final Intent profileDetailsIntent = new Intent(ClassDetailsActivity.this, EditClassActivity.class);
                 //pass in class that was selected
-                editClassIntent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(detailedWorkshop));
-
-                startActivity(editClassIntent);
+                profileDetailsIntent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(detailedWorkshop));
+                ClassDetailsActivity.this.startActivity(profileDetailsIntent);
             }
         });
-
 
     }
 
@@ -126,8 +122,8 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
         if(enrolled)
         {
-            btnSignUp.setText("Drop Class");
-            btnSignUp.setOnClickListener(new View.OnClickListener() {
+            btnClassOptions.setText("Drop Class");
+            btnClassOptions.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     dropWorkshop();
@@ -137,8 +133,8 @@ public class ClassDetailsActivity extends AppCompatActivity {
         }
         else
         {
-            btnSignUp.setText("Sign Up");
-            btnSignUp.setOnClickListener(new View.OnClickListener() {
+            btnClassOptions.setText("Sign Up");
+            btnClassOptions.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     signUpForWorkshop();
@@ -162,7 +158,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
         tvTime.setText(date.substring(11,16));
         tvLocation.setText(detailedWorkshop.getLocationName());
         tvClassDescription.setText(detailedWorkshop.getDescription());
-        btnSignUp = findViewById(R.id.btnSignUp);
+        btnClassOptions = findViewById(R.id.btnClassOptions);
 
         switch (detailedWorkshop.getCategory()) {
 
