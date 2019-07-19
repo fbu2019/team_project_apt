@@ -49,7 +49,7 @@ import java.util.List;
 
 public class EditClassActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener{
 
-    public static final String TAG = "NewClassActivity";
+    public static final String TAG = "EditClassActivity";
 
     TextView etClassname;
     TextView etDate;
@@ -61,6 +61,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     ImageView ivClassImage;
     Button btSubmit;
     Workshop currentWorkshop;
+    Workshop editedClass;
 
 
     ParseGeoPoint location;
@@ -80,11 +81,14 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_class);
         findAllViews();
-        setSubmitListener();
         setupPlacesApi();
+        setupDatePicker();
+        setCurrentDetails();
+        setSubmitListener();
 
+    }
 
-
+    private void setupDatePicker() {
 
         final DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this, EditClassActivity.this, 2019, 7, 1);
@@ -123,10 +127,10 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinCategory.setAdapter(adapter);
-        setCurrentDetails();
-
 
     }
+
+
 
     @TargetApi(Build.VERSION_CODES.O)
     private void setCurrentDetails() {
@@ -145,10 +149,17 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         int year  = localDateTime.getYear() - YEAR_OFFSET;
         int month = localDateTime.getMonthValue();
         int day   = localDateTime.getDayOfMonth();
-        int hour = localDateTime.getHour();
+        int hour = localDateTime.getHour() - HOUR_OFFSET;
         int minute = localDateTime.getMinute();
         etDate.setText(String.format("%d/%d/%d",month,day,year));
+        //dateMap.put("year",year);
+        //dateMap.put("month",month);
+        //dateMap.put("dayOfMonth",day);
         etTime.setText(String.format("%d:%d",hour,minute));
+       // dateMap.put("hourOfDay",hour);
+       // dateMap.put("minute",minute);
+
+
 
 
     }
@@ -203,25 +214,23 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
 
     private void postWorkshop() {
 
-        final Workshop newClass = new Workshop();
-
-        newClass.setDescription(etDescription.getText().toString());
-        newClass.setName(etClassname.getText().toString());
-
+        final Workshop editedClass = new Workshop();
+        editedClass.setDescription(etDescription.getText().toString());
+        editedClass.setName(etClassname.getText().toString());
         Date date = new Date(dateMap.get("year"),dateMap.get("month"),dateMap.get("dayOfMonth"),dateMap.get("hourOfDay"),dateMap.get("minute"));
-        newClass.setDate(date);
+        editedClass.setDate(date);
 
-        newClass.setCost(Double.parseDouble(etCost.getText().toString()));
+        editedClass.setCost(Double.parseDouble(etCost.getText().toString()));
 
-        newClass.setCategory(spinCategory.getSelectedItem().toString());
+        editedClass.setCategory(spinCategory.getSelectedItem().toString());
 
-        newClass.setTeacher(ParseUser.getCurrentUser());
+        editedClass.setTeacher(ParseUser.getCurrentUser());
 
-        newClass.setLocationName(locationName);
-        newClass.setLocation(location);
+        editedClass.setLocationName(btLocation.getText().toString());
+   //     newClass.setLocation(location);
 
 
-        newClass.saveInBackground(new SaveCallback() {
+        editedClass.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if(e == null)
@@ -298,7 +307,6 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     private void launchSelectPlaceIntent() {
         // Specify the types of place data to return.
         List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
-
         // Start the autocomplete intent.
         Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
                 .build(this);
