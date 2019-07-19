@@ -73,7 +73,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     public final static int PICK_PHOTO_CODE = 1046;
     public final static int AUTOCOMPLETE_REQUEST_CODE = 42;
     public final static int YEAR_OFFSET = 1900;
-    public final static int HOUR_OFFSET = 1900;
+    public final static int HOUR_OFFSET = 1;
 
     private final String apiKey = "AIzaSyARv5bJ1b1bnym8eUwPZlGm_7HN__WsbFE";
     @Override
