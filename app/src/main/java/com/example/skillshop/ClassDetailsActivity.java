@@ -33,6 +33,8 @@ public class ClassDetailsActivity extends AppCompatActivity {
     private TextView tvCost;
     private TextView tvClassDescription;
     private Button btnSignUp;
+    Boolean isTeacher;
+    private Button btnEditClass; //TODO add logic for showing
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_class_details);
 
         detailedWorkshop = Parcels.unwrap(getIntent().getParcelableExtra(Workshop.class.getSimpleName()));
+        isTeacher = Parcels.unwrap(getIntent().getParcelableExtra("isTeacher"));
 
         //perform findViewById lookups by id in the xml file
         tvClassName = findViewById(R.id.tvClassName);
@@ -87,6 +90,8 @@ public class ClassDetailsActivity extends AppCompatActivity {
                 signUpForWorkshop();
             }
         });
+
+
     }
 
     private void populateFields() {

@@ -54,11 +54,15 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
             @Override
             public void onClick(View v) {
 
-
-
                 final Intent profileDetailsIntent = new Intent(context, ClassDetailsActivity.class);
                 //pass in class that was selected
                 profileDetailsIntent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(tWorkshop));
+
+                if (tWorkshop.isTeacher()) {
+                    profileDetailsIntent.putExtra("IsTeacher", Parcels.wrap(true));
+                }else{
+                    profileDetailsIntent.putExtra("IsTeacher", Parcels.wrap(false));
+                }
                 context.startActivity(profileDetailsIntent);
             }
         });
