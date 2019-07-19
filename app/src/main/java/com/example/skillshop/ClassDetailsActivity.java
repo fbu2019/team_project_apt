@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Workshop;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
@@ -20,6 +21,9 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClassDetailsActivity extends AppCompatActivity {
 
@@ -68,7 +72,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
         ParseUser teacher = detailedWorkshop.getTeacher();
 
 
-
+        // if user is teacher
         if(teacher.getUsername().equals(ParseUser.getCurrentUser().getUsername()))
         {
             btnSignUp.setClickable(false);
@@ -77,22 +81,63 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
 
 
-        if(detailedWorkshop.getStudents().equals(ParseUser.getCurrentUser().getObjectId())) {
-            btnSignUp.setText("Drop Class");
-        }
 
-
-
-
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
+        detailedWorkshop.getStudents().getQuery().findInBackground(new FindCallback() {
             @Override
-            public void onClick(View v) {
-                signUpForWorkshop();
+            public void done(List objects, ParseException e) {
+
+            }
+            @Override
+            public void done(Object o, Throwable throwable) {
+
+                boolean enrolled = false;
+
+
+                for(int i = 0 ; i < ((ArrayList) o).size();i++)
+                {
+                    if(((ArrayList<ParseUser>) o).get(i).getUsername().equals(ParseUser.getCurrentUser().getUsername()))
+                    {
+                        enrolled = true;
+                    }
+                }
+                toggleClassSignUp(enrolled);
             }
         });
 
 
     }
+
+    private void toggleClassSignUp(final boolean enrolled)
+    {
+
+        if(enrolled)
+        {
+            btnSignUp.setText("Drop Class");
+            btnSignUp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dropWorkshop();
+
+                }
+            });
+        }
+        else
+        {
+            btnSignUp.setText("Sign Up");
+            btnSignUp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    signUpForWorkshop();
+
+                }
+            });
+        }
+
+
+
+    }
+
+
 
     private void populateFields() {
 
@@ -153,11 +198,36 @@ public class ClassDetailsActivity extends AppCompatActivity {
                 if(e == null)
                 {
                     Toast.makeText(ClassDetailsActivity.this, "You're signed up for this class!", Toast.LENGTH_SHORT).show();
+                    // TODO go home and refresh home page
                     finish();
                 }
                 else
                 {
                     Toast.makeText(ClassDetailsActivity.this, "You weren't able to sign up ", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
+    public void dropWorkshop()
+    {
+        ParseRelation<ParseUser> signedUpStudents = detailedWorkshop.getStudents();
+
+        signedUpStudents.remove(ParseUser.getCurrentUser());
+
+        detailedWorkshop.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e == null)
+                {
+                    Toast.makeText(ClassDetailsActivity.this, "You dropped this class", Toast.LENGTH_SHORT).show();
+                    // TODO go home and refresh home page
+                    finish();
+                }
+                else
+                {
+                    Toast.makeText(ClassDetailsActivity.this, "You weren't able to drop this class", Toast.LENGTH_SHORT).show();
                 }
             }
         });
