@@ -47,6 +47,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText etPasswordInput;
     CallbackManager callbackManager;
 
+    //TODO - REMOVE LATER FOR BRANCH TESTING
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
