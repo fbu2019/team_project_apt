@@ -72,7 +72,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     public final static int PICK_PHOTO_CODE = 1046;
     public final static int AUTOCOMPLETE_REQUEST_CODE = 42;
     public final static int YEAR_OFFSET = 1900;
-    public final static int HOUR_OFFSET = 1900;
+    public final static int HOUR_OFFSET = 1;
 
     private final String apiKey = "AIzaSyARv5bJ1b1bnym8eUwPZlGm_7HN__WsbFE";
     @Override
@@ -82,10 +82,6 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         findAllViews();
         setSubmitListener();
         setupPlacesApi();
-        int i = 0;
-        i = 20;
-
-
 
 
         final DatePickerDialog datePickerDialog = new DatePickerDialog(
@@ -147,7 +143,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         int year  = localDateTime.getYear() - YEAR_OFFSET;
         int month = localDateTime.getMonthValue();
         int day   = localDateTime.getDayOfMonth();
-        int hour = localDateTime.getHour();
+        int hour = localDateTime.getHour() - HOUR_OFFSET;
         int minute = localDateTime.getMinute();
         etDate.setText(String.format("%d/%d/%d",month,day,year));
         etTime.setText(String.format("%d:%d",hour,minute));
