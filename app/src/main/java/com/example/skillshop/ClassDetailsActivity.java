@@ -87,17 +87,17 @@ public class ClassDetailsActivity extends AppCompatActivity {
             @Override
             public void done(Object o, Throwable throwable) {
 
+                boolean enrolled = false;
+
 
                 for(int i = 0 ; i < ((ArrayList) o).size();i++)
                 {
                     if(((ArrayList<ParseUser>) o).get(i).getUsername().equals(ParseUser.getCurrentUser().getUsername()))
                     {
-                        toggleClassSignUp(true);
+                        enrolled = true;
                     }
                 }
-                toggleClassSignUp(false);
-
-
+                toggleClassSignUp(enrolled);
             }
         });
     }
@@ -108,9 +108,17 @@ public class ClassDetailsActivity extends AppCompatActivity {
         if(enrolled)
         {
             btnSignUp.setText("Drop Class");
+            btnSignUp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dropWorkshop();
+
+                }
+            });
         }
         else
         {
+            btnSignUp.setText("Sign Up");
             btnSignUp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -185,11 +193,36 @@ public class ClassDetailsActivity extends AppCompatActivity {
                 if(e == null)
                 {
                     Toast.makeText(ClassDetailsActivity.this, "You're signed up for this class!", Toast.LENGTH_SHORT).show();
+                    // TODO go home and refresh home page
                     finish();
                 }
                 else
                 {
                     Toast.makeText(ClassDetailsActivity.this, "You weren't able to sign up ", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
+    public void dropWorkshop()
+    {
+        ParseRelation<ParseUser> signedUpStudents = detailedWorkshop.getStudents();
+
+        signedUpStudents.remove(ParseUser.getCurrentUser());
+
+        detailedWorkshop.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e == null)
+                {
+                    Toast.makeText(ClassDetailsActivity.this, "You dropped this class", Toast.LENGTH_SHORT).show();
+                    // TODO go home and refresh home page
+                    finish();
+                }
+                else
+                {
+                    Toast.makeText(ClassDetailsActivity.this, "You weren't able to drop this class", Toast.LENGTH_SHORT).show();
                 }
             }
         });
