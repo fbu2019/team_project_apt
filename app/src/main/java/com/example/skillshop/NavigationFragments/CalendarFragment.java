@@ -94,7 +94,7 @@ public class CalendarFragment extends Fragment {
                     connectedDays.setTextColor(Color.BLUE);
 
 
-//                    calendarView.setConnectedDayIconRes(R.drawable.ic_teaching_note);
+                    calendarView.setConnectedDayIconRes(R.drawable.ic_teaching_note);
                     
 
                     calendarView.addConnectedDays(connectedDays);
