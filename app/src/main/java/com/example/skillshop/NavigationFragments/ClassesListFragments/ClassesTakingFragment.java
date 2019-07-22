@@ -1,11 +1,12 @@
 package com.example.skillshop.NavigationFragments.ClassesListFragments;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import com.example.skillshop.ClassAdapter;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.Models.Query;
+import com.example.skillshop.NewClassActivity;
 import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -37,7 +39,7 @@ public class ClassesTakingFragment extends Fragment {
 
         super.onViewCreated(view, savedInstanceState);
 
-        getAllClasses();
+        getClassesTaking();
         connectRecyclerView(view);
     }
 
@@ -58,12 +60,26 @@ public class ClassesTakingFragment extends Fragment {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvClasses.getContext(),
                 new LinearLayoutManager(getContext()).getOrientation());
         rvClasses.addItemDecoration(dividerItemDecoration);
+
+        // add button to add a class
+        FloatingActionButton fabAddClass = view.findViewById(R.id.fabAddClass);
+
+        // btn add a class
+        fabAddClass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent newClassIntent = new Intent(getContext(), NewClassActivity.class);
+                startActivity(newClassIntent);
+            }
+        });
+
     }
 
 
 
-    public void getAllClasses() {
+    public void getClassesTaking() {
 
+        // get all the classes the user is taking and display them
         Query parseQuery = new Query();
         parseQuery.getAllClasses().getClassesTaking().withItems().byTimeOfClass();
 
@@ -73,7 +89,6 @@ public class ClassesTakingFragment extends Fragment {
                 if (e == null) {
 
                     for (int i = 0; i < objects.size(); i++) {
-                        Log.d("HOME", "Workshop: " + objects.get(i).getName()+" "+objects.get(i).getDescription()+" "+objects.get(i).getDate());
                         Workshop workshopItem = objects.get(i);
                         mWorkshops.add(workshopItem);
                         classAdapter.notifyItemInserted(mWorkshops.size()-1);

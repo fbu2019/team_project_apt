@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.example.skillshop.NavigationFragments.CalendarFragment;
-import com.example.skillshop.NavigationFragments.ClassesFragment;
+import com.example.skillshop.NavigationFragments.ClassesFragmentManager;
 import com.example.skillshop.NavigationFragments.HomeFragment;
 import com.example.skillshop.NavigationFragments.ProfileFragment;
 
@@ -44,7 +44,7 @@ public class FragmentHandler extends AppCompatActivity {
                         fragment = new ProfileFragment();
                         break;
                     case R.id.classes_fragment:
-                        fragment = new ClassesFragment();
+                        fragment = new ClassesFragmentManager();
                         break;
                     default: break;
                 }
