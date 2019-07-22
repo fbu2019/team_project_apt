@@ -32,6 +32,7 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -61,7 +62,6 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     ImageView ivClassImage;
     Button btSubmit;
     Workshop currentWorkshop;
-    Workshop editedClass;
 
 
     ParseGeoPoint location;
@@ -152,16 +152,16 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         int hour = localDateTime.getHour() - HOUR_OFFSET;
         int minute = localDateTime.getMinute();
         etDate.setText(String.format("%d/%d/%d",month,day,year));
-        //dateMap.put("year",year);
-        //dateMap.put("month",month);
-        //dateMap.put("dayOfMonth",day);
+        dateMap.put("year",year);
+        dateMap.put("month",month);
+        dateMap.put("dayOfMonth",day);
         etTime.setText(String.format("%d:%d",hour,minute));
-       // dateMap.put("hourOfDay",hour);
-       // dateMap.put("minute",minute);
+        dateMap.put("hourOfDay",hour);
+        dateMap.put("minute",minute);
 
+        location = currentWorkshop.getLocation();
+        locationName = currentWorkshop.getLocationName();
 
-
-        int i = 0;
 
     }
 
@@ -214,37 +214,27 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     }
 
     private void postWorkshop() {
-
-        final Workshop editedClass = new Workshop();
-        editedClass.setDescription(etDescription.getText().toString());
-        editedClass.setName(etClassname.getText().toString());
-        Date date = new Date(dateMap.get("year"),dateMap.get("month"),dateMap.get("dayOfMonth"),dateMap.get("hourOfDay"),dateMap.get("minute"));
-        editedClass.setDate(date);
-
-        editedClass.setCost(Double.parseDouble(etCost.getText().toString()));
-
-        editedClass.setCategory(spinCategory.getSelectedItem().toString());
-
-        editedClass.setTeacher(ParseUser.getCurrentUser());
-
-        editedClass.setLocationName(btLocation.getText().toString());
-   //     newClass.setLocation(location);
-
-
-        editedClass.saveInBackground(new SaveCallback() {
+        currentWorkshop.setName(etClassname.getText().toString());
+        currentWorkshop.setDescription( etDescription.getText().toString());
+        currentWorkshop.setLocation(location);
+        currentWorkshop.setLocationName(locationName);
+        currentWorkshop.setCost(Double.parseDouble(etCost.getText().toString()));
+        currentWorkshop.setCategory(spinCategory.getSelectedItem().toString());
+        currentWorkshop.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if(e == null)
                 {
-                    Toast.makeText(EditClassActivity.this, "Class was made", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditClassActivity.this, "Changes have been saved", Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 else
                 {
-                    Toast.makeText(EditClassActivity.this, "Class wasn't made", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditClassActivity.this, "Error saving changes", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
     }
 
     private void findAllViews() {
