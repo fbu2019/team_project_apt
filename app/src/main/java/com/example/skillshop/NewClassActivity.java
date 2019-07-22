@@ -41,6 +41,7 @@ import com.parse.SaveCallback;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -96,36 +97,17 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
             }
         });
 
-        final DatePickerDialog datePickerDialog = new DatePickerDialog(
-                this, NewClassActivity.this, 2019, 7, 1);
 
-        final TimePickerDialog timePickerDialog = new TimePickerDialog(this,NewClassActivity.this,0,0,true);
+        setOnPictureUploadButton();
 
-        dateMap = new HashMap<>();
+        setTimeAndDateListeners();
 
-        ivClassImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onPickPhoto(v);
-            }
-        });
+        setSpinner();
 
+    }
 
-        etDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                datePickerDialog.show();
-            }
-        });
-
-        etTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                timePickerDialog.show();
-            }
-        });
-
-
+    public void  setSpinner()
+    {
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.categories, android.R.layout.simple_spinner_item);
@@ -133,9 +115,54 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinCategory.setAdapter(adapter);
-
-
     }
+
+    public void setOnPictureUploadButton()
+    {
+        // allow user to pick a picture from their gallery to set as image of the class
+        ivClassImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPickPhoto(v);
+            }
+        });
+    }
+
+    public void setTimeAndDateListeners()
+    {
+
+        // dates todays date
+        Calendar cal = Calendar.getInstance();
+        Date date = cal.getTime();
+
+        // initializes date picker with today's date
+        final DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this, NewClassActivity.this, date.getYear()+1900, date.getMonth(), date.getDay());
+
+        // initializes date picker with the current time
+        final TimePickerDialog timePickerDialog = new TimePickerDialog(this,NewClassActivity.this,date.getHours(),date.getMinutes(),true);
+
+        // initialize map to remember date values for class
+        dateMap = new HashMap<>();
+        // date text box when clicked launches date dialog
+        etDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePickerDialog.show();
+            }
+        });
+
+
+        // time text box when clicked launches time dialog
+        etTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timePickerDialog.show();
+            }
+        });
+    }
+
+
 
     private void setSubmitListener() {
 
@@ -150,6 +177,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
+        // adds date values to map
         dateMap.put("year",year);
         dateMap.put("month",month);
         dateMap.put("dayOfMonth",dayOfMonth);
@@ -159,10 +187,11 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+        // adds time values to map
         dateMap.put("hourOfDay",hourOfDay);
         dateMap.put("minute",minute);
         etTime.setText(String.format("%d:%d",hourOfDay,minute));
-
 
     }
 
@@ -170,9 +199,12 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
 
         final Workshop newClass = new Workshop();
 
+
         newClass.setDescription(etDescription.getText().toString());
+
         newClass.setName(etClassname.getText().toString());
 
+        // creates new date instance with values form map to post
         Date date = new Date(dateMap.get("year")-1900,dateMap.get("month"),dateMap.get("dayOfMonth"),dateMap.get("hourOfDay"),dateMap.get("minute"));
         newClass.setDate(date);
 
@@ -183,6 +215,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         newClass.setTeacher(ParseUser.getCurrentUser());
 
         newClass.setLocationName(locationName);
+
         newClass.setLocation(location);
 
 
@@ -233,6 +266,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         }
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if ((data != null) && (requestCode == PICK_PHOTO_CODE)){
@@ -256,11 +290,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
             btLocation.setText(locationName);
             LatLng latLng = place.getLatLng();
             location = new ParseGeoPoint(latLng.latitude, latLng.longitude);
-
-
-
         }
-
     }
 
     private void launchIntent() {

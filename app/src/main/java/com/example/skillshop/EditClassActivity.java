@@ -32,6 +32,7 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -49,7 +50,7 @@ import java.util.List;
 
 public class EditClassActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener{
 
-    public static final String TAG = "NewClassActivity";
+    public static final String TAG = "EditClassActivity";
 
     TextView etClassname;
     TextView etDate;
@@ -72,7 +73,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     public final static int PICK_PHOTO_CODE = 1046;
     public final static int AUTOCOMPLETE_REQUEST_CODE = 42;
     public final static int YEAR_OFFSET = 1900;
-    public final static int HOUR_OFFSET = 1900;
+    public final static int HOUR_OFFSET = 1;
 
     private final String apiKey = "AIzaSyARv5bJ1b1bnym8eUwPZlGm_7HN__WsbFE";
     @Override
@@ -80,11 +81,14 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_class);
         findAllViews();
-        setSubmitListener();
         setupPlacesApi();
+        setupDatePicker();
+        setCurrentDetails();
+        setSubmitListener();
 
+    }
 
-
+    private void setupDatePicker() {
 
         final DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this, EditClassActivity.this, 2019, 7, 1);
@@ -123,10 +127,10 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinCategory.setAdapter(adapter);
-        setCurrentDetails();
-
 
     }
+
+
 
     @TargetApi(Build.VERSION_CODES.O)
     private void setCurrentDetails() {
@@ -145,10 +149,18 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         int year  = localDateTime.getYear() - YEAR_OFFSET;
         int month = localDateTime.getMonthValue();
         int day   = localDateTime.getDayOfMonth();
-        int hour = localDateTime.getHour();
+        int hour = localDateTime.getHour() - HOUR_OFFSET;
         int minute = localDateTime.getMinute();
         etDate.setText(String.format("%d/%d/%d",month,day,year));
+        dateMap.put("year",year);
+        dateMap.put("month",month);
+        dateMap.put("dayOfMonth",day);
         etTime.setText(String.format("%d:%d",hour,minute));
+        dateMap.put("hourOfDay",hour);
+        dateMap.put("minute",minute);
+
+        location = currentWorkshop.getLocation();
+        locationName = currentWorkshop.getLocationName();
 
 
     }
@@ -202,39 +214,27 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     }
 
     private void postWorkshop() {
-
-        final Workshop newClass = new Workshop();
-
-        newClass.setDescription(etDescription.getText().toString());
-        newClass.setName(etClassname.getText().toString());
-
-        Date date = new Date(dateMap.get("year"),dateMap.get("month"),dateMap.get("dayOfMonth"),dateMap.get("hourOfDay"),dateMap.get("minute"));
-        newClass.setDate(date);
-
-        newClass.setCost(Double.parseDouble(etCost.getText().toString()));
-
-        newClass.setCategory(spinCategory.getSelectedItem().toString());
-
-        newClass.setTeacher(ParseUser.getCurrentUser());
-
-        newClass.setLocationName(locationName);
-        newClass.setLocation(location);
-
-
-        newClass.saveInBackground(new SaveCallback() {
+        currentWorkshop.setName(etClassname.getText().toString());
+        currentWorkshop.setDescription( etDescription.getText().toString());
+        currentWorkshop.setLocation(location);
+        currentWorkshop.setLocationName(locationName);
+        currentWorkshop.setCost(Double.parseDouble(etCost.getText().toString()));
+        currentWorkshop.setCategory(spinCategory.getSelectedItem().toString());
+        currentWorkshop.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if(e == null)
                 {
-                    Toast.makeText(EditClassActivity.this, "Class was made", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditClassActivity.this, "Changes have been saved", Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 else
                 {
-                    Toast.makeText(EditClassActivity.this, "Class wasn't made", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditClassActivity.this, "Error saving changes", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
     }
 
     private void findAllViews() {
@@ -298,7 +298,6 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     private void launchSelectPlaceIntent() {
         // Specify the types of place data to return.
         List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
-
         // Start the autocomplete intent.
         Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
                 .build(this);
