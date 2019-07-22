@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -120,15 +121,32 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
             tvClassName.setText(tWorkshop.getName());
             tvInstructor.setText(tWorkshop.getTeacher().getUsername());
 
+<<<<<<< HEAD
             // get date and format it for the views
+=======
+
+>>>>>>> 56ec7db83ba43631aeba0d03df906cb51ed5a270
 
             if(tvInstructor.getText().equals(ParseUser.getCurrentUser().getUsername()))
             {
                 ivTeacherBadge.setVisibility(View.VISIBLE);
+                ivTeacherBadge.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final Intent editClassIntent = new Intent(context, EditClassActivity.class);
+                        //pass in class that was selected
+                        editClassIntent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(tWorkshop));
+                        context.startActivity(editClassIntent);
+                        
+                    }
+                });
             }
 
+<<<<<<< HEAD
 
             // get dat eand format it for the views
+=======
+>>>>>>> 56ec7db83ba43631aeba0d03df906cb51ed5a270
             Date date = new Date(tWorkshop.getDate());
             DateFormat dateFormat = new SimpleDateFormat("E MMM dd");
             DateFormat timeFormat = new SimpleDateFormat("HH:mm");
