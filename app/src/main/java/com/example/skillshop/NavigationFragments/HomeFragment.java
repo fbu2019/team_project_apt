@@ -19,6 +19,8 @@ import com.example.skillshop.Models.Query;
 import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,9 +77,28 @@ public class HomeFragment extends Fragment {
 
            //     classAdapter.notifyDataSetChanged();
                   switch(position){
+
+                  case (0):{
+                      mWorkshops.clear();
+                      classAdapter.notifyDataSetChanged();
+                      populateHomeFeed();
+                      break;
+                  }
                    case (1):{
                        populateByCost();
+                       break;
                    }
+                  case(2):{
+                        //TODO multilevel drop down list
+                  }
+                  case(3): {
+
+                      populateByLocation();
+                      break;
+                  }
+                  default:
+                      break;
+
                }
             }
 
@@ -86,6 +107,31 @@ public class HomeFragment extends Fragment {
 
             }
         });
+    }
+
+    private void populateByLocation() {
+        mWorkshops.clear();
+        classAdapter.notifyDataSetChanged();
+        Query parseQuery = new Query();
+        // query add all classes with all data and sort by time of class and only show new classes
+        parseQuery.getAllClasses().withItems().byLocation().getClassesNotTaking();
+
+        parseQuery.findInBackground(new FindCallback<Workshop>() {
+            @Override
+            public void done(List<Workshop> objects, ParseException e) {
+                //
+                if (e == null) {
+                    for (int i = 0; i < objects.size(); i++) {
+                        Workshop workshopItem = objects.get(i);
+                        mWorkshops.add(workshopItem);
+                        classAdapter.notifyItemInserted(mWorkshops.size()-1);
+                    }
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
     private void populateByCost() {
@@ -136,6 +182,7 @@ public class HomeFragment extends Fragment {
 
 
     public void populateHomeFeed() {
+
 
         Query parseQuery = new Query();
         // query add all classes with all data and sort by time of class and only show new classes
