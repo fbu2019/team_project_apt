@@ -97,8 +97,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
             });
         }
 
-
-
     }
 
     private void setUpTeacherSettings() {
