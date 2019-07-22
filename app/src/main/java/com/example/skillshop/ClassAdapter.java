@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.skillshop.Models.Workshop;
+import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
@@ -89,6 +90,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
         private TextView tvTime;
         private TextView tvLocation;
         private TextView tvCost;
+        private ImageView ivTeacherBadge;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -104,6 +106,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
             tvTime =itemView.findViewById(R.id.tvTime);
             tvLocation =  itemView.findViewById(R.id.etLocation);
             tvCost =  itemView.findViewById(R.id.tvCost);
+            ivTeacherBadge = itemView.findViewById(R.id.ivTeacherBadge);
         }
 
 
@@ -117,6 +120,12 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
             tvClassName.setText(tWorkshop.getName());
 
             tvInstructor.setText(tWorkshop.getTeacher().getUsername());
+
+
+            if(tvInstructor.getText().equals(ParseUser.getCurrentUser().getUsername()))
+            {
+                ivTeacherBadge.setVisibility(View.VISIBLE);
+            }
 
 
             // get dat eand format it for the views
