@@ -24,10 +24,11 @@
 
 
     <string-array name="sorters">
+        <item>Date</item>
         <item>Cost</item>
         <item>Location</item>
         <item>Category</item>
-        <item>Date</item>
+
     </string-array>
 
 

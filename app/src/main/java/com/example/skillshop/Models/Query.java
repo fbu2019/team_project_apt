@@ -8,6 +8,7 @@ import static com.example.skillshop.Models.Workshop.KEY_CREATED_AT;
 import static com.example.skillshop.Models.Workshop.KEY_DATE;
 import static com.example.skillshop.Models.Workshop.KEY_MENTOR;
 import static com.example.skillshop.Models.Workshop.KEY_STUDENTS;
+import static com.example.skillshop.Models.Workshop.KEY_COST;
 
 public class Query extends ParseQuery<Workshop> {
 
@@ -32,6 +33,11 @@ public class Query extends ParseQuery<Workshop> {
 
     public Query byTimeOfClass() {
         addDescendingOrder(KEY_DATE);
+        return this;
+    }
+
+    public Query byCost() {
+        addAscendingOrder(KEY_COST);
         return this;
     }
 
