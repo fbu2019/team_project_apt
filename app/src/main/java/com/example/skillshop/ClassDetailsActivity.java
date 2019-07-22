@@ -19,6 +19,8 @@ import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.parceler.Parcels;
 
 import java.text.DateFormat;
@@ -224,4 +226,16 @@ public class ClassDetailsActivity extends AppCompatActivity {
             }
         });
     }
+
+    /*
+    private static JSONObject getBaseRequest() {
+        try {
+            return new JSONObject()
+                    .put("apiVersion", 2)
+                    .put("apiVersionMinor", 0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    */
 }

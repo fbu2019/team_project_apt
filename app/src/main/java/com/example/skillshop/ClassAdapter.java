@@ -115,11 +115,9 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
         private void setAllViews(Workshop tWorkshop) {
 
             tvClassName.setText(tWorkshop.getName());
-
             tvInstructor.setText(tWorkshop.getTeacher().getUsername());
 
-
-            // get dat eand format it for the views
+            // get date and format it for the views
             Date date = new Date(tWorkshop.getDate());
             DateFormat dateFormat = new SimpleDateFormat("E MMM dd");
             DateFormat timeFormat = new SimpleDateFormat("HH:mm");
