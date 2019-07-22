@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.example.skillshop.LoginActivity;
 import com.example.skillshop.R;
 import com.example.skillshop.SignupActivity;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -95,9 +96,11 @@ public class ProfileFragment extends Fragment {
         logoutButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                ParseUser.logOut();
+                ParseUser.logOut(); //  logs out ParseUser
+                LoginManager.getInstance().logOut();    //  logs out Facebook user
                 Intent i = new Intent(getContext(), LoginActivity.class);
                 startActivity(i);
+                //TODO - PROBLEM WITH LOGIC - in login activity it recognizes that ParseUser is null but facebook user is also present
             }
         });
     }

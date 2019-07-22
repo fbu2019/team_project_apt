@@ -52,8 +52,6 @@ public class LoginActivity extends AppCompatActivity {
     EditText etPasswordInput;
     CallbackManager callbackManager;
 
-    //TODO - REMOVE LATER FOR BRANCH TESTING
-    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         Profile profile = Profile.getCurrentProfile();
 
-        if (currentUser != null && currentUser.get("locationName")!= null) {
+        if (currentUser != null) {
             //  continue to next activity if user previously logged in and user has submitted location
             Intent i = new Intent(LoginActivity.this, FragmentHandler.class);
             startActivity(i);
@@ -116,8 +114,6 @@ public class LoginActivity extends AppCompatActivity {
             };
 
             fbLoginButton.registerCallback(callbackManager, callback);
-
-
             loginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -135,7 +131,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
             });
-
 
             signUpButton = findViewById(R.id.signUpButton);
             signUpButton.setOnClickListener(new View.OnClickListener() {
@@ -220,7 +215,6 @@ public class LoginActivity extends AppCompatActivity {
             userName = profile.getFirstName() + " " + profile.getLastName();
             login(userId, userId);
         }
-        Log.i("LoginActivity", "rip profile is null");
+        Log.i("LoginActivity", "Profile is null");
     }
-
 }

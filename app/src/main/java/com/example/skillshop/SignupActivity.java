@@ -29,6 +29,12 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,7 +47,6 @@ public class SignupActivity extends AppCompatActivity {
 
     TextView signupMessage;
     TextView userLocation;
-    Button submitButton;
     Button launchMapButton;
 
     ParseGeoPoint location;
@@ -55,66 +60,27 @@ public class SignupActivity extends AppCompatActivity {
         Profile profile = Profile.getCurrentProfile();
 
         launchMapButton = findViewById(R.id.launchMap);
-        submitButton = findViewById(R.id.submit);
         signupMessage = findViewById(R.id.signUpMessage);
         userLocation = findViewById(R.id.userLocation);
-        userLocation.setText("Hello "+profile.getFirstName()+". Please add and submit your current location.");
+        userLocation.setText("Hello " + profile.getFirstName() + ". Please add your current location.");
 
         // Initialize Places.
-        if (!Places.isInitialized()){
+        if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), apiKey);
         }
 
         //Create a new Places client instance.
         PlacesClient placesClient = Places.createClient(SignupActivity.this);
 
-       launchMapButton.setOnClickListener(new View.OnClickListener() {
+        launchMapButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 launchIntent();
             }
         });
-
-        submitButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                ParseUser user = new ParseUser();
-                Profile profile = Profile.getCurrentProfile();
-
-                String firstName = profile.getFirstName();
-                String lastName = profile.getLastName();
-                String fbID = profile.getId();
-                final String username = fbID;
-                final String password = fbID;
-
-                    user.setUsername(fbID);
-                    user.setPassword(fbID);
-                    user.put("userLocation", location);
-                    user.put("locationName", locationName);
-                    user.put("firstName", firstName);
-                    user.put("lastName", lastName);
-
-                    String image_url = "https://graph.facebook.com/"+fbID+"/picture?type=large";
-                    user.put("profilePicUrl", image_url);
-
-                    login(fbID, fbID);
-
-                    user.signUpInBackground(new SignUpCallback() {
-                        public void done(ParseException e) {
-                            if (e == null) {
-                                login(username, password);
-                            } else {
-                                Log.d("SignUpActivity", "Sign up failed");
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-                 }
-             });
-
     }
+
 
     private void login(String username, String password) {
 
@@ -126,7 +92,7 @@ public class SignupActivity extends AppCompatActivity {
                     final Intent intent = new Intent(SignupActivity.this, FragmentHandler.class);
                     startActivity(intent);
                     finish();
-                }   else {
+                } else {
                     Log.e("SignUpActivity", "Login failure");
                     e.printStackTrace();
                     finish();
@@ -149,14 +115,47 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if ((data != null) && (requestCode == AUTOCOMPLETE_REQUEST_CODE)){
+        if ((data != null) && (requestCode == AUTOCOMPLETE_REQUEST_CODE)) {
             Place place = Autocomplete.getPlaceFromIntent(data);
             locationName = place.getName();
             LatLng latLng = place.getLatLng();
             location = new ParseGeoPoint(latLng.latitude, latLng.longitude);
-            userLocation.setText("You are located at "+locationName);
+            userLocation.setText("You are located at " + locationName);
+
+            ParseUser user = new ParseUser();
+            Profile profile = Profile.getCurrentProfile();
+
+            String firstName = profile.getFirstName();
+            String lastName = profile.getLastName();
+            String fbID = profile.getId();
+            final String username = fbID;
+            final String password = fbID;
+
+            user.setUsername(fbID);
+            user.setPassword(fbID);
+            user.put("userLocation", location);
+            user.put("locationName", locationName);
+            user.put("firstName", firstName);
+            user.put("lastName", lastName);
+
+            String image_url = "https://graph.facebook.com/" + fbID + "/picture?type=large";
+            user.put("profilePicUrl", image_url);
+
+            login(fbID, fbID);
+
+            user.signUpInBackground(new SignUpCallback() {
+                public void done(ParseException e) {
+                    if (e == null) {
+                        login(username, password);
+                    } else {
+                        Log.d("SignUpActivity", "Sign up failed");
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
     }
+
 }
 
 
