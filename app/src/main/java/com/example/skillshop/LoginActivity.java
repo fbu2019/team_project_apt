@@ -59,13 +59,19 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ParseUser currentUser = ParseUser.getCurrentUser();
         FacebookSdk.sdkInitialize(getApplicationContext());
+        Profile profile = Profile.getCurrentProfile();
 
-        if (currentUser != null) {
-            //  continue to next activity if user previously logged in
+        if (currentUser != null && currentUser.get("locationName")!= null) {
+            //  continue to next activity if user previously logged in and user has submitted location
             Intent i = new Intent(LoginActivity.this, FragmentHandler.class);
             startActivity(i);
 
-        } else {
+        } else if(profile != null){
+            //  if user has closed app during signing up without logging out, app will resume at SignupActivity
+            Intent i = new Intent(LoginActivity.this, SignupActivity.class);
+            startActivity(i);
+        }
+         else {
             setContentView(R.layout.activity_login);
 
             welcomeMessage = findViewById(R.id.welcomeMessage);
@@ -174,7 +180,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, responseCode, intent);
     }
 
-
     private void loadUserProfile(AccessToken newAccessToken)
     {
         GraphRequest request = GraphRequest.newMeRequest(newAccessToken, new GraphRequest.GraphJSONObjectCallback() {
@@ -187,18 +192,6 @@ public class LoginActivity extends AppCompatActivity {
                     String email = object.getString("email");
                     String id = object.getString("id");
                     String image_url = "https://graph.facebook.com/"+id+ "/picture?type=normal";
-
-
-
-                    /*
-                    txtEmail.setText(email);
-                    txtName.setText(first_name +" "+last_name);
-                    RequestOptions requestOptions = new RequestOptions();
-                    requestOptions.dontAnimate();
-
-                    Glide.with(MainActivity.this).load(image_url).into(circleImageView);
-                    */
-                    //  implement later
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -226,7 +219,6 @@ public class LoginActivity extends AppCompatActivity {
             userId = profile.getId();
             userName = profile.getFirstName() + " " + profile.getLastName();
             login(userId, userId);
-
         }
         Log.i("LoginActivity", "rip profile is null");
     }
