@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -23,6 +25,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.skillshop.Models.Workshop;
+import com.example.skillshop.NavigationFragments.ClassesListFragments.ClassesTeachingFragment;
+import com.example.skillshop.NavigationFragments.HomeFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -85,7 +89,12 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         setupDatePicker();
         setCurrentDetails();
         setSubmitListener();
+    }
 
+    private void refreshDetailsPage(Workshop editedWorkshop) {
+        Intent data = new Intent();
+        data.putExtra("updated", Parcels.wrap(editedWorkshop));
+        setResult(RESULT_OK, data);
     }
 
     private void setupDatePicker() {
@@ -137,7 +146,6 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         currentWorkshop = Parcels.unwrap(getIntent().getParcelableExtra(Workshop.class.getSimpleName()));
         etClassname.setText(currentWorkshop.getName());
         etDescription.setText(currentWorkshop.getDescription());
-        //TODO set date
         btLocation.setText(currentWorkshop.getLocationName());
         etCost.setText(currentWorkshop.getCost().toString());
         Integer categoryPosition = adapter.getPosition(currentWorkshop.getCategory());
@@ -146,10 +154,10 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
 
         LocalDateTime localDateTime = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
         //TODO figure out year offset
-        int year  = localDateTime.getYear() - YEAR_OFFSET;
+        int year  = localDateTime.getYear();
         int month = localDateTime.getMonthValue();
         int day   = localDateTime.getDayOfMonth();
-        int hour = localDateTime.getHour() - HOUR_OFFSET;
+        int hour = localDateTime.getHour();
         int minute = localDateTime.getMinute();
         etDate.setText(String.format("%d/%d/%d",month,day,year));
         dateMap.put("year",year);
@@ -190,6 +198,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
             @Override
             public void onClick(View v) {
                 postWorkshop();
+
             }
         });
     }
@@ -220,12 +229,17 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         currentWorkshop.setLocationName(locationName);
         currentWorkshop.setCost(Double.parseDouble(etCost.getText().toString()));
         currentWorkshop.setCategory(spinCategory.getSelectedItem().toString());
+        Date date = new Date(dateMap.get("year") - YEAR_OFFSET ,dateMap.get("month"),dateMap.get("dayOfMonth"),dateMap.get("hourOfDay") ,dateMap.get("minute"));
+        currentWorkshop.setDate(date);
+
         currentWorkshop.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if(e == null)
                 {
-                    Toast.makeText(EditClassActivity.this, "Changes have been saved", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditClassActivity.this, "Changes have been saved (changes may take a while to be reflected in the app)", Toast.LENGTH_SHORT).show();
+                    Workshop editedWorkshop = currentWorkshop;
+                    refreshDetailsPage(editedWorkshop);
                     finish();
                 }
                 else
@@ -234,6 +248,8 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
                 }
             }
         });
+
+
 
     }
 
@@ -303,6 +319,8 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
                 .build(this);
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
     }
+
+
 
 
 }

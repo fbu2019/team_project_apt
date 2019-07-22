@@ -4,6 +4,8 @@ package com.example.skillshop.Models;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.Date;
+
 import static com.example.skillshop.Models.Workshop.KEY_CREATED_AT;
 import static com.example.skillshop.Models.Workshop.KEY_DATE;
 import static com.example.skillshop.Models.Workshop.KEY_MENTOR;
@@ -52,6 +54,14 @@ public class Query extends ParseQuery<Workshop> {
     public Query getClassesNotTaking(){
 
         whereNotEqualTo(KEY_STUDENTS,ParseUser.getCurrentUser());
+
+        return this;
+    }
+
+    public Query onDate(Long date){
+
+        Date dateOfClass = new Date(date);
+        whereEqualTo(KEY_DATE,dateOfClass);
 
         return this;
     }
