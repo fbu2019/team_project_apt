@@ -34,7 +34,7 @@ public class DaysEventsActivity extends AppCompatActivity {
 
         Long dateLong = getIntent().getLongExtra("Date",0);
         Date date = new Date(dateLong);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat("E MMM dd YYYY");
         tvDate.setText(format.format(date));
 
         connectRecyclerView();
@@ -65,7 +65,7 @@ public class DaysEventsActivity extends AppCompatActivity {
 
         Query parseQuery = new Query();
         // query add all classes with all data and sort by time of class and only show new classes
-        parseQuery.getAllClasses().withItems().byTimeOfClass();
+        parseQuery.getAllClasses().withItems().byTimeOfClass().onDate(date);
 
         parseQuery.findInBackground(new FindCallback<Workshop>() {
             @Override
