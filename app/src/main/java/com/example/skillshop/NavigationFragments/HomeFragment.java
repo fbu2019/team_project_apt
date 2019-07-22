@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.example.skillshop.ClassAdapter;
 import com.example.skillshop.Models.Workshop;
@@ -27,18 +29,36 @@ public class HomeFragment extends Fragment {
     protected ArrayList<Workshop> mWorkshops;
     protected ClassAdapter classAdapter;
 
+
+    Spinner spinSorters;
     @Override
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate((R.layout.fragment_home), container, false);
     }
 
+
+
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
+        spinSorters = view.findViewById(R.id.spinSorters);
+        setSpinner();
         populateHomeFeed();
         connectRecyclerView(view);
+    }
+
+    public void  setSpinner()
+    {
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.sorters, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinSorters.setAdapter(adapter);
     }
 
     private void connectRecyclerView(View view) {

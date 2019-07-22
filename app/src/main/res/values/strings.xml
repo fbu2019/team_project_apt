@@ -22,4 +22,11 @@
         <item>Other</item>
     </string-array>
 
+    <string-array name="sorters">
+        <item>Cost</item>
+        <item>Location</item>
+        <item>Category</item>
+        <item>Date</item>
+    </string-array>
+
 </resources>

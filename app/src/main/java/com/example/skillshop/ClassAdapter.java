@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.skillshop.Models.Workshop;
+import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
@@ -89,6 +90,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
         private TextView tvTime;
         private TextView tvLocation;
         private TextView tvCost;
+        private ImageView ivTeacherBadge;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -104,6 +106,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
             tvTime =itemView.findViewById(R.id.tvTime);
             tvLocation =  itemView.findViewById(R.id.etLocation);
             tvCost =  itemView.findViewById(R.id.tvCost);
+            ivTeacherBadge = itemView.findViewById(R.id.ivTeacherBadge);
         }
 
 
@@ -117,7 +120,18 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
             tvClassName.setText(tWorkshop.getName());
             tvInstructor.setText(tWorkshop.getTeacher().getUsername());
 
+<<<<<<< HEAD
             // get date and format it for the views
+=======
+
+            if(tvInstructor.getText().equals(ParseUser.getCurrentUser().getUsername()))
+            {
+                ivTeacherBadge.setVisibility(View.VISIBLE);
+            }
+
+
+            // get dat eand format it for the views
+>>>>>>> a00b568e90b5923ccfb70b87e688ae62f94bd073
             Date date = new Date(tWorkshop.getDate());
             DateFormat dateFormat = new SimpleDateFormat("E MMM dd");
             DateFormat timeFormat = new SimpleDateFormat("HH:mm");
