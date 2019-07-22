@@ -93,10 +93,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
                 }
             });
         }
-<<<<<<< HEAD
-
-=======
->>>>>>> 2e3e2b6ea6d47501ec017e96fd307929544a26ce
     }
 
 

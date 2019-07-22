@@ -52,11 +52,13 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        signupMessage = findViewById(R.id.signUpMessage);
+        Profile profile = Profile.getCurrentProfile();
+
         launchMapButton = findViewById(R.id.launchMap);
         submitButton = findViewById(R.id.submit);
+        signupMessage = findViewById(R.id.signUpMessage);
         userLocation = findViewById(R.id.userLocation);
-
+        userLocation.setText("Hello "+profile.getFirstName()+". Please add and submit your current location.");
 
         // Initialize Places.
         if (!Places.isInitialized()){
