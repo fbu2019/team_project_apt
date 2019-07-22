@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -36,6 +37,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
     private TextView tvClassDescription;
     private Button btnClassOptions;
 
+    private static int REQUEST_CODE = 333;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,9 +54,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
         tvCost =  findViewById(R.id.tvCost);
         tvClassDescription = findViewById(R.id.tvClassDescription);
         ivClassPicture = findViewById(R.id.ivClassPicture);
-        populateFields();
-
-
+        populateFields(detailedWorkshop);
         setUpClassOptions();
 
 
@@ -106,13 +106,25 @@ public class ClassDetailsActivity extends AppCompatActivity {
         btnClassOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Intent profileDetailsIntent = new Intent(ClassDetailsActivity.this, EditClassActivity.class);
+                final Intent editClassIntent = new Intent(ClassDetailsActivity.this, EditClassActivity.class);
                 //pass in class that was selected
-                profileDetailsIntent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(detailedWorkshop));
-                ClassDetailsActivity.this.startActivity(profileDetailsIntent);
+                editClassIntent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(detailedWorkshop));
+                ClassDetailsActivity.this.startActivityForResult(editClassIntent, REQUEST_CODE);
+
+
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,Intent data) {
+        if ((data != null) && (requestCode == REQUEST_CODE)){
+            Workshop updatedWorkshop = Parcels.unwrap(data.getParcelableExtra("updated"));
+            populateFields(updatedWorkshop);
+            detailedWorkshop = updatedWorkshop;
+
+        }
     }
 
     private void toggleClassSignUp(final boolean enrolled)
@@ -147,18 +159,18 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
 
 
-    private void populateFields() {
+    private void populateFields(Workshop workshop) {
 
-        tvClassName.setText(detailedWorkshop.getName());
-        tvInstructor.setText(detailedWorkshop.getTeacher().getUsername());
-        String date = detailedWorkshop.getDate();
+        tvClassName.setText(workshop.getName());
+        tvInstructor.setText(workshop.getTeacher().getUsername());
+        String date = workshop.getDate();
         tvDate.setText(date.substring(0,11));
         tvTime.setText(date.substring(11,16));
-        tvLocation.setText(detailedWorkshop.getLocationName());
-        tvClassDescription.setText(detailedWorkshop.getDescription());
+        tvLocation.setText(workshop.getLocationName());
+        tvClassDescription.setText(workshop.getDescription());
         btnClassOptions = findViewById(R.id.btnClassOptions);
 
-        switch (detailedWorkshop.getCategory()) {
+        switch (workshop.getCategory()) {
 
             case "Culinary":
                 ivClassPicture.setImageResource(R.drawable.cooking);
@@ -181,7 +193,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
             default: break;
         }
 
-        Double cost = detailedWorkshop.getCost();
+        Double cost = workshop.getCost();
         if(cost == 0)
         {
             tvCost.setText("Free");

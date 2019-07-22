@@ -70,6 +70,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     // PICK_PHOTO_CODE is a constant integer
     public final static int PICK_PHOTO_CODE = 1046;
     public final static int AUTOCOMPLETE_REQUEST_CODE = 42;
+    public final static int YEAR_OFFSET = 1900;
 
     private final String apiKey = "AIzaSyARv5bJ1b1bnym8eUwPZlGm_7HN__WsbFE";
     @Override
@@ -137,7 +138,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
 
         // initializes date picker with today's date
         final DatePickerDialog datePickerDialog = new DatePickerDialog(
-                this, NewClassActivity.this, date.getYear()+1900, date.getMonth(), date.getDay());
+                this, NewClassActivity.this, date.getYear()+YEAR_OFFSET, date.getMonth(), date.getDay());
 
         // initializes date picker with the current time
         final TimePickerDialog timePickerDialog = new TimePickerDialog(this,NewClassActivity.this,date.getHours(),date.getMinutes(),true);
@@ -205,7 +206,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         newClass.setName(etClassname.getText().toString());
 
         // creates new date instance with values form map to post
-        Date date = new Date(dateMap.get("year")-1900,dateMap.get("month"),dateMap.get("dayOfMonth"),dateMap.get("hourOfDay"),dateMap.get("minute"));
+        Date date = new Date(dateMap.get("year")-YEAR_OFFSET,dateMap.get("month"),dateMap.get("dayOfMonth"),dateMap.get("hourOfDay"),dateMap.get("minute"));
         newClass.setDate(date);
 
         newClass.setCost(Double.parseDouble(etCost.getText().toString()));
@@ -294,7 +295,6 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     }
 
     private void launchIntent() {
-        Log.i(TAG, "placelookuplaunched");
         // Specify the types of place data to return.
         List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
 

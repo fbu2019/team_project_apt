@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -23,6 +25,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.skillshop.Models.Workshop;
+import com.example.skillshop.NavigationFragments.ClassesListFragments.ClassesTeachingFragment;
+import com.example.skillshop.NavigationFragments.HomeFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -72,8 +76,8 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     // PICK_PHOTO_CODE is a constant integer
     public final static int PICK_PHOTO_CODE = 1046;
     public final static int AUTOCOMPLETE_REQUEST_CODE = 42;
- //   public final static int YEAR_OFFSET = 1900;
- //   public final static int HOUR_OFFSET = 1;
+    public final static int YEAR_OFFSET = 1900;
+    public final static int HOUR_OFFSET = 1;
 
     private final String apiKey = "AIzaSyARv5bJ1b1bnym8eUwPZlGm_7HN__WsbFE";
     @Override
@@ -85,7 +89,12 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         setupDatePicker();
         setCurrentDetails();
         setSubmitListener();
+    }
 
+    private void refreshDetailsPage(Workshop editedWorkshop) {
+        Intent data = new Intent();
+        data.putExtra("updated", Parcels.wrap(editedWorkshop));
+        setResult(RESULT_OK, data);
     }
 
     private void setupDatePicker() {
@@ -189,6 +198,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
             @Override
             public void onClick(View v) {
                 postWorkshop();
+
             }
         });
     }
@@ -219,7 +229,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         currentWorkshop.setLocationName(locationName);
         currentWorkshop.setCost(Double.parseDouble(etCost.getText().toString()));
         currentWorkshop.setCategory(spinCategory.getSelectedItem().toString());
-        Date date = new Date(dateMap.get("year") - 1900 ,dateMap.get("month"),dateMap.get("dayOfMonth"),dateMap.get("hourOfDay") ,dateMap.get("minute"));
+        Date date = new Date(dateMap.get("year") - YEAR_OFFSET ,dateMap.get("month"),dateMap.get("dayOfMonth"),dateMap.get("hourOfDay") ,dateMap.get("minute"));
         currentWorkshop.setDate(date);
 
         currentWorkshop.saveInBackground(new SaveCallback() {
@@ -227,7 +237,9 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
             public void done(ParseException e) {
                 if(e == null)
                 {
-                    Toast.makeText(EditClassActivity.this, "Changes have been saved", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditClassActivity.this, "Changes have been saved (changes may take a while to be reflected in the app)", Toast.LENGTH_SHORT).show();
+                    Workshop editedWorkshop = currentWorkshop;
+                    refreshDetailsPage(editedWorkshop);
                     finish();
                 }
                 else
@@ -236,6 +248,8 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
                 }
             }
         });
+
+
 
     }
 
@@ -305,6 +319,8 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
                 .build(this);
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
     }
+
+
 
 
 }
