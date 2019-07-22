@@ -72,8 +72,8 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     // PICK_PHOTO_CODE is a constant integer
     public final static int PICK_PHOTO_CODE = 1046;
     public final static int AUTOCOMPLETE_REQUEST_CODE = 42;
-    public final static int YEAR_OFFSET = 1900;
-    public final static int HOUR_OFFSET = 1;
+ //   public final static int YEAR_OFFSET = 1900;
+ //   public final static int HOUR_OFFSET = 1;
 
     private final String apiKey = "AIzaSyARv5bJ1b1bnym8eUwPZlGm_7HN__WsbFE";
     @Override
@@ -137,7 +137,6 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         currentWorkshop = Parcels.unwrap(getIntent().getParcelableExtra(Workshop.class.getSimpleName()));
         etClassname.setText(currentWorkshop.getName());
         etDescription.setText(currentWorkshop.getDescription());
-        //TODO set date
         btLocation.setText(currentWorkshop.getLocationName());
         etCost.setText(currentWorkshop.getCost().toString());
         Integer categoryPosition = adapter.getPosition(currentWorkshop.getCategory());
@@ -146,10 +145,10 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
 
         LocalDateTime localDateTime = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
         //TODO figure out year offset
-        int year  = localDateTime.getYear() - YEAR_OFFSET;
+        int year  = localDateTime.getYear();
         int month = localDateTime.getMonthValue();
         int day   = localDateTime.getDayOfMonth();
-        int hour = localDateTime.getHour() - HOUR_OFFSET;
+        int hour = localDateTime.getHour();
         int minute = localDateTime.getMinute();
         etDate.setText(String.format("%d/%d/%d",month,day,year));
         dateMap.put("year",year);
@@ -220,6 +219,9 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         currentWorkshop.setLocationName(locationName);
         currentWorkshop.setCost(Double.parseDouble(etCost.getText().toString()));
         currentWorkshop.setCategory(spinCategory.getSelectedItem().toString());
+        Date date = new Date(dateMap.get("year") - 1900 ,dateMap.get("month"),dateMap.get("dayOfMonth"),dateMap.get("hourOfDay") ,dateMap.get("minute"));
+        currentWorkshop.setDate(date);
+
         currentWorkshop.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
