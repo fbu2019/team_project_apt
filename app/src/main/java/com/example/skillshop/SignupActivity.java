@@ -29,7 +29,6 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 

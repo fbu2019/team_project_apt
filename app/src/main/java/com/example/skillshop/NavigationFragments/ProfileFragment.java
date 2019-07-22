@@ -52,6 +52,7 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate((R.layout.fragment_profile),container,false);
     }
+
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
 
@@ -135,7 +136,7 @@ public class ProfileFragment extends Fragment {
                         return;
                     }
                     Log.e(TAG, "Successfully changed zipcode");
-                    nameViewText.setText("You are located at "+locationName);
+                    nameViewText.setText("You are now located at "+locationName);
                 }
             });
         }
