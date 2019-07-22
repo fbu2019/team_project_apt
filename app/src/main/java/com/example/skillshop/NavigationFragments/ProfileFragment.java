@@ -131,7 +131,7 @@ public class ProfileFragment extends Fragment {
                         e.printStackTrace();
                         return;
                     }
-                    Log.e(TAG, "Successfully changed zipcode");
+                    Log.e(TAG, "Successfully changed location");
                     nameViewText.setText("You are located at "+locationName);
                 }
             });
