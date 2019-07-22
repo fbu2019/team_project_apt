@@ -45,11 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     ProfileTracker mProfileTracker;
 
     LoginButton fbLoginButton;
-    Button signUpButton;
-    Button loginButton;
     TextView welcomeMessage;
-    EditText etUsernameInput;
-    EditText etPasswordInput;
     CallbackManager callbackManager;
 
     @Override
@@ -73,9 +69,6 @@ public class LoginActivity extends AppCompatActivity {
 
             fbLoginButton = (LoginButton) findViewById(R.id.login_button);
             welcomeMessage = findViewById(R.id.welcomeMessage);
-            loginButton = findViewById(R.id.loginButton);
-            etUsernameInput = findViewById(R.id.etUsername);
-            etPasswordInput = findViewById(R.id.etPassword);
 
             callbackManager = CallbackManager.Factory.create();
             checkLoginStatus();
@@ -110,35 +103,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 }
             };
-
             fbLoginButton.registerCallback(callbackManager, callback);
-            loginButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    final String username = etUsernameInput.getText().toString();
-                    final String password = etPasswordInput.getText().toString();
-                    Log.i("Login Activity", username);
-                    Log.i("Login Activity", password);
-
-                    if (username.trim().length() == 0 || password.trim().length() == 0) {
-                        Log.i("Signup", "Username is " + username + ". Password is " + password + ".");
-                        Toast.makeText(LoginActivity.this, "All fields must be filled", Toast.LENGTH_LONG).show();
-                    } else {
-                        login(username, password);
-                    }
-                }
-            });
-
-            signUpButton = findViewById(R.id.signUpButton);
-            signUpButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent main = new Intent(LoginActivity.this, SignupActivity.class);
-                    startActivity(main);
-                }
-            });
-
         }
     }
 
@@ -156,7 +121,6 @@ public class LoginActivity extends AppCompatActivity {
                     finish();
                 } else {
                     Log.e("LoginActivity", "Login failure");
-                    Toast.makeText(LoginActivity.this, "Incorrect username or password", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
 
                     //  continues to sign up activity if does not recognize facebook user

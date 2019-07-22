@@ -150,9 +150,15 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
         tvClassName.setText(workshop.getName());
         tvInstructor.setText(workshop.getTeacher().getUsername());
-        String date = workshop.getDate();
-        tvDate.setText(date.substring(0,11));
-        tvTime.setText(date.substring(11,16));
+
+        // get dat eand format it for the views
+        Date date = new Date(workshop.getDate());
+        DateFormat dateFormat = new SimpleDateFormat("E MMM dd YYYY");
+        DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        tvDate.setText(dateFormat.format(date));
+        tvTime.setText(timeFormat.format(date));
+
+
         tvLocation.setText(workshop.getLocationName());
         tvClassDescription.setText(workshop.getDescription());
         btnClassOptions = findViewById(R.id.btnClassOptions);
