@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.roomorama:caldroid:3.0.1@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7fc2f6e63958ad60486d21263c1ac6f0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7fc2f6e63958ad60486d21263c1ac6f0/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.roomorama/caldroid/3.0.1/d063807db52ca7b7b62b2ed5bbae8ce58c886d3/caldroid-3.0.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

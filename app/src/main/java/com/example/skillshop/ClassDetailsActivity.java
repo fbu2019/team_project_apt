@@ -21,7 +21,10 @@ import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ClassDetailsActivity extends AppCompatActivity {
@@ -49,16 +52,16 @@ public class ClassDetailsActivity extends AppCompatActivity {
         tvClassName = findViewById(R.id.tvClassName);
         tvInstructor = findViewById(R.id.tvInstructor);
         tvDate = findViewById(R.id.tvDate);
-        tvTime =findViewById(R.id.tvTime);
-        tvLocation =  findViewById(R.id.tvLocation);
-        tvCost =  findViewById(R.id.tvCost);
+        tvTime = findViewById(R.id.tvTime);
+        tvLocation = findViewById(R.id.tvLocation);
+        tvCost = findViewById(R.id.tvCost);
         tvClassDescription = findViewById(R.id.tvClassDescription);
         ivClassPicture = findViewById(R.id.ivClassPicture);
         populateFields(detailedWorkshop);
+
+
+
         setUpClassOptions();
-
-
-
 
     }
 
@@ -66,39 +69,31 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
         ParseUser teacher = detailedWorkshop.getTeacher();
 
-
         // if user is teacher
-        if(teacher.getUsername().equals(ParseUser.getCurrentUser().getUsername()))
-        {
+        if (teacher.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
             setUpTeacherSettings();
-        }
-        else {
-
+        } else {
 
             detailedWorkshop.getStudents().getQuery().findInBackground(new FindCallback() {
                 @Override
                 public void done(List objects, ParseException e) {
-
                 }
 
                 @Override
                 public void done(Object o, Throwable throwable) {
-
+                    // go through all enrolled students and see if user is one of them
                     boolean enrolled = false;
-
-
                     for (int i = 0; i < ((ArrayList) o).size(); i++) {
                         if (((ArrayList<ParseUser>) o).get(i).getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
                             enrolled = true;
+                            break;
                         }
                     }
+                    // pass the status of student and allow them to sign up or drop a class
                     toggleClassSignUp(enrolled);
                 }
             });
         }
-
-
-
     }
 
     private void setUpTeacherSettings() {
@@ -130,32 +125,24 @@ public class ClassDetailsActivity extends AppCompatActivity {
     private void toggleClassSignUp(final boolean enrolled)
     {
 
-        if(enrolled)
-        {
+
+        if (enrolled) {
             btnClassOptions.setText("Drop Class");
-            btnClassOptions.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dropWorkshop();
-
-                }
-            });
-        }
-        else
-        {
+        } else {
             btnClassOptions.setText("Sign Up");
-            btnClassOptions.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    signUpForWorkshop();
-
-                }
-            });
         }
 
+        btnClassOptions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // if enrolled giv option to un enroll and also the opposite
+                setStatusWorkshop(!enrolled);
 
+            }
+        });
 
     }
+
 
 
 
@@ -169,6 +156,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
         tvLocation.setText(workshop.getLocationName());
         tvClassDescription.setText(workshop.getDescription());
         btnClassOptions = findViewById(R.id.btnClassOptions);
+
 
         switch (workshop.getCategory()) {
 
@@ -190,68 +178,44 @@ public class ClassDetailsActivity extends AppCompatActivity {
                 ivClassPicture.setImageResource(R.drawable.misc);
                 break;
 
-            default: break;
+            default:
+                break;
         }
+
 
         Double cost = workshop.getCost();
-        if(cost == 0)
-        {
+        if (cost == 0) {
             tvCost.setText("Free");
             tvCost.setBackground(new ColorDrawable(Color.parseColor("#00FF00")));
-        }
-        else
-        {
-            tvCost.setText("$"+cost);
+        } else {
+            tvCost.setText("$ " + cost);
         }
 
     }
 
-    public void signUpForWorkshop()
-    {
+    public void setStatusWorkshop(boolean enroll) {
+
         ParseRelation<ParseUser> signedUpStudents = detailedWorkshop.getStudents();
 
-        signedUpStudents.add(ParseUser.getCurrentUser());
+        if (enroll) {
+            // add user from list of students taking class and post this
+            signedUpStudents.add(ParseUser.getCurrentUser());
+        } else {
+            // remove user from list of students taking class and post this
+            signedUpStudents.remove(ParseUser.getCurrentUser());
+        }
 
         detailedWorkshop.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                if(e == null)
-                {
-                    Toast.makeText(ClassDetailsActivity.this, "You're signed up for this class!", Toast.LENGTH_SHORT).show();
-                    // TODO go home and refresh home page
-                    finish();
-                }
-                else
-                {
-                    Toast.makeText(ClassDetailsActivity.this, "You weren't able to sign up ", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-    }
-
-    public void dropWorkshop()
-    {
-        ParseRelation<ParseUser> signedUpStudents = detailedWorkshop.getStudents();
-
-        signedUpStudents.remove(ParseUser.getCurrentUser());
-
-        detailedWorkshop.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if(e == null)
-                {
+                if (e == null) {
                     Toast.makeText(ClassDetailsActivity.this, "You dropped this class", Toast.LENGTH_SHORT).show();
                     // TODO go home and refresh home page
                     finish();
-                }
-                else
-                {
+                } else {
                     Toast.makeText(ClassDetailsActivity.this, "You weren't able to drop this class", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
     }
-
 }

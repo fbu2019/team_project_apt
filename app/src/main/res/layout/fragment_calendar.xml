@@ -4,22 +4,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
 
 
 
-    <com.applikeysolutions.cosmocalendar.view.CalendarView
-
+    <com.skyhope.eventcalenderlibrary.CalenderEvent
         android:id="@+id/calendarView"
+        app:selector_color="@color/colorPrimary"
         android:layout_width="392dp"
         android:layout_height="475dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        app:next_icon="@drawable/ic_chevron_right_gray"
+        app:previous_icon="@drawable/ic_chevron_left_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 </android.support.constraint.ConstraintLayout>

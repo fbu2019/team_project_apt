@@ -40,7 +40,7 @@ public class ClassesTeachingFragment extends Fragment {
 
         super.onViewCreated(view, savedInstanceState);
 
-        getAllClasses();
+        getClassesTeaching();
         connectRecyclerView(view);
     }
 
@@ -63,13 +63,15 @@ public class ClassesTeachingFragment extends Fragment {
         rvClasses.addItemDecoration(dividerItemDecoration);
 
 
+        // add button to add a class
         FloatingActionButton fabAddClass = view.findViewById(R.id.fabAddClass);
 
+        // btn add a class
         fabAddClass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getContext(), NewClassActivity.class);
-                startActivity(i);
+                Intent newClassIntent = new Intent(getContext(), NewClassActivity.class);
+                startActivity(newClassIntent);
             }
         });
 
@@ -77,7 +79,9 @@ public class ClassesTeachingFragment extends Fragment {
 
 
 
-    public void getAllClasses() {
+    public void getClassesTeaching() {
+
+        // get all the classes the user is teaching and display them
 
         Query parseQuery = new Query();
         parseQuery.getAllClasses().withItems().byTimeOfClass().getClassesTeaching();
@@ -88,7 +92,6 @@ public class ClassesTeachingFragment extends Fragment {
                 if (e == null) {
 
                     for (int i = 0; i < objects.size(); i++) {
-                        Log.d("HOME", "Workshop: " + objects.get(i).getName()+" "+objects.get(i).getDescription()+" "+objects.get(i).getDate());
                         Workshop workshopItem = objects.get(i);
                         mWorkshops.add(workshopItem);
                         classAdapter.notifyItemInserted(mWorkshops.size()-1);

@@ -37,8 +37,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
-
-        getAllClasses();
+        populateHomeFeed();
         connectRecyclerView(view);
     }
 
@@ -63,18 +62,17 @@ public class HomeFragment extends Fragment {
 
 
 
-    public void getAllClasses() {
+    public void populateHomeFeed() {
 
         Query parseQuery = new Query();
+        // query add all classes with all data and sort by time of class and only show new classes
         parseQuery.getAllClasses().withItems().byTimeOfClass().getClassesNotTaking();
 
         parseQuery.findInBackground(new FindCallback<Workshop>() {
             @Override
             public void done(List<Workshop> objects, ParseException e) {
                 if (e == null) {
-
                     for (int i = 0; i < objects.size(); i++) {
-                        Log.d("HOME", "Workshop: " + objects.get(i).getName()+" "+objects.get(i).getDescription()+" "+objects.get(i).getDate());
                         Workshop workshopItem = objects.get(i);
                         mWorkshops.add(workshopItem);
                         classAdapter.notifyItemInserted(mWorkshops.size()-1);
