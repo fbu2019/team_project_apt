@@ -60,7 +60,9 @@ public class ProfileFragment extends Fragment {
         final String profilePhotoUrl = user.getString("profilePicUrl");
 
         nameViewText = view.findViewById(R.id.nameView);
-        nameViewText.setText("Hello "+user.getString("firstName")+". You are currently located at "+locationName+".");
+        if(locationName!=null && user.getString("firstName") != null) {
+            nameViewText.setText("Hello " + user.getString("firstName") + ". You are currently located at " + locationName + ".");
+        }
 
         ivProfilePic = view.findViewById(R.id.profilePicture);
         if (profilePhotoUrl != null) {
@@ -78,6 +80,7 @@ public class ProfileFragment extends Fragment {
 
         //Create a new Places client instance.
         PlacesClient placesClient = Places.createClient(getContext());
+
         submitNewLocationButton = view.findViewById(R.id.modifyLocationButton);
         submitNewLocationButton.setOnClickListener(new View.OnClickListener(){
 
