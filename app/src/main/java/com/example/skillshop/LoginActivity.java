@@ -64,41 +64,39 @@ public class LoginActivity extends AppCompatActivity {
             Intent i = new Intent(LoginActivity.this, FragmentHandler.class);
             startActivity(i);
 
-        } else if(profile != null){
+        } else if (profile != null) {
             //  if user has closed app during signing up without logging out, app will resume at SignupActivity
             Intent i = new Intent(LoginActivity.this, SignupActivity.class);
             startActivity(i);
-        }
-         else {
+        } else {
             setContentView(R.layout.activity_login);
 
+            fbLoginButton = (LoginButton) findViewById(R.id.login_button);
             welcomeMessage = findViewById(R.id.welcomeMessage);
             loginButton = findViewById(R.id.loginButton);
             etUsernameInput = findViewById(R.id.etUsername);
             etPasswordInput = findViewById(R.id.etPassword);
 
             callbackManager = CallbackManager.Factory.create();
-            fbLoginButton = (LoginButton) findViewById(R.id.login_button);
             checkLoginStatus();
 
             FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
 
                 @Override
                 public void onSuccess(LoginResult loginResult) {
-                    if(Profile.getCurrentProfile() == null) {
+                    if (Profile.getCurrentProfile() == null) {
                         mProfileTracker = new ProfileTracker() {
-                          @Override
-                         protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
-                              Log.v("facebook - profile", currentProfile.getFirstName());
-                              nextActivity(currentProfile);
-                              mProfileTracker.stopTracking();
-                          }
-                     };
-                    }
-                    else {
-                    Profile profile = Profile.getCurrentProfile();
-                    nextActivity(profile);
-                    Log.v("facebook - profile", profile.getFirstName());
+                            @Override
+                            protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+                                Log.v("facebook - profile", currentProfile.getFirstName());
+                                nextActivity(currentProfile);
+                                mProfileTracker.stopTracking();
+                            }
+                        };
+                    } else {
+                        Profile profile = Profile.getCurrentProfile();
+                        nextActivity(profile);
+                        Log.v("facebook - profile", profile.getFirstName());
                     }
                 }
 
@@ -123,8 +121,8 @@ public class LoginActivity extends AppCompatActivity {
                     Log.i("Login Activity", username);
                     Log.i("Login Activity", password);
 
-                    if (username.trim().length()==0 || password.trim().length()==0){
-                        Log.i("Signup", "Username is "+username+". Password is "+password+".");
+                    if (username.trim().length() == 0 || password.trim().length() == 0) {
+                        Log.i("Signup", "Username is " + username + ". Password is " + password + ".");
                         Toast.makeText(LoginActivity.this, "All fields must be filled", Toast.LENGTH_LONG).show();
                     } else {
                         login(username, password);
@@ -175,18 +173,16 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, responseCode, intent);
     }
 
-    private void loadUserProfile(AccessToken newAccessToken)
-    {
+    private void loadUserProfile(AccessToken newAccessToken) {
         GraphRequest request = GraphRequest.newMeRequest(newAccessToken, new GraphRequest.GraphJSONObjectCallback() {
             @Override
-            public void onCompleted(JSONObject object, GraphResponse response)
-            {
+            public void onCompleted(JSONObject object, GraphResponse response) {
                 try {
                     String first_name = object.getString("first_name");
                     String last_name = object.getString("last_name");
                     String email = object.getString("email");
                     String id = object.getString("id");
-                    String image_url = "https://graph.facebook.com/"+id+ "/picture?type=normal";
+                    String image_url = "https://graph.facebook.com/" + id + "/picture?type=normal";
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -195,22 +191,20 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         Bundle parameters = new Bundle();
-        parameters.putString("fields","first_name,last_name,email,id");
+        parameters.putString("fields", "first_name,last_name,email,id");
         request.setParameters(parameters);
         request.executeAsync();
     }
 
-    private void checkLoginStatus()
-    {
-        if(AccessToken.getCurrentAccessToken()!=null)
-        {
+    private void checkLoginStatus() {
+        if (AccessToken.getCurrentAccessToken() != null) {
             loadUserProfile(AccessToken.getCurrentAccessToken());
         }
     }
 
     private void nextActivity(Profile profile) {
         Log.i("LoginActivity", "Reached nextActivity");
-        if (profile != null){
+        if (profile != null) {
             userId = profile.getId();
             userName = profile.getFirstName() + " " + profile.getLastName();
             login(userId, userId);

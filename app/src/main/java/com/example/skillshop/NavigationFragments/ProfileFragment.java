@@ -47,11 +47,10 @@ public class ProfileFragment extends Fragment {
     ParseGeoPoint location;
     String locationName;
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate((R.layout.fragment_profile),container,false);
+        return inflater.inflate((R.layout.fragment_profile), container, false);
     }
 
     @Override
@@ -62,7 +61,7 @@ public class ProfileFragment extends Fragment {
         final String profilePhotoUrl = user.getString("profilePicUrl");
 
         nameViewText = view.findViewById(R.id.nameView);
-        if(locationName!=null && user.getString("firstName") != null) {
+        if (locationName != null && user.getString("firstName") != null) {
             nameViewText.setText("Hello " + user.getString("firstName") + ". You are currently located at " + locationName + ".");
         }
 
@@ -76,7 +75,7 @@ public class ProfileFragment extends Fragment {
         }
 
         // Initialize Places.
-        if (!Places.isInitialized()){
+        if (!Places.isInitialized()) {
             Places.initialize(getContext(), apiKey);
         }
 
@@ -84,23 +83,22 @@ public class ProfileFragment extends Fragment {
         PlacesClient placesClient = Places.createClient(getContext());
 
         submitNewLocationButton = view.findViewById(R.id.modifyLocationButton);
-        submitNewLocationButton.setOnClickListener(new View.OnClickListener(){
+        submitNewLocationButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                    launchIntent();
+                launchIntent();
             }
         });
 
         logoutButton = view.findViewById(R.id.logoutButton);
-        logoutButton.setOnClickListener(new View.OnClickListener(){
+        logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ParseUser.logOut(); //  logs out ParseUser
                 LoginManager.getInstance().logOut();    //  logs out Facebook user
                 Intent i = new Intent(getContext(), LoginActivity.class);
                 startActivity(i);
-                //TODO - PROBLEM WITH LOGIC - in login activity it recognizes that ParseUser is null but facebook user is also present
             }
         });
     }
@@ -119,7 +117,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if ((data != null) && (requestCode == AUTOCOMPLETE_REQUEST_CODE)){
+        if ((data != null) && (requestCode == AUTOCOMPLETE_REQUEST_CODE)) {
 
             Place place = Autocomplete.getPlaceFromIntent(data);
             locationName = place.getName();
@@ -133,13 +131,13 @@ public class ProfileFragment extends Fragment {
             user.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
-                    if(e != null){
+                    if (e != null) {
                         Log.d(TAG, "ERROR WHILE SAVING");
                         e.printStackTrace();
                         return;
                     }
-                    Log.e(TAG, "Successfully changed zipcode");
-                    nameViewText.setText("You are now located at "+locationName);
+                    Log.e(TAG, "Successfully changed location");
+                    nameViewText.setText("You are now located at " + locationName);
                 }
             });
         }

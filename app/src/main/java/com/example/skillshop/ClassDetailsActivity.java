@@ -50,9 +50,9 @@ public class ClassDetailsActivity extends AppCompatActivity {
         tvClassName = findViewById(R.id.tvClassName);
         tvInstructor = findViewById(R.id.tvInstructor);
         tvDate = findViewById(R.id.tvDate);
-        tvTime =findViewById(R.id.tvTime);
-        tvLocation =  findViewById(R.id.tvLocation);
-        tvCost =  findViewById(R.id.tvCost);
+        tvTime = findViewById(R.id.tvTime);
+        tvLocation = findViewById(R.id.tvLocation);
+        tvCost = findViewById(R.id.tvCost);
         tvClassDescription = findViewById(R.id.tvClassDescription);
         ivClassPicture = findViewById(R.id.ivClassPicture);
         btnClassOptions = findViewById(R.id.btnClassOptions);
@@ -68,16 +68,15 @@ public class ClassDetailsActivity extends AppCompatActivity {
         ParseUser teacher = detailedWorkshop.getTeacher();
 
         // if user is teacher
-        if(teacher.getUsername().equals(ParseUser.getCurrentUser().getUsername()))
-        {
+        if (teacher.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
             setUpTeacherSettings();
-        }
-        else {
+        } else {
 
             detailedWorkshop.getStudents().getQuery().findInBackground(new FindCallback() {
                 @Override
                 public void done(List objects, ParseException e) {
                 }
+
                 @Override
                 public void done(Object o, Throwable throwable) {
                     // go through all enrolled students and see if user is one of them
@@ -95,7 +94,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
         }
     }
 
-
     private void setUpTeacherSettings() {
         btnClassOptions.setText("Edit Class");
         btnClassOptions.setOnClickListener(new View.OnClickListener() {
@@ -110,14 +108,11 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
     }
 
-    private void toggleClassSignUp(final boolean enrolled)
-    {
+    private void toggleClassSignUp(final boolean enrolled) {
 
-        if(enrolled)
-        {
+        if (enrolled) {
             btnClassOptions.setText("Drop Class");
-        }
-        else {
+        } else {
             btnClassOptions.setText("Sign Up");
         }
 
@@ -168,35 +163,28 @@ public class ClassDetailsActivity extends AppCompatActivity {
                 ivClassPicture.setImageResource(R.drawable.misc);
                 break;
 
-            default: break;
+            default:
+                break;
         }
 
         Double cost = detailedWorkshop.getCost();
-        if(cost == 0)
-        {
+        if (cost == 0) {
             tvCost.setText("Free");
             tvCost.setBackground(new ColorDrawable(Color.parseColor("#00FF00")));
-        }
-        else
-        {
-            tvCost.setText("$ "+cost);
+        } else {
+            tvCost.setText("$ " + cost);
         }
 
     }
 
-
-
-
-    public void setStatusWorkshop(boolean enroll)
-    {
+    public void setStatusWorkshop(boolean enroll) {
 
         ParseRelation<ParseUser> signedUpStudents = detailedWorkshop.getStudents();
 
-        if(enroll) {
+        if (enroll) {
             // add user from list of students taking class and post this
             signedUpStudents.add(ParseUser.getCurrentUser());
-        }
-        else {
+        } else {
             // remove user from list of students taking class and post this
             signedUpStudents.remove(ParseUser.getCurrentUser());
         }
@@ -204,14 +192,11 @@ public class ClassDetailsActivity extends AppCompatActivity {
         detailedWorkshop.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                if(e == null)
-                {
+                if (e == null) {
                     Toast.makeText(ClassDetailsActivity.this, "You dropped this class", Toast.LENGTH_SHORT).show();
                     // TODO go home and refresh home page
                     finish();
-                }
-                else
-                {
+                } else {
                     Toast.makeText(ClassDetailsActivity.this, "You weren't able to drop this class", Toast.LENGTH_SHORT).show();
                 }
             }
