@@ -1,39 +1,26 @@
 package com.example.skillshop.NavigationFragments;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.applandeo.materialcalendarview.EventDay;
-import com.applandeo.materialcalendarview.exceptions.OutOfDateRangeException;
-import com.applandeo.materialcalendarview.listeners.OnCalendarPageChangeListener;
-import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
-import com.applikeysolutions.cosmocalendar.listeners.OnMonthChangeListener;
 import com.applikeysolutions.cosmocalendar.model.Day;
-import com.applikeysolutions.cosmocalendar.model.Month;
 import com.applikeysolutions.cosmocalendar.settings.appearance.ConnectedDayIconPosition;
 import com.applikeysolutions.cosmocalendar.settings.lists.connected_days.ConnectedDays;
 import com.applikeysolutions.cosmocalendar.view.CalendarView;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Workshop;
-import com.example.skillshop.NewClassActivity;
 import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -41,6 +28,11 @@ import java.util.TreeSet;
 public class CalendarFragment extends Fragment {
 
     CalendarView calendarView;
+    ConnectedDays connectedDaysTaking;
+    ConnectedDays connectedDaysTeaching;
+    ConnectedDays connectedDaysOverlap;
+
+
 
 
     @Nullable
@@ -58,13 +50,48 @@ public class CalendarFragment extends Fragment {
         calendarView = view.findViewById(R.id.calendarView);
 
         populateCalendarClassesTaking();
-        populateCalendarClassesTeaching();
+
+
 
         calendarView.setConnectedDayIconPosition(ConnectedDayIconPosition.TOP);
 
+    }
+
+    public void displayColorPatterns()
+    {
+        Set<Long> days = new TreeSet<>();
+        connectedDaysOverlap = new ConnectedDays(days, Color.MAGENTA, Color.BLACK, Color.BLACK);
+
+        Iterator<Long> dayTakingIterator = connectedDaysTaking.getDays().iterator();
+
+        while(dayTakingIterator.hasNext())
+        {
+
+            Long day = dayTakingIterator.next();
+            Date takingDay = new Date(day);
+
+            Iterator<Long> dayTeachingIterator = connectedDaysTeaching.getDays().iterator();
+
+            while(dayTeachingIterator.hasNext())
+            {
+                Date teachingDay = new Date(dayTeachingIterator.next());
+
+                if(takingDay.getDate() == teachingDay.getDate() && takingDay.getMonth() == teachingDay.getMonth() && takingDay.getYear() == teachingDay.getYear())
+                {
+                    days.add(day);
+                }
+            }
+
+        }
+
+        connectedDaysOverlap = new ConnectedDays(days, Color.MAGENTA, Color.BLACK, Color.BLACK);
+        //Connect days to calendar
+        calendarView.addConnectedDays(connectedDaysOverlap);
 
 
     }
+
+
 
     public void populateCalendarClassesTaking()
     {
@@ -85,20 +112,10 @@ public class CalendarFragment extends Fragment {
                         days.add(date.getTime());
 
                     }
-
-                    int textColor = Color.BLACK;
-                    int selectedTextColor = Color.BLACK;
-                    int disabledTextColor = Color.BLACK;
-                    ConnectedDays connectedDays = new ConnectedDays(days, textColor, selectedTextColor, disabledTextColor);
-
-                    connectedDays.setTextColor(Color.BLUE);
-
-
-//                    calendarView.setConnectedDayIconRes(R.drawable.ic_teaching_note);
-                    
-
-                    calendarView.addConnectedDays(connectedDays);
-
+                    connectedDaysTaking = new ConnectedDays(days, Color.BLUE, Color.BLACK, Color.BLACK);
+                    //Connect days to calendar
+                    calendarView.addConnectedDays(connectedDaysTaking);
+                    populateCalendarClassesTeaching();
                 } else {
                     e.printStackTrace();
                 }
@@ -126,18 +143,13 @@ public class CalendarFragment extends Fragment {
 
                     }
 
-                    int textColor = Color.BLACK;
-                    int selectedTextColor = Color.BLACK;
-                    int disabledTextColor = Color.BLACK;
-                    ConnectedDays connectedDays = new ConnectedDays(days, textColor, selectedTextColor, disabledTextColor);
 
-                    connectedDays.setTextColor(Color.RED);
+                    connectedDaysTeaching = new ConnectedDays(days, Color.RED, Color.BLACK, Color.BLACK);
 
                     //Connect days to calendar
-                    calendarView.addConnectedDays(connectedDays);
+                    calendarView.addConnectedDays(connectedDaysTeaching);
 
-
-
+                    displayColorPatterns();
 
                 } else {
                     e.printStackTrace();
