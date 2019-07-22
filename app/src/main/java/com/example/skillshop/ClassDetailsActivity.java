@@ -20,7 +20,10 @@ import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ClassDetailsActivity extends AppCompatActivity {
@@ -52,20 +55,17 @@ public class ClassDetailsActivity extends AppCompatActivity {
         tvCost =  findViewById(R.id.tvCost);
         tvClassDescription = findViewById(R.id.tvClassDescription);
         ivClassPicture = findViewById(R.id.ivClassPicture);
+        btnClassOptions = findViewById(R.id.btnClassOptions);
+
         populateFields();
 
-
         setUpClassOptions();
-
-
-
 
     }
 
     private void setUpClassOptions() {
 
         ParseUser teacher = detailedWorkshop.getTeacher();
-
 
         // if user is teacher
         if(teacher.getUsername().equals(ParseUser.getCurrentUser().getUsername()))
@@ -74,32 +74,27 @@ public class ClassDetailsActivity extends AppCompatActivity {
         }
         else {
 
-
             detailedWorkshop.getStudents().getQuery().findInBackground(new FindCallback() {
                 @Override
                 public void done(List objects, ParseException e) {
-
                 }
-
                 @Override
                 public void done(Object o, Throwable throwable) {
-
+                    // go through all enrolled students and see if user is one of them
                     boolean enrolled = false;
-
-
                     for (int i = 0; i < ((ArrayList) o).size(); i++) {
                         if (((ArrayList<ParseUser>) o).get(i).getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
                             enrolled = true;
+                            break;
                         }
                     }
+                    // pass the status of student and allow them to sign up or drop a class
                     toggleClassSignUp(enrolled);
                 }
             });
         }
-
-
-
     }
+
 
     private void setUpTeacherSettings() {
         btnClassOptions.setText("Edit Class");
@@ -121,42 +116,37 @@ public class ClassDetailsActivity extends AppCompatActivity {
         if(enrolled)
         {
             btnClassOptions.setText("Drop Class");
-            btnClassOptions.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dropWorkshop();
-
-                }
-            });
         }
-        else
-        {
+        else {
             btnClassOptions.setText("Sign Up");
-            btnClassOptions.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    signUpForWorkshop();
-
-                }
-            });
         }
 
+        btnClassOptions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // if enrolled giv option to un enroll and also the opposite
+                setStatusWorkshop(!enrolled);
 
+            }
+        });
 
     }
 
-
-
     private void populateFields() {
 
+        // get values form workshop and populate text/image views
         tvClassName.setText(detailedWorkshop.getName());
         tvInstructor.setText(detailedWorkshop.getTeacher().getUsername());
-        String date = detailedWorkshop.getDate();
-        tvDate.setText(date.substring(0,11));
-        tvTime.setText(date.substring(11,16));
         tvLocation.setText(detailedWorkshop.getLocationName());
         tvClassDescription.setText(detailedWorkshop.getDescription());
-        btnClassOptions = findViewById(R.id.btnClassOptions);
+
+        // get dat eand format it for the views
+        Date date = new Date(detailedWorkshop.getDate());
+        DateFormat dateFormat = new SimpleDateFormat("E MMM dd yyyy");
+        DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        tvDate.setText(dateFormat.format(date));
+        tvTime.setText(timeFormat.format(date));
+
 
         switch (detailedWorkshop.getCategory()) {
 
@@ -189,40 +179,27 @@ public class ClassDetailsActivity extends AppCompatActivity {
         }
         else
         {
-            tvCost.setText("$"+cost);
+            tvCost.setText("$ "+cost);
         }
 
     }
 
-    public void signUpForWorkshop()
+
+
+
+    public void setStatusWorkshop(boolean enroll)
     {
+
         ParseRelation<ParseUser> signedUpStudents = detailedWorkshop.getStudents();
 
-        signedUpStudents.add(ParseUser.getCurrentUser());
-
-        detailedWorkshop.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if(e == null)
-                {
-                    Toast.makeText(ClassDetailsActivity.this, "You're signed up for this class!", Toast.LENGTH_SHORT).show();
-                    // TODO go home and refresh home page
-                    finish();
-                }
-                else
-                {
-                    Toast.makeText(ClassDetailsActivity.this, "You weren't able to sign up ", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-    }
-
-    public void dropWorkshop()
-    {
-        ParseRelation<ParseUser> signedUpStudents = detailedWorkshop.getStudents();
-
-        signedUpStudents.remove(ParseUser.getCurrentUser());
+        if(enroll) {
+            // add user from list of students taking class and post this
+            signedUpStudents.add(ParseUser.getCurrentUser());
+        }
+        else {
+            // remove user from list of students taking class and post this
+            signedUpStudents.remove(ParseUser.getCurrentUser());
+        }
 
         detailedWorkshop.saveInBackground(new SaveCallback() {
             @Override
@@ -239,7 +216,5 @@ public class ClassDetailsActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
-
 }

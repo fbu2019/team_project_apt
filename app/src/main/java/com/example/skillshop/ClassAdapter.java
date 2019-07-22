@@ -16,7 +16,10 @@ import com.example.skillshop.Models.Workshop;
 
 import org.parceler.Parcels;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -116,21 +119,24 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
             tvInstructor.setText(tWorkshop.getTeacher().getUsername());
 
 
-            String date = tWorkshop.getDate();
-
-            tvDate.setText(date.substring(0,11));
-            tvTime.setText(date.substring(11,16));
+            // get dat eand format it for the views
+            Date date = new Date(tWorkshop.getDate());
+            DateFormat dateFormat = new SimpleDateFormat("E MMM dd");
+            DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+            tvDate.setText(dateFormat.format(date));
+            tvTime.setText(timeFormat.format(date));
             tvLocation.setText(tWorkshop.getLocationName());
 
             Double cost = tWorkshop.getCost();
+
             if(cost == 0)
             {
                 tvCost.setText("Free");
-                tvCost.setBackground(new ColorDrawable(Color.parseColor("#00FF00")));
+                tvCost.setBackground(new ColorDrawable(Color.parseColor("#00DD00")));
             }
             else
             {
-                tvCost.setText("$"+cost);
+                tvCost.setText("$ "+cost);
             }
 
             switch (tWorkshop.getCategory()) {
