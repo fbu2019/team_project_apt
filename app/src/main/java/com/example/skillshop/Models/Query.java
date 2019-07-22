@@ -61,7 +61,13 @@ public class Query extends ParseQuery<Workshop> {
     public Query onDate(Long date){
 
         Date dateOfClass = new Date(date);
-        whereEqualTo(KEY_DATE,dateOfClass);
+
+        Date lowerBound = new Date(dateOfClass.getYear(),dateOfClass.getMonth(),dateOfClass.getDate());
+        Date upperBound = new Date(dateOfClass.getYear(),dateOfClass.getMonth(),dateOfClass.getDate()+1);
+
+        whereGreaterThanOrEqualTo(KEY_DATE,lowerBound);
+        whereLessThanOrEqualTo(KEY_DATE,upperBound);
+
 
         return this;
     }
