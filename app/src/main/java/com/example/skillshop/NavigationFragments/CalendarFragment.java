@@ -1,5 +1,7 @@
 package com.example.skillshop.NavigationFragments;
 
+import android.app.usage.UsageEvents;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,17 +10,22 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.applikeysolutions.cosmocalendar.model.Day;
-import com.applikeysolutions.cosmocalendar.settings.appearance.ConnectedDayIconPosition;
 import com.applikeysolutions.cosmocalendar.settings.lists.connected_days.ConnectedDays;
-import com.applikeysolutions.cosmocalendar.view.CalendarView;
+import com.example.skillshop.ClassDetailsActivity;
+import com.example.skillshop.DaysEventsActivity;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.skyhope.eventcalenderlibrary.CalenderEvent;
+import com.skyhope.eventcalenderlibrary.listener.CalenderDayClickListener;
+import com.skyhope.eventcalenderlibrary.model.DayContainerModel;
+import com.skyhope.eventcalenderlibrary.model.Event;
 
+import org.parceler.Parcels;
+
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -27,13 +34,7 @@ import java.util.TreeSet;
 
 public class CalendarFragment extends Fragment {
 
-    CalendarView calendarView;
-    ConnectedDays connectedDaysTaking;
-    ConnectedDays connectedDaysTeaching;
-    ConnectedDays connectedDaysOverlap;
-
-
-
+    CalenderEvent calendarView;
 
     @Nullable
     @Override
@@ -51,70 +52,35 @@ public class CalendarFragment extends Fragment {
 
         populateCalendarClassesTaking();
 
+        calendarView.initCalderItemClickCallback(new CalenderDayClickListener() {
+            @Override
+            public void onGetDay(DayContainerModel dayContainerModel) {
 
+                Intent eventsToday = new Intent(getContext(), DaysEventsActivity.class);
+                getContext().startActivity(eventsToday);
 
-        calendarView.setConnectedDayIconPosition(ConnectedDayIconPosition.TOP);
-
-    }
-
-    public void displayColorPatterns()
-    {
-        Set<Long> days = new TreeSet<>();
-        connectedDaysOverlap = new ConnectedDays(days, Color.MAGENTA, Color.BLACK, Color.BLACK);
-
-        Iterator<Long> dayTakingIterator = connectedDaysTaking.getDays().iterator();
-
-        while(dayTakingIterator.hasNext())
-        {
-
-            Long day = dayTakingIterator.next();
-            Date takingDay = new Date(day);
-
-            Iterator<Long> dayTeachingIterator = connectedDaysTeaching.getDays().iterator();
-
-            while(dayTeachingIterator.hasNext())
-            {
-                Date teachingDay = new Date(dayTeachingIterator.next());
-
-                if(takingDay.getDate() == teachingDay.getDate() && takingDay.getMonth() == teachingDay.getMonth() && takingDay.getYear() == teachingDay.getYear())
-                {
-                    days.add(day);
-                }
             }
-
-        }
-
-        connectedDaysOverlap = new ConnectedDays(days, Color.MAGENTA, Color.BLACK, Color.BLACK);
-        //Connect days to calendar
-        calendarView.addConnectedDays(connectedDaysOverlap);
-
+        });
 
     }
-
 
 
     public void populateCalendarClassesTaking()
     {
         Query parseQuery = new Query();
         parseQuery.getAllClasses().withItems().byTimeOfClass().getClassesTaking();
-
         parseQuery.findInBackground(new FindCallback<Workshop>() {
             @Override
             public void done(List<Workshop> objects, ParseException e) {
                 if (e == null) {
-
-
-                    Set<Long> days = new TreeSet<>();
-
                     for (int i = 0; i < objects.size(); i++) {
                         Workshop workshopItem = objects.get(i);
                         Date date = new Date(workshopItem.getDate());
-                        days.add(date.getTime());
+                        Event event = new Event(date.getTime(), "TA",Color.RED);
+                        calendarView.addEvent(event);
 
                     }
-                    connectedDaysTaking = new ConnectedDays(days, Color.BLUE, Color.BLACK, Color.BLACK);
-                    //Connect days to calendar
-                    calendarView.addConnectedDays(connectedDaysTaking);
+
                     populateCalendarClassesTeaching();
                 } else {
                     e.printStackTrace();
@@ -122,35 +88,22 @@ public class CalendarFragment extends Fragment {
             }
         });
     }
-
     public void populateCalendarClassesTeaching()
     {
         Query parseQuery = new Query();
         parseQuery.getAllClasses().withItems().byTimeOfClass().getClassesTeaching();
-
         parseQuery.findInBackground(new FindCallback<Workshop>() {
             @Override
             public void done(List<Workshop> objects, ParseException e) {
                 if (e == null) {
-
-
-                    Set<Long> days = new TreeSet<>();
-
                     for (int i = 0; i < objects.size(); i++) {
                         Workshop workshopItem = objects.get(i);
                         Date date = new Date(workshopItem.getDate());
-                        days.add(date.getTime());
+
+                        Event event = new Event(date.getTime(), "TE",Color.BLUE);
+                        calendarView.addEvent(event);
 
                     }
-
-
-                    connectedDaysTeaching = new ConnectedDays(days, Color.RED, Color.BLACK, Color.BLACK);
-
-                    //Connect days to calendar
-                    calendarView.addConnectedDays(connectedDaysTeaching);
-
-                    displayColorPatterns();
-
                 } else {
                     e.printStackTrace();
                 }
