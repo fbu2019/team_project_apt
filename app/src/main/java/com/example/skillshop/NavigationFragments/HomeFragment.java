@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -18,6 +19,10 @@ import com.example.skillshop.Models.Query;
 import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,21 +50,124 @@ public class HomeFragment extends Fragment {
 
         super.onViewCreated(view, savedInstanceState);
         spinSorters = view.findViewById(R.id.spinSorters);
-        setSpinner();
+
         populateHomeFeed();
         connectRecyclerView(view);
+        //setSpinner();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        setSpinner();
     }
 
     public void  setSpinner()
     {
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.sorters, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinSorters.setAdapter(adapter);
+
+        //set listener for selected spinner item
+        spinSorters.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                //     classAdapter.notifyDataSetChanged();
+                switch(position){
+
+                    case (0):{
+                        mWorkshops.clear();
+                        classAdapter.notifyDataSetChanged();
+                        populateHomeFeed();
+                        break;
+                    }
+                    case (1):{
+                        populateByCost();
+                        break;
+                    }
+                    case(2):{
+                        //TODO multilevel drop down list
+                    }
+                    case(3): {
+                        final ParseQuery<ParseUser> userQuery = new ParseQuery<ParseUser>(ParseUser.class);
+                        userQuery.whereEqualTo("objectId", ParseUser.getCurrentUser().getObjectId());
+                        userQuery.findInBackground(new FindCallback<ParseUser>() {
+
+                            @Override
+                            public void done(List<ParseUser> singletonUserList, ParseException e) {
+                                ParseGeoPoint userLocation = singletonUserList.get(0).getParseGeoPoint("userLocation");
+                                populateByLocation(userLocation);
+                            }
+                        });
+                    }
+                    default:
+                        break;
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
+
+    private void populateByLocation(ParseGeoPoint userLocation) {
+        mWorkshops.clear();
+        classAdapter.notifyDataSetChanged();
+        Query parseQuery = new Query();
+        // query add all classes with all data and sort by time of class and only show new classes
+        parseQuery.getAllClasses().withItems().byLocation(userLocation).getClassesNotTaking();
+
+        parseQuery.findInBackground(new FindCallback<Workshop>() {
+            @Override
+            public void done(List<Workshop> objects, ParseException e) {
+                //
+                if (e == null) {
+                    for (int i = 0; i < objects.size(); i++) {
+                        Workshop workshopItem = objects.get(i);
+                        mWorkshops.add(workshopItem);
+                        classAdapter.notifyItemInserted(mWorkshops.size()-1);
+                    }
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+    private void populateByCost() {
+        mWorkshops.clear();
+        classAdapter.notifyDataSetChanged();
+        Query parseQuery = new Query();
+        // query add all classes with all data and sort by time of class and only show new classes
+        parseQuery.getAllClasses().withItems().byCost().getClassesNotTaking();
+
+        parseQuery.findInBackground(new FindCallback<Workshop>() {
+            @Override
+            public void done(List<Workshop> objects, ParseException e) {
+                //
+                if (e == null) {
+                    for (int i = 0; i < objects.size(); i++) {
+                        Workshop workshopItem = objects.get(i);
+                        mWorkshops.add(workshopItem);
+                        classAdapter.notifyItemInserted(mWorkshops.size()-1);
+                    }
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+
 
     private void connectRecyclerView(View view) {
         //find the RecyclerView
@@ -84,6 +192,7 @@ public class HomeFragment extends Fragment {
 
     public void populateHomeFeed() {
 
+
         Query parseQuery = new Query();
         // query add all classes with all data and sort by time of class and only show new classes
         parseQuery.getAllClasses().withItems().byTimeOfClass().getClassesNotTaking();
@@ -104,4 +213,6 @@ public class HomeFragment extends Fragment {
         });
     }
 }
+
+
 
