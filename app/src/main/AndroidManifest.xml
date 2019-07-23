@@ -16,8 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".MapActivity"></activity>
+        <activity android:name=".AddUserPreferences"></activity>
+        <activity android:name=".MapActivity" />
         <activity android:name=".PayActivity" />
         <activity android:name=".DaysEventsActivity" />
 
@@ -40,13 +40,11 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".MyFirebaseInstanceService">
+        <service android:name=".MyFirebaseInstanceService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

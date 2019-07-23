@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.skillshop.AddUserPreferences;
 import com.example.skillshop.LoginActivity;
 import com.example.skillshop.R;
 import com.example.skillshop.SignupActivity;
@@ -40,6 +41,7 @@ public class ProfileFragment extends Fragment {
     private final String apiKey = "AIzaSyARv5bJ1b1bnym8eUwPZlGm_7HN__WsbFE";
 
     TextView nameViewText;
+    TextView userPreferencesText;
     ImageView ivProfilePic;
     Button submitNewLocationButton;
     Button addPreferencesButton;
@@ -62,6 +64,7 @@ public class ProfileFragment extends Fragment {
         final String profilePhotoUrl = user.getString("profilePicUrl");
 
         nameViewText = view.findViewById(R.id.nameView);
+        userPreferencesText = view.findViewById(R.id.userPreferences);
         displayUserInfo(view, locationName, profilePhotoUrl);
 
         if (!Places.isInitialized()) {
@@ -79,6 +82,12 @@ public class ProfileFragment extends Fragment {
         });
 
         addPreferencesButton = view.findViewById(R.id.addPreferences);
+        addPreferencesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createPreferences();
+            }
+        });
 
         logoutButton = view.findViewById(R.id.logoutButton);
         logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +96,12 @@ public class ProfileFragment extends Fragment {
                 logout();
             }
         });
+    }
+
+    private void createPreferences() {
+        Intent i = new Intent(getContext(), AddUserPreferences.class);
+        startActivity(i);
+        // TODO - continue to new activity modify user preferences 
     }
 
     private void displayUserInfo(View view, String locationName, String profilePhotoUrl) {
