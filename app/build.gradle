@@ -32,6 +32,13 @@ android {
     }
 }
 
+//added for maps
+ext {
+    permissionDispatcherVersion = "3.2.0"
+    supportLibVersion = "28.0.0"
+    googlePlayVersion = "15.0.0"
+}
+//added for maps
 
 dependencies {
 
@@ -39,6 +46,9 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation 'junit:junit:4.12'
+//added for maps
+    implementation "com.android.support:support-v13:$supportLibVersion" // to remove lint error, found in .idea/libraries
+//added for maps
 
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
@@ -77,6 +87,13 @@ dependencies {
 
 
     implementation "com.android.support:support-compat:28.0.0"
+//added for maps
+
+    implementation "com.google.android.gms:play-services-maps:$googlePlayVersion"
+    implementation "com.google.android.gms:play-services-location:$googlePlayVersion"
+    implementation "com.github.hotchemi:permissionsdispatcher:$permissionDispatcherVersion"
+    annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:$permissionDispatcherVersion"
+    //added for maps
 
 }
 
