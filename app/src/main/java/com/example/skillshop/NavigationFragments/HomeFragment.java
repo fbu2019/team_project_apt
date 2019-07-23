@@ -63,6 +63,14 @@ public class HomeFragment extends Fragment {
 
     public void  setSpinners()
     {
+        setSorters();
+        setFilters();
+
+
+
+    }
+
+    private void setSorters() {
         // Create an ArrayAdapter using the string array and a default spinner layout
         final ArrayAdapter<CharSequence> sortAdapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.sorters, android.R.layout.simple_spinner_item);
@@ -114,15 +122,61 @@ public class HomeFragment extends Fragment {
             }
         });
 
+    }
 
+    private void setFilters() {
         final ArrayAdapter<CharSequence> filterAdapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.categories, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinFilters.setAdapter(filterAdapter);
-    }
 
+        //set listener for selected spinner item
+        spinFilters.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                //     classAdapter.notifyDataSetChanged();
+                switch(position){
+
+                    case (0):{
+                        mWorkshops.clear();
+                        classAdapter.notifyDataSetChanged();
+                        populateHomeFeed();
+                        break;
+                    }
+                    case (1):{
+                        populateByCost();
+                        break;
+                    }
+                    case(2):{
+
+                        final ParseQuery<ParseUser> userQuery = new ParseQuery<ParseUser>(ParseUser.class);
+                        userQuery.whereEqualTo("objectId", ParseUser.getCurrentUser().getObjectId());
+                        userQuery.findInBackground(new FindCallback<ParseUser>() {
+
+                            @Override
+                            public void done(List<ParseUser> singletonUserList, ParseException e) {
+                                ParseGeoPoint userLocation = singletonUserList.get(0).getParseGeoPoint("userLocation");
+                                populateByLocation(userLocation);
+                            }
+                        });
+                    }
+                    default:
+                        break;
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+    }
     private void populateByLocation(ParseGeoPoint userLocation) {
         mWorkshops.clear();
         classAdapter.notifyDataSetChanged();
