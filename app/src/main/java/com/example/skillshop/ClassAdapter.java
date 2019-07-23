@@ -119,14 +119,6 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
             tvClassName.setText(tWorkshop.getName());
             tvInstructor.setText(tWorkshop.getTeacher().getUsername());
 
-<<<<<<< HEAD
-
-            // get date and format it for the views
-
-=======
-            // get date and format it for the views
->>>>>>> be338c637ba73da21bc60ecde6fce72fe7f39bab
-
             if(tvInstructor.getText().equals(ParseUser.getCurrentUser().getUsername()))
             {
                 ivTeacherBadge.setVisibility(View.VISIBLE);
@@ -142,14 +134,6 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
                 });
             }
 
-<<<<<<< HEAD
-
-
-            // get dat eand format it for the views
-
-=======
-            // get dat eand format it for the views
->>>>>>> be338c637ba73da21bc60ecde6fce72fe7f39bab
             Date date = new Date(tWorkshop.getDate());
             DateFormat dateFormat = new SimpleDateFormat("E MMM dd");
             DateFormat timeFormat = new SimpleDateFormat("HH:mm");
