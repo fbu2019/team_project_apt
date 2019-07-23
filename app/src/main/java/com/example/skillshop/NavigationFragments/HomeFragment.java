@@ -230,7 +230,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                    int i = 0;
             }
         });
 
