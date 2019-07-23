@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import com.example.skillshop.ClassAdapter;
@@ -48,7 +49,7 @@ public class HomeFragment extends Fragment {
 
     Spinner spinSorters;
     Spinner spinFilters;
-    Button btnMap;
+    ImageButton btnMap;
     @Override
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
