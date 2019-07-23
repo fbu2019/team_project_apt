@@ -11,7 +11,6 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,6 @@ import com.example.skillshop.Models.Query;
 import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -43,6 +41,7 @@ public class HomeFragment extends Fragment {
 
 
     Spinner spinSorters;
+    Spinner spinFilters;
     @Override
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,7 +56,7 @@ public class HomeFragment extends Fragment {
 
         super.onViewCreated(view, savedInstanceState);
         spinSorters = view.findViewById(R.id.spinSorters);
-
+        spinFilters = view.findViewById(R.id.spinFilters);
         populateHomeFeed();
         connectRecyclerView(view);
         //setSpinner();
@@ -107,18 +106,26 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        setSpinner();
+        setSpinners();
     }
 
-    public void  setSpinner()
+    public void  setSpinners()
     {
+        setSorters();
+        setFilters();
+
+
+
+    }
+
+    private void setSorters() {
         // Create an ArrayAdapter using the string array and a default spinner layout
-        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+        final ArrayAdapter<CharSequence> sortAdapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.sorters, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sortAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        spinSorters.setAdapter(adapter);
+        spinSorters.setAdapter(sortAdapter);
 
         //set listener for selected spinner item
         spinSorters.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -139,9 +146,7 @@ public class HomeFragment extends Fragment {
                         break;
                     }
                     case(2):{
-                        //TODO multilevel drop down list
-                    }
-                    case(3): {
+
                         final ParseQuery<ParseUser> userQuery = new ParseQuery<ParseUser>(ParseUser.class);
                         userQuery.whereEqualTo("objectId", ParseUser.getCurrentUser().getObjectId());
                         userQuery.findInBackground(new FindCallback<ParseUser>() {
@@ -164,8 +169,62 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
     }
 
+    private void setFilters() {
+        final ArrayAdapter<CharSequence> filterAdapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.categories, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinFilters.setAdapter(filterAdapter);
+
+        //set listener for selected spinner item
+        spinFilters.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                //     classAdapter.notifyDataSetChanged();
+                switch(position){
+
+                    case (0):{
+                        mWorkshops.clear();
+                        classAdapter.notifyDataSetChanged();
+                        populateHomeFeed();
+                        break;
+                    }
+                    case (1):{
+                        populateByCost();
+                        break;
+                    }
+                    case(2):{
+
+                        final ParseQuery<ParseUser> userQuery = new ParseQuery<ParseUser>(ParseUser.class);
+                        userQuery.whereEqualTo("objectId", ParseUser.getCurrentUser().getObjectId());
+                        userQuery.findInBackground(new FindCallback<ParseUser>() {
+
+                            @Override
+                            public void done(List<ParseUser> singletonUserList, ParseException e) {
+                                ParseGeoPoint userLocation = singletonUserList.get(0).getParseGeoPoint("userLocation");
+                                populateByLocation(userLocation);
+                            }
+                        });
+                    }
+                    default:
+                        break;
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+    }
     private void populateByLocation(ParseGeoPoint userLocation) {
         mWorkshops.clear();
         classAdapter.notifyDataSetChanged();

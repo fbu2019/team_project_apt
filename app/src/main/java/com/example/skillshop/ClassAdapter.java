@@ -119,8 +119,6 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
             tvClassName.setText(tWorkshop.getName());
             tvInstructor.setText(tWorkshop.getTeacher().getUsername());
 
-            // get date and format it for the views
-
 
             if(tvInstructor.getText().equals(ParseUser.getCurrentUser().getUsername()))
             {
@@ -136,9 +134,6 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
                     }
                 });
             }
-
-            // get dat eand format it for the views
-
 
             Date date = new Date(tWorkshop.getDate());
             DateFormat dateFormat = new SimpleDateFormat("E MMM dd");
