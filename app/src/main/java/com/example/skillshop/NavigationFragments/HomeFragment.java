@@ -3,6 +3,8 @@ package com.example.skillshop.NavigationFragments;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.example.skillshop.ClassAdapter;
+import com.example.skillshop.FragmentHandler;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.R;
@@ -66,9 +69,6 @@ public class HomeFragment extends Fragment {
         // call this function with the title and body and any unique id you want
         notification("Welcome to the home page!","Here are classes you can sign up for",0);
 
-
-
-
     }
 
     private void createNotificationChannel() {
@@ -90,11 +90,18 @@ public class HomeFragment extends Fragment {
 
     public void notification(String headline, String body,int notificationId)
     {
+        Intent intent = new Intent(getContext(), FragmentHandler.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getContext(), 0, intent, 0);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(),CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_skill_note)
                 .setContentTitle(headline)
                 .setContentText(body)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                // Set the intent that will fire when the user taps the notification
+                .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true);
+
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getActivity());
 
