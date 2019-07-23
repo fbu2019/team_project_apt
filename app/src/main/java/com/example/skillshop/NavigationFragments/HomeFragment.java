@@ -13,6 +13,7 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ import com.example.skillshop.MapActivity;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.R;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -37,6 +39,8 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.facebook.AccessTokenManager.TAG;
 
 public class HomeFragment extends Fragment {
 
@@ -68,13 +72,6 @@ public class HomeFragment extends Fragment {
         setupMapButton(view);
         populateHomeFeed();
         connectRecyclerView(view);
-        //setSpinner();
-
-        // ceates channel for notifications
-        createNotificationChannel();
-        // call this function with the title and body and any unique id you want
-        notification("Welcome to the home page!","Here are classes you can sign up for",0);
-
     }
 
     private void setupMapButton(View view) {
@@ -90,44 +87,6 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "Skillshop";
-            String description = "notification channel for class updates";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-            channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = getActivity().getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
-    }
-
-
-    public void notification(String headline, String body,int notificationId)
-    {
-        Intent intent = new Intent(getContext(), FragmentHandler.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(getContext(), 0, intent, 0);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(),CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_skill_note)
-                .setContentTitle(headline)
-                .setContentText(body)
-                // Set the intent that will fire when the user taps the notification
-                .setContentIntent(pendingIntent)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setAutoCancel(true);
-
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getActivity());
-
-        // notificationId is a unique int for each notification that you must define
-        notificationManager.notify(notificationId, builder.build());
-
-    }
 
     @Override
     public void onStart() {

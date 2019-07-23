@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.skillshop.AddUserPreferences;
 import com.example.skillshop.LoginActivity;
 import com.example.skillshop.R;
 import com.example.skillshop.SignupActivity;
@@ -40,8 +41,10 @@ public class ProfileFragment extends Fragment {
     private final String apiKey = "AIzaSyARv5bJ1b1bnym8eUwPZlGm_7HN__WsbFE";
 
     TextView nameViewText;
+    TextView userPreferencesText;
     ImageView ivProfilePic;
     Button submitNewLocationButton;
+    Button addPreferencesButton;
     Button logoutButton;
 
     ParseGeoPoint location;
@@ -61,21 +64,28 @@ public class ProfileFragment extends Fragment {
         final String profilePhotoUrl = user.getString("profilePicUrl");
 
         nameViewText = view.findViewById(R.id.nameView);
+        userPreferencesText = view.findViewById(R.id.userPreferences);
         displayUserInfo(view, locationName, profilePhotoUrl);
 
-        // Initialize Places.
         if (!Places.isInitialized()) {
-            Places.initialize(getContext(), apiKey);
+            Places.initialize(getContext(), apiKey); // Initializes places
         }
 
-        //Create a new Places client instance.
-        PlacesClient placesClient = Places.createClient(getContext());
+        PlacesClient placesClient = Places.createClient(getContext()); // Creates a new Places client instance.
 
         submitNewLocationButton = view.findViewById(R.id.modifyLocationButton);
         submitNewLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 launchIntent();
+            }
+        });
+
+        addPreferencesButton = view.findViewById(R.id.addPreferences);
+        addPreferencesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createPreferences();
             }
         });
 
@@ -88,6 +98,12 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    private void createPreferences() {
+        Intent i = new Intent(getContext(), AddUserPreferences.class);
+        startActivity(i);
+        // TODO - continue to new activity modify user preferences 
+    }
+
     private void displayUserInfo(View view, String locationName, String profilePhotoUrl) {
 
         ParseUser user = ParseUser.getCurrentUser();
@@ -97,12 +113,22 @@ public class ProfileFragment extends Fragment {
 
         ivProfilePic = view.findViewById(R.id.profilePicture);
         if (profilePhotoUrl != null) {
-            Log.i("ProfileFragment", profilePhotoUrl);
             Glide.with(getContext()).load(profilePhotoUrl).into(ivProfilePic);
+            Log.i("ProfileFragment", profilePhotoUrl);
         } else {
             ivProfilePic.setImageBitmap(null);
             Log.i("Profile Frag", "No profile image");
         }
+
+        //TODO - MAKE PREFRENCES ARRAY AN INPUT FOR THE METHOD LATER ONCE YOU'VE ADDED TO IT
+        if (user.getJSONArray("preferences") != null) {
+            if (user.getJSONArray("preferences").length() > 1) {
+                //  retrieve first/only element of array
+            } else {
+                //  retrieve all but last element, use "and" before last element
+            }
+        }
+
     }
 
     private void logout() {

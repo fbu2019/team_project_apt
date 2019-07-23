@@ -44,6 +44,9 @@
             <!--added for maps-->
 
         </activity>
+
+        <activity android:name=".AddUserPreferences"></activity>
+
         <activity android:name=".PayActivity" />
         <activity android:name=".DaysEventsActivity" />
 
@@ -80,6 +83,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name=".MyFirebaseInstanceService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

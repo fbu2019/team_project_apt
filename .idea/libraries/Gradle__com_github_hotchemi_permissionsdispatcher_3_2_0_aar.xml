@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.hotchemi:permissionsdispatcher:3.2.0@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ac102d7fdef86da0b4324fe6ada2b765/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ac102d7fdef86da0b4324fe6ada2b765/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7aaf3f886a1f8462001a0361ba11fd99/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7aaf3f886a1f8462001a0361ba11fd99/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
