@@ -19,16 +19,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import com.example.skillshop.ClassAdapter;
 import com.example.skillshop.FragmentHandler;
+import com.example.skillshop.MapActivity;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.R;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -49,6 +53,7 @@ public class HomeFragment extends Fragment {
 
     Spinner spinSorters;
     Spinner spinFilters;
+    ImageButton btnMap;
     @Override
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,6 +69,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         spinSorters = view.findViewById(R.id.spinSorters);
         spinFilters = view.findViewById(R.id.spinFilters);
+        setupMapButton(view);
         populateHomeFeed();
         connectRecyclerView(view);
         //setSpinner();
@@ -75,6 +81,19 @@ public class HomeFragment extends Fragment {
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Refreshed token: " + refreshedToken);
 
+
+    }
+
+    private void setupMapButton(View view) {
+        btnMap = view.findViewById(R.id.btnMap);
+
+        btnMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent openMapActivity = new Intent(getContext(), MapActivity.class);
+                startActivity(openMapActivity);
+            }
+        });
 
     }
 
@@ -183,8 +202,8 @@ public class HomeFragment extends Fragment {
 
             }
         });
-
     }
+
 
     private void setFilters() {
         final ArrayAdapter<CharSequence> filterAdapter = ArrayAdapter.createFromResource(getContext(),
@@ -236,7 +255,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                    int i = 0;
             }
         });
 
@@ -302,7 +321,6 @@ public class HomeFragment extends Fragment {
         parseQuery.findInBackground(new FindCallback<Workshop>() {
             @Override
             public void done(List<Workshop> objects, ParseException e) {
-                //
                 if (e == null) {
                     for (int i = 0; i < objects.size(); i++) {
                         Workshop workshopItem = objects.get(i);
@@ -362,6 +380,5 @@ public class HomeFragment extends Fragment {
         });
     }
 }
-
 
 

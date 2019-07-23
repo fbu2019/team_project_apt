@@ -34,6 +34,9 @@
         <item>Date</item>
         <item>Cost</item>
         <item>Location</item>
+
+
     </string-array>
+
 
 </resources>
