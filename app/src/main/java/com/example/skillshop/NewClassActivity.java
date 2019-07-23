@@ -72,10 +72,11 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     public final static int AUTOCOMPLETE_REQUEST_CODE = 42;
     public final static int YEAR_OFFSET = 1900;
 
-    private final String apiKey = "AIzaSyARv5bJ1b1bnym8eUwPZlGm_7HN__WsbFE";
+    private String apiKey;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        apiKey = this.getResources().getString(R.string.places_api_key);
         setContentView(R.layout.activity_new_class);
         findAllViews();
         setSubmitListener();

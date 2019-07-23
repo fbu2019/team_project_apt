@@ -42,7 +42,7 @@ public class SignupActivity extends AppCompatActivity {
 
     public static final String TAG = "SignupActivity";
 
-    private final String apiKey = "AIzaSyARv5bJ1b1bnym8eUwPZlGm_7HN__WsbFE";
+    private String apiKey;
     public final static int AUTOCOMPLETE_REQUEST_CODE = 42;
 
     TextView signupMessage;
@@ -55,6 +55,7 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        apiKey = this.getResources().getString(R.string.places_api_key);
         setContentView(R.layout.activity_signup);
 
         Profile profile = Profile.getCurrentProfile();
