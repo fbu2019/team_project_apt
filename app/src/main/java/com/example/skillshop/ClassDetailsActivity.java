@@ -13,12 +13,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.skillshop.Models.Workshop;
+import com.google.android.gms.wallet.PaymentsClient;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.parceler.Parcels;
 
 import java.text.DateFormat;
@@ -39,6 +42,8 @@ public class ClassDetailsActivity extends AppCompatActivity {
     private TextView tvCost;
     private TextView tvClassDescription;
     private Button btnClassOptions;
+    private PaymentsClient mPaymentsClient; //  client for interacting with the Google Pay API
+    private View mGooglePayButton; //   Google Pay payment button presented to the viewer for interaction
 
     private static int REQUEST_CODE = 333;
     @Override
@@ -223,5 +228,11 @@ public class ClassDetailsActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private static JSONObject getBaseRequest() throws JSONException {
+        return new JSONObject()
+                .put("apiVersion", 2)
+                .put("apiVersionMinor", 0);
     }
 }

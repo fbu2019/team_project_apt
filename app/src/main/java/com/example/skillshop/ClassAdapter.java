@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.skillshop.Models.Workshop;
+import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
@@ -89,6 +91,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
         private TextView tvTime;
         private TextView tvLocation;
         private TextView tvCost;
+        private ImageView ivTeacherBadge;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -104,6 +107,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
             tvTime =itemView.findViewById(R.id.tvTime);
             tvLocation =  itemView.findViewById(R.id.etLocation);
             tvCost =  itemView.findViewById(R.id.tvCost);
+            ivTeacherBadge = itemView.findViewById(R.id.ivTeacherBadge);
         }
 
 
@@ -115,11 +119,31 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
         private void setAllViews(Workshop tWorkshop) {
 
             tvClassName.setText(tWorkshop.getName());
-
             tvInstructor.setText(tWorkshop.getTeacher().getUsername());
 
 
+            // get date and format it for the views
+
+
+            if(tvInstructor.getText().equals(ParseUser.getCurrentUser().getUsername()))
+            {
+                ivTeacherBadge.setVisibility(View.VISIBLE);
+                ivTeacherBadge.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final Intent editClassIntent = new Intent(context, EditClassActivity.class);
+                        //pass in class that was selected
+                        editClassIntent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(tWorkshop));
+                        context.startActivity(editClassIntent);
+                        
+                    }
+                });
+            }
+
+
+
             // get dat eand format it for the views
+
             Date date = new Date(tWorkshop.getDate());
             DateFormat dateFormat = new SimpleDateFormat("E MMM dd");
             DateFormat timeFormat = new SimpleDateFormat("HH:mm");

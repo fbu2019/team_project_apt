@@ -38,7 +38,7 @@ public class DaysEventsActivity extends AppCompatActivity {
         tvDate.setText(format.format(date));
 
         connectRecyclerView();
-        populateHomeFeed(dateLong);
+        populateClassesTaking(dateLong);
 
     }
 
@@ -61,11 +61,36 @@ public class DaysEventsActivity extends AppCompatActivity {
         rvClasses.addItemDecoration(dividerItemDecoration);
     }
 
-    public void populateHomeFeed(Long date) {
+    public void populateClassesTaking(Long date) {
 
         Query parseQuery = new Query();
         // query add all classes with all data and sort by time of class and only show new classes
-        parseQuery.getAllClasses().withItems().byTimeOfClass().onDate(date);
+        parseQuery.getAllClasses().withItems().byTimeOfClass().onDate(date).getClassesTaking();
+
+        parseQuery.findInBackground(new FindCallback<Workshop>() {
+            @Override
+            public void done(List<Workshop> objects, ParseException e) {
+                if (e == null) {
+                    for (int i = 0; i < objects.size(); i++) {
+                        Workshop workshopItem = objects.get(i);
+                        mWorkshops.add(workshopItem);
+                        classAdapter.notifyItemInserted(mWorkshops.size()-1);
+                    }
+                    populateClassesTeaching(date);
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+    }
+
+    public void populateClassesTeaching(Long date) {
+
+        Query parseQuery = new Query();
+        // query add all classes with all data and sort by time of class and only show new classes
+        parseQuery.getAllClasses().withItems().byTimeOfClass().onDate(date).getClassesTeaching();
 
         parseQuery.findInBackground(new FindCallback<Workshop>() {
             @Override
@@ -81,6 +106,8 @@ public class DaysEventsActivity extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 
 
