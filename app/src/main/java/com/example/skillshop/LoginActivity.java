@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
             Intent i = new Intent(LoginActivity.this, SignupActivity.class);
             startActivity(i);
         }
- 
+
         else {
             setContentView(R.layout.activity_login);
 
@@ -93,17 +93,8 @@ public class LoginActivity extends AppCompatActivity {
                         };
                     } else {
                         Profile profile = Profile.getCurrentProfile();
-                        // nextActivity(profile);
+                        nextActivity(profile);
                         Log.v("facebook - profile", profile.getFirstName());
-                        mProfileTracker = new ProfileTracker() {
-                            @Override
-                            protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
-                                Log.v("facebook - profile", currentProfile.getFirstName());
-                                Log.e("LoginActivity", "made it here");
-                                nextActivity(currentProfile);
-                                mProfileTracker.stopTracking();
-                            }
-                        };
                     }
                 }
 
