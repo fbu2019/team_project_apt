@@ -110,8 +110,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
                 //pass in class that was selected
                 editClassIntent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(detailedWorkshop));
                 ClassDetailsActivity.this.startActivityForResult(editClassIntent, REQUEST_CODE);
-
-
             }
         });
 
@@ -120,9 +118,11 @@ public class ClassDetailsActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode,Intent data) {
         if ((data != null) && (requestCode == REQUEST_CODE)){
-            Workshop updatedWorkshop = Parcels.unwrap(data.getParcelableExtra("updated"));
-            populateFields(updatedWorkshop);
-            detailedWorkshop = updatedWorkshop;
+
+
+                Workshop updatedWorkshop = Parcels.unwrap(data.getParcelableExtra("updated"));
+                populateFields(updatedWorkshop);
+                detailedWorkshop = updatedWorkshop;
 
         }
     }
@@ -141,7 +141,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // if enrolled giv option to un enroll and also the opposite
-                setStatusWorkshop(!enrolled);
+                setStatusWorkshop(enrolled);
 
                 //TODO - IF CLASS COSTS SOMETHING -- CONTINUE TO PAYMENT ACTIVITY
             }
@@ -221,7 +221,14 @@ public class ClassDetailsActivity extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Toast.makeText(ClassDetailsActivity.this, "You dropped this class", Toast.LENGTH_SHORT).show();
+
+                    if(enroll) {
+                        Toast.makeText(ClassDetailsActivity.this, "You dropped this class", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(ClassDetailsActivity.this, "You signed up for this class", Toast.LENGTH_SHORT).show();
+                    }
                     // TODO go home and refresh home page
                     finish();
                 } else {
