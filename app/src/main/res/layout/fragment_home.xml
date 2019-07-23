@@ -8,13 +8,12 @@
 
     <Spinner
         android:id="@+id/spinFilters"
-        android:layout_width="181dp"
-        android:layout_height="24dp"
+        android:layout_width="167dp"
+        android:layout_height="22dp"
 
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toTopOf="@+id/rvClasses"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnMap"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/spinSorters"
         app:layout_constraintTop_toBottomOf="@+id/tvFilters" />
@@ -51,28 +50,41 @@
     <TextView
         android:id="@+id/tvSorters"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="19dp"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
         android:text="Sort by:"
         app:layout_constraintBottom_toTopOf="@+id/spinSorters"
         app:layout_constraintEnd_toStartOf="@+id/tvFilters"
-        app:layout_constraintHorizontal_bias="0.42"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.562" />
 
     <TextView
         android:id="@+id/tvFilters"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="122dp"
+        android:layout_height="21dp"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
         android:text="Filter by Category:"
         app:layout_constraintBottom_toTopOf="@+id/spinFilters"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnMap"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tvSorters"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.542" />
+
+    <ImageButton
+        android:id="@+id/btnMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/rvClasses"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/spinFilters"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.953"
+        app:srcCompat="@drawable/ic_skill_note" />
 </android.support.constraint.ConstraintLayout>

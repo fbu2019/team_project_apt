@@ -103,6 +103,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     }
 
 
+
     private void setupDatePicker() {
 
         final DatePickerDialog datePickerDialog = new DatePickerDialog(
@@ -163,7 +164,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         int year  = localDateTime.getYear();
         int month = localDateTime.getMonthValue();
         int day   = localDateTime.getDayOfMonth();
-        int hour = localDateTime.getHour();
+        int hour = localDateTime.getHour() - HOUR_OFFSET;
         int minute = localDateTime.getMinute();
         etDate.setText(String.format("%d/%d/%d",month,day,year));
         dateMap.put("year",year);
