@@ -269,6 +269,7 @@ public class HomeFragment extends Fragment {
                     }
                 } else {
                     e.printStackTrace();
+                    int i = 0;
                 }
             }
         });
