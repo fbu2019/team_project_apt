@@ -136,7 +136,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
                     }
                 });
             }
-            
+
             // get dat eand format it for the views
 
 
