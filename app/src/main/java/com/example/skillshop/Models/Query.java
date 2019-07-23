@@ -28,14 +28,9 @@ public class Query extends ParseQuery<Workshop> {
         return this;
     }
 
-    public Query byLocation(){
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        ParseGeoPoint userLocation = currentUser.getParseGeoPoint("userLocation");
-        ParseGeoPoint testPoint = new ParseGeoPoint(0,0);
-//TODO get current user's location
+    public Query byLocation(ParseGeoPoint userLocation){
 
-        String username = currentUser.getString("lastName");
-        whereNear(KEY_LOCATION, testPoint);
+        whereNear(KEY_LOCATION, userLocation);
         return this;
     }
 

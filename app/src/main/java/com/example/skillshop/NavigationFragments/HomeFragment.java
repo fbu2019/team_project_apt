@@ -19,7 +19,9 @@ import com.example.skillshop.Models.Query;
 import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -92,9 +94,16 @@ public class HomeFragment extends Fragment {
                         //TODO multilevel drop down list
                   }
                   case(3): {
+                      final ParseQuery<ParseUser> userQuery = new ParseQuery<ParseUser>(ParseUser.class);
+                      userQuery.whereEqualTo("objectId", ParseUser.getCurrentUser().getObjectId());
+                      userQuery.findInBackground(new FindCallback<ParseUser>() {
 
-                      populateByLocation();
-                      break;
+                          @Override
+                          public void done(List<ParseUser> singletonUserList, ParseException e) {
+                              ParseGeoPoint userLocation = singletonUserList.get(0).getParseGeoPoint("userLocation");
+                              populateByLocation(userLocation);
+                          }
+                    });
                   }
                   default:
                       break;
@@ -109,12 +118,12 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void populateByLocation() {
+    private void populateByLocation(ParseGeoPoint userLocation) {
         mWorkshops.clear();
         classAdapter.notifyDataSetChanged();
         Query parseQuery = new Query();
         // query add all classes with all data and sort by time of class and only show new classes
-        parseQuery.getAllClasses().withItems().byLocation().getClassesNotTaking();
+        parseQuery.getAllClasses().withItems().byLocation(userLocation).getClassesNotTaking();
 
         parseQuery.findInBackground(new FindCallback<Workshop>() {
             @Override
