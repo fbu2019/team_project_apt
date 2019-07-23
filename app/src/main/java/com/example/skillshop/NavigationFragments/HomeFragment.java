@@ -1,7 +1,13 @@
 package com.example.skillshop.NavigationFragments;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,6 +34,7 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 
 
+    private static final String CHANNEL_ID = "CHANNEL_ID";
     private RecyclerView rvClasses;
     protected ArrayList<Workshop> mWorkshops;
     protected ClassAdapter classAdapter;
@@ -53,6 +60,47 @@ public class HomeFragment extends Fragment {
         populateHomeFeed();
         connectRecyclerView(view);
         //setSpinner();
+
+        // ceates channel for notifications
+        createNotificationChannel();
+        // call this function with the title and body and any unique id you want
+        notification("Welcome to the home page!","Here are classes you can sign up for",0);
+
+
+
+
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Skillshop";
+            String description = "notification channel for class updates";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getActivity().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+
+    public void notification(String headline, String body,int notificationId)
+    {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(),CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_skill_note)
+                .setContentTitle(headline)
+                .setContentText(body)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getActivity());
+
+        // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(notificationId, builder.build());
+
     }
 
     @Override

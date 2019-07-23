@@ -143,6 +143,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
                 // if enrolled giv option to un enroll and also the opposite
                 setStatusWorkshop(enrolled);
 
+                //TODO - IF CLASS COSTS SOMETHING -- CONTINUE TO PAYMENT ACTIVITY
             }
         });
 
