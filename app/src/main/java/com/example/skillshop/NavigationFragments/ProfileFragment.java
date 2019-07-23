@@ -61,6 +61,36 @@ public class ProfileFragment extends Fragment {
         final String profilePhotoUrl = user.getString("profilePicUrl");
 
         nameViewText = view.findViewById(R.id.nameView);
+        displayUserInfo(view, locationName, profilePhotoUrl);
+
+        // Initialize Places.
+        if (!Places.isInitialized()) {
+            Places.initialize(getContext(), apiKey);
+        }
+
+        //Create a new Places client instance.
+        PlacesClient placesClient = Places.createClient(getContext());
+
+        submitNewLocationButton = view.findViewById(R.id.modifyLocationButton);
+        submitNewLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchIntent();
+            }
+        });
+
+        logoutButton = view.findViewById(R.id.logoutButton);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
+    }
+
+    private void displayUserInfo(View view, String locationName, String profilePhotoUrl) {
+
+        ParseUser user = ParseUser.getCurrentUser();
         if (locationName != null && user.getString("firstName") != null) {
             nameViewText.setText("Hello " + user.getString("firstName") + ". You are currently located at " + locationName + ".");
         }
@@ -73,34 +103,13 @@ public class ProfileFragment extends Fragment {
             ivProfilePic.setImageBitmap(null);
             Log.i("Profile Frag", "No profile image");
         }
+    }
 
-        // Initialize Places.
-        if (!Places.isInitialized()) {
-            Places.initialize(getContext(), apiKey);
-        }
-
-        //Create a new Places client instance.
-        PlacesClient placesClient = Places.createClient(getContext());
-
-        submitNewLocationButton = view.findViewById(R.id.modifyLocationButton);
-        submitNewLocationButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                launchIntent();
-            }
-        });
-
-        logoutButton = view.findViewById(R.id.logoutButton);
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParseUser.logOut(); //  logs out ParseUser
-                LoginManager.getInstance().logOut();    //  logs out Facebook user
-                Intent i = new Intent(getContext(), LoginActivity.class);
-                startActivity(i);
-            }
-        });
+    private void logout() {
+        ParseUser.logOut(); //  logs out ParseUser
+        LoginManager.getInstance().logOut();    //  logs out Facebook user
+        Intent i = new Intent(getContext(), LoginActivity.class);
+        startActivity(i);
     }
 
     private void launchIntent() {

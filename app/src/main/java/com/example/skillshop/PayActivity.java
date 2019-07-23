@@ -37,7 +37,7 @@ public class PayActivity extends AppCompatActivity {
                 Wallet.getPaymentsClient(
                         this,
                         new Wallet.WalletOptions.Builder()
-                                .setEnvironment(WalletConstants.ENVIRONMENT_TEST)
+                                .setEnvironment(WalletConstants.ENVIRONMENT_TEST) //    TODO - change to ENVIRONMENT_PRODUCTION when app is completed
                                 .build());
 
     }
