@@ -144,14 +144,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // if enrolled giv option to un enroll and also the opposite
                 setStatusWorkshop(enrolled);
-                //TODO - IF CLASS COSTS SOMETHING -- CONTINUE TO PAYMENT ACTIVITY
-                if(detailedWorkshop.getInt("cost")>0) {
-                    Log.e("ClassDetails", "Workshop is not free part2");
-                    Intent i =  new Intent(ClassDetailsActivity.this, PayActivity.class);
-                    startActivity(i);
-                    finish();
-                }
-
             }
         });
 
