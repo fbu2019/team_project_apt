@@ -126,7 +126,7 @@ public class HomeFragment extends Fragment {
 
     private void setFilters() {
         final ArrayAdapter<CharSequence> filterAdapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.categories, android.R.layout.simple_spinner_item);
+                R.array.categoryFilters, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
@@ -147,21 +147,24 @@ public class HomeFragment extends Fragment {
                         break;
                     }
                     case (1):{
-                        populateByCost();
+                       filterByCategory("Culinary");
                         break;
                     }
-                    case(2):{
-
-                        final ParseQuery<ParseUser> userQuery = new ParseQuery<ParseUser>(ParseUser.class);
-                        userQuery.whereEqualTo("objectId", ParseUser.getCurrentUser().getObjectId());
-                        userQuery.findInBackground(new FindCallback<ParseUser>() {
-
-                            @Override
-                            public void done(List<ParseUser> singletonUserList, ParseException e) {
-                                ParseGeoPoint userLocation = singletonUserList.get(0).getParseGeoPoint("userLocation");
-                                populateByLocation(userLocation);
-                            }
-                        });
+                    case (2):{
+                        filterByCategory("Education");
+                        break;
+                    }
+                    case (3):{
+                        filterByCategory("Fitness");
+                        break;
+                    }
+                    case (4):{
+                        filterByCategory("Arts/Crafts");
+                        break;
+                    }
+                    case (5):{
+                        filterByCategory("Other");
+                        break;
                     }
                     default:
                         break;
@@ -175,6 +178,31 @@ public class HomeFragment extends Fragment {
             }
         });
 
+
+    }
+
+    private void filterByCategory(String category) {
+        mWorkshops.clear();
+        classAdapter.notifyDataSetChanged();
+        Query parseQuery = new Query();
+        // query add all classes with all data and sort by time of class and only show new classes
+        parseQuery.getAllClasses().withItems().byCategory(category).getClassesNotTaking();
+
+        parseQuery.findInBackground(new FindCallback<Workshop>() {
+            @Override
+            public void done(List<Workshop> objects, ParseException e) {
+                //
+                if (e == null) {
+                    for (int i = 0; i < objects.size(); i++) {
+                        Workshop workshopItem = objects.get(i);
+                        mWorkshops.add(workshopItem);
+                        classAdapter.notifyItemInserted(mWorkshops.size()-1);
+                    }
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
     private void populateByLocation(ParseGeoPoint userLocation) {
@@ -221,7 +249,6 @@ public class HomeFragment extends Fragment {
                     }
                 } else {
                     e.printStackTrace();
-                    int i = 0;
                 }
             }
         });
