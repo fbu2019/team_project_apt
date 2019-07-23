@@ -110,7 +110,7 @@ public class ProfileFragment extends Fragment {
         if (locationName != null && user.getString("firstName") != null) {
             nameViewText.setText("Hello " + user.getString("firstName") + ". You are currently located at " + locationName + ".");
         }
-        
+
         ivProfilePic = view.findViewById(R.id.profilePicture);
         if (profilePhotoUrl != null) {
             Glide.with(getContext()).load(profilePhotoUrl).into(ivProfilePic);
@@ -119,14 +119,16 @@ public class ProfileFragment extends Fragment {
             ivProfilePic.setImageBitmap(null);
             Log.i("Profile Frag", "No profile image");
         }
-        
+
         //TODO - MAKE PREFRENCES ARRAY AN INPUT FOR THE METHOD LATER ONCE YOU'VE ADDED TO IT
-        if(user.getJSONArray("preferences")!=null){
-            if(user.getJSONArray("preferences").length() > 1){
+        if (user.getJSONArray("preferences") != null) {
+            if (user.getJSONArray("preferences").length() > 1) {
                 //  retrieve first/only element of array
             } else {
                 //  retrieve all but last element, use "and" before last element
             }
+        }
+
     }
 
     private void logout() {
