@@ -5,12 +5,15 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.Date;
+
 import static com.example.skillshop.Models.Workshop.KEY_CREATED_AT;
 import static com.example.skillshop.Models.Workshop.KEY_DATE;
 import static com.example.skillshop.Models.Workshop.KEY_MENTOR;
 import static com.example.skillshop.Models.Workshop.KEY_STUDENTS;
 import static com.example.skillshop.Models.Workshop.KEY_COST;
 import static com.example.skillshop.Models.Workshop.KEY_LOCATION;
+
 
 public class Query extends ParseQuery<Workshop> {
 
@@ -66,6 +69,20 @@ public class Query extends ParseQuery<Workshop> {
     public Query getClassesNotTaking(){
 
         whereNotEqualTo(KEY_STUDENTS,ParseUser.getCurrentUser());
+
+        return this;
+    }
+
+    public Query onDate(Long date){
+
+        Date dateOfClass = new Date(date);
+
+        Date lowerBound = new Date(dateOfClass.getYear(),dateOfClass.getMonth(),dateOfClass.getDate());
+        Date upperBound = new Date(dateOfClass.getYear(),dateOfClass.getMonth(),dateOfClass.getDate()+1);
+
+        whereGreaterThanOrEqualTo(KEY_DATE,lowerBound);
+        whereLessThanOrEqualTo(KEY_DATE,upperBound);
+
 
         return this;
     }

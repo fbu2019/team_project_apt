@@ -1,7 +1,10 @@
 package com.example.skillshop;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,105 +12,71 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.Profile;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+
+import java.util.Arrays;
+import java.util.List;
+
 public class SignupActivity extends AppCompatActivity {
 
-    public static String userId;
-    public static String userName;
+    public static final String TAG = "SignupActivity";
+
+    private final String apiKey = "AIzaSyARv5bJ1b1bnym8eUwPZlGm_7HN__WsbFE";
+    public final static int AUTOCOMPLETE_REQUEST_CODE = 42;
 
     TextView signupMessage;
-    EditText etUsername;
-    EditText etPassword;
-    EditText etZipCode;
-    Button submit;
+    TextView userLocation;
+    Button launchMapButton;
+
+    ParseGeoPoint location;
+    String locationName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
+        Profile profile = Profile.getCurrentProfile();
+
+        launchMapButton = findViewById(R.id.launchMap);
         signupMessage = findViewById(R.id.signUpMessage);
-        etUsername = findViewById(R.id.emailAddress);
-        etPassword = findViewById(R.id.etPassword);
-        etZipCode = findViewById(R.id.zipCode);
+        userLocation = findViewById(R.id.userLocation);
+        userLocation.setText("Hello " + profile.getFirstName() + ". Please add your current location.");
 
-        submit = findViewById(R.id.submit);
-        submit.setEnabled(false);
+        // Initialize Places.
+        if (!Places.isInitialized()) {
+            Places.initialize(getApplicationContext(), apiKey);
+        }
 
-        // button is not functional when user has not completed all fields
-        TextWatcher watcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int
-                    count, int after) {
-                submit.setEnabled(false);
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before,
-                                      int count) {
-            }
+        //Create a new Places client instance.
+        PlacesClient placesClient = Places.createClient(SignupActivity.this);
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                for (EditText et  : new EditText[] {etUsername,
-                        etPassword, etZipCode}) {
-                    try {
-                        et.getText();
-                    } catch (NumberFormatException e) {
-                        // Disable button, show error label, etc.
-                        submit.setEnabled(false);
-                        return;
-                    }
-                }
-                submit.setEnabled(true);
-            }
-        };
-
-        etUsername.addTextChangedListener(watcher);
-        etPassword.addTextChangedListener(watcher);
-        etZipCode.addTextChangedListener(watcher);
-
-        submit.setOnClickListener(new View.OnClickListener() {
+        launchMapButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
-                ParseUser user = new ParseUser();
-                final String username = etUsername.getText().toString();
-                final String password = etPassword.getText().toString();
-                final String zipCode = etZipCode.getText().toString();
-
-                //  additional check that all fields hold user info
-                if (username.trim().length()==0 || password.trim().length()==0 || zipCode.trim().length()==0){
-                    Log.i("Signup", "Username is "+username+". Password is "+password+". zipcode is "+zipCode);
-                    Toast.makeText(SignupActivity.this, "All fields must be filled", Toast.LENGTH_LONG).show();
-                }
-                else if(zipCode.trim().length()!=5 ){
-                    Toast.makeText(SignupActivity.this, "Zipcode must be correct length", Toast.LENGTH_LONG).show();
-                }
-                else {
-
-                    user.setUsername(username);
-                    user.setPassword(password);
-                    user.put("zipCode", zipCode);
-
-                    user.signUpInBackground(new SignUpCallback() {
-                        public void done(ParseException e) {
-                            if (e == null) {
-                                login(username, password);
-                            } else {
-                                Log.d("SignUpActivity", "Sign up failed");
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-                }
+                launchIntent();
             }
         });
     }
@@ -122,7 +91,7 @@ public class SignupActivity extends AppCompatActivity {
                     final Intent intent = new Intent(SignupActivity.this, FragmentHandler.class);
                     startActivity(intent);
                     finish();
-                }   else {
+                } else {
                     Log.e("SignUpActivity", "Login failure");
                     e.printStackTrace();
                     finish();
@@ -130,6 +99,62 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void launchIntent() {
+        Log.i(TAG, "placelookuplaunched");
+        // Specify the types of place data to return.
+        List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
+
+        // Start the autocomplete intent.
+        Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+                .build(this);
+        startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if ((data != null) && (requestCode == AUTOCOMPLETE_REQUEST_CODE)) {
+            Place place = Autocomplete.getPlaceFromIntent(data);
+            locationName = place.getName();
+            LatLng latLng = place.getLatLng();
+            location = new ParseGeoPoint(latLng.latitude, latLng.longitude);
+            userLocation.setText("You are located at " + locationName);
+
+            ParseUser user = new ParseUser();
+            Profile profile = Profile.getCurrentProfile();
+
+            String firstName = profile.getFirstName();
+            String lastName = profile.getLastName();
+            String fbID = profile.getId();
+            final String username = fbID;
+            final String password = fbID;
+
+            user.setUsername(fbID);
+            user.setPassword(fbID);
+            user.put("userLocation", location);
+            user.put("locationName", locationName);
+            user.put("firstName", firstName);
+            user.put("lastName", lastName);
+
+            String image_url = "https://graph.facebook.com/" + fbID + "/picture?type=large";
+            user.put("profilePicUrl", image_url);
+
+            login(fbID, fbID);
+
+            user.signUpInBackground(new SignUpCallback() {
+                public void done(ParseException e) {
+                    if (e == null) {
+                        login(username, password);
+                    } else {
+                        Log.d("SignUpActivity", "Sign up failed");
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+    }
+
 }
 
 

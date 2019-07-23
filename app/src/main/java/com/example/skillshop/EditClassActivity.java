@@ -9,6 +9,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -23,6 +26,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.skillshop.Models.Workshop;
+import com.example.skillshop.NavigationFragments.ClassesListFragments.ClassesTeachingFragment;
+import com.example.skillshop.NavigationFragments.HomeFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -32,6 +37,7 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -41,6 +47,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -49,7 +56,7 @@ import java.util.List;
 
 public class EditClassActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener{
 
-    public static final String TAG = "NewClassActivity";
+    public static final String TAG = "EditClassActivity";
 
     TextView etClassname;
     TextView etDate;
@@ -61,6 +68,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     ImageView ivClassImage;
     Button btSubmit;
     Workshop currentWorkshop;
+    ImageView ivTrash;
 
 
     ParseGeoPoint location;
@@ -78,11 +86,24 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_class);
+        setContentView(R.layout.activity_edit_class);
         findAllViews();
-        setSubmitListener();
         setupPlacesApi();
+        setupDatePicker();
+        setCurrentDetails();
+        setSubmitListener();
+        setTrashListener();
+    }
 
+    private void refreshDetailsPage(Workshop editedWorkshop) {
+        Intent data = new Intent();
+        data.putExtra("updated", Parcels.wrap(editedWorkshop));
+        setResult(RESULT_OK, data);
+    }
+
+
+
+    private void setupDatePicker() {
 
         final DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this, EditClassActivity.this, 2019, 7, 1);
@@ -121,17 +142,16 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinCategory.setAdapter(adapter);
-        setCurrentDetails();
-
 
     }
+
+
 
     @TargetApi(Build.VERSION_CODES.O)
     private void setCurrentDetails() {
         currentWorkshop = Parcels.unwrap(getIntent().getParcelableExtra(Workshop.class.getSimpleName()));
         etClassname.setText(currentWorkshop.getName());
         etDescription.setText(currentWorkshop.getDescription());
-        //TODO set date
         btLocation.setText(currentWorkshop.getLocationName());
         etCost.setText(currentWorkshop.getCost().toString());
         Integer categoryPosition = adapter.getPosition(currentWorkshop.getCategory());
@@ -140,13 +160,21 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
 
         LocalDateTime localDateTime = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
         //TODO figure out year offset
-        int year  = localDateTime.getYear() - YEAR_OFFSET;
+        int year  = localDateTime.getYear();
         int month = localDateTime.getMonthValue();
         int day   = localDateTime.getDayOfMonth();
         int hour = localDateTime.getHour() - HOUR_OFFSET;
         int minute = localDateTime.getMinute();
         etDate.setText(String.format("%d/%d/%d",month,day,year));
+        dateMap.put("year",year);
+        dateMap.put("month",month);
+        dateMap.put("dayOfMonth",day);
         etTime.setText(String.format("%d:%d",hour,minute));
+        dateMap.put("hourOfDay",hour);
+        dateMap.put("minute",minute);
+
+        location = currentWorkshop.getLocation();
+        locationName = currentWorkshop.getLocationName();
 
 
     }
@@ -176,6 +204,21 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
             @Override
             public void onClick(View v) {
                 postWorkshop();
+
+            }
+        });
+    }
+
+    private void setTrashListener() {
+
+        ivTrash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    removeWorkshop();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -200,39 +243,58 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     }
 
     private void postWorkshop() {
+        currentWorkshop.setName(etClassname.getText().toString());
+        currentWorkshop.setDescription( etDescription.getText().toString());
+        currentWorkshop.setLocation(location);
+        currentWorkshop.setLocationName(locationName);
+        currentWorkshop.setCost(Double.parseDouble(etCost.getText().toString()));
+        currentWorkshop.setCategory(spinCategory.getSelectedItem().toString());
+        Date date = new Date(dateMap.get("year") - YEAR_OFFSET ,dateMap.get("month"),dateMap.get("dayOfMonth"),dateMap.get("hourOfDay") ,dateMap.get("minute"));
+        currentWorkshop.setDate(date);
 
-        final Workshop newClass = new Workshop();
-
-        newClass.setDescription(etDescription.getText().toString());
-        newClass.setName(etClassname.getText().toString());
-
-        Date date = new Date(dateMap.get("year"),dateMap.get("month"),dateMap.get("dayOfMonth"),dateMap.get("hourOfDay"),dateMap.get("minute"));
-        newClass.setDate(date);
-
-        newClass.setCost(Double.parseDouble(etCost.getText().toString()));
-
-        newClass.setCategory(spinCategory.getSelectedItem().toString());
-
-        newClass.setTeacher(ParseUser.getCurrentUser());
-
-        newClass.setLocationName(locationName);
-        newClass.setLocation(location);
-
-
-        newClass.saveInBackground(new SaveCallback() {
+        currentWorkshop.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if(e == null)
                 {
-                    Toast.makeText(EditClassActivity.this, "Class was made", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditClassActivity.this, "Changes have been saved (changes may take a while to be reflected in the app)", Toast.LENGTH_SHORT).show();
+                    Workshop editedWorkshop = currentWorkshop;
+                    refreshDetailsPage(editedWorkshop);
                     finish();
                 }
                 else
                 {
-                    Toast.makeText(EditClassActivity.this, "Class wasn't made", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditClassActivity.this, "Error saving changes", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
+
+
+    }
+
+    public void removeWorkshop() throws ParseException {
+        List<Workshop> objects = new ArrayList<>();
+        objects.add(currentWorkshop);
+
+        ParseObject.deleteAll(objects);
+
+
+        finish();
+
+    }
+
+    public void goToHomeFragment(){
+
+
+        // create new fragment to use
+        Fragment home = new HomeFragment();
+        // transaction on current activity
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.flContainer, home);
+        transaction.addToBackStack(null);
+        // Commit the transaction
+        transaction.commit();
     }
 
     private void findAllViews() {
@@ -246,6 +308,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         btSubmit = findViewById(R.id.btSubmit);
         ivClassImage = findViewById(R.id.ivClassImage);
         etTime = findViewById(R.id.etTime);
+        ivTrash =findViewById(R.id.ivTrash);
 
     }
 
@@ -296,12 +359,13 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     private void launchSelectPlaceIntent() {
         // Specify the types of place data to return.
         List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
-
         // Start the autocomplete intent.
         Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
                 .build(this);
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
     }
+
+
 
 
 }

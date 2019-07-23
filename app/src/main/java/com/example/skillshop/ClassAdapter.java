@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +14,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.skillshop.Models.Workshop;
+import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -67,9 +72,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
             }
         });
 
-
     }
-
 
     //gets the number of items
     @Override
@@ -86,6 +89,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
         private TextView tvTime;
         private TextView tvLocation;
         private TextView tvCost;
+        private ImageView ivTeacherBadge;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -101,6 +105,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
             tvTime =itemView.findViewById(R.id.tvTime);
             tvLocation =  itemView.findViewById(R.id.etLocation);
             tvCost =  itemView.findViewById(R.id.tvCost);
+            ivTeacherBadge = itemView.findViewById(R.id.ivTeacherBadge);
         }
 
 
@@ -112,25 +117,41 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
         private void setAllViews(Workshop tWorkshop) {
 
             tvClassName.setText(tWorkshop.getName());
-
             tvInstructor.setText(tWorkshop.getTeacher().getUsername());
 
 
-            String date = tWorkshop.getDate();
+            if(tvInstructor.getText().equals(ParseUser.getCurrentUser().getUsername()))
+            {
+                ivTeacherBadge.setVisibility(View.VISIBLE);
+                ivTeacherBadge.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final Intent editClassIntent = new Intent(context, EditClassActivity.class);
+                        //pass in class that was selected
+                        editClassIntent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(tWorkshop));
+                        context.startActivity(editClassIntent);
+                        
+                    }
+                });
+            }
 
-            tvDate.setText(date.substring(0,11));
-            tvTime.setText(date.substring(11,16));
+            Date date = new Date(tWorkshop.getDate());
+            DateFormat dateFormat = new SimpleDateFormat("E MMM dd");
+            DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+            tvDate.setText(dateFormat.format(date));
+            tvTime.setText(timeFormat.format(date));
             tvLocation.setText(tWorkshop.getLocationName());
 
             Double cost = tWorkshop.getCost();
+
             if(cost == 0)
             {
                 tvCost.setText("Free");
-                tvCost.setBackground(new ColorDrawable(Color.parseColor("#00FF00")));
+                tvCost.setBackground(new ColorDrawable(Color.parseColor("#00DD00")));
             }
             else
             {
-                tvCost.setText("$"+cost);
+                tvCost.setText("$ "+cost);
             }
 
             switch (tWorkshop.getCategory()) {

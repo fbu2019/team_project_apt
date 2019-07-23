@@ -16,7 +16,7 @@ import com.example.skillshop.NavigationFragments.ClassesListFragments.ClassesTea
 import com.example.skillshop.R;
 
 
-public class ClassesFragment extends Fragment {
+public class ClassesFragmentManager extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -30,15 +30,12 @@ public class ClassesFragment extends Fragment {
         final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
         BottomNavigationView topNavigationBar = view.findViewById(R.id.bottom_navigation);
-
         topNavigationBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
                 Fragment fragment = new HomeFragment();
+                // depending on which button the user presses the classes will be displayed
                 switch (item.getItemId()) {
-
-
                     case R.id.taking:
                         fragment = new ClassesTakingFragment();
                         break;
@@ -48,19 +45,14 @@ public class ClassesFragment extends Fragment {
                         break;
                     default: break;
                 }
-
                 // switch to selected fragment
                 fragmentManager.beginTransaction().replace(R.id.classes_take_teach, fragment).commit();
                 return true;
-
-
             }
         });
         // default fragment in home fragment
         topNavigationBar.setSelectedItemId(R.id.taking);
 
     }
-
-
 
 }
