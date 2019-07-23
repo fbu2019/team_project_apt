@@ -66,8 +66,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
         ivClassPicture = findViewById(R.id.ivClassPicture);
         populateFields(detailedWorkshop);
 
-
-
         setUpClassOptions();
 
     }
@@ -149,15 +147,12 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
     }
 
-
-
-
     private void populateFields(Workshop workshop) {
 
         tvClassName.setText(workshop.getName());
         tvInstructor.setText(workshop.getTeacher().getUsername());
 
-        // get dat eand format it for the views
+        // get date and format it for the views
         Date date = new Date(workshop.getDate());
         DateFormat dateFormat = new SimpleDateFormat("E MMM dd YYYY");
         DateFormat timeFormat = new SimpleDateFormat("HH:mm");
