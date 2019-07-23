@@ -15,6 +15,7 @@ public class MyFirebaseInstanceService extends FirebaseMessagingService {
 
     private static final String CHANNEL_ID = "CHANNEL_ID";
 
+
     public MyFirebaseInstanceService() {
         super();
     }
@@ -24,7 +25,7 @@ public class MyFirebaseInstanceService extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
 
         createNotificationChannel();
-        notification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody(),1);
+        notification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody(),(int)remoteMessage.getSentTime());
 
 
     }
@@ -49,7 +50,7 @@ public class MyFirebaseInstanceService extends FirebaseMessagingService {
     {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this,CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_skill_note)
+                .setSmallIcon(R.drawable.ic_skillshop_notification)
                 .setContentTitle(headline)
                 .setContentText(body)
                 // Set the intent that will fire when the user taps the notification

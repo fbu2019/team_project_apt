@@ -57,8 +57,9 @@
                                   </option>
                                   <option name="values">
                                     <map>
+                                      <entry key="assetType" value="IMAGE" />
                                       <entry key="imageAsset" value="$USER_HOME$/Downloads/ok.png" />
-                                      <entry key="outputName" value="ic_skill_note" />
+                                      <entry key="outputName" value="ic_skillshop_notification" />
                                       <entry key="themeColor" value="ff0000" />
                                     </map>
                                   </option>
