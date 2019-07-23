@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,6 @@ import com.example.skillshop.Models.Query;
 import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -49,7 +47,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
-        spinSorters = view.findViewById(R.id.spinSorters);
+        spinSorters = view.findViewById(R.id.spinFilters);
 
         populateHomeFeed();
         connectRecyclerView(view);
@@ -91,9 +89,7 @@ public class HomeFragment extends Fragment {
                         break;
                     }
                     case(2):{
-                        //TODO multilevel drop down list
-                    }
-                    case(3): {
+
                         final ParseQuery<ParseUser> userQuery = new ParseQuery<ParseUser>(ParseUser.class);
                         userQuery.whereEqualTo("objectId", ParseUser.getCurrentUser().getObjectId());
                         userQuery.findInBackground(new FindCallback<ParseUser>() {
