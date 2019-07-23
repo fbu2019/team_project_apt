@@ -72,9 +72,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
             }
         });
 
-
     }
-
 
     //gets the number of items
     @Override
@@ -121,11 +119,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
             tvClassName.setText(tWorkshop.getName());
             tvInstructor.setText(tWorkshop.getTeacher().getUsername());
 
-<<<<<<< HEAD
             // get date and format it for the views
-=======
-
->>>>>>> 56ec7db83ba43631aeba0d03df906cb51ed5a270
 
             if(tvInstructor.getText().equals(ParseUser.getCurrentUser().getUsername()))
             {
@@ -142,11 +136,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
                 });
             }
 
-<<<<<<< HEAD
-
             // get dat eand format it for the views
-=======
->>>>>>> 56ec7db83ba43631aeba0d03df906cb51ed5a270
             Date date = new Date(tWorkshop.getDate());
             DateFormat dateFormat = new SimpleDateFormat("E MMM dd");
             DateFormat timeFormat = new SimpleDateFormat("HH:mm");
