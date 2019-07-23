@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ParseUser currentUser = ParseUser.getCurrentUser();
         FacebookSdk.sdkInitialize(getApplicationContext());
-        Profile profile = Profile.getCurrentProfile();
+        //Profile profile = Profile.getCurrentProfile();
 
 
         // for testing
@@ -64,11 +64,15 @@ public class LoginActivity extends AppCompatActivity {
             Intent i = new Intent(LoginActivity.this, FragmentHandler.class);
             startActivity(i);
 
-        } else if (profile != null) {
-            //  if user has closed app during signing up without logging out, app will resume at SignupActivity
+        }
+
+        //  if user has closed app during signing up without logging out, app will resume at SignupActivity
+        if (currentUser == null && Profile.getCurrentProfile() != null) {
             Intent i = new Intent(LoginActivity.this, SignupActivity.class);
             startActivity(i);
-        } else {
+        }
+
+        else {
             setContentView(R.layout.activity_login);
 
             fbLoginButton = (LoginButton) findViewById(R.id.login_button);
@@ -86,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
                                 Log.v("facebook - profile", currentProfile.getFirstName());
+                                Log.e("LoginActivity", "made it here");
                                 nextActivity(currentProfile);
                                 mProfileTracker.stopTracking();
                             }
@@ -113,14 +118,14 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login(String username, String password) {
 
-        Log.i("LoginActivity", "Readched login method");
+        Log.i("LoginActivity", "Reachhed login method");
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (e == null) {
                     Log.d("LoginActivity", "Login successful");
                     final Intent intent = new Intent(LoginActivity.this, FragmentHandler.class);
-                    Log.i("LoginActivity", "Readched login success");
+                    Log.i("LoginActivity", "Reached login success");
                     startActivity(intent);
                     finish();
                 } else {

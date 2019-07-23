@@ -1,6 +1,7 @@
 package com.example.skillshop.Models;
 
 
+import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -10,6 +11,10 @@ import static com.example.skillshop.Models.Workshop.KEY_CREATED_AT;
 import static com.example.skillshop.Models.Workshop.KEY_DATE;
 import static com.example.skillshop.Models.Workshop.KEY_MENTOR;
 import static com.example.skillshop.Models.Workshop.KEY_STUDENTS;
+import static com.example.skillshop.Models.Workshop.KEY_LOCATION;
+import static com.example.skillshop.Models.Workshop.KEY_COST;
+
+
 
 public class Query extends ParseQuery<Workshop> {
 
@@ -27,6 +32,16 @@ public class Query extends ParseQuery<Workshop> {
         return this;
     }
 
+    public Query byLocation(ParseGeoPoint userLocation){
+
+        whereNear(KEY_LOCATION, userLocation);
+        return this;
+    }
+
+    public Query byCost() {
+        addAscendingOrder(KEY_COST);
+        return this;
+    }
     public Query byTimeMade() {
         addDescendingOrder(KEY_CREATED_AT);
         return this;
