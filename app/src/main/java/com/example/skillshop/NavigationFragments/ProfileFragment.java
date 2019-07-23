@@ -61,18 +61,7 @@ public class ProfileFragment extends Fragment {
         final String profilePhotoUrl = user.getString("profilePicUrl");
 
         nameViewText = view.findViewById(R.id.nameView);
-        if (locationName != null && user.getString("firstName") != null) {
-            nameViewText.setText("Hello " + user.getString("firstName") + ". You are currently located at " + locationName + ".");
-        }
-
-        ivProfilePic = view.findViewById(R.id.profilePicture);
-        if (profilePhotoUrl != null) {
-            Log.i("ProfileFragment", profilePhotoUrl);
-            Glide.with(getContext()).load(profilePhotoUrl).into(ivProfilePic);
-        } else {
-            ivProfilePic.setImageBitmap(null);
-            Log.i("Profile Frag", "No profile image");
-        }
+        displayUserInfo(view, locationName, profilePhotoUrl);
 
         // Initialize Places.
         if (!Places.isInitialized()) {
@@ -84,7 +73,6 @@ public class ProfileFragment extends Fragment {
 
         submitNewLocationButton = view.findViewById(R.id.modifyLocationButton);
         submitNewLocationButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 launchIntent();
@@ -98,6 +86,23 @@ public class ProfileFragment extends Fragment {
                 logout();
             }
         });
+    }
+
+    private void displayUserInfo(View view, String locationName, String profilePhotoUrl) {
+
+        ParseUser user = ParseUser.getCurrentUser();
+        if (locationName != null && user.getString("firstName") != null) {
+            nameViewText.setText("Hello " + user.getString("firstName") + ". You are currently located at " + locationName + ".");
+        }
+
+        ivProfilePic = view.findViewById(R.id.profilePicture);
+        if (profilePhotoUrl != null) {
+            Log.i("ProfileFragment", profilePhotoUrl);
+            Glide.with(getContext()).load(profilePhotoUrl).into(ivProfilePic);
+        } else {
+            ivProfilePic.setImageBitmap(null);
+            Log.i("Profile Frag", "No profile image");
+        }
     }
 
     private void logout() {

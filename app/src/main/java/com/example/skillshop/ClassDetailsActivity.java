@@ -217,7 +217,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
         ParseRelation<ParseUser> signedUpStudents = detailedWorkshop.getStudents();
 
-        if (enroll) {
+        if (!enroll) {
             // add user from list of students taking class and post this
             signedUpStudents.add(ParseUser.getCurrentUser());
         } else {
