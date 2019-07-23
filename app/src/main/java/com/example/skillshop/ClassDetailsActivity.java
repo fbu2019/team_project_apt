@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -23,6 +24,7 @@ import com.parse.SaveCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
+import org.xml.sax.Parser;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -130,9 +132,9 @@ public class ClassDetailsActivity extends AppCompatActivity {
     private void toggleClassSignUp(final boolean enrolled)
     {
 
-
         if (enrolled) {
             btnClassOptions.setText("Drop Class");
+
         } else {
             btnClassOptions.setText("Sign Up");
         }
@@ -142,6 +144,13 @@ public class ClassDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // if enrolled giv option to un enroll and also the opposite
                 setStatusWorkshop(enrolled);
+                //TODO - IF CLASS COSTS SOMETHING -- CONTINUE TO PAYMENT ACTIVITY
+                if(detailedWorkshop.getInt("cost")>0) {
+                    Log.e("ClassDetails", "Workshop is not free part2");
+                    Intent i =  new Intent(ClassDetailsActivity.this, PayActivity.class);
+                    startActivity(i);
+                    finish();
+                }
 
             }
         });

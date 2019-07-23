@@ -22,6 +22,15 @@
         <item>Other</item>
     </string-array>
 
+    <string-array name="categoryFilters">
+        <item>No filter</item>
+        <item>Culinary</item>
+        <item>Education</item>
+        <item>Fitness</item>
+        <item>Arts/Crafts</item>
+        <item>Other</item>
+    </string-array>
+
     <string-array name="sorters">
         <item>Date</item>
         <item>Cost</item>
