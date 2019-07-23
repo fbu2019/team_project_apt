@@ -42,6 +42,7 @@ public class ProfileFragment extends Fragment {
     TextView nameViewText;
     ImageView ivProfilePic;
     Button submitNewLocationButton;
+    Button addPreferencesButton;
     Button logoutButton;
 
     ParseGeoPoint location;
@@ -63,13 +64,11 @@ public class ProfileFragment extends Fragment {
         nameViewText = view.findViewById(R.id.nameView);
         displayUserInfo(view, locationName, profilePhotoUrl);
 
-        // Initialize Places.
         if (!Places.isInitialized()) {
-            Places.initialize(getContext(), apiKey);
+            Places.initialize(getContext(), apiKey); // Initializes places
         }
 
-        //Create a new Places client instance.
-        PlacesClient placesClient = Places.createClient(getContext());
+        PlacesClient placesClient = Places.createClient(getContext()); // Creates a new Places client instance.
 
         submitNewLocationButton = view.findViewById(R.id.modifyLocationButton);
         submitNewLocationButton.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +77,8 @@ public class ProfileFragment extends Fragment {
                 launchIntent();
             }
         });
+
+        addPreferencesButton = view.findViewById(R.id.addPreferences);
 
         logoutButton = view.findViewById(R.id.logoutButton);
         logoutButton.setOnClickListener(new View.OnClickListener() {

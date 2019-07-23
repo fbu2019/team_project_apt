@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="8dp"
         android:text="@string/com_facebook_loginview_log_out_action"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,11 +23,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="8dp"
         android:text="Modify Location"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.136"
+        app:layout_constraintHorizontal_bias="0.185"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameView" />
 
@@ -52,6 +52,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profilePicture" />
+
+    <Button
+        android:id="@+id/addPreferences"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="112dp"
+        android:layout_marginEnd="8dp"
+        android:text="Add Preferences"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.472"
+        app:layout_constraintStart_toEndOf="@+id/profilePicture"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>
