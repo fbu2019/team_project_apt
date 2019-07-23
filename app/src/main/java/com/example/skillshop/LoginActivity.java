@@ -55,6 +55,10 @@ public class LoginActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         Profile profile = Profile.getCurrentProfile();
 
+
+        // for testing
+        login("guacamole","123");
+
         if (currentUser != null) {
             //  continue to next activity if user previously logged in and user has submitted location
             Intent i = new Intent(LoginActivity.this, FragmentHandler.class);
