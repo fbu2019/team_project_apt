@@ -1,7 +1,15 @@
 package com.example.skillshop.NavigationFragments;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.example.skillshop.ClassAdapter;
+import com.example.skillshop.FragmentHandler;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.R;
@@ -29,6 +38,7 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 
 
+    private static final String CHANNEL_ID = "CHANNEL_ID";
     private RecyclerView rvClasses;
     protected ArrayList<Workshop> mWorkshops;
     protected ClassAdapter classAdapter;
@@ -54,6 +64,51 @@ public class HomeFragment extends Fragment {
         populateHomeFeed();
         connectRecyclerView(view);
         //setSpinner();
+
+        // ceates channel for notifications
+        createNotificationChannel();
+        // call this function with the title and body and any unique id you want
+        notification("Welcome to the home page!","Here are classes you can sign up for",0);
+
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Skillshop";
+            String description = "notification channel for class updates";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getActivity().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+
+    public void notification(String headline, String body,int notificationId)
+    {
+        Intent intent = new Intent(getContext(), FragmentHandler.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getContext(), 0, intent, 0);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(),CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_skill_note)
+                .setContentTitle(headline)
+                .setContentText(body)
+                // Set the intent that will fire when the user taps the notification
+                .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true);
+
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getActivity());
+
+        // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(notificationId, builder.build());
+
     }
 
     @Override
@@ -127,7 +182,7 @@ public class HomeFragment extends Fragment {
 
     private void setFilters() {
         final ArrayAdapter<CharSequence> filterAdapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.categories, android.R.layout.simple_spinner_item);
+                R.array.categoryFilters, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
@@ -148,21 +203,24 @@ public class HomeFragment extends Fragment {
                         break;
                     }
                     case (1):{
-                        populateByCost();
+                       filterByCategory("Culinary");
                         break;
                     }
-                    case(2):{
-
-                        final ParseQuery<ParseUser> userQuery = new ParseQuery<ParseUser>(ParseUser.class);
-                        userQuery.whereEqualTo("objectId", ParseUser.getCurrentUser().getObjectId());
-                        userQuery.findInBackground(new FindCallback<ParseUser>() {
-
-                            @Override
-                            public void done(List<ParseUser> singletonUserList, ParseException e) {
-                                ParseGeoPoint userLocation = singletonUserList.get(0).getParseGeoPoint("userLocation");
-                                populateByLocation(userLocation);
-                            }
-                        });
+                    case (2):{
+                        filterByCategory("Education");
+                        break;
+                    }
+                    case (3):{
+                        filterByCategory("Fitness");
+                        break;
+                    }
+                    case (4):{
+                        filterByCategory("Arts/Crafts");
+                        break;
+                    }
+                    case (5):{
+                        filterByCategory("Other");
+                        break;
                     }
                     default:
                         break;
@@ -176,6 +234,31 @@ public class HomeFragment extends Fragment {
             }
         });
 
+
+    }
+
+    private void filterByCategory(String category) {
+        mWorkshops.clear();
+        classAdapter.notifyDataSetChanged();
+        Query parseQuery = new Query();
+        // query add all classes with all data and sort by time of class and only show new classes
+        parseQuery.getAllClasses().withItems().byCategory(category).getClassesNotTaking();
+
+        parseQuery.findInBackground(new FindCallback<Workshop>() {
+            @Override
+            public void done(List<Workshop> objects, ParseException e) {
+                //
+                if (e == null) {
+                    for (int i = 0; i < objects.size(); i++) {
+                        Workshop workshopItem = objects.get(i);
+                        mWorkshops.add(workshopItem);
+                        classAdapter.notifyItemInserted(mWorkshops.size()-1);
+                    }
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
     private void populateByLocation(ParseGeoPoint userLocation) {

@@ -82,10 +82,11 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     public final static int YEAR_OFFSET = 1900;
     public final static int HOUR_OFFSET = 1;
 
-    private final String apiKey = "AIzaSyARv5bJ1b1bnym8eUwPZlGm_7HN__WsbFE";
+    private String apiKey;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        apiKey = this.getResources().getString(R.string.places_api_key);
         setContentView(R.layout.activity_edit_class);
         findAllViews();
         setupPlacesApi();

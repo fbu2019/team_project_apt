@@ -7,6 +7,7 @@ import com.parse.ParseUser;
 
 import java.util.Date;
 
+import static com.example.skillshop.Models.Workshop.KEY_CATEGORY;
 import static com.example.skillshop.Models.Workshop.KEY_CREATED_AT;
 import static com.example.skillshop.Models.Workshop.KEY_DATE;
 import static com.example.skillshop.Models.Workshop.KEY_MENTOR;
@@ -36,6 +37,13 @@ public class Query extends ParseQuery<Workshop> {
         whereNear(KEY_LOCATION, userLocation);
         return this;
     }
+
+
+    public Query byCategory(String category) {
+        whereEqualTo(KEY_CATEGORY, category);
+        return this;
+    }
+
 
     public Query byTimeMade() {
         addDescendingOrder(KEY_CREATED_AT);
