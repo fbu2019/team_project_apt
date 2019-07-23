@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -46,6 +47,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -66,6 +68,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     ImageView ivClassImage;
     Button btSubmit;
     Workshop currentWorkshop;
+    ImageView ivTrash;
 
 
     ParseGeoPoint location;
@@ -83,12 +86,13 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_class);
+        setContentView(R.layout.activity_edit_class);
         findAllViews();
         setupPlacesApi();
         setupDatePicker();
         setCurrentDetails();
         setSubmitListener();
+        setTrashListener();
     }
 
     private void refreshDetailsPage(Workshop editedWorkshop) {
@@ -96,6 +100,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         data.putExtra("updated", Parcels.wrap(editedWorkshop));
         setResult(RESULT_OK, data);
     }
+
 
     private void setupDatePicker() {
 
@@ -203,6 +208,20 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         });
     }
 
+    private void setTrashListener() {
+
+        ivTrash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    removeWorkshop();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
@@ -253,6 +272,30 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
 
     }
 
+    public void removeWorkshop() throws ParseException {
+        List<Workshop> objects = new ArrayList<>();
+        objects.add(currentWorkshop);
+
+        ParseObject.deleteAll(objects);
+
+
+        finish();
+
+    }
+
+    public void goToHomeFragment(){
+
+
+        // create new fragment to use
+        Fragment home = new HomeFragment();
+        // transaction on current activity
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.flContainer, home);
+        transaction.addToBackStack(null);
+        // Commit the transaction
+        transaction.commit();
+    }
+
     private void findAllViews() {
 
         etClassname = findViewById(R.id.etClassname);
@@ -264,6 +307,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         btSubmit = findViewById(R.id.btSubmit);
         ivClassImage = findViewById(R.id.ivClassImage);
         etTime = findViewById(R.id.etTime);
+        ivTrash =findViewById(R.id.ivTrash);
 
     }
 
