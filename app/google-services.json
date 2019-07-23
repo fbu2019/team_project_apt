@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "89281987990-41o9hs4qdu0jhf3ldmrje4maniv8vrkc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.skillshop",
+            "certificate_hash": "d5c29b923d5ebb6aeaec9d377702b5393191119b"
+          }
+        },
+        {
           "client_id": "89281987990-vthqbfajkq7d813h21pvdhg113noqfb4.apps.googleusercontent.com",
           "client_type": 3
         }

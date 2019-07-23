@@ -13,6 +13,7 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import com.example.skillshop.FragmentHandler;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.R;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
@@ -33,6 +35,8 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.facebook.AccessTokenManager.TAG;
 
 public class HomeFragment extends Fragment {
 
@@ -68,6 +72,9 @@ public class HomeFragment extends Fragment {
         createNotificationChannel();
         // call this function with the title and body and any unique id you want
         notification("Welcome to the home page!","Here are classes you can sign up for",0);
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d(TAG, "Refreshed token: " + refreshedToken);
+
 
     }
 
