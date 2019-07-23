@@ -95,12 +95,16 @@ public class ProfileFragment extends Fragment {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseUser.logOut(); //  logs out ParseUser
-                LoginManager.getInstance().logOut();    //  logs out Facebook user
-                Intent i = new Intent(getContext(), LoginActivity.class);
-                startActivity(i);
+                logout();
             }
         });
+    }
+
+    private void logout() {
+        ParseUser.logOut(); //  logs out ParseUser
+        LoginManager.getInstance().logOut();    //  logs out Facebook user
+        Intent i = new Intent(getContext(), LoginActivity.class);
+        startActivity(i);
     }
 
     private void launchIntent() {
