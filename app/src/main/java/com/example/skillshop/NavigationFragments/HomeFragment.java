@@ -18,10 +18,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import com.example.skillshop.ClassAdapter;
 import com.example.skillshop.FragmentHandler;
+import com.example.skillshop.MapActivity;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.R;
@@ -46,6 +48,7 @@ public class HomeFragment extends Fragment {
 
     Spinner spinSorters;
     Spinner spinFilters;
+    Button btnMap;
     @Override
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,6 +64,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         spinSorters = view.findViewById(R.id.spinSorters);
         spinFilters = view.findViewById(R.id.spinFilters);
+        setupMapButton(view);
         populateHomeFeed();
         connectRecyclerView(view);
         //setSpinner();
@@ -69,6 +73,19 @@ public class HomeFragment extends Fragment {
         createNotificationChannel();
         // call this function with the title and body and any unique id you want
         notification("Welcome to the home page!","Here are classes you can sign up for",0);
+
+    }
+
+    private void setupMapButton(View view) {
+        btnMap = view.findViewById(R.id.btnMap);
+
+        btnMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent openMapActivity = new Intent(getContext(), MapActivity.class);
+                startActivity(openMapActivity);
+            }
+        });
 
     }
 
