@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.skillshop.ClassAttendeesActivity;
 import com.example.skillshop.InstructorDetailsActivity;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.R;
@@ -47,6 +48,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
     private TextView tvCost;
     private TextView tvClassDescription;
     private Button btnClassOptions;
+    private Button btnViewAttendees;
 
     private static int REQUEST_CODE = 333;
     @Override
@@ -65,10 +67,25 @@ public class ClassDetailsActivity extends AppCompatActivity {
         tvCost = findViewById(R.id.tvCost);
         tvClassDescription = findViewById(R.id.tvClassDescription);
         ivClassPicture = findViewById(R.id.ivClassPicture);
+
         populateFields(detailedWorkshop);
         setUpInstructor(detailedWorkshop);
 
         setUpClassOptions();
+        setUpViewAttendees();
+    }
+
+    private void setUpViewAttendees() {
+        btnViewAttendees = findViewById(R.id.btnViewAttendees);
+        btnViewAttendees.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent openAttendeesView = new Intent(ClassDetailsActivity.this, ClassAttendeesActivity.class);
+                openAttendeesView.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(detailedWorkshop));
+                startActivity(openAttendeesView);
+            }
+        });
+
     }
 
     private void setUpClassOptions() {
