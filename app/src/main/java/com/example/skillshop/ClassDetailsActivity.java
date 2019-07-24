@@ -66,8 +66,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
         ivClassPicture = findViewById(R.id.ivClassPicture);
         populateFields(detailedWorkshop);
 
-
-
         setUpClassOptions();
 
     }
@@ -144,28 +142,17 @@ public class ClassDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // if enrolled giv option to un enroll and also the opposite
                 setStatusWorkshop(enrolled);
-                //TODO - IF CLASS COSTS SOMETHING -- CONTINUE TO PAYMENT ACTIVITY
-                if(detailedWorkshop.getInt("cost")>0) {
-                    Log.e("ClassDetails", "Workshop is not free part2");
-                    Intent i =  new Intent(ClassDetailsActivity.this, PayActivity.class);
-                    startActivity(i);
-                    finish();
-                }
-
             }
         });
 
     }
-
-
-
 
     private void populateFields(Workshop workshop) {
 
         tvClassName.setText(workshop.getName());
         tvInstructor.setText(workshop.getTeacher().getUsername());
 
-        // get dat eand format it for the views
+        // get date and format it for the views
         Date date = new Date(workshop.getDate());
         DateFormat dateFormat = new SimpleDateFormat("E MMM dd YYYY");
         DateFormat timeFormat = new SimpleDateFormat("HH:mm");
