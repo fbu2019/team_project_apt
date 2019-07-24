@@ -5,17 +5,14 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import static com.example.skillshop.Models.Workshop.KEY_CATEGORY;
-import static com.example.skillshop.Models.Workshop.KEY_CREATED_AT;
 import static com.example.skillshop.Models.Workshop.KEY_DATE;
 import static com.example.skillshop.Models.Workshop.KEY_STUDENTS;
-import static com.example.skillshop.Models.Workshop.KEY_MENTOR;
+import static com.example.skillshop.Models.Workshop.KEY_TEACHER;
 import static com.example.skillshop.Models.Workshop.KEY_COST;
 import static com.example.skillshop.Models.Workshop.KEY_LOCATION;
 
@@ -31,7 +28,7 @@ public class Query extends ParseQuery<Workshop> {
     }
 
     public Query withItems() {
-        include(KEY_MENTOR);
+        include(KEY_TEACHER);
         return this;
     }
 
@@ -61,7 +58,7 @@ public class Query extends ParseQuery<Workshop> {
 
 
     public Query getClassesTeaching(){
-        whereEqualTo(KEY_MENTOR, ParseUser.getCurrentUser());
+        whereEqualTo(KEY_TEACHER, ParseUser.getCurrentUser());
         return this;
     }
 
