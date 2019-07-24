@@ -81,7 +81,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
         } else {
 
 
-            ArrayList<String> students = (ArrayList<String>) detailedWorkshop.getMentees();
+            ArrayList<String> students = (ArrayList<String>) detailedWorkshop.getStudents();
 
             toggleClassSignUp(students.contains(ParseUser.getCurrentUser().getObjectId()));
 
@@ -217,18 +217,21 @@ public class ClassDetailsActivity extends AppCompatActivity {
     public void setStatusWorkshop(boolean enroll) {
 
 
-        ArrayList<String> students = (ArrayList<String>) detailedWorkshop.getMentees();
+        ArrayList<String> students = (ArrayList<String>) detailedWorkshop.getStudents();
 
 
-        if (!enroll) {
-            // add user from list of students taking class and post this
-            students.add(ParseUser.getCurrentUser().getObjectId());
-            detailedWorkshop.setMentees(students);
-        } else {
-            // remove user from list of students taking class and post this
-            students.remove(ParseUser.getCurrentUser().getObjectId());
-            detailedWorkshop.setMentees(students);
+        String objectId = ParseUser.getCurrentUser().getObjectId();
+
+        if (enroll){
+            students.remove(objectId);
         }
+        else
+        {
+            students.add(objectId);
+        }
+
+        detailedWorkshop.setStudents(students);
+
 
         detailedWorkshop.saveInBackground(new SaveCallback() {
             @Override

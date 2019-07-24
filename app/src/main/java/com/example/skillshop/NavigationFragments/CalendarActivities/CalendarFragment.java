@@ -53,6 +53,11 @@ public class CalendarFragment extends Fragment {
         takingDays = new ArrayList<>();
         overlapDays = new ArrayList<>();
 
+
+        //TODO figure out how to clear calendar every time it is opened
+
+
+
         populateCalendarClassesTaking();
 
         calendarView.initCalderItemClickCallback(new CalenderDayClickListener() {

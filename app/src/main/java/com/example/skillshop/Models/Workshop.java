@@ -23,7 +23,7 @@ public class Workshop extends ParseObject {
     public final static String KEY_CREATED_AT = "createdAt";
     public final static String KEY_COST = "cost";
     public final static String KEY_CATEGORY = "category";
-    public static final String KEY_MENTEES = "mentees";
+    public static final String KEY_STUDENTS = "students";
 
 
     public  String getName() {
@@ -37,7 +37,7 @@ public class Workshop extends ParseObject {
     }
     public ParseGeoPoint getLocation() {return getParseGeoPoint(KEY_LOCATION); }
     public  String getLocationName() {
-        return getString(KEY_LOCATION_NAME).toString();
+        return getString(KEY_LOCATION_NAME);
     }
     public Date getJavaDate(){
         return getDate(KEY_DATE);
@@ -84,12 +84,12 @@ public class Workshop extends ParseObject {
     public Boolean isTeacher(){return (ParseUser.getCurrentUser() == getParseUser(KEY_MENTOR));}
 
 
-    public Object getMentees() {
-        return get(KEY_MENTEES);
+    public Object getStudents() {
+        return get(KEY_STUDENTS);
     }
 
-    public void setMentees(ArrayList<String> mentees) {
-        put(KEY_MENTEES,mentees);
+    public void setStudents(ArrayList<String> students) {
+        put(KEY_STUDENTS,students);
     }
 
 

@@ -14,7 +14,7 @@ import java.util.List;
 import static com.example.skillshop.Models.Workshop.KEY_CATEGORY;
 import static com.example.skillshop.Models.Workshop.KEY_CREATED_AT;
 import static com.example.skillshop.Models.Workshop.KEY_DATE;
-import static com.example.skillshop.Models.Workshop.KEY_MENTEES;
+import static com.example.skillshop.Models.Workshop.KEY_STUDENTS;
 import static com.example.skillshop.Models.Workshop.KEY_MENTOR;
 import static com.example.skillshop.Models.Workshop.KEY_COST;
 import static com.example.skillshop.Models.Workshop.KEY_LOCATION;
@@ -69,7 +69,7 @@ public class Query extends ParseQuery<Workshop> {
     public Query getClassesTaking(){
         List<String> list = Arrays.asList(ParseUser.getCurrentUser().getObjectId());
 
-        whereContainedIn(KEY_MENTEES,list);
+        whereContainedIn(KEY_STUDENTS,list);
 
         return this;
     }
@@ -78,7 +78,7 @@ public class Query extends ParseQuery<Workshop> {
 
         List<String> list = Arrays.asList(ParseUser.getCurrentUser().getObjectId());
 
-        whereNotContainedIn(KEY_MENTEES,list);
+        whereNotContainedIn(KEY_STUDENTS,list);
 
         return this;
     }
