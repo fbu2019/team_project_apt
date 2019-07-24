@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.skillshop.InstructorDetailsActivity;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.R;
 import com.google.android.gms.wallet.PaymentsClient;
@@ -45,8 +46,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
     private TextView tvCost;
     private TextView tvClassDescription;
     private Button btnClassOptions;
-    private PaymentsClient mPaymentsClient; //  client for interacting with the Google Pay API
-    private View mGooglePayButton; //   Google Pay payment button presented to the viewer for interaction
 
     private static int REQUEST_CODE = 333;
     @Override
@@ -66,8 +65,10 @@ public class ClassDetailsActivity extends AppCompatActivity {
         tvClassDescription = findViewById(R.id.tvClassDescription);
         ivClassPicture = findViewById(R.id.ivClassPicture);
         populateFields(detailedWorkshop);
+        setUpInstructor(detailedWorkshop);
 
         setUpClassOptions();
+
 
     }
 
@@ -102,6 +103,9 @@ public class ClassDetailsActivity extends AppCompatActivity {
         }
     }
 
+    private void setUpInstructor() {
+    }
+
     private void setUpTeacherSettings() {
         btnClassOptions.setText("Edit Class");
         btnClassOptions.setOnClickListener(new View.OnClickListener() {
@@ -123,6 +127,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
                 Workshop updatedWorkshop = Parcels.unwrap(data.getParcelableExtra("updated"));
                 populateFields(updatedWorkshop);
+                setUpInstructor(updatedWorkshop);
                 detailedWorkshop = updatedWorkshop;
 
         }
@@ -201,18 +206,32 @@ public class ClassDetailsActivity extends AppCompatActivity {
             tvCost.setText("$ " + cost);
         }
 
+    }
+
+    private void setUpInstructor(Workshop workshop) {
         String profilePhotoUrl = workshop.getTeacher().getString("profilePicUrl");
 
         ivInstructorProfile = findViewById(R.id.ivProfile);
         if (profilePhotoUrl != null) {
             Glide.with(ClassDetailsActivity.this).load(profilePhotoUrl).into(ivInstructorProfile);
-            Log.i("ProfileFragment", profilePhotoUrl);
+            Log.i("ClassDetails", profilePhotoUrl);
         } else {
             ivInstructorProfile.setImageBitmap(null);
-            Log.i("Profile Frag", "No profile image");
+            Log.i("ClassDetails", "No profile image");
         }
 
+
+        ivInstructorProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ClassDetailsActivity.this, InstructorDetailsActivity.class);
+                startActivity(i);
+                Log.e("ClassDetails", "Starting Activity");
+            }
+        });
+
     }
+
 
     public void setStatusWorkshop(boolean enroll) {
 
@@ -245,11 +264,5 @@ public class ClassDetailsActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private static JSONObject getBaseRequest() throws JSONException {
-        return new JSONObject()
-                .put("apiVersion", 2)
-                .put("apiVersionMinor", 0);
     }
 }

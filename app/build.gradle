@@ -49,7 +49,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 
 //added for maps
-    implementation "com.android.support:support-v13:$supportLibVersion" // to remove lint error, found in .idea/libraries
+    implementation "com.android.support:support-v13:$supportLibVersion"
+    // to remove lint error, found in .idea/libraries
 //added for maps
 
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
