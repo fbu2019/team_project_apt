@@ -117,7 +117,8 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
         private void setAllViews(Workshop tWorkshop) {
 
             tvClassName.setText(tWorkshop.getName());
-         //   tvInstructor.setText(tWorkshop.getTeacher().getUsername());
+            ParseUser teacher = tWorkshop.getTeacher();
+            tvInstructor.setText(teacher.get("firstName").toString()+" "+ teacher.get("lastName").toString());
             if(tvInstructor.getText().equals(ParseUser.getCurrentUser().getUsername()))
             {
                 ivTeacherBadge.setVisibility(View.VISIBLE);
