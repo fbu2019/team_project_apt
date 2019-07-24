@@ -1,6 +1,7 @@
 package com.example.skillshop;
 
 import org.parceler.Parcels;
+import org.w3c.dom.Text;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +27,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
     private TextView tvInstructorName;
     private TextView tvNotYetRated;
     private TextView tvNumRatings;
+    private TextView tvUserProvidedRating;
     private RatingBar rbInstructorAverage;
     private RatingBar rbUserRating;
 
@@ -60,13 +62,13 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
     private void initRatingBar() {
 
-        //  rbUserRating = findViewById(R.id)
+        rbUserRating = findViewById(R.id.userRating);
         rbInstructorAverage = findViewById(R.id.instructorAverage);
         rbInstructorAverage.setNumStars(5);
 
         tvNumRatings = findViewById(R.id.numRatings);
         tvNotYetRated = findViewById(R.id.notRated);
-
+        tvUserProvidedRating = findViewById(R.id.userProvideRating);
 
         int numTimesRated = (int) detailedWorkshop.getTeacher().get("numRatings");
 
@@ -88,12 +90,15 @@ public class InstructorDetailsActivity extends AppCompatActivity {
             tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated " + numTimesRated + " times.");
         }
 
-        rbInstructorAverage.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+        if ( true ){
+            //TODO - DETERMINE RELATIONSHIP BETWEEN USER AND IF THEY'VE RATD A USER
+            tvUserProvidedRating.setText("You have not yet rated this instructor");
+        }
+        rbUserRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-
                 updateRating();
-
+                tvUserProvidedRating.setText("You have provided "+detailedWorkshop.getTeacher().get("firstName")+" with a rating of "+rbUserRating.getRating());
             }
         });
     }
