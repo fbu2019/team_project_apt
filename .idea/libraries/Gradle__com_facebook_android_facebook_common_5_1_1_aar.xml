@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.facebook.android:facebook-common:5.1.1@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e9b5bee0cfdf1f300b3f277d153d34fb/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e9b5bee0cfdf1f300b3f277d153d34fb/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e97aa5169ae2fa0e632a20e5a7f40241/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e97aa5169ae2fa0e632a20e5a7f40241/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
