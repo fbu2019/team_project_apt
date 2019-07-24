@@ -171,7 +171,6 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         location = currentWorkshop.getLocation();
         locationName = currentWorkshop.getLocationName();
 
-
     }
 
     private void setupPlacesApi() {

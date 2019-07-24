@@ -32,8 +32,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".InstructorDetailsActivity"></activity>
-        <!-- added for maps -->
+        <activity android:name=".ClassAttendeesActivity"></activity>
+        <activity android:name=".InstructorDetailsActivity" /> <!-- added for maps -->
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" /> <!-- added for maps -->
@@ -46,7 +46,6 @@
 
         </activity>
         <activity android:name=".AddUserPreferences" />
-        <activity android:name=".PayActivity" />
         <activity android:name=".NavigationFragments.CalendarActivities.DaysEventsActivity" />
 
         <meta-data
