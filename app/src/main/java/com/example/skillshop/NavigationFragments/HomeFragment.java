@@ -40,6 +40,7 @@ public class HomeFragment extends Fragment {
     Spinner spinSorters;
     Spinner spinFilters;
     ImageButton btnMap;
+    Boolean firstLoad = true;
     @Override
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,8 +57,9 @@ public class HomeFragment extends Fragment {
         spinSorters = view.findViewById(R.id.spinSorters);
         spinFilters = view.findViewById(R.id.spinFilters);
         setupMapButton(view);
-        populateHomeFeed();
+
         connectRecyclerView(view);
+      //  populateHomeFeed();
     }
 
     private void setupMapButton(View view) {
@@ -107,8 +109,7 @@ public class HomeFragment extends Fragment {
                 switch(position){
 
                     case (0):{
-                        mWorkshops.clear();
-                        classAdapter.notifyDataSetChanged();
+
                         populateHomeFeed();
                         break;
                     }
@@ -128,6 +129,7 @@ public class HomeFragment extends Fragment {
                                 populateByLocation(userLocation);
                             }
                         });
+                        break;
                     }
                     default:
                         break;
@@ -160,9 +162,11 @@ public class HomeFragment extends Fragment {
                 switch(position){
 
                     case (0):{
-                        mWorkshops.clear();
-                        classAdapter.notifyDataSetChanged();
-                        populateHomeFeed();
+                        if (firstLoad){
+                            firstLoad = false;
+                        }else{
+                            populateHomeFeed();
+                        }
                         break;
                     }
                     case (1):{
@@ -297,6 +301,8 @@ public class HomeFragment extends Fragment {
 
     public void populateHomeFeed() {
 
+        mWorkshops.clear();
+        classAdapter.notifyDataSetChanged();
 
         Query parseQuery = new Query();
         // query add all classes with all data and sort by time of class and only show new classes
