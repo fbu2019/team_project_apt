@@ -3,10 +3,9 @@ import json
 import pprint
 
 
+def notifyTeacherStudents(target):
 
-
-def notifyTeacherStudents():
-    params = {"include":"teacher"}
+    params = {"where":json.dumps({"objectId":target}),"include":"teacher"}
 
     headers = {
     "X-Parse-Application-Id":"skillshop",
@@ -35,6 +34,7 @@ def notifyTeacherStudents():
 
             sendNotification(studentResponse["firebaseToken"],"You are in a class taught by " + teacherName )
         sendNotification(teacherObject["firebaseToken"],"Your class has been edited")
+
 
 def sendNotification(target,message):
     data = {
@@ -65,4 +65,4 @@ def sendNotification(target,message):
         print("fail")
 
 if __name__ == "__main__":
-    notifyTeacherStudents()
+    notifyTeacherStudents("EBkRLhPXi1")
