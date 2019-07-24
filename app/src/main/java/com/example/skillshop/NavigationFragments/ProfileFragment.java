@@ -65,7 +65,6 @@ public class ProfileFragment extends Fragment {
         nameViewText = view.findViewById(R.id.nameView);
         userPreferencesText = view.findViewById(R.id.userPreferences);
         displayUserInfo(view, locationName, profilePhotoUrl);
-        //  retrievePreferences();
 
         if (!Places.isInitialized()) {
             Places.initialize(getContext(), apiKey); // Initializes places
@@ -121,31 +120,6 @@ public class ProfileFragment extends Fragment {
         }
 
     }
-
-    /*
-    public void retrievePreferences(){
-
-        ParseUser user = ParseUser.getCurrentUser();
-
-        ArrayList<String> preferences = (ArrayList<String>) user.get("preferences");
-        if(user.get("preferences")!=null){
-
-            String genMessage = "Your preferences include: ";
-            int numPreferences = preferences.size();
-
-            if(numPreferences<=1){
-                userPreferencesText.setText(genMessage+preferences.get(0));
-            } else {
-                String allButLast = "";
-                for (int i=0; i<numPreferences-1; i++){
-                    allButLast = allButLast + preferences.get(i) + ", ";
-                }
-                userPreferencesText.setText(genMessage+allButLast+"and "+preferences.get(numPreferences-1));
-            }
-        }
-
-    }
-    */
 
     private void logout() {
         ParseUser.logOut(); //  logs out ParseUser
