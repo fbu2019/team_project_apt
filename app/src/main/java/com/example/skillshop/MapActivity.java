@@ -2,6 +2,7 @@ package com.example.skillshop;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Looper;
@@ -13,6 +14,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.skillshop.ClassManipulationActivities.ClassDetailsActivity;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Workshop;
 import com.google.android.gms.common.ConnectionResult;
@@ -40,6 +42,8 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +56,9 @@ import static com.google.android.gms.location.LocationServices.getFusedLocationP
 
 @RuntimePermissions
 
-public class MapActivity extends AppCompatActivity {
+public class MapActivity extends AppCompatActivity implements
+        GoogleMap.OnInfoWindowClickListener {
+
 
 
     private SupportMapFragment mapFragment;
@@ -92,6 +98,7 @@ public class MapActivity extends AppCompatActivity {
             mapFragment.getMapAsync(new OnMapReadyCallback() {
                 @Override
                 public void onMapReady(GoogleMap map) {
+                    map.setOnInfoWindowClickListener(MapActivity.this::onInfoWindowClick);
                     loadMap(map);
                 }
             });
@@ -147,14 +154,19 @@ public class MapActivity extends AppCompatActivity {
                 .snippet(workshopItem.getDate())
         );
 
+        marker.setTag(workshopItem);
+
 
     }
+
+
+
 
     protected void loadMap(GoogleMap googleMap) {
         map = googleMap;
         if (map != null) {
             // Map is ready
-            Toast.makeText(this, "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
+      //      Toast.makeText(this, "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
             MapActivityPermissionsDispatcher.getMyLocationWithPermissionCheck(this);
             MapActivityPermissionsDispatcher.startLocationUpdatesWithPermissionCheck(this);
         } else {
@@ -295,13 +307,25 @@ public class MapActivity extends AppCompatActivity {
         String msg = "Updated Location: " +
                 Double.toString(location.getLatitude()) + "," +
                 Double.toString(location.getLongitude());
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+     //   Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putParcelable(KEY_LOCATION, mCurrentLocation);
         super.onSaveInstanceState(savedInstanceState);
     }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Workshop workshop = (Workshop) marker.getTag();
+        final Intent profileDetailsIntent = new Intent(MapActivity.this, ClassDetailsActivity.class);
+        //pass in class that was selected
+        profileDetailsIntent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(workshop));
+        startActivity(profileDetailsIntent);
+    }
+
+
+
 
     // Define a DialogFragment that displays the error dialog
     public static class ErrorDialogFragment extends android.support.v4.app.DialogFragment {
