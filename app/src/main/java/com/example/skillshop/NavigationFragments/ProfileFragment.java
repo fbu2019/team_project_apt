@@ -62,7 +62,10 @@ public class ProfileFragment extends Fragment {
 
         tvUserName = view.findViewById(R.id.nameView);
         tvRatingMessage = view.findViewById(R.id.ratingMessage);
+        tvRatingMessage = view.findViewById(R.id.ratingMessage);
         ivProfilePic = view.findViewById(R.id.profilePicture);
+        rbUserRating = view.findViewById(R.id.userRating);
+        rbUserRating.setNumStars(5);
 
         ParseUser user = ParseUser.getCurrentUser();
         String locationName = (user.getString("locationName"));
@@ -122,11 +125,14 @@ public class ProfileFragment extends Fragment {
             Log.i("Profile Frag", "No profile image");
         }
 
-        if (numTimesRated==0){
+        if (numTimesRated == 0) {
+            tvRatingMessage.setText("You have not been rated as an instructor.");
 
+        } else if (numTimesRated == 1) {
+            tvRatingMessage.setText("You have been rated 1 time.");
 
         } else {
-
+            tvRatingMessage.setText("You have been rated " + numTimesRated + "times.");
         }
 
     }

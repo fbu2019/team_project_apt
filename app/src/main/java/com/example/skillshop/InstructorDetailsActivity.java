@@ -30,6 +30,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
     private RatingBar rbUserRating;
 
     private String profilePhotoUrl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +44,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         initRatingBar();
     }
 
-    private void loadProfilePicture(){
+    private void loadProfilePicture() {
 
         ivInstructorProfile = findViewById(R.id.instructorProfile);
         profilePhotoUrl = detailedWorkshop.getTeacher().getString("profilePicUrl");
@@ -57,7 +58,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
     }
 
-    private void initRatingBar(){
+    private void initRatingBar() {
 
         //  rbUserRating = findViewById(R.id)
         rbInstructorAverage = findViewById(R.id.instructorAverage);
@@ -100,27 +101,23 @@ public class InstructorDetailsActivity extends AppCompatActivity {
     private void updateRating() {
 
         int numTimesRated = (int) detailedWorkshop.getTeacher().get("numRatings");
-        detailedWorkshop.getTeacher().put("numRatings", (int) numTimesRated+1);
+        detailedWorkshop.getTeacher().put("numRatings", (int) numTimesRated + 1);
 
         detailedWorkshop.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                if(e == null)
-                {
+                if (e == null) {
                     Toast.makeText(InstructorDetailsActivity.this, "Changes have been saved (changes may take a while to be reflected in the app)", Toast.LENGTH_SHORT).show();
                     Workshop editedWorkshop = detailedWorkshop;
                     refreshDetailsPage(editedWorkshop);
                     finish();
-                }
-                else
-                {
+                } else {
                     Toast.makeText(InstructorDetailsActivity.this, "Error saving changes", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
-
-
+    
     private void refreshDetailsPage(Workshop editedWorkshop) {
         Intent data = new Intent();
         data.putExtra("updated", Parcels.wrap(editedWorkshop));
