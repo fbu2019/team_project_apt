@@ -31,14 +31,5 @@ public class PayActivity extends AppCompatActivity {
                finish();
             }
         });
-
-        // Initialize a Google Pay API client for an environment suitable for testing
-        mPaymentsClient =
-                Wallet.getPaymentsClient(
-                        this,
-                        new Wallet.WalletOptions.Builder()
-                                .setEnvironment(WalletConstants.ENVIRONMENT_TEST) //    TODO - change to ENVIRONMENT_PRODUCTION when app is completed
-                                .build());
-
-    }
+        
 }

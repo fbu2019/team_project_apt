@@ -13,12 +13,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.skillshop.ClassAttendeesActivity;
 import com.example.skillshop.InstructorDetailsActivity;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.R;
 import com.google.android.gms.wallet.PaymentsClient;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -46,6 +48,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
     private TextView tvCost;
     private TextView tvClassDescription;
     private Button btnClassOptions;
+    private Button btnViewAttendees;
 
     private static int REQUEST_CODE = 333;
     @Override
@@ -64,10 +67,25 @@ public class ClassDetailsActivity extends AppCompatActivity {
         tvCost = findViewById(R.id.tvCost);
         tvClassDescription = findViewById(R.id.tvClassDescription);
         ivClassPicture = findViewById(R.id.ivClassPicture);
+
         populateFields(detailedWorkshop);
         setUpInstructor(detailedWorkshop);
 
         setUpClassOptions();
+        setUpViewAttendees();
+    }
+
+    private void setUpViewAttendees() {
+        btnViewAttendees = findViewById(R.id.btnViewAttendees);
+        btnViewAttendees.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent openAttendeesView = new Intent(ClassDetailsActivity.this, ClassAttendeesActivity.class);
+                openAttendeesView.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(detailedWorkshop));
+                startActivity(openAttendeesView);
+            }
+        });
+
     }
 
     private void setUpClassOptions() {
@@ -79,25 +97,11 @@ public class ClassDetailsActivity extends AppCompatActivity {
             setUpTeacherSettings();
         } else {
 
-            detailedWorkshop.getStudents().getQuery().findInBackground(new FindCallback() {
-                @Override
-                public void done(List objects, ParseException e) {
-                }
 
-                @Override
-                public void done(Object o, Throwable throwable) {
-                    // go through all enrolled students and see if user is one of them
-                    boolean enrolled = false;
-                    for (int i = 0; i < ((ArrayList) o).size(); i++) {
-                        if (((ArrayList<ParseUser>) o).get(i).getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
-                            enrolled = true;
-                            break;
-                        }
-                    }
-                    // pass the status of student and allow them to sign up or drop a class
-                    toggleClassSignUp(enrolled);
-                }
-            });
+            ArrayList<String> students = (ArrayList<String>) detailedWorkshop.getStudents();
+
+            toggleClassSignUp(students.contains(ParseUser.getCurrentUser().getObjectId()));
+
         }
     }
 
@@ -229,15 +233,22 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
     public void setStatusWorkshop(boolean enroll) {
 
-        ParseRelation<ParseUser> signedUpStudents = detailedWorkshop.getStudents();
 
-        if (!enroll) {
-            // add user from list of students taking class and post this
-            signedUpStudents.add(ParseUser.getCurrentUser());
-        } else {
-            // remove user from list of students taking class and post this
-            signedUpStudents.remove(ParseUser.getCurrentUser());
+        ArrayList<String> students = (ArrayList<String>) detailedWorkshop.getStudents();
+
+
+        String objectId = ParseUser.getCurrentUser().getObjectId();
+
+        if (enroll){
+            students.remove(objectId);
         }
+        else
+        {
+            students.add(objectId);
+        }
+
+        detailedWorkshop.setStudents(students);
+
 
         detailedWorkshop.saveInBackground(new SaveCallback() {
             @Override

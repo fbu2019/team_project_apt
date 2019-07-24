@@ -271,12 +271,8 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     public void removeWorkshop() throws ParseException {
         List<Workshop> objects = new ArrayList<>();
         objects.add(currentWorkshop);
-
         ParseObject.deleteAll(objects);
-
-
         finish();
-
     }
 
     public void goToHomeFragment(){

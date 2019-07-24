@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 
@@ -24,6 +25,9 @@ import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +44,7 @@ public class HomeFragment extends Fragment {
     Spinner spinSorters;
     Spinner spinFilters;
     ImageButton btnMap;
+    Button btnPreferenceFilter;
     Boolean firstLoad = true;
     @Override
 
@@ -57,9 +62,32 @@ public class HomeFragment extends Fragment {
         spinSorters = view.findViewById(R.id.spinSorters);
         spinFilters = view.findViewById(R.id.spinFilters);
         setupMapButton(view);
+        setupPreferenceFilterButton(view);
 
         connectRecyclerView(view);
       //  populateHomeFeed();
+    }
+
+    private void setupPreferenceFilterButton(View view) {
+        btnPreferenceFilter = view.findViewById(R.id.btnPreferenceFilter);
+
+        btnPreferenceFilter.setOnClickListener(new View.OnClickListener() {
+            ArrayList<String> preferenceList = new ArrayList<String>();
+            @Override
+            public void onClick(View v) {
+                JSONArray preferenceArray = ParseUser.getCurrentUser().getJSONArray("preferences");
+                for (int i = 0; i < preferenceArray.length(); i++){
+                    try {
+                        preferenceList.add(preferenceArray.get(i).toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                filterByCategory(preferenceList);
+
+            }
+        });
     }
 
     private void setupMapButton(View view) {
@@ -161,6 +189,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+                ArrayList<String> singletonCategory = new ArrayList<String>();
                 //     classAdapter.notifyDataSetChanged();
                 switch(position){
 
@@ -173,23 +202,29 @@ public class HomeFragment extends Fragment {
                         break;
                     }
                     case (1):{
-                       filterByCategory("Culinary");
+
+                        singletonCategory.add("Culinary");
+                       filterByCategory(singletonCategory);
                         break;
                     }
                     case (2):{
-                        filterByCategory("Education");
+                        singletonCategory.add("Education");
+                        filterByCategory(singletonCategory);
                         break;
                     }
                     case (3):{
-                        filterByCategory("Fitness");
+                        singletonCategory.add("Fitness");
+                        filterByCategory(singletonCategory);
                         break;
                     }
                     case (4):{
-                        filterByCategory("Arts/Crafts");
+                        singletonCategory.add("Arts/Crafts");
+                        filterByCategory(singletonCategory);
                         break;
                     }
                     case (5):{
-                        filterByCategory("Other");
+                        singletonCategory.add("Other");
+                        filterByCategory(singletonCategory);
                         break;
                     }
                     default:
@@ -207,12 +242,12 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void filterByCategory(String category) {
+    private void filterByCategory(ArrayList<String> categories) {
         mWorkshops.clear();
         classAdapter.notifyDataSetChanged();
         Query parseQuery = new Query();
         // query add all classes with all data and sort by time of class and only show new classes
-        parseQuery.getAllClasses().withItems().byCategory(category).getClassesNotTaking();
+        parseQuery.getAllClasses().withItems().byCategory(categories).getClassesNotTaking();
 
         parseQuery.findInBackground(new FindCallback<Workshop>() {
             @Override

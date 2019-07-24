@@ -3,10 +3,10 @@ package com.example.skillshop.Models;
 import com.parse.ParseClassName;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
-import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -18,11 +18,11 @@ public class Workshop extends ParseObject {
     public final static String KEY_DATE = "date";
     public final static String KEY_LOCATION_NAME = "locationName";
     public final static String KEY_LOCATION = "location";
-    public final static String KEY_MENTOR = "mentor";
+    public final static String KEY_TEACHER = "teacher";
     public final static String KEY_CREATED_AT = "createdAt";
     public final static String KEY_COST = "cost";
     public final static String KEY_CATEGORY = "category";
-    public final static String KEY_STUDENTS = "students";
+    public static final String KEY_STUDENTS = "students";
 
 
     public  String getName() {
@@ -36,7 +36,7 @@ public class Workshop extends ParseObject {
     }
     public ParseGeoPoint getLocation() {return getParseGeoPoint(KEY_LOCATION); }
     public  String getLocationName() {
-        return getString(KEY_LOCATION_NAME).toString();
+        return getString(KEY_LOCATION_NAME);
     }
     public Date getJavaDate(){
         return getDate(KEY_DATE);
@@ -65,11 +65,11 @@ public class Workshop extends ParseObject {
         put(KEY_LOCATION,location);
     }
     public ParseUser getTeacher() {
-        return getParseUser(KEY_MENTOR);
+        return getParseUser(KEY_TEACHER);
     }
 
     public void setTeacher(ParseUser user) {
-        put(KEY_MENTOR,user);
+        put(KEY_TEACHER,user);
     }
 
     public String getCategory() {
@@ -80,15 +80,15 @@ public class Workshop extends ParseObject {
         put(KEY_CATEGORY,category);
     }
 
+    public Boolean isTeacher(){return (ParseUser.getCurrentUser() == getParseUser(KEY_TEACHER));}
 
-    public ParseRelation getStudents() {
-        return getRelation(KEY_STUDENTS);
+
+    public Object getStudents() {
+        return get(KEY_STUDENTS);
     }
 
-    public Boolean isTeacher(){return (ParseUser.getCurrentUser() == getParseUser(KEY_MENTOR));}
-
-
-
-
+    public void setStudents(ArrayList<String> students) {
+        put(KEY_STUDENTS,students);
+    }
 }
 

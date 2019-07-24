@@ -5,13 +5,15 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import static com.example.skillshop.Models.Workshop.KEY_CATEGORY;
-import static com.example.skillshop.Models.Workshop.KEY_CREATED_AT;
 import static com.example.skillshop.Models.Workshop.KEY_DATE;
-import static com.example.skillshop.Models.Workshop.KEY_MENTOR;
 import static com.example.skillshop.Models.Workshop.KEY_STUDENTS;
+import static com.example.skillshop.Models.Workshop.KEY_TEACHER;
 import static com.example.skillshop.Models.Workshop.KEY_COST;
 import static com.example.skillshop.Models.Workshop.KEY_LOCATION;
 
@@ -27,8 +29,7 @@ public class Query extends ParseQuery<Workshop> {
     }
 
     public Query withItems() {
-        include(KEY_MENTOR);
-        include(KEY_STUDENTS);
+        include(KEY_TEACHER);
         return this;
     }
 
@@ -39,16 +40,12 @@ public class Query extends ParseQuery<Workshop> {
     }
 
 
-    public Query byCategory(String category) {
-        whereEqualTo(KEY_CATEGORY, category);
+    public Query byCategory(ArrayList<String> categories) {
+        whereContainedIn(KEY_CATEGORY, categories);
         return this;
     }
 
 
-    public Query byTimeMade() {
-        addDescendingOrder(KEY_CREATED_AT);
-        return this;
-    }
 
     public Query byTimeOfClass() {
         addAscendingOrder(KEY_DATE);
@@ -62,21 +59,24 @@ public class Query extends ParseQuery<Workshop> {
 
 
     public Query getClassesTeaching(){
-        whereEqualTo(KEY_MENTOR, ParseUser.getCurrentUser());
+        whereEqualTo(KEY_TEACHER, ParseUser.getCurrentUser());
         return this;
     }
 
 
     public Query getClassesTaking(){
+        List<String> list = Arrays.asList(ParseUser.getCurrentUser().getObjectId());
 
-        whereEqualTo(KEY_STUDENTS,ParseUser.getCurrentUser());
+        whereContainedIn(KEY_STUDENTS,list);
 
         return this;
     }
 
     public Query getClassesNotTaking(){
 
-        whereNotEqualTo(KEY_STUDENTS,ParseUser.getCurrentUser());
+        List<String> list = Arrays.asList(ParseUser.getCurrentUser().getObjectId());
+
+        whereNotContainedIn(KEY_STUDENTS,list);
 
         return this;
     }

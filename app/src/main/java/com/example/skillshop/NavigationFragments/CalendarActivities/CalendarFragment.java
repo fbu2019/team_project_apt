@@ -37,6 +37,7 @@ public class CalendarFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        calendarView = null;
         return inflater.inflate((R.layout.fragment_calendar),container,false);
     }
 
@@ -46,14 +47,26 @@ public class CalendarFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        calendarView = null;
         calendarView = view.findViewById(R.id.calendarView);
+
+
+         calendarView.clearDisappearingChildren();
+
 
         teachingDays = new ArrayList<>();
         teachingDates = new ArrayList<>();
         takingDays = new ArrayList<>();
         overlapDays = new ArrayList<>();
 
+
+        //TODO figure out how to clear calendar every time it is opened
+
+
+
+
         populateCalendarClassesTaking();
+
 
         calendarView.initCalderItemClickCallback(new CalenderDayClickListener() {
             @Override
