@@ -8,10 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.skillshop.ClassManipulationActivities.ClassDetailsActivity;
 import com.example.skillshop.Models.Workshop;
-
-import org.parceler.Parcels;
 
 public class InstructorDetailsActivity extends AppCompatActivity {
 
@@ -27,18 +24,22 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         Log.e("InstructorDetails", "Starting Activity");
 
         detailedWorkshop = Parcels.unwrap(getIntent().getParcelableExtra(Workshop.class.getSimpleName()));
-       // Workshop currentWorkshop =
-        /*
-        String profilePhotoUrl = detailedWorkshop.getTeacher().getString("profilePicUrl");
 
-        ivInstructorProfile = findViewById(R.id.ivProfile);
+        tvInstructorName = findViewById(R.id.instructorName);
+        tvInstructorName.setText(detailedWorkshop.getTeacher().getString("firstName")+" "+detailedWorkshop.getTeacher().getString("lastName"));
+
+        ivInstructorProfile = findViewById(R.id.instructorProfile);
+        String profilePhotoUrl = detailedWorkshop.getTeacher().getString("profilePicUrl");
+        Log.e("Instructor Details", profilePhotoUrl);
+
         if (profilePhotoUrl != null) {
+            Log.e("Instructor Details 2", profilePhotoUrl);
             Glide.with(InstructorDetailsActivity.this).load(profilePhotoUrl).into(ivInstructorProfile);
             Log.i("ProfileFragment", profilePhotoUrl);
         } else {
             ivInstructorProfile.setImageBitmap(null);
             Log.i("Profile Frag", "No profile image");
         }
-        */
+
     }
 }

@@ -68,8 +68,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
         setUpInstructor(detailedWorkshop);
 
         setUpClassOptions();
-
-
     }
 
     private void setUpClassOptions() {
@@ -101,9 +99,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
                 }
             });
         }
-    }
-
-    private void setUpInstructor() {
     }
 
     private void setUpTeacherSettings() {
@@ -225,13 +220,12 @@ public class ClassDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ClassDetailsActivity.this, InstructorDetailsActivity.class);
+                i.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(workshop));
                 startActivity(i);
                 Log.e("ClassDetails", "Starting Activity");
             }
         });
-
     }
-
 
     public void setStatusWorkshop(boolean enroll) {
 
