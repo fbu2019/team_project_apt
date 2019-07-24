@@ -5,6 +5,7 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -39,8 +40,8 @@ public class Query extends ParseQuery<Workshop> {
     }
 
 
-    public Query byCategory(String category) {
-        whereEqualTo(KEY_CATEGORY, category);
+    public Query byCategory(ArrayList<String> categories) {
+        whereContainedIn(KEY_CATEGORY, categories);
         return this;
     }
 
