@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,8 +116,9 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
         }
 
         private void setAllViews(Workshop tWorkshop) {
-
+            Log.e("ERROR MESSAGE ABOVE", tWorkshop.getName()+" K");
             tvClassName.setText(tWorkshop.getName());
+            Log.e("ERROR MESSAGE HERE", tWorkshop.getName());
             tvInstructor.setText(tWorkshop.getTeacher().getUsername());
             if(tvInstructor.getText().equals(ParseUser.getCurrentUser().getUsername()))
             {

@@ -10,16 +10,16 @@
         android:id="@+id/continueButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="556dp"
-        android:layout_marginEnd="68dp"
-        android:text="Return Home"
+        android:layout_marginTop="564dp"
+        android:layout_marginEnd="160dp"
+        android:text="Submit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <CheckBox
         android:id="@+id/culinaryBox"
-        android:layout_width="267dp"
-        android:layout_height="35dp"
+        android:layout_width="250dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="168dp"
         android:layout_marginEnd="8dp"
@@ -30,8 +30,8 @@
 
     <CheckBox
         android:id="@+id/artsCraftsBox"
-        android:layout_width="265dp"
-        android:layout_height="40dp"
+        android:layout_width="250dp"
+        android:layout_height="0dp"
         android:layout_marginTop="4dp"
         android:text="Arts/Crafts"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,8 +40,8 @@
 
     <CheckBox
         android:id="@+id/fitnessBox"
-        android:layout_width="265dp"
-        android:layout_height="40dp"
+        android:layout_width="250dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -52,8 +52,8 @@
 
     <CheckBox
         android:id="@+id/educationBox"
-        android:layout_width="265dp"
-        android:layout_height="40dp"
+        android:layout_width="250dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
