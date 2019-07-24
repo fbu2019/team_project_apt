@@ -43,8 +43,7 @@ public class AddUserPreferences extends AppCompatActivity {
             }
         });
     }
-
-
+    
     private void checkCurrentPreferences() {
         ParseUser currentUser = ParseUser.getCurrentUser();
         if(currentUser.get("preferences") != null ) {
@@ -72,17 +71,13 @@ public class AddUserPreferences extends AppCompatActivity {
 
     }
 
-
+    //TODO: potentiall make each preference an individual boolean column
     private void retrievePreferences() {
         ArrayList <String> preferences = new ArrayList<String>();
         //  preferences.add(0, "one");
 
         if(culinaryBox.isChecked()){
             preferences.add("Culinary");
-            //currentUser.put("")
-            //  add to array
-        } else {
-            // TODO: ALLOW USERS TO REMOVE PREFERENCES
         }
         if(educationBox.isChecked()){
             preferences.add("Education");

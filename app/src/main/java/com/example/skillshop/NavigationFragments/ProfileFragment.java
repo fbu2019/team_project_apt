@@ -119,7 +119,6 @@ public class ProfileFragment extends Fragment {
             ivProfilePic.setImageBitmap(null);
             Log.i("Profile Frag", "No profile image");
         }
-
     }
 
     private void logout() {
