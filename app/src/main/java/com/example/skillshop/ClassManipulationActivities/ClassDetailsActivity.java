@@ -5,12 +5,14 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.R;
 import com.google.android.gms.wallet.PaymentsClient;
@@ -34,6 +36,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
     private Workshop detailedWorkshop;
     private ImageView ivClassPicture;
+    private ImageView ivInstructorProfile;
     private TextView tvClassName;
     private TextView tvInstructor;
     private TextView tvDate;
@@ -196,6 +199,17 @@ public class ClassDetailsActivity extends AppCompatActivity {
             tvCost.setBackground(new ColorDrawable(Color.parseColor("#00FF00")));
         } else {
             tvCost.setText("$ " + cost);
+        }
+
+        String profilePhotoUrl = workshop.getTeacher().getString("profilePicUrl");
+
+        ivInstructorProfile = findViewById(R.id.ivProfile);
+        if (profilePhotoUrl != null) {
+            Glide.with(ClassDetailsActivity.this).load(profilePhotoUrl).into(ivInstructorProfile);
+            Log.i("ProfileFragment", profilePhotoUrl);
+        } else {
+            ivInstructorProfile.setImageBitmap(null);
+            Log.i("Profile Frag", "No profile image");
         }
 
     }

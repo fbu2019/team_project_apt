@@ -29,6 +29,7 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -84,6 +85,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 createPreferences();
+                //  retrievePreferences();
             }
         });
 
@@ -99,7 +101,6 @@ public class ProfileFragment extends Fragment {
     private void createPreferences() {
         Intent i = new Intent(getContext(), AddUserPreferences.class);
         startActivity(i);
-        // TODO - continue to new activity modify user preferences 
     }
 
     private void displayUserInfo(View view, String locationName, String profilePhotoUrl) {
@@ -117,6 +118,7 @@ public class ProfileFragment extends Fragment {
             ivProfilePic.setImageBitmap(null);
             Log.i("Profile Frag", "No profile image");
         }
+
     }
 
     private void logout() {
@@ -165,4 +167,5 @@ public class ProfileFragment extends Fragment {
             });
         }
     }
+
 }

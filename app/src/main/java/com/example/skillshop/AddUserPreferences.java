@@ -47,10 +47,8 @@ public class AddUserPreferences extends AppCompatActivity {
     private void checkCurrentPreferences() {
         ParseUser currentUser = ParseUser.getCurrentUser();
         if(currentUser.get("preferences") != null ) {
+
             ArrayList<String> preferences = (ArrayList<String>) currentUser.get("preferences");
-            for (int i = 0; i < preferences.size(); i++) {
-                Log.e("Add user preferences", preferences.get(i) + " " + i);
-            }
 
             for (int i = 0; i < preferences.size(); i++) {
                 if (preferences.get(i).equals("Culinary")) {
@@ -74,22 +72,18 @@ public class AddUserPreferences extends AppCompatActivity {
     //TODO: potentiall make each preference an individual boolean column
     private void retrievePreferences() {
         ArrayList <String> preferences = new ArrayList<String>();
-        //  preferences.add(0, "one");
 
         if(culinaryBox.isChecked()){
             preferences.add("Culinary");
         }
         if(educationBox.isChecked()){
             preferences.add("Education");
-            //  add to array
         }
         if(fitnessBox.isChecked()){
             preferences.add("Fitness");
-            //  add to array
         }
         if(artsCraftsBox.isChecked()){
             preferences.add("Arts and Crafts");
-            //  add to array
         }
 
         ParseUser currentUser = ParseUser.getCurrentUser();
