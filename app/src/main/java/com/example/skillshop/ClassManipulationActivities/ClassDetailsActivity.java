@@ -148,7 +148,9 @@ public class ClassDetailsActivity extends AppCompatActivity {
     private void populateFields(Workshop workshop) {
 
         tvClassName.setText(workshop.getName());
-        tvInstructor.setText(workshop.getTeacher().getUsername());
+        if(workshop.getTeacher().getString("firstName")!=null && workshop.getString("lastName")!=null){
+            tvInstructor.setText(workshop.getTeacher().getString("firstName")+" "+workshop.getTeacher().getString("lastName"));
+        }
 
         // get date and format it for the views
         Date date = new Date(workshop.getDate());

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class AddUserPreferences extends AppCompatActivity {
 
-    Button temporaryContinue;
+    Button submitButton;
     CheckBox culinaryBox;
     CheckBox educationBox;
     CheckBox fitnessBox;
@@ -34,8 +34,8 @@ public class AddUserPreferences extends AppCompatActivity {
 
         checkCurrentPreferences();
 
-        temporaryContinue = findViewById(R.id.continueButton);
-        temporaryContinue.setOnClickListener(new View.OnClickListener() {
+        submitButton = findViewById(R.id.continueButton);
+        submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 retrievePreferences();
@@ -43,7 +43,7 @@ public class AddUserPreferences extends AppCompatActivity {
             }
         });
     }
-    
+
     private void checkCurrentPreferences() {
         ParseUser currentUser = ParseUser.getCurrentUser();
         if(currentUser.get("preferences") != null ) {

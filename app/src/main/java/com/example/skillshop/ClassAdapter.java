@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -116,10 +117,15 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
         }
 
         private void setAllViews(Workshop tWorkshop) {
-
+            Log.e("ERROR MESSAGE ABOVE", tWorkshop.getName()+" K");
             tvClassName.setText(tWorkshop.getName());
+            Log.e("ERROR MESSAGE HERE", tWorkshop.getName());
+
             ParseUser teacher = tWorkshop.getTeacher();
-            tvInstructor.setText(teacher.get("firstName").toString()+" "+ teacher.get("lastName").toString());
+            if(teacher.getString("firstName")!=null && teacher.getString("lastName")!=null){
+                tvInstructor.setText(teacher.getString("firstName")+" "+teacher.getString("lastName"));
+            }
+
             if(tvInstructor.getText().equals(ParseUser.getCurrentUser().getUsername()))
             {
                 ivTeacherBadge.setVisibility(View.VISIBLE);
