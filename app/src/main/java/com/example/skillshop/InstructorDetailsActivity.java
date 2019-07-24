@@ -117,7 +117,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
             }
         });
     }
-    
+
     private void refreshDetailsPage(Workshop editedWorkshop) {
         Intent data = new Intent();
         data.putExtra("updated", Parcels.wrap(editedWorkshop));

@@ -78,8 +78,6 @@ public class ProfileFragment extends Fragment {
             Places.initialize(getContext(), apiKey); // Initializes places
         }
 
-        PlacesClient placesClient = Places.createClient(getContext()); // Creates a new Places client instance.
-
         submitNewLocationButton = view.findViewById(R.id.modifyLocationButton);
         submitNewLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,9 +128,11 @@ public class ProfileFragment extends Fragment {
 
         } else if (numTimesRated == 1) {
             tvRatingMessage.setText("You have been rated 1 time.");
+            rbUserRating.setRating((int)user.get("instructorRating"));
 
         } else {
             tvRatingMessage.setText("You have been rated " + numTimesRated + "times.");
+            rbUserRating.setRating((int)user.get("instructorRating"));
         }
 
     }
