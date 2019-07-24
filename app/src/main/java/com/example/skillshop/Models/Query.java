@@ -51,7 +51,7 @@ public class Query extends ParseQuery<Workshop> {
     }
 
     public Query byTimeOfClass() {
-        addDescendingOrder(KEY_DATE);
+        addAscendingOrder(KEY_DATE);
         return this;
     }
 
