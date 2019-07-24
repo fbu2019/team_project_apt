@@ -137,8 +137,13 @@ public class MapActivity extends AppCompatActivity implements
         double lat = workshopLocation.getLatitude();
         double lon = workshopLocation.getLongitude();
         LatLng point = new LatLng(lat, lon);
-        BitmapDescriptor defaultMarker =
-                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+        String category = workshopItem.getCategory();
+
+        //sets the default marker color
+        BitmapDescriptor defaultMarker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA);
+        //sets the marker color based on category
+        defaultMarker = setMarkerColor(defaultMarker, category);
+
         Marker marker = map.addMarker(new MarkerOptions()
                 .position(point)
                 .icon(defaultMarker)
@@ -148,8 +153,38 @@ public class MapActivity extends AppCompatActivity implements
 
         marker.setTag(workshopItem);
 
-
     }
+
+    private BitmapDescriptor setMarkerColor(BitmapDescriptor marker, String category) {
+        switch (category){
+            case ("Culinary"): {
+                marker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+                break;
+            }
+            case ("Education"): {
+                marker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
+                break;
+            }
+            case ("Fitness"): {
+                marker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET);
+                break;
+            }
+            case ("Arts/Crafts"): {
+                marker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+                break;
+            }
+            case ("Other"): {
+                marker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE);
+                break;
+            }
+            default: {
+                marker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA);
+                break;
+            }
+        }
+        return marker;
+    }
+
 
     protected void loadMap(GoogleMap googleMap) {
         map = googleMap;
@@ -237,17 +272,6 @@ public class MapActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-
-        // Display the connection status
-
-        if (mCurrentLocation != null) {
-            Toast.makeText(this, "GPS location was found!", Toast.LENGTH_SHORT).show();
-            LatLng latLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
-            map.animateCamera(cameraUpdate);
-        } else {
-            Toast.makeText(this, "Current location was null, enable GPS on emulator!", Toast.LENGTH_SHORT).show();
-        }
         MapActivityPermissionsDispatcher.startLocationUpdatesWithPermissionCheck(this);
     }
 
