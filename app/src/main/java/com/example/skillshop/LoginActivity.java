@@ -28,6 +28,7 @@ import com.facebook.ProfileTracker;
 import com.facebook.login.Login;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -60,6 +61,8 @@ public class LoginActivity extends AppCompatActivity {
 //        login("guacamole","123");
 
         if (currentUser != null) {
+
+            currentUser.put("firebaseToken", FirebaseInstanceId.getInstance().getToken());
             //  continue to next activity if user previously logged in and user has submitted location
             Intent i = new Intent(LoginActivity.this, FragmentHandler.class);
             startActivity(i);

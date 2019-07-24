@@ -23,6 +23,7 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
@@ -137,6 +138,7 @@ public class SignupActivity extends AppCompatActivity {
             user.put("locationName", locationName);
             user.put("firstName", firstName);
             user.put("lastName", lastName);
+            user.put("firebaseToken", FirebaseInstanceId.getInstance().getToken());
 
             String image_url = "https://graph.facebook.com/" + fbID + "/picture?type=large";
             user.put("profilePicUrl", image_url);
