@@ -120,15 +120,6 @@ public class ProfileFragment extends Fragment {
             Log.i("Profile Frag", "No profile image");
         }
 
-        //TODO - MAKE PREFRENCES ARRAY AN INPUT FOR THE METHOD LATER ONCE YOU'VE ADDED TO IT
-        if (user.getJSONArray("preferences") != null) {
-            if (user.getJSONArray("preferences").length() > 1) {
-                //  retrieve first/only element of array
-            } else {
-                //  retrieve all but last element, use "and" before last element
-            }
-        }
-
     }
 
     private void logout() {

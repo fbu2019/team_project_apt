@@ -47,24 +47,27 @@ public class AddUserPreferences extends AppCompatActivity {
 
     private void checkCurrentPreferences() {
         ParseUser currentUser = ParseUser.getCurrentUser();
-        ArrayList<String> preferences = (ArrayList<String>) currentUser.get("preferences");
-        for(int i = 0; i<preferences.size(); i++){
-            Log.e("Add user preferences", preferences.get(i)+" "+i);
-        }
+        if(currentUser.get("preferences") != null ) {
+            ArrayList<String> preferences = (ArrayList<String>) currentUser.get("preferences");
+            for (int i = 0; i < preferences.size(); i++) {
+                Log.e("Add user preferences", preferences.get(i) + " " + i);
+            }
 
-        for(int i = 0; i<preferences.size(); i++){
-            if(preferences.get(i).equals("Culinary")){
-                culinaryBox.setChecked(true);
+            for (int i = 0; i < preferences.size(); i++) {
+                if (preferences.get(i).equals("Culinary")) {
+                    culinaryBox.setChecked(true);
+                }
+                if (preferences.get(i).equals("Education")) {
+                    educationBox.setChecked(true);
+                }
+                if (preferences.get(i).equals("Fitness")) {
+                    fitnessBox.setChecked(true);
+                }
+                if (preferences.get(i).equals("Arts and Crafts")) {
+                    artsCraftsBox.setChecked(true);
+                }
             }
-            if(preferences.get(i).equals("Education")){
-                educationBox.setChecked(true);
-            }
-            if(preferences.get(i).equals("Fitness")){
-                fitnessBox.setChecked(true);
-            }
-            if(preferences.get(i).equals("Arts and Crafts")){
-                artsCraftsBox.setChecked(true);
-            }
+
         }
 
     }
