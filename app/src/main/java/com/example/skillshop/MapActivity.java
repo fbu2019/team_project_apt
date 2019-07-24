@@ -13,6 +13,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.skillshop.Models.Query;
+import com.example.skillshop.Models.Workshop;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -27,9 +29,19 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
@@ -49,6 +61,7 @@ public class MapActivity extends AppCompatActivity {
     Location mCurrentLocation;
     private long UPDATE_INTERVAL = 60000;  /* 60 secs */
     private long FASTEST_INTERVAL = 5000; /* 5 secs */
+    protected ArrayList<Workshop> mWorkshops;
 
     private final static String KEY_LOCATION = "location";
 
@@ -85,6 +98,52 @@ public class MapActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
         }
+
+
+        //TODO populate the map with the locations of the places in the database
+
+        getClasses();
+        //query all the workshops in the database
+        //extract the parse geo location of each place in the database
+        //translate parse geopoint to latitude and longitude
+
+    }
+
+    private void getClasses() {
+        mWorkshops = new ArrayList<>();
+        Query parseQuery = new Query();
+        // query add all classes with all data and sort by time of class and only show new classes
+        parseQuery.getAllClasses().withItems();
+
+        parseQuery.findInBackground(new FindCallback<Workshop>() {
+            @Override
+            public void done(List<Workshop> objects, ParseException e) {
+                if (e == null) {
+                    for (int i = 0; i < objects.size(); i++) {
+                        Workshop workshopItem = objects.get(i);
+                        mWorkshops.add(workshopItem);
+                        addMarker(workshopItem);
+
+                    }
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void addMarker(Workshop workshopItem) {
+        // Define color of marker icon
+        ParseGeoPoint workshopLocation = workshopItem.getLocation();
+        double lat = workshopLocation.getLatitude();
+        double lon = workshopLocation.getLongitude();
+        LatLng point = new LatLng(lat, lon);
+        BitmapDescriptor defaultMarker =
+                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+        Marker marker = map.addMarker(new MarkerOptions()
+                .position(point)
+                .icon(defaultMarker));
+
 
     }
 
