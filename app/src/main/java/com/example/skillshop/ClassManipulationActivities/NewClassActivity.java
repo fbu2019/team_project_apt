@@ -33,6 +33,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -212,6 +213,9 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         newClass.setLocationName(locationName);
 
         newClass.setLocation(location);
+
+        ArrayList<String> students = new ArrayList<>();
+        newClass.setStudents(students);
 
 
         newClass.saveInBackground(new SaveCallback() {
