@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 
@@ -24,6 +25,8 @@ import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +43,7 @@ public class HomeFragment extends Fragment {
     Spinner spinSorters;
     Spinner spinFilters;
     ImageButton btnMap;
+    Button btnPreferenceFilter;
     Boolean firstLoad = true;
     @Override
 
@@ -57,9 +61,22 @@ public class HomeFragment extends Fragment {
         spinSorters = view.findViewById(R.id.spinSorters);
         spinFilters = view.findViewById(R.id.spinFilters);
         setupMapButton(view);
+        setupPreferenceFilterButton(view);
 
         connectRecyclerView(view);
       //  populateHomeFeed();
+    }
+
+    private void setupPreferenceFilterButton(View view) {
+        btnPreferenceFilter = view.findViewById(R.id.btnPreferenceFilter);
+
+        btnPreferenceFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONArray preferences = ParseUser.getCurrentUser().getJSONArray("preferences");
+
+            }
+        });
     }
 
     private void setupMapButton(View view) {
