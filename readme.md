@@ -12,26 +12,26 @@ The following **required** functionality is completed:
 - [x] User can log in and log out of his or her account
 - [x] The current signed in user is persisted across app restarts
 - [x] User can navigate across 4 pages from the home screen after logging in
-  - [x] User can view the last 20 posts submitted to "Instagram"
-- [x] User can pull to refresh the last 20 posts submitted to "Instagram"
-- [x] User can tap a post to view post details, including timestamp and caption.
+- [x] User can view all the classes available to them
+- [x] User can add a class they want to host
+- [ ] User can post a picture of that class that will show up when other users view this course
+- [x] User can delete a class they have posted
+- [x] User can filter by classes they are signed up for
+- [x] User can filter by classes they are teaching
+- [x] User can see a calendar view of all the classes they are involved in
+- [x] User can click on dates in the calendar and view classes they have on that day
+- [x] User can click edit button on classes they are teachers for
+- [x] User can change location preferences 
+- [ ] User can see the changes they have made refresh on the app when they have eddited the information in the db
+
 
 The following **stretch** features are implemented:
 
-- [x] Style the login page to look like the real Instagram login page.
-- [x] Style the feed to look like the real Instagram feed.
-- [x] User should switch between different tabs - viewing all posts (feed view), capture (camera and photo gallery view) and profile tabs (posts made) using a Bottom Navigation View.
-- [x] User can load more posts once he or she reaches the bottom of the feed using infinite scrolling.
-- [x] Show the username and creation time for each post
-- [x] After the user submits a new post, show an indeterminate progress bar while the post is being uploaded to Parse
-- User Profiles:
-  - [x] Allow the logged in user to add a profile photo
-  - [x] Display the profile photo with each post
-  - [x] Tapping on a post's username or profile photo goes to that user's profile page
-- [ ] User can comment on a post and see all comments for each post in the post details screen.
-- [ ] User can like a post and see number of likes for each post in the post details screen.
-- [ ] Create a custom Camera View on your phone.
-- [x] Run your app on your phone and use the camera to take the photo
+- [x] Have all the classes available show up on a map activity 
+- [ ] User can pay for classes they are interested in taking
+- [ ] Recommendations for classes based on past classes
+- [ ] Notifications for user when a class they are involved with changes
+
 
 The following **additional** features are implemented:
 
@@ -39,33 +39,24 @@ The following **additional** features are implemented:
 - [x] user can retake profile picture
 - [x] current tab of 
 
-Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
+## Technology Used
 
-1. Parse Backend congifuration and how to use this backend for more complex models
-2. How to use fragments in a more efficient way
 
-## Video Walkthrough
-
-Here's a walkthrough of implemented user stories:
-
-<img src='walkthroughFinal.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-
-GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Credits
 
 List an 3rd party libraries, icons, graphics, or other assets you used in your app.
 
-- [Android Async Http Client](http://loopj.com/android-async-http/) - networking library
-
-
-## Notes
-
-Describe any challenges encountered while building the app.
+- Google Maps API
+- Firebase
+- Heroku
+- Facebook API
+- Glide
+- Parse
 
 ## License
 
-    Copyright [2019] [Moises Trejo]
+    Copyright [2019] [Sabrina Pin, Ruth-Ann Hazel Armstrong, Moises Trejo]
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
