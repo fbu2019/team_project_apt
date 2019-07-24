@@ -105,15 +105,7 @@ public class MapActivity extends AppCompatActivity implements
         } else {
             Toast.makeText(this, "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
         }
-
-
-        //TODO populate the map with the locations of the places in the database
-
         getClasses();
-        //query all the workshops in the database
-        //extract the parse geo location of each place in the database
-        //translate parse geopoint to latitude and longitude
-
     }
 
     private void getClasses() {
@@ -158,9 +150,6 @@ public class MapActivity extends AppCompatActivity implements
 
 
     }
-
-
-
 
     protected void loadMap(GoogleMap googleMap) {
         map = googleMap;
@@ -220,7 +209,7 @@ public class MapActivity extends AppCompatActivity implements
         super.onStop();
     }
 
-    private boolean isGooglePlayServicesAvailable() {
+   /* private boolean isGooglePlayServicesAvailable() {
         // Check that Google Play services is available
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
         // If Google Play services is available
@@ -243,7 +232,7 @@ public class MapActivity extends AppCompatActivity implements
 
             return false;
         }
-    }
+    } */
 
     @Override
     protected void onResume() {

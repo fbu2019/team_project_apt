@@ -86,9 +86,12 @@ public class HomeFragment extends Fragment {
     {
         setSorters();
         setFilters();
+    }
 
-
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        firstLoad = true;
     }
 
     private void setSorters() {
