@@ -29,6 +29,7 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -64,6 +65,7 @@ public class ProfileFragment extends Fragment {
         nameViewText = view.findViewById(R.id.nameView);
         userPreferencesText = view.findViewById(R.id.userPreferences);
         displayUserInfo(view, locationName, profilePhotoUrl);
+        //  retrievePreferences();
 
         if (!Places.isInitialized()) {
             Places.initialize(getContext(), apiKey); // Initializes places
@@ -84,6 +86,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 createPreferences();
+                //  retrievePreferences();
             }
         });
 
@@ -99,7 +102,6 @@ public class ProfileFragment extends Fragment {
     private void createPreferences() {
         Intent i = new Intent(getContext(), AddUserPreferences.class);
         startActivity(i);
-        // TODO - continue to new activity modify user preferences 
     }
 
     private void displayUserInfo(View view, String locationName, String profilePhotoUrl) {
@@ -117,7 +119,33 @@ public class ProfileFragment extends Fragment {
             ivProfilePic.setImageBitmap(null);
             Log.i("Profile Frag", "No profile image");
         }
+
     }
+
+    /*
+    public void retrievePreferences(){
+
+        ParseUser user = ParseUser.getCurrentUser();
+
+        ArrayList<String> preferences = (ArrayList<String>) user.get("preferences");
+        if(user.get("preferences")!=null){
+
+            String genMessage = "Your preferences include: ";
+            int numPreferences = preferences.size();
+
+            if(numPreferences<=1){
+                userPreferencesText.setText(genMessage+preferences.get(0));
+            } else {
+                String allButLast = "";
+                for (int i=0; i<numPreferences-1; i++){
+                    allButLast = allButLast + preferences.get(i) + ", ";
+                }
+                userPreferencesText.setText(genMessage+allButLast+"and "+preferences.get(numPreferences-1));
+            }
+        }
+
+    }
+    */
 
     private void logout() {
         ParseUser.logOut(); //  logs out ParseUser
@@ -165,4 +193,5 @@ public class ProfileFragment extends Fragment {
             });
         }
     }
+
 }
