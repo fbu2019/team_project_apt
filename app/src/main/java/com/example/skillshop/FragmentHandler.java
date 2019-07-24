@@ -12,6 +12,9 @@ import com.example.skillshop.NavigationFragments.CalendarFragment;
 import com.example.skillshop.NavigationFragments.ClassesFragmentManager;
 import com.example.skillshop.NavigationFragments.HomeFragment;
 import com.example.skillshop.NavigationFragments.ProfileFragment;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingService;
 
 
 public class FragmentHandler extends AppCompatActivity {
@@ -55,6 +58,10 @@ public class FragmentHandler extends AppCompatActivity {
         });
         // default fragment in home fragment
         bottomNavigationView.setSelectedItemId(R.id.home_fragment);
+
+
+
+
 
     }
 
