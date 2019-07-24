@@ -122,7 +122,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
             Log.e("ERROR MESSAGE HERE", tWorkshop.getName());
 
             ParseUser teacher = tWorkshop.getTeacher();
-            if(tWorkshop.getTeacher().get("firstName")!=null && tWorkshop.getTeacher().get("lastName")!=null){
+            if(teacher.getString("firstName")!=null && teacher.getString("lastName")!=null){
                 tvInstructor.setText(teacher.getString("firstName")+" "+teacher.getString("lastName"));
             }
 
