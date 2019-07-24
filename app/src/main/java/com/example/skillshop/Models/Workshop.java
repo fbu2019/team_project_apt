@@ -7,6 +7,7 @@ import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -22,7 +23,7 @@ public class Workshop extends ParseObject {
     public final static String KEY_CREATED_AT = "createdAt";
     public final static String KEY_COST = "cost";
     public final static String KEY_CATEGORY = "category";
-    public final static String KEY_STUDENTS = "students";
+    public static final String KEY_MENTEES = "mentees";
 
 
     public  String getName() {
@@ -80,13 +81,16 @@ public class Workshop extends ParseObject {
         put(KEY_CATEGORY,category);
     }
 
-
-    public ParseRelation getStudents() {
-        return getRelation(KEY_STUDENTS);
-    }
-
     public Boolean isTeacher(){return (ParseUser.getCurrentUser() == getParseUser(KEY_MENTOR));}
 
+
+    public Object getMentees() {
+        return get(KEY_MENTEES);
+    }
+
+    public void setMentees(ArrayList<String> mentees) {
+        put(KEY_MENTEES,mentees);
+    }
 
 
 

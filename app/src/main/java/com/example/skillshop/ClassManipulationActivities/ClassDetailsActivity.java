@@ -18,6 +18,7 @@ import com.example.skillshop.R;
 import com.google.android.gms.wallet.PaymentsClient;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -80,25 +81,11 @@ public class ClassDetailsActivity extends AppCompatActivity {
             setUpTeacherSettings();
         } else {
 
-            detailedWorkshop.getStudents().getQuery().findInBackground(new FindCallback() {
-                @Override
-                public void done(List objects, ParseException e) {
-                }
 
-                @Override
-                public void done(Object o, Throwable throwable) {
-                    // go through all enrolled students and see if user is one of them
-                    boolean enrolled = false;
-                    for (int i = 0; i < ((ArrayList) o).size(); i++) {
-                        if (((ArrayList<ParseUser>) o).get(i).getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
-                            enrolled = true;
-                            break;
-                        }
-                    }
-                    // pass the status of student and allow them to sign up or drop a class
-                    toggleClassSignUp(enrolled);
-                }
-            });
+            ArrayList<String> students = (ArrayList<String>) detailedWorkshop.getMentees();
+
+            toggleClassSignUp(students.contains(ParseUser.getCurrentUser().getObjectId()));
+
         }
     }
 
@@ -216,14 +203,18 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
     public void setStatusWorkshop(boolean enroll) {
 
-        ParseRelation<ParseUser> signedUpStudents = detailedWorkshop.getStudents();
+
+        ArrayList<String> students = (ArrayList<String>) detailedWorkshop.getMentees();
+
 
         if (!enroll) {
             // add user from list of students taking class and post this
-            signedUpStudents.add(ParseUser.getCurrentUser());
+            students.add(ParseUser.getCurrentUser().getObjectId());
+            detailedWorkshop.setMentees(students);
         } else {
             // remove user from list of students taking class and post this
-            signedUpStudents.remove(ParseUser.getCurrentUser());
+            students.remove(ParseUser.getCurrentUser().getObjectId());
+            detailedWorkshop.setMentees(students);
         }
 
         detailedWorkshop.saveInBackground(new SaveCallback() {
