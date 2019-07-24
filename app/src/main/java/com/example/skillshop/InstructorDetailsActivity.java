@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -15,13 +16,12 @@ public class InstructorDetailsActivity extends AppCompatActivity {
     private Workshop detailedWorkshop;
     private ImageView ivInstructorProfile;
     private TextView tvInstructorName;
+    private RatingBar rbInstructorAverage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_instructor_details);
-
-        Log.e("InstructorDetails", "Starting Activity");
 
         detailedWorkshop = Parcels.unwrap(getIntent().getParcelableExtra(Workshop.class.getSimpleName()));
 
@@ -33,13 +33,18 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         Log.e("Instructor Details", profilePhotoUrl);
 
         if (profilePhotoUrl != null) {
-            Log.e("Instructor Details 2", profilePhotoUrl);
             Glide.with(InstructorDetailsActivity.this).load(profilePhotoUrl).into(ivInstructorProfile);
-            Log.i("ProfileFragment", profilePhotoUrl);
         } else {
             ivInstructorProfile.setImageBitmap(null);
-            Log.i("Profile Frag", "No profile image");
+            Log.i("Instructor Details", "No profile image");
         }
 
+        rbInstructorAverage = findViewById(R.id.instructorAverage);
+
+        if(detailedWorkshop.getTeacher().get("instructorRating")!=null){
+            rbInstructorAverage.setNumStars(5);
+            rbInstructorAverage.setRating((int)detailedWorkshop.getTeacher().get("instructorRating"));
+        }
+        //create user field for average instructor rating
     }
 }
