@@ -16,6 +16,8 @@ public class InstructorDetailsActivity extends AppCompatActivity {
     private Workshop detailedWorkshop;
     private ImageView ivInstructorProfile;
     private TextView tvInstructorName;
+    private TextView tvNotYetRated;
+    private TextView tvNumRatings;
     private RatingBar rbInstructorAverage;
 
     @Override
@@ -44,7 +46,10 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         if(detailedWorkshop.getTeacher().get("instructorRating")!=null){
             rbInstructorAverage.setNumStars(5);
             rbInstructorAverage.setRating((int)detailedWorkshop.getTeacher().get("instructorRating"));
+        } else {
+            rbInstructorAverage.setEnabled(false);
+            tvNotYetRated = findViewById(R.id.notRated);
+            tvNotYetRated.setText("This instructor has not been rated");
         }
-        //create user field for average instructor rating
     }
 }
