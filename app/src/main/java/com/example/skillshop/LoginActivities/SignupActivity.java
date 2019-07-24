@@ -127,6 +127,7 @@ public class SignupActivity extends AppCompatActivity {
             user.put("firstName", firstName);
             user.put("lastName", lastName);
             user.put("firebaseToken", FirebaseInstanceId.getInstance().getToken());
+            user.put("numRatings", 0);
 
             String image_url = "https://graph.facebook.com/" + fbID + "/picture?type=large";
             user.put("profilePicUrl", image_url);
