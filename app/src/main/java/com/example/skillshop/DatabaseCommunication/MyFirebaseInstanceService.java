@@ -17,6 +17,8 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.parse.ParseUser;
 
+import java.time.LocalDateTime;
+
 public class MyFirebaseInstanceService extends FirebaseMessagingService {
 
     private static final String CHANNEL_ID = "CHANNEL_ID";
@@ -30,10 +32,11 @@ public class MyFirebaseInstanceService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-        sendNotification(remoteMessage.getNotification().getBody());
+        sendNotification(remoteMessage.getNotification().getBody(), (int) remoteMessage.getSentTime());
+
 
     }
-    private void sendNotification(String messageBody) {
+    private void sendNotification(String messageBody, int time) {
         Intent intent = new Intent(this, FragmentHandler.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
@@ -61,7 +64,7 @@ public class MyFirebaseInstanceService extends FirebaseMessagingService {
             notificationManager.createNotificationChannel(channel);
         }
 
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        notificationManager.notify(time, notificationBuilder.build());
     }
 
 
