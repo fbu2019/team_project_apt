@@ -46,7 +46,6 @@
 
         </activity>
         <activity android:name=".AddUserPreferences" />
-        <activity android:name=".PayActivity" />
         <activity android:name=".NavigationFragments.CalendarActivities.DaysEventsActivity" />
 
         <meta-data

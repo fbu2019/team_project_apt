@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/instructorProfile"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_marginTop="28dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.405"
@@ -22,10 +22,38 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="8dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.19"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/instructorProfile" />
+
+    <RatingBar
+        android:id="@+id/instructorAverage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="108dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/instructorName" />
+
+    <TextView
+        android:id="@+id/notRated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="124dp"
+        app:layout_constraintBottom_toTopOf="@+id/instructorAverage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/instructorName"
+        app:layout_constraintVertical_bias="0.611" />
+
+    <TextView
+        android:id="@+id/numRatings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="63dp"
+        tools:layout_editor_absoluteY="408dp" />
 </android.support.constraint.ConstraintLayout>
