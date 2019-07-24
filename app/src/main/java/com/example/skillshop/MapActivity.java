@@ -2,6 +2,7 @@ package com.example.skillshop;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Looper;
@@ -13,6 +14,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.skillshop.ClassManipulationActivities.ClassDetailsActivity;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Workshop;
 import com.google.android.gms.common.ConnectionResult;
@@ -40,6 +42,8 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +56,9 @@ import static com.google.android.gms.location.LocationServices.getFusedLocationP
 
 @RuntimePermissions
 
-public class MapActivity extends AppCompatActivity {
+public class MapActivity extends AppCompatActivity implements
+        GoogleMap.OnInfoWindowClickListener {
+
 
 
     private SupportMapFragment mapFragment;
@@ -92,21 +98,14 @@ public class MapActivity extends AppCompatActivity {
             mapFragment.getMapAsync(new OnMapReadyCallback() {
                 @Override
                 public void onMapReady(GoogleMap map) {
+                    map.setOnInfoWindowClickListener(MapActivity.this::onInfoWindowClick);
                     loadMap(map);
                 }
             });
         } else {
             Toast.makeText(this, "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
         }
-
-
-        //TODO populate the map with the locations of the places in the database
-
         getClasses();
-        //query all the workshops in the database
-        //extract the parse geo location of each place in the database
-        //translate parse geopoint to latitude and longitude
-
     }
 
     private void getClasses() {
@@ -147,6 +146,8 @@ public class MapActivity extends AppCompatActivity {
                 .snippet(workshopItem.getDate())
         );
 
+        marker.setTag(workshopItem);
+
 
     }
 
@@ -154,7 +155,7 @@ public class MapActivity extends AppCompatActivity {
         map = googleMap;
         if (map != null) {
             // Map is ready
-            Toast.makeText(this, "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
+      //      Toast.makeText(this, "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
             MapActivityPermissionsDispatcher.getMyLocationWithPermissionCheck(this);
             MapActivityPermissionsDispatcher.startLocationUpdatesWithPermissionCheck(this);
         } else {
@@ -208,7 +209,7 @@ public class MapActivity extends AppCompatActivity {
         super.onStop();
     }
 
-    private boolean isGooglePlayServicesAvailable() {
+   /* private boolean isGooglePlayServicesAvailable() {
         // Check that Google Play services is available
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
         // If Google Play services is available
@@ -231,7 +232,7 @@ public class MapActivity extends AppCompatActivity {
 
             return false;
         }
-    }
+    } */
 
     @Override
     protected void onResume() {
@@ -295,13 +296,25 @@ public class MapActivity extends AppCompatActivity {
         String msg = "Updated Location: " +
                 Double.toString(location.getLatitude()) + "," +
                 Double.toString(location.getLongitude());
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+     //   Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putParcelable(KEY_LOCATION, mCurrentLocation);
         super.onSaveInstanceState(savedInstanceState);
     }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Workshop workshop = (Workshop) marker.getTag();
+        final Intent profileDetailsIntent = new Intent(MapActivity.this, ClassDetailsActivity.class);
+        //pass in class that was selected
+        profileDetailsIntent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(workshop));
+        startActivity(profileDetailsIntent);
+    }
+
+
+
 
     // Define a DialogFragment that displays the error dialog
     public static class ErrorDialogFragment extends android.support.v4.app.DialogFragment {
