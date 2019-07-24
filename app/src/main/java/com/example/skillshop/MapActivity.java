@@ -142,7 +142,10 @@ public class MapActivity extends AppCompatActivity {
                 BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
         Marker marker = map.addMarker(new MarkerOptions()
                 .position(point)
-                .icon(defaultMarker));
+                .icon(defaultMarker)
+                .title(workshopItem.getName())
+                .snippet(workshopItem.getDate())
+        );
 
 
     }
