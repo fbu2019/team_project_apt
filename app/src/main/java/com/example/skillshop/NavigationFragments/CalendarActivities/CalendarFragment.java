@@ -1,6 +1,5 @@
-package com.example.skillshop.NavigationFragments;
+package com.example.skillshop.NavigationFragments.CalendarActivities;
 
-import android.app.usage.UsageEvents;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,9 +9,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.applikeysolutions.cosmocalendar.settings.lists.connected_days.ConnectedDays;
-import com.example.skillshop.ClassDetailsActivity;
-import com.example.skillshop.DaysEventsActivity;
+
+import com.example.skillshop.NavigationFragments.CalendarActivities.DaysEventsActivity;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.R;
@@ -23,16 +21,10 @@ import com.skyhope.eventcalenderlibrary.listener.CalenderDayClickListener;
 import com.skyhope.eventcalenderlibrary.model.DayContainerModel;
 import com.skyhope.eventcalenderlibrary.model.Event;
 
-import org.parceler.Parcels;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 public class CalendarFragment extends Fragment {
 

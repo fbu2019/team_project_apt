@@ -1,4 +1,4 @@
-package com.example.skillshop.NavigationFragments;
+package com.example.skillshop.NavigationFragments.ClassesActivities;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,8 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import com.example.skillshop.NavigationFragments.ClassesListFragments.ClassesTakingFragment;
-import com.example.skillshop.NavigationFragments.ClassesListFragments.ClassesTeachingFragment;
+import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesTakingFragment;
+import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesTeachingFragment;
+import com.example.skillshop.NavigationFragments.HomeFragment;
 import com.example.skillshop.R;
 
 

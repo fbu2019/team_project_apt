@@ -1,4 +1,4 @@
-package com.example.skillshop;
+package com.example.skillshop.DatabaseCommunication;
 
 import android.app.Application;
 

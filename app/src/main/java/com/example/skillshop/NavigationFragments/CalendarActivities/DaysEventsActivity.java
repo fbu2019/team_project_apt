@@ -1,4 +1,4 @@
-package com.example.skillshop;
+package com.example.skillshop.NavigationFragments.CalendarActivities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,8 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.skillshop.ClassAdapter;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Workshop;
+import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 

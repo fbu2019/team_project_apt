@@ -1,4 +1,4 @@
-package com.example.skillshop.NavigationFragments.ClassesListFragments;
+package com.example.skillshop.NavigationFragments.ClassesActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,7 @@ import android.view.ViewGroup;
 import com.example.skillshop.ClassAdapter;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.Models.Query;
-import com.example.skillshop.NewClassActivity;
+import com.example.skillshop.ClassManipulationActivities.NewClassActivity;
 import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -23,7 +22,7 @@ import com.parse.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassesTeachingFragment extends Fragment {
+public class ClassesTakingFragment extends Fragment {
 
     private RecyclerView rvClasses;
     protected ArrayList<Workshop> mWorkshops;
@@ -32,7 +31,7 @@ public class ClassesTeachingFragment extends Fragment {
     @Override
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate((R.layout.fragment_classes_teaching), container, false);
+        return inflater.inflate((R.layout.fragment_classes_taking), container, false);
     }
 
     @Override
@@ -40,7 +39,7 @@ public class ClassesTeachingFragment extends Fragment {
 
         super.onViewCreated(view, savedInstanceState);
 
-        getClassesTeaching();
+        getClassesTaking();
         connectRecyclerView(view);
     }
 
@@ -62,7 +61,6 @@ public class ClassesTeachingFragment extends Fragment {
                 new LinearLayoutManager(getContext()).getOrientation());
         rvClasses.addItemDecoration(dividerItemDecoration);
 
-
         // add button to add a class
         FloatingActionButton fabAddClass = view.findViewById(R.id.fabAddClass);
 
@@ -79,12 +77,11 @@ public class ClassesTeachingFragment extends Fragment {
 
 
 
-    public void getClassesTeaching() {
+    public void getClassesTaking() {
 
-        // get all the classes the user is teaching and display them
-
+        // get all the classes the user is taking and display them
         Query parseQuery = new Query();
-        parseQuery.getAllClasses().withItems().byTimeOfClass().getClassesTeaching();
+        parseQuery.getAllClasses().getClassesTaking().withItems().byTimeOfClass();
 
         parseQuery.findInBackground(new FindCallback<Workshop>() {
             @Override
