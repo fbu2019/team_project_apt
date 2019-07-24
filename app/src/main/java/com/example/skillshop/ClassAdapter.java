@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.skillshop.ClassManipulationActivities.ClassDetailsActivity;
+import com.example.skillshop.ClassManipulationActivities.EditClassActivity;
 import com.example.skillshop.Models.Workshop;
 import com.parse.ParseUser;
 
@@ -120,6 +121,9 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
             tvClassName.setText(tWorkshop.getName());
             Log.e("ERROR MESSAGE HERE", tWorkshop.getName());
             tvInstructor.setText(tWorkshop.getTeacher().getUsername());
+            ParseUser teacher = tWorkshop.getTeacher();
+            tvInstructor.setText(teacher.get("firstName").toString()+" "+ teacher.get("lastName").toString());
+
             if(tvInstructor.getText().equals(ParseUser.getCurrentUser().getUsername()))
             {
                 ivTeacherBadge.setVisibility(View.VISIBLE);

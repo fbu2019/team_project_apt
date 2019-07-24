@@ -1,4 +1,4 @@
-package com.example.skillshop;
+package com.example.skillshop.NavigationFragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,10 +8,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.example.skillshop.NavigationFragments.CalendarFragment;
-import com.example.skillshop.NavigationFragments.ClassesFragmentManager;
+import com.example.skillshop.NavigationFragments.CalendarActivities.CalendarFragment;
+import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesFragmentManager;
 import com.example.skillshop.NavigationFragments.HomeFragment;
 import com.example.skillshop.NavigationFragments.ProfileFragment;
+import com.example.skillshop.R;
 
 
 public class FragmentHandler extends AppCompatActivity {
@@ -55,6 +56,10 @@ public class FragmentHandler extends AppCompatActivity {
         });
         // default fragment in home fragment
         bottomNavigationView.setSelectedItemId(R.id.home_fragment);
+
+
+
+
 
     }
 

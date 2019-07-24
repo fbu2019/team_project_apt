@@ -1,12 +1,10 @@
-package com.example.skillshop;
+package com.example.skillshop.ClassManipulationActivities;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.skillshop.Models.Workshop;
+import com.example.skillshop.R;
 import com.google.android.gms.wallet.PaymentsClient;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -24,7 +23,6 @@ import com.parse.SaveCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
-import org.xml.sax.Parser;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

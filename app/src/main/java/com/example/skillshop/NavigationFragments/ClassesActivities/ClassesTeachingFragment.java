@@ -1,4 +1,4 @@
-package com.example.skillshop.NavigationFragments.ClassesListFragments;
+package com.example.skillshop.NavigationFragments.ClassesActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import com.example.skillshop.ClassAdapter;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.Models.Query;
-import com.example.skillshop.NewClassActivity;
+import com.example.skillshop.ClassManipulationActivities.NewClassActivity;
 import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -22,7 +22,7 @@ import com.parse.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassesTakingFragment extends Fragment {
+public class ClassesTeachingFragment extends Fragment {
 
     private RecyclerView rvClasses;
     protected ArrayList<Workshop> mWorkshops;
@@ -31,7 +31,7 @@ public class ClassesTakingFragment extends Fragment {
     @Override
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate((R.layout.fragment_classes_taking), container, false);
+        return inflater.inflate((R.layout.fragment_classes_teaching), container, false);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class ClassesTakingFragment extends Fragment {
 
         super.onViewCreated(view, savedInstanceState);
 
-        getClassesTaking();
+        getClassesTeaching();
         connectRecyclerView(view);
     }
 
@@ -61,6 +61,7 @@ public class ClassesTakingFragment extends Fragment {
                 new LinearLayoutManager(getContext()).getOrientation());
         rvClasses.addItemDecoration(dividerItemDecoration);
 
+
         // add button to add a class
         FloatingActionButton fabAddClass = view.findViewById(R.id.fabAddClass);
 
@@ -77,11 +78,12 @@ public class ClassesTakingFragment extends Fragment {
 
 
 
-    public void getClassesTaking() {
+    public void getClassesTeaching() {
 
-        // get all the classes the user is taking and display them
+        // get all the classes the user is teaching and display them
+
         Query parseQuery = new Query();
-        parseQuery.getAllClasses().getClassesTaking().withItems().byTimeOfClass();
+        parseQuery.getAllClasses().withItems().byTimeOfClass().getClassesTeaching();
 
         parseQuery.findInBackground(new FindCallback<Workshop>() {
             @Override

@@ -24,7 +24,7 @@
 
 
     <application
-        android:name=".ParseApp"
+        android:name=".DatabaseCommunication.ParseApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -48,7 +48,7 @@
         <activity android:name=".AddUserPreferences"></activity>
 
         <activity android:name=".PayActivity" />
-        <activity android:name=".DaysEventsActivity" />
+        <activity android:name=".NavigationFragments.CalendarActivities.DaysEventsActivity" />
 
         <meta-data
             android:name="com.google.android.gms.wallet.api.enabled"
@@ -72,19 +72,18 @@
 -->
         <!--added for maps-->
 
-        <activity android:name=".SignupActivity" />
-        <activity android:name=".EditClassActivity" />
-        <activity android:name=".NewClassActivity" />
-        <activity android:name=".ClassDetailsActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".LoginActivities.SignupActivity" />
+        <activity android:name=".ClassManipulationActivities.EditClassActivity" />
+        <activity android:name=".ClassManipulationActivities.NewClassActivity" />
+        <activity android:name=".ClassManipulationActivities.ClassDetailsActivity" />
+        <activity android:name=".LoginActivities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <service android:name=".MyFirebaseInstanceService">
+        <service android:name=".DatabaseCommunication.MyFirebaseInstanceService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -110,7 +109,7 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".FragmentHandler" />
+        <activity android:name=".NavigationFragments.FragmentHandler" />
     </application>
 
 </manifest>
