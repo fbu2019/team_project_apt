@@ -32,17 +32,6 @@ The following **stretch** features are implemented:
 - [ ] Recommendations for classes based on past classes
 - [ ] Notifications for user when a class they are involved with changes
 
-
-The following **additional** features are implemented:
-
-- [x] gradient of colors onlogin page of instagram
-- [x] user can retake profile picture
-- [x] current tab of 
-
-## Technology Used
-
-
-
 ## Credits
 
 List an 3rd party libraries, icons, graphics, or other assets you used in your app.
