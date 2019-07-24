@@ -13,6 +13,8 @@ import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesFragme
 import com.example.skillshop.NavigationFragments.HomeFragment;
 import com.example.skillshop.NavigationFragments.ProfileFragment;
 import com.example.skillshop.R;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.parse.ParseUser;
 
 
 public class FragmentHandler extends AppCompatActivity {
@@ -56,8 +58,7 @@ public class FragmentHandler extends AppCompatActivity {
         });
         // default fragment in home fragment
         bottomNavigationView.setSelectedItemId(R.id.home_fragment);
-
-
+        updateFirebaseToken();
 
 
 
@@ -71,4 +72,14 @@ public class FragmentHandler extends AppCompatActivity {
         fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
         bottomNavigationView.setSelectedItemId(R.id.home_fragment);
     }
+
+
+    public void updateFirebaseToken()
+    {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        currentUser.put("firebaseToken",FirebaseInstanceId.getInstance().getToken());
+        currentUser.saveInBackground();
+    }
+
+
 }

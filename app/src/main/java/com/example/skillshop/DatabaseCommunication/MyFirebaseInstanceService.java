@@ -12,8 +12,10 @@ import android.support.v4.app.NotificationCompat;
 
 import com.example.skillshop.NavigationFragments.FragmentHandler;
 import com.example.skillshop.R;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.parse.ParseUser;
 
 public class MyFirebaseInstanceService extends FirebaseMessagingService {
 
@@ -66,6 +68,10 @@ public class MyFirebaseInstanceService extends FirebaseMessagingService {
     @Override
     public void onNewToken(String s) {
         super.onNewToken(s);
+
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        currentUser.put("firebaseToken",FirebaseInstanceId.getInstance().getToken());
+        currentUser.saveInBackground();
     }
 
 
