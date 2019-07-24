@@ -2,15 +2,22 @@ package com.example.skillshop;
 
 import org.parceler.Parcels;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.skillshop.ClassManipulationActivities.EditClassActivity;
 import com.example.skillshop.Models.Workshop;
+import com.parse.ParseException;
+import com.parse.SaveCallback;
+import com.parse.SignUpCallback;
 
 public class InstructorDetailsActivity extends AppCompatActivity {
 
@@ -20,6 +27,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
     private TextView tvNotYetRated;
     private TextView tvNumRatings;
     private RatingBar rbInstructorAverage;
+    private RatingBar rbUserRating;
 
     private String profilePhotoUrl;
     @Override
@@ -33,7 +41,6 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
         loadProfilePicture();
         initRatingBar();
-
     }
 
     private void loadProfilePicture(){
@@ -52,6 +59,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
     private void initRatingBar(){
 
+        //  rbUserRating = findViewById(R.id)
         rbInstructorAverage = findViewById(R.id.instructorAverage);
         rbInstructorAverage.setNumStars(5);
 
@@ -79,5 +87,44 @@ public class InstructorDetailsActivity extends AppCompatActivity {
             tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated " + numTimesRated + " times.");
         }
 
+        rbInstructorAverage.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+
+                updateRating();
+
+            }
+        });
     }
+
+    private void updateRating() {
+
+        int numTimesRated = (int) detailedWorkshop.getTeacher().get("numRatings");
+        detailedWorkshop.getTeacher().put("numRatings", (int) numTimesRated+1);
+
+        detailedWorkshop.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e == null)
+                {
+                    Toast.makeText(InstructorDetailsActivity.this, "Changes have been saved (changes may take a while to be reflected in the app)", Toast.LENGTH_SHORT).show();
+                    Workshop editedWorkshop = detailedWorkshop;
+                    refreshDetailsPage(editedWorkshop);
+                    finish();
+                }
+                else
+                {
+                    Toast.makeText(InstructorDetailsActivity.this, "Error saving changes", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+
+    private void refreshDetailsPage(Workshop editedWorkshop) {
+        Intent data = new Intent();
+        data.putExtra("updated", Parcels.wrap(editedWorkshop));
+        setResult(RESULT_OK, data);
+    }
+
 }

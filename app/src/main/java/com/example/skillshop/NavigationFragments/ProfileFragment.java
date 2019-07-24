@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -39,12 +40,13 @@ public class ProfileFragment extends Fragment {
     public final static int AUTOCOMPLETE_REQUEST_CODE = 42;
     private final String apiKey = "AIzaSyARv5bJ1b1bnym8eUwPZlGm_7HN__WsbFE";
 
-    TextView nameViewText;
-    TextView userPreferencesText;
+    TextView tvUserName;
+    TextView tvRatingMessage;
     ImageView ivProfilePic;
     Button submitNewLocationButton;
     Button addPreferencesButton;
     Button logoutButton;
+    RatingBar rbUserRating;
 
     ParseGeoPoint location;
     String locationName;
@@ -58,13 +60,16 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
 
-        final ParseUser user = ParseUser.getCurrentUser();
-        final String locationName = (user.getString("locationName"));
-        final String profilePhotoUrl = user.getString("profilePicUrl");
+        tvUserName = view.findViewById(R.id.nameView);
+        tvRatingMessage = view.findViewById(R.id.ratingMessage);
+        ivProfilePic = view.findViewById(R.id.profilePicture);
 
-        nameViewText = view.findViewById(R.id.nameView);
-        userPreferencesText = view.findViewById(R.id.userPreferences);
-        displayUserInfo(view, locationName, profilePhotoUrl);
+        ParseUser user = ParseUser.getCurrentUser();
+        String locationName = (user.getString("locationName"));
+        String profilePhotoUrl = user.getString("profilePicUrl");
+        int averageRating = (int) user.get("instructorRating");
+        int numTimesRates = (int) user.get("numRatings");
+        displayUserInfo(view, locationName, profilePhotoUrl, averageRating, numTimesRates);
 
         if (!Places.isInitialized()) {
             Places.initialize(getContext(), apiKey); // Initializes places
@@ -85,7 +90,6 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 createPreferences();
-                //  retrievePreferences();
             }
         });
 
@@ -103,14 +107,13 @@ public class ProfileFragment extends Fragment {
         startActivity(i);
     }
 
-    private void displayUserInfo(View view, String locationName, String profilePhotoUrl) {
+    private void displayUserInfo(View view, String locationName, String profilePhotoUrl, int averageRating, int numTimesRated) {
 
         ParseUser user = ParseUser.getCurrentUser();
         if (locationName != null && user.getString("firstName") != null) {
-            nameViewText.setText("Hello " + user.getString("firstName") + ". You are currently located at " + locationName + ".");
+            tvUserName.setText("Hello " + user.getString("firstName") + ". You are currently located at " + locationName + ".");
         }
 
-        ivProfilePic = view.findViewById(R.id.profilePicture);
         if (profilePhotoUrl != null) {
             Glide.with(getContext()).load(profilePhotoUrl).into(ivProfilePic);
             Log.i("ProfileFragment", profilePhotoUrl);
@@ -118,6 +121,14 @@ public class ProfileFragment extends Fragment {
             ivProfilePic.setImageBitmap(null);
             Log.i("Profile Frag", "No profile image");
         }
+
+        if (numTimesRated==0){
+
+
+        } else {
+
+        }
+
     }
 
     private void logout() {
@@ -161,7 +172,7 @@ public class ProfileFragment extends Fragment {
                         return;
                     }
                     Log.e(TAG, "Successfully changed location");
-                    nameViewText.setText("You are now located at " + locationName);
+                    tvUserName.setText("You are now located at " + locationName);
                 }
             });
         }

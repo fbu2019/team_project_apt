@@ -4,6 +4,7 @@ import com.parse.ParseClassName;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 
 import java.util.ArrayList;
@@ -90,5 +91,6 @@ public class Workshop extends ParseObject {
     public void setStudents(ArrayList<String> students) {
         put(KEY_STUDENTS,students);
     }
+
 }
 
