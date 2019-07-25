@@ -69,6 +69,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         public TextView tvName;
         public TextView tvPreferences;
         public ImageView ivProfilePic;
+        public Button btnAddFriend;
 
 
         // We also create a constructor that accepts the entire item row
@@ -80,8 +81,29 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             tvName = itemView.findViewById(R.id.tvName);
             tvPreferences = itemView.findViewById(R.id.tvPreferences);
             ivProfilePic = (ImageView) itemView.findViewById(R.id.ivProfilePic);
+            setupAddFriendBtn();
 
 
+
+
+        }
+
+        private void setupAddFriendBtn() {
+            btnAddFriend = (Button) itemView.findViewById(R.id.btnAddFriend);
+            btnAddFriend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                  //  ParseUser currentUser = ParseUser.getCurrentUser();
+                    //when making a user make an empty list of friends
+
+                    //get friends
+                   // JSONArray friends = currentUser.
+                    //add friends to the list
+                    //reset the list
+
+
+                }
+            });
         }
 
         public void bind(ParseUser user) {

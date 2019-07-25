@@ -22,5 +22,6 @@ public class Ratings extends ParseObject {
     public final static String KEY_USER_RATINGS = "userRatings";
 
     public String getUser() {return getString(KEY_USER); }
+    public int getAverageRating() {return getInt(KEY_AVERAGE_RATING); }
 
 }

@@ -24,6 +24,7 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -118,6 +119,7 @@ public class SignupActivity extends AppCompatActivity {
             String firstName = profile.getFirstName();
             String lastName = profile.getLastName();
             String fbID = profile.getId();
+            ArrayList<String> friends = new ArrayList<>();
             final String username = fbID;
             final String password = fbID;
 
@@ -132,6 +134,7 @@ public class SignupActivity extends AppCompatActivity {
             user.put("sumRatings", 0);
             user.put("sumRatings", 0);
             user.put("instructorRating", 0);
+            user.put("friends", friends);
 
             String image_url = "https://graph.facebook.com/" + fbID + "/picture?type=large";
             user.put("profilePicUrl", image_url);
