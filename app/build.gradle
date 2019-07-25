@@ -7,6 +7,7 @@ android {
     defaultConfig {
         applicationId "com.example.skillshop"
         minSdkVersion 19
+        multiDexEnabled true
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -89,6 +90,7 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:24.1.1'
 
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
+    implementation 'com.loopj.android:android-async-http:1.4.9'
 
 
     implementation "com.android.support:support-compat:28.0.0"
