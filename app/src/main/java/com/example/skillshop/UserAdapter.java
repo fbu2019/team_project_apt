@@ -3,6 +3,7 @@ package com.example.skillshop;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.skillshop.Models.Workshop;
+import com.parse.FindCallback;
 import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.json.JSONArray;
@@ -81,25 +87,44 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             tvName = itemView.findViewById(R.id.tvName);
             tvPreferences = itemView.findViewById(R.id.tvPreferences);
             ivProfilePic = (ImageView) itemView.findViewById(R.id.ivProfilePic);
-            setupAddFriendBtn();
+            btnAddFriend = (Button) itemView.findViewById(R.id.btnAddFriend);
+
 
 
 
 
         }
 
-        private void setupAddFriendBtn() {
-            btnAddFriend = (Button) itemView.findViewById(R.id.btnAddFriend);
+        private void setupAddFriendBtn(ParseUser user) {
+
             btnAddFriend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                  //  ParseUser currentUser = ParseUser.getCurrentUser();
-                    //when making a user make an empty list of friends
+                    ParseUser currentUser = ParseUser.getCurrentUser();
 
-                    //get friends
-                   // JSONArray friends = currentUser.
-                    //add friends to the list
-                    //reset the list
+
+                    String lastname = user.getString("lastName");
+
+
+                    //  ParseQuery friendsQuery = ParseQuery.
+                    ParseQuery<ParseObject> friendsQuery = new ParseQuery<ParseObject>(ParseObject.class);
+
+                    try {
+                        friendsQuery.get("friends");
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    friendsQuery.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> objects, ParseException e) {
+                            if (e == null) {
+                                Log.i("arraycheck", objects.toString());
+
+                            } else {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
 
 
                 }
@@ -124,6 +149,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             }
             tvPreferences.setText(preferenceString);
             Glide.with(context).load(user.getString("profilePicUrl")).into(ivProfilePic);
+            setupAddFriendBtn(user);
         }
     }
 
