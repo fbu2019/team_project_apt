@@ -7,7 +7,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.skillshop.InstructorDetailsActivity;
+import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.NavigationFragments.FragmentHandler;
 import com.example.skillshop.R;
 import com.facebook.Profile;
@@ -22,6 +25,7 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 import java.util.ArrayList;
@@ -141,24 +145,44 @@ public class SignupActivity extends AppCompatActivity {
 
             login(fbID, fbID);
 
-
-            HashMap<String, Integer> dateMap;
-
-
-
-
-
             user.signUpInBackground(new SignUpCallback() {
                 public void done(ParseException e) {
                     if (e == null) {
                         login(username, password);
+                        initializeRatings(ParseUser.getCurrentUser());
                     } else {
                         Log.d("SignUpActivity", "Sign up failed");
                         e.printStackTrace();
                     }
                 }
             });
+
         }
+    }
+
+    private void initializeRatings(ParseUser user) {
+        Ratings userRating = new Ratings();
+
+        HashMap<String, Integer> usersWhoRated = new HashMap<String, Integer>();
+        // usersWhoRated.put(user.getUsername(), 3); //  remove after testing
+        userRating.put("userRatings", usersWhoRated);
+        userRating.setUser(user);
+        userRating.setAverageRating(0);
+        userRating.setNumRatings(0);
+
+        userRating.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e == null){
+                    Toast.makeText(SignupActivity.this, "Changes have been saved (changes may take a while to be reflected in the app)", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    Toast.makeText(SignupActivity.this, "Error saving changes", Toast.LENGTH_SHORT).show();
+                    Log.e("Signup", "NOT SAVED");
+                }
+
+            }
+        });
     }
 
 }

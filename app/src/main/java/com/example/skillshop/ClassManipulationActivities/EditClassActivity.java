@@ -31,6 +31,9 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
@@ -46,6 +49,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 
 public class EditClassActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener{
@@ -253,6 +258,8 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
                 {
                     Toast.makeText(EditClassActivity.this, "Changes have been saved (changes may take a while to be reflected in the app)", Toast.LENGTH_SHORT).show();
                     Workshop editedWorkshop = currentWorkshop;
+
+                    sendNotifications();
                     refreshDetailsPage(editedWorkshop);
                     finish();
                 }
@@ -272,6 +279,32 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         objects.add(currentWorkshop);
         ParseObject.deleteAll(objects);
         finish();
+    }
+
+
+    public void sendNotifications()
+    {
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        // set the request parameters
+        RequestParams params = new RequestParams();
+        // api key param put in
+        params.add("classId",currentWorkshop.getObjectId());
+
+        // do get request to this server to send notifications to everyone involved with this class
+        client.get("https://agile-caverns-23612.herokuapp.com/",params,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                super.onSuccess(statusCode, headers, responseString);
+                Toast.makeText(EditClassActivity.this, responseString, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                Toast.makeText(EditClassActivity.this, responseString, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void goToHomeFragment(){
