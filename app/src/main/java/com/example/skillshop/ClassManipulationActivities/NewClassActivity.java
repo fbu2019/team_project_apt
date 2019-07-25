@@ -201,7 +201,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         newClass.setName(etClassname.getText().toString());
 
         // creates new date instance with values form map to post
-        Date date = new Date(dateMap.get("year")-YEAR_OFFSET,dateMap.get("month"),dateMap.get("dayOfMonth"),dateMap.get("hourOfDay"),dateMap.get("minute"));
+        Date date = new Date(dateMap.get("year")-YEAR_OFFSET,dateMap.get("month")+1,dateMap.get("dayOfMonth"),dateMap.get("hourOfDay"),dateMap.get("minute"));
         newClass.setDate(date);
 
         newClass.setCost(Double.parseDouble(etCost.getText().toString()));
