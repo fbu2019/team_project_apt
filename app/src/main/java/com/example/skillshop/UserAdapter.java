@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.skillshop.Models.Workshop;
@@ -20,6 +21,7 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -100,31 +102,39 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             btnAddFriend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-/*                    ParseUser currentUser = ParseUser.getCurrentUser();
+                   ParseUser currentUser = ParseUser.getCurrentUser();
 
-
-                    String lastname = user.getString("lastName");
-
-
-                    //  ParseQuery friendsQuery = ParseQuery.
-                    ParseQuery<ParseObject> friendsQuery = new ParseQuery<ParseObject>(ParseObject.class);
-
-                    try {
-                        friendsQuery.get("friends");
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+                    ArrayList<String> myFriends = (ArrayList<String>) currentUser.get("friends");
+                    if (! myFriends.contains(user.getObjectId().toString())) {
+                        myFriends.add(user.getObjectId().toString());
                     }
-                    friendsQuery.findInBackground(new FindCallback<ParseObject>() {
+                    currentUser.put("friends", myFriends);
+                    currentUser.saveInBackground(new SaveCallback() {
                         @Override
-                        public void done(List<ParseObject> objects, ParseException e) {
-                            if (e == null) {
-                                Log.i("arraycheck", objects.toString());
-
-                            } else {
+                        public void done(ParseException e) {
+                            if (e == null){
+                                Toast.makeText(context, "You are now following " + user.get("firstName") , Toast.LENGTH_LONG).show();
+                            }else{
                                 e.printStackTrace();
                             }
                         }
-                    });*/
+                    });
+
+                    ArrayList<String> yourFriends = (ArrayList<String>) user.get("friends");
+                    yourFriends.add(currentUser.getObjectId().toString());
+                    user.put("friends", yourFriends);
+
+                    user.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null){
+                                Toast.makeText(context, "Friend has been added." , Toast.LENGTH_LONG).show();
+                            }else{
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
 
 
                 }
