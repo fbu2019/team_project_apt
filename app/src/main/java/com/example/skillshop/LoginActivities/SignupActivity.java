@@ -25,6 +25,7 @@ import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class SignupActivity extends AppCompatActivity {
@@ -136,6 +137,13 @@ public class SignupActivity extends AppCompatActivity {
             user.put("profilePicUrl", image_url);
 
             login(fbID, fbID);
+
+
+            HashMap<String, Integer> dateMap;
+
+
+
+
 
             user.signUpInBackground(new SignUpCallback() {
                 public void done(ParseException e) {

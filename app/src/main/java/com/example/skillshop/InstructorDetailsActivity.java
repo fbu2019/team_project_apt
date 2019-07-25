@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.skillshop.ClassManipulationActivities.EditClassActivity;
 import com.example.skillshop.Models.Workshop;
 import com.parse.ParseException;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
@@ -105,22 +106,25 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
     private void updateRating() {
 
-        int numTimesRated = (int) detailedWorkshop.getTeacher().get("numRatings");
-        detailedWorkshop.getTeacher().put("numRatings", (int) numTimesRated + 1);
+        int numTimesRated = (int) detailedWorkshop.getTeacher().get("numRatings") + 1;
 
-        detailedWorkshop.saveInBackground(new SaveCallback() {
+
+        ParseUser currentInstructor = detailedWorkshop.getTeacher();
+        currentInstructor.put("numRatings", numTimesRated);
+
+        Log.e("InstructorDetails", currentInstructor.get("firstName").toString());
+        currentInstructor.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                if (e == null) {
+                if(e == null){
                     Toast.makeText(InstructorDetailsActivity.this, "Changes have been saved (changes may take a while to be reflected in the app)", Toast.LENGTH_SHORT).show();
-                    Workshop editedWorkshop = detailedWorkshop;
-                    refreshDetailsPage(editedWorkshop);
-                    finish();
                 } else {
+
                     Toast.makeText(InstructorDetailsActivity.this, "Error saving changes", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
     }
 
     private void refreshDetailsPage(Workshop editedWorkshop) {
