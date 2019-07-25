@@ -162,14 +162,16 @@ public class SignupActivity extends AppCompatActivity {
 
     private void initializeRatings(ParseUser user) {
         //TODO - initialize everything
+
         HashMap<String, Integer> usersWhoRated = new HashMap<String, Integer>();
         usersWhoRated.put(user.getUsername(), 3);
 
-        Log.e("SignupActivity","REACHED INIIT RATINGS");
 
         Ratings userRating = new Ratings();
         userRating.put("userRatings", usersWhoRated);
+        //userRating.put
         userRating.setUser(user);
+
         Log.e("SignupActivity","HERE");
         Log.e("SignupActivity", user.get("firstName").toString());
 

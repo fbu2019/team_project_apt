@@ -23,8 +23,14 @@ public class Ratings extends ParseObject {
 
     public String getUser() {return getString(KEY_USER); }
     public void setUser(ParseUser user) { put(KEY_USER, user); }
+
     public int getAverageRating() {return getInt(KEY_AVERAGE_RATING); }
+    public void setAverageRating(int i) { put(KEY_AVERAGE_RATING,i); }
+
     public int getNumRatings() {return getInt(KEY_NUM_RATINGS); }
+    public void setNumRatings(int i) { put(KEY_NUM_RATINGS, i); }
+
+    //TODO - complete rest
     // public HashMap<String, Integer> getUsersWhoRated() {return get(KEY_USER_RATINGS); }
 
 }
