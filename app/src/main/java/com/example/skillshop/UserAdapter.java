@@ -57,9 +57,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         //get the data according to position
-        final ParseUser user = mUsers.get(position);
+        final ParseUser fellowAttendee = mUsers.get(position);
         //populate the views according to this data
-        viewHolder.bind(user);
+        viewHolder.bind(fellowAttendee);
 
 
     }
@@ -90,56 +90,58 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             tvPreferences = itemView.findViewById(R.id.tvPreferences);
             ivProfilePic = (ImageView) itemView.findViewById(R.id.ivProfilePic);
             btnAddFriend = (Button) itemView.findViewById(R.id.btnAddFriend);
-
-
-
-
-
         }
 
-        private void setupAddFriendBtn(ParseUser user) {
+        private void setupAddFriendBtn(ParseUser fellowAttendee) {
 
             btnAddFriend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                   ParseUser currentUser = ParseUser.getCurrentUser();
+
+                    ParseUser currentUser = ParseUser.getCurrentUser();
 
                     ArrayList<String> myFriends = (ArrayList<String>) currentUser.get("friends");
-                    if (! myFriends.contains(user.getObjectId().toString())) {
-                        myFriends.add(user.getObjectId().toString());
+                    String fellowAttendeeId = fellowAttendee.getObjectId().toString();
+                    Boolean isFollowing = myFriends.contains(fellowAttendeeId);
+                    if (isFollowing) {
+                        btnAddFriend.setText("UNFOLLOW USER");
                     }
-                    currentUser.put("friends", myFriends);
-                    currentUser.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e == null){
-                                Toast.makeText(context, "You are now following " + user.get("firstName") , Toast.LENGTH_LONG).show();
-                            }else{
-                                e.printStackTrace();
+
+                    if (!isFollowing) {
+                        myFriends.add(fellowAttendeeId);
+                        currentUser.put("friends", myFriends);
+                        currentUser.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    Toast.makeText(context, "You are now following " + fellowAttendee.get("firstName"), Toast.LENGTH_LONG).show();
+                                } else {
+                                    e.printStackTrace();
+                                }
                             }
-                        }
-                    });
+                        });
 
-                    ArrayList<String> yourFriends = (ArrayList<String>) user.get("friends");
-                    yourFriends.add(currentUser.getObjectId().toString());
-                    user.put("friends", yourFriends);
+                        btnAddFriend.setText("UNFOLLOW USER");
 
-                    user.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e == null){
-                                Toast.makeText(context, "Friend has been added." , Toast.LENGTH_LONG).show();
-                            }else{
-                                e.printStackTrace();
+
+                    }else{
+                        myFriends.remove(fellowAttendeeId);
+                        currentUser.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    Toast.makeText(context, "You are no longer following " + fellowAttendee.get("firstName"), Toast.LENGTH_LONG).show();
+                                } else {
+                                    e.printStackTrace();
+                                }
                             }
-                        }
-                    });
-
-
-
+                        });
+                        btnAddFriend.setText("FOLLOW USER");
+                    }
                 }
             });
         }
+
 
         public void bind(ParseUser user) {
             setAllViews(user);
