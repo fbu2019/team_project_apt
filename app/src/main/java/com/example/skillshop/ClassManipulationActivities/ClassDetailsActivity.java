@@ -248,8 +248,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
         }
 
         detailedWorkshop.setStudents(students);
-
-
         detailedWorkshop.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
