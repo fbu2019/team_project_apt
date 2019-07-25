@@ -1,6 +1,7 @@
 package com.example.skillshop.LoginActivities;
 
 import android.content.Intent;
+import android.media.Rating;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -24,6 +25,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
@@ -161,10 +163,10 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void initializeRatings(ParseUser user) {
+
         Ratings userRating = new Ratings();
 
         HashMap<String, Integer> usersWhoRated = new HashMap<String, Integer>();
-        // usersWhoRated.put(user.getUsername(), 3); //  remove after testing
         userRating.put("userRatings", usersWhoRated);
         userRating.setUser(user);
         userRating.setAverageRating(0);
@@ -175,14 +177,35 @@ public class SignupActivity extends AppCompatActivity {
             public void done(ParseException e) {
                 if(e == null){
                     Toast.makeText(SignupActivity.this, "Changes have been saved (changes may take a while to be reflected in the app)", Toast.LENGTH_SHORT).show();
+                    linkUserRating(user, userRating);
                 } else {
 
                     Toast.makeText(SignupActivity.this, "Error saving changes", Toast.LENGTH_SHORT).show();
-                    Log.e("Signup", "NOT SAVED");
+                    Log.e("SignupActivity", "CHANGES NOT SAVED");
                 }
 
             }
         });
+    }
+
+    private void linkUserRating(ParseUser user, Ratings userRating) {
+
+        user.put("rating", userRating);
+        user.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e == null){
+                    Toast.makeText(SignupActivity.this, "Changes have been saved (changes may take a while to be reflected in the app)", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    Toast.makeText(SignupActivity.this, "Error saving changes", Toast.LENGTH_SHORT).show();
+                    Log.e("SignupActivity", "User not linked to rating");
+                }
+
+            }
+        });
+
+
     }
 
 }
