@@ -291,6 +291,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         // api key param put in
         params.add("classId",currentWorkshop.getObjectId());
 
+        // do get request to this server to send notifications to everyone involved with this class
         client.get("https://agile-caverns-23612.herokuapp.com/",params,new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {

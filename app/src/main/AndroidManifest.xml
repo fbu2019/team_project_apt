@@ -70,7 +70,12 @@
         <activity android:name=".LoginActivities.SignupActivity" />
         <activity android:name=".ClassManipulationActivities.EditClassActivity" />
         <activity android:name=".ClassManipulationActivities.NewClassActivity" />
-        <activity android:name=".ClassManipulationActivities.ClassDetailsActivity" />
+        <activity android:name=".ClassManipulationActivities.ClassDetailsActivity" >
+            <intent-filter>
+                <action android:name="CLASSDETAILSACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            </activity>
         <activity android:name=".LoginActivities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
