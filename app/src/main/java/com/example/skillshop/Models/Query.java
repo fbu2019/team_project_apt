@@ -1,6 +1,7 @@
 package com.example.skillshop.Models;
 
 
+import com.parse.FindCallback;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -32,6 +33,7 @@ public class Query extends ParseQuery<Workshop> {
         include(KEY_TEACHER);
         return this;
     }
+
 
     public Query byLocation(ParseGeoPoint userLocation){
 
@@ -96,9 +98,5 @@ public class Query extends ParseQuery<Workshop> {
 
         return this;
     }
-
-
-
-
 }
 

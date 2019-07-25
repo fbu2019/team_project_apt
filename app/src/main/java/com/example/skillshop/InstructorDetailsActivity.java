@@ -15,11 +15,19 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.skillshop.ClassManipulationActivities.EditClassActivity;
+import com.example.skillshop.Models.Query;
+import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.Models.Workshop;
+import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class InstructorDetailsActivity extends AppCompatActivity {
 
@@ -98,22 +106,33 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         rbUserRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                updateRating();
+                updateRating(rating);
                 tvUserProvidedRating.setText("You have provided "+detailedWorkshop.getTeacher().get("firstName")+" with a rating of "+rbUserRating.getRating());
             }
         });
     }
 
-    private void updateRating() {
+    private void updateRating(float ratingValue) {
 
         int numTimesRated = (int) detailedWorkshop.getTeacher().get("numRatings") + 1;
 
+       Ratings instructorRating = (Ratings) detailedWorkshop.get("instructorRating");
+       if(instructorRating!=null) {
+           Log.e("Instructor details", String.valueOf((instructorRating.getNumRatings())));
+       }
 
-        ParseUser currentInstructor = detailedWorkshop.getTeacher();
-        currentInstructor.put("numRatings", numTimesRated);
+       /*
+        HashMap<String, Integer> usersWhoRated = (HashMap<String, Integer>) instructorRating.get("userRatings");
+        if(usersWhoRated.get(detailedWorkshop.getTeacher().getUsername())!=null){
+            usersWhoRated.put(detailedWorkshop.getTeacher().getUsername(), (int) ratingValue);
+            //TODO - update message
+        } else {
+            usersWhoRated.put(detailedWorkshop.getTeacher().getUsername(), (int) ratingValue);
+        }
+        */
+       instructorRating.setNumRatings(33);
 
-        Log.e("InstructorDetails", currentInstructor.get("firstName").toString());
-        currentInstructor.saveInBackground(new SaveCallback() {
+        instructorRating.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if(e == null){
@@ -133,4 +152,8 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         setResult(RESULT_OK, data);
     }
 
+    private void getRating() {
+
+
+    }
 }
