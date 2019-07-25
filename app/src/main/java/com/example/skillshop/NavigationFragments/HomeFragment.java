@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import com.example.skillshop.ClassAdapter;
+import com.example.skillshop.DatabaseCommunication.Notification;
 import com.example.skillshop.MapActivity;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.Models.Query;
@@ -66,6 +67,11 @@ public class HomeFragment extends Fragment {
 
         connectRecyclerView(view);
       //  populateHomeFeed();
+
+        Notification notification = new Notification();
+
+        notification.sendClassNotification();
+
     }
 
     private void setupPreferenceFilterButton(View view) {
