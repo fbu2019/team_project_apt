@@ -15,7 +15,7 @@ public class Notification {
     {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
-//        params.put("classId", "DXphDVrGB7");
+        params.put("classId", "DXphDVrGB7");
         client.get("http://localhost:80", params, new TextHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, String responseString) {
