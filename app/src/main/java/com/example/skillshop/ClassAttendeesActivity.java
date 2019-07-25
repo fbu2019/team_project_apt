@@ -2,8 +2,11 @@ package com.example.skillshop;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import com.example.skillshop.ClassManipulationActivities.ClassDetailsActivity;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Workshop;
 import com.parse.FindCallback;
@@ -19,15 +22,29 @@ import java.util.List;
 public class ClassAttendeesActivity extends AppCompatActivity {
 
     Workshop currentWorkshop;
+
+    private RecyclerView rvUsers;
+    protected ArrayList<ParseUser> mUsers;
+    protected UserAdapter userAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_attendees);
 
         getStudentArray();
+        //find the RecyclerView
+        rvUsers = (RecyclerView) findViewById(R.id.rvUsers);
+        //init the arraylist (data source)
+        mUsers = new ArrayList<>();
+        //construct the adapter from this datasource
+        userAdapter = new UserAdapter(mUsers, ClassAttendeesActivity.this);
+        //RecyclerView setup (layout manager, use adapter)
+        rvUsers.setLayoutManager(new LinearLayoutManager(ClassAttendeesActivity.this));
+        //set the adapter
+        rvUsers.setAdapter(userAdapter);
 
-        //TODO set up recycler view
-        //TODO set up teacher adapter
+        //TODO connect the recycler view to the adapter
+
 
 
     }
@@ -41,11 +58,13 @@ public class ClassAttendeesActivity extends AppCompatActivity {
             final ParseQuery<ParseUser> userQuery = ParseUser.getQuery().whereMatches("objectId", students.get(i));
             userQuery.findInBackground(new FindCallback<ParseUser>() {
                 @Override
-                public void done(List<ParseUser> attendee, ParseException e) {
+                public void done(List<ParseUser> attendees, ParseException e) {
                     if (e == null) {
-                        for (int i = 0; i < attendee.size(); i++) {
-                            String firstName = attendee.get(i).get("firstName").toString();
-                            Log.i("classAttendees", firstName);
+                        for (int i = 0; i < attendees.size(); i++) {
+                            ParseUser userItem = attendees.get(i);
+                            mUsers.add(userItem);
+                          //  String firstName = attendees.get(i).get("firstName").toString();
+                          //  Log.i("classAttendees", firstName);
 
                             // Workshop workshopItem = objects.get(i);
                           //  mWorkshops.add(workshopItem);
