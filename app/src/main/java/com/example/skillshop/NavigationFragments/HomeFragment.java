@@ -68,10 +68,6 @@ public class HomeFragment extends Fragment {
         connectRecyclerView(view);
       //  populateHomeFeed();
 
-        Notification notification = new Notification();
-
-        notification.sendClassNotification();
-
     }
 
     private void setupPreferenceFilterButton(View view) {
