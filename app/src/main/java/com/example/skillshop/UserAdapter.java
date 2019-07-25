@@ -93,20 +93,26 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         }
 
         private void setupAddFriendBtn(ParseUser fellowAttendee) {
+            ParseUser currentUser = ParseUser.getCurrentUser();
+
+
+            String fellowAttendeeId = fellowAttendee.getObjectId().toString();
+
+            ArrayList<String> myFriends = (ArrayList<String>) currentUser.get("friends");
+
+
+            Boolean isFollowing = myFriends.contains(fellowAttendeeId);
+            if (isFollowing) {
+                btnAddFriend.setText("UNFOLLOW USER");
+            }
 
             btnAddFriend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    ParseUser currentUser = ParseUser.getCurrentUser();
-
                     ArrayList<String> myFriends = (ArrayList<String>) currentUser.get("friends");
-                    String fellowAttendeeId = fellowAttendee.getObjectId().toString();
-                    Boolean isFollowing = myFriends.contains(fellowAttendeeId);
-                    if (isFollowing) {
-                        btnAddFriend.setText("UNFOLLOW USER");
-                    }
 
+
+                    Boolean isFollowing = myFriends.contains(fellowAttendeeId);
                     if (!isFollowing) {
                         myFriends.add(fellowAttendeeId);
                         currentUser.put("friends", myFriends);

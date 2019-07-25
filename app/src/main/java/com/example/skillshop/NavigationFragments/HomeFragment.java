@@ -17,6 +17,7 @@ import android.widget.Spinner;
 
 import com.example.skillshop.ClassAdapter;
 import com.example.skillshop.DatabaseCommunication.Notification;
+import com.example.skillshop.FollowingListActivity;
 import com.example.skillshop.MapActivity;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.Models.Query;
@@ -47,6 +48,7 @@ public class HomeFragment extends Fragment {
     Spinner spinFilters;
     ImageButton btnMap;
     Button btnPreferenceFilter;
+    Button btnFollowing;
     Boolean firstLoad = true;
     @Override
 
@@ -65,6 +67,7 @@ public class HomeFragment extends Fragment {
         spinFilters = view.findViewById(R.id.spinFilters);
         setupMapButton(view);
         setupPreferenceFilterButton(view);
+        setupFollowingListButton(view);
 
         connectRecyclerView(view);
       //  populateHomeFeed();
@@ -72,6 +75,17 @@ public class HomeFragment extends Fragment {
         updateToken();
 
 
+    }
+
+    private void setupFollowingListButton(View view) {
+        btnFollowing = view.findViewById(R.id.btnFollowing);
+        btnFollowing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent openFollowerListActivity = new Intent (getContext(), FollowingListActivity.class);
+                startActivity(openFollowerListActivity);
+            }
+        });
     }
 
     public void updateToken()
