@@ -100,7 +100,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             btnAddFriend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ParseUser currentUser = ParseUser.getCurrentUser();
+/*                    ParseUser currentUser = ParseUser.getCurrentUser();
 
 
                     String lastname = user.getString("lastName");
@@ -124,7 +124,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                                 e.printStackTrace();
                             }
                         }
-                    });
+                    });*/
 
 
                 }
@@ -137,16 +137,19 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         private void setAllViews(ParseUser user) {
             tvName.setText(user.get("firstName").toString() + " " + user.get("lastName").toString());
-            JSONArray preferences = user.getJSONArray("preferences");
-            String preferenceString = "";
-            for (int i = 0; i < preferences.length(); i++){
-                try {
-                    preferenceString += preferences.getString(i) + " | ";
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+           /* JSONArray preferences = user.getJSONArray("preferences");
+            if (!preferences.isNull(1)){
+                for (int i = 0; i < preferences.length(); i++){
+                    try {
+                        preferenceString += preferences.getString(i) + " | ";
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
-            }
+                }
+            }*/
+            String preferenceString = "";
+
             tvPreferences.setText(preferenceString);
             Glide.with(context).load(user.getString("profilePicUrl")).into(ivProfilePic);
             setupAddFriendBtn(user);
