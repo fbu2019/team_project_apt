@@ -73,7 +73,6 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
                 context.startActivity(profileDetailsIntent);
             }
         });
-
     }
 
     //gets the number of items

@@ -16,7 +16,7 @@ public class ParseApp extends Application {
         final Parse.Configuration configuration = new Parse.Configuration.Builder(this)
                 .applicationId("skillshop")
                 .clientKey("skillshop")
-                .server("http://skillshop2019.herokuapp.com/parse")
+                .server("http://skillshop-fbu.herokuapp.com/parse")
                 .build();
         Parse.initialize(configuration);
 
