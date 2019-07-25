@@ -32,6 +32,13 @@ The following **stretch** features are implemented:
 - [ ] Recommendations for classes based on past classes
 - [ ] Notifications for user when a class they are involved with changes
 
+
+## Database Models
+
+We have 2 models in our database a User model and a Workshop model we used to build our app
+
+The user object is represented like this: [User](request.py)
+
 ## Credits
 
 List an 3rd party libraries, icons, graphics, or other assets you used in your app.
