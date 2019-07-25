@@ -14,7 +14,9 @@ import com.example.skillshop.NavigationFragments.HomeFragment;
 import com.example.skillshop.NavigationFragments.ProfileFragment;
 import com.example.skillshop.R;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 
 public class FragmentHandler extends AppCompatActivity {
@@ -58,7 +60,7 @@ public class FragmentHandler extends AppCompatActivity {
         });
         // default fragment in home fragment
         bottomNavigationView.setSelectedItemId(R.id.home_fragment);
-        updateFirebaseToken();
+//        updateFirebaseToken();
 
 
 
@@ -77,8 +79,16 @@ public class FragmentHandler extends AppCompatActivity {
     public void updateFirebaseToken()
     {
         ParseUser currentUser = ParseUser.getCurrentUser();
+
+
         currentUser.put("firebaseToken",FirebaseInstanceId.getInstance().getToken());
-        currentUser.saveInBackground();
+        currentUser.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+
+            }
+        });
+
     }
 
 

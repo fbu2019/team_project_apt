@@ -155,7 +155,8 @@ public class ClassDetailsActivity extends AppCompatActivity {
     private void populateFields(Workshop workshop) {
 
         tvClassName.setText(workshop.getName());
-        if(workshop.getTeacher().getString("firstName")!=null && workshop.getString("lastName")!=null){
+
+        if(workshop.getTeacher()!= null && workshop.getTeacher() instanceof ParseUser &&  workshop.getTeacher().getString("firstName")!=null && workshop.getString("lastName")!=null){
             tvInstructor.setText(workshop.getTeacher().getString("firstName")+" "+workshop.getTeacher().getString("lastName"));
         }
 

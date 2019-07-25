@@ -47,12 +47,9 @@ public class LoginActivity extends AppCompatActivity {
         //Profile profile = Profile.getCurrentProfile();
 
 
-        // for testing
-//        login("guacamole","123");
-
         if (currentUser != null) {
 
-            currentUser.put("firebaseToken", FirebaseInstanceId.getInstance().getToken());
+
             //  continue to next activity if user previously logged in and user has submitted location
             Intent i = new Intent(LoginActivity.this, FragmentHandler.class);
             startActivity(i);
@@ -60,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         //  if user has closed app during signing up without logging out, app will resume at SignupActivity
-        if (currentUser == null && Profile.getCurrentProfile() != null) {
+        else if (currentUser == null && Profile.getCurrentProfile() != null) {
             Intent i = new Intent(LoginActivity.this, SignupActivity.class);
             startActivity(i);
         }

@@ -10,14 +10,23 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
+import com.example.skillshop.ClassManipulationActivities.ClassDetailsActivity;
+import com.example.skillshop.LoginActivities.LoginActivity;
+import com.example.skillshop.Models.Query;
+import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.NavigationFragments.FragmentHandler;
 import com.example.skillshop.R;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseUser;
 
+import org.parceler.Parcels;
+
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class MyFirebaseInstanceService extends FirebaseMessagingService {
 
@@ -32,16 +41,38 @@ public class MyFirebaseInstanceService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-        sendNotification(remoteMessage.getNotification().getBody(), (int) remoteMessage.getSentTime());
+        String classId = remoteMessage.getNotification().getTitle();
+
+        Query getEditedClass = new Query();
+        getEditedClass.whereEqualTo("objectId",classId);
+
+        getEditedClass.findInBackground(new FindCallback<Workshop>() {
+            @Override
+            public void done(List<Workshop> objects, ParseException e) {
+                if(e == null)
+                {
+                    Workshop editedClass = objects.get(0);
+                    sendNotification(remoteMessage.getNotification().getBody(), (int) remoteMessage.getSentTime(),editedClass);
+                }
+            }
+        });
+
+
+
+
+
+
+
+
 
 
     }
-    private void sendNotification(String messageBody, int time) {
-        Intent intent = new Intent(this, FragmentHandler.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
-
+    private void sendNotification(String messageBody, int time, Workshop editedClass) {
+//        Intent intent = new Intent(this, ClassDetailsActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(editedClass));
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this, time, intent,
+//                PendingIntent.FLAG_ONE_SHOT);
         String channelId =CHANNEL_ID;
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder =
@@ -50,9 +81,7 @@ public class MyFirebaseInstanceService extends FirebaseMessagingService {
                         .setContentTitle("Skillshop")
                         .setContentText(messageBody)
                         .setAutoCancel(true)
-                        .setSound(defaultSoundUri)
-                        .setContentIntent(pendingIntent);
-
+                        .setSound(defaultSoundUri);
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -63,7 +92,6 @@ public class MyFirebaseInstanceService extends FirebaseMessagingService {
                     NotificationManager.IMPORTANCE_DEFAULT);
             notificationManager.createNotificationChannel(channel);
         }
-
         notificationManager.notify(time, notificationBuilder.build());
     }
 
