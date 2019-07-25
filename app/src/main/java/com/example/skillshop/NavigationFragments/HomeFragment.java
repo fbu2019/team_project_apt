@@ -21,6 +21,7 @@ import com.example.skillshop.MapActivity;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.R;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
@@ -68,6 +69,16 @@ public class HomeFragment extends Fragment {
         connectRecyclerView(view);
       //  populateHomeFeed();
 
+        updateToken();
+
+
+    }
+
+    public void updateToken()
+    {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        currentUser.put("firebaseToken", FirebaseInstanceId.getInstance().getToken());
+        currentUser.saveInBackground();
     }
 
     private void setupPreferenceFilterButton(View view) {

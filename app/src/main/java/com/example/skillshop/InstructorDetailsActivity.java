@@ -121,6 +121,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
            Log.e("Instructor details", String.valueOf((instructorRating.getNumRatings())));
        }
 
+       //   todo - call queries like in HomeFragment
        /*
         HashMap<String, Integer> usersWhoRated = (HashMap<String, Integer>) instructorRating.get("userRatings");
         if(usersWhoRated.get(detailedWorkshop.getTeacher().getUsername())!=null){
