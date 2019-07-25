@@ -271,7 +271,6 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         });
 
 
-
     }
 
     public void removeWorkshop() throws ParseException {
@@ -308,7 +307,6 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     }
 
     public void goToHomeFragment(){
-
 
         // create new fragment to use
         Fragment home = new HomeFragment();

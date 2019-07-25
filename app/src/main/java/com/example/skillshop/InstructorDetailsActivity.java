@@ -116,7 +116,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
         int numTimesRated = (int) detailedWorkshop.getTeacher().get("numRatings") + 1;
 
-       Ratings instructorRating = (Ratings) detailedWorkshop.get("instructorRating");
+       Ratings instructorRating = (Ratings) detailedWorkshop.getTeacher().get("rating");
        if(instructorRating!=null) {
            Log.e("Instructor details", String.valueOf((instructorRating.getNumRatings())));
        }

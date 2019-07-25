@@ -34,7 +34,6 @@ public class Query extends ParseQuery<Workshop> {
         return this;
     }
 
-
     public Query byLocation(ParseGeoPoint userLocation){
 
         whereNear(KEY_LOCATION, userLocation);
@@ -94,7 +93,6 @@ public class Query extends ParseQuery<Workshop> {
 
         whereGreaterThanOrEqualTo(KEY_DATE,lowerBound);
         whereLessThanOrEqualTo(KEY_DATE,upperBound);
-
 
         return this;
     }
