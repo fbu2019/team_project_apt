@@ -2,6 +2,7 @@ package com.example.skillshop;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -42,8 +43,11 @@ public class ClassAttendeesActivity extends AppCompatActivity {
         rvUsers.setLayoutManager(new LinearLayoutManager(ClassAttendeesActivity.this));
         //set the adapter
         rvUsers.setAdapter(userAdapter);
+        // add dividers to list of attendees
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvUsers.getContext(),
+                new LinearLayoutManager(this).getOrientation());
+        rvUsers.addItemDecoration(dividerItemDecoration);
 
-        //TODO connect the recycler view to the adapter
 
 
 
@@ -63,6 +67,7 @@ public class ClassAttendeesActivity extends AppCompatActivity {
                         for (int i = 0; i < attendees.size(); i++) {
                             ParseUser userItem = attendees.get(i);
                             mUsers.add(userItem);
+                            userAdapter.notifyItemInserted(mUsers.size()-1);
                           //  String firstName = attendees.get(i).get("firstName").toString();
                           //  Log.i("classAttendees", firstName);
 

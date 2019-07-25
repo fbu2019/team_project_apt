@@ -10,10 +10,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.skillshop.Models.Workshop;
 import com.parse.Parse;
 import com.parse.ParseUser;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -86,7 +89,19 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         }
 
         private void setAllViews(ParseUser user) {
-            tvName.setText(user.get("firstName").toString() + " " + user.get("firstName").toString());
+            tvName.setText(user.get("firstName").toString() + " " + user.get("lastName").toString());
+            JSONArray preferences = user.getJSONArray("preferences");
+            String preferenceString = "";
+            for (int i = 0; i < preferences.length(); i++){
+                try {
+                    preferenceString += preferences.getString(i) + " | ";
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            tvPreferences.setText(preferenceString);
+            Glide.with(context).load(user.getString("profilePicUrl")).into(ivProfilePic);
         }
     }
 
