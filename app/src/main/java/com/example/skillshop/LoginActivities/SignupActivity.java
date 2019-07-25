@@ -168,7 +168,7 @@ public class SignupActivity extends AppCompatActivity {
         Log.e("SignupActivity","REACHED INIIT RATINGS");
 
         Ratings userRating = new Ratings();
-        // userRating.put("userRatings", usersWhoRated);
+        userRating.put("userRatings", usersWhoRated);
         userRating.setUser(user);
         Log.e("SignupActivity","HERE");
         Log.e("SignupActivity", user.get("firstName").toString());
