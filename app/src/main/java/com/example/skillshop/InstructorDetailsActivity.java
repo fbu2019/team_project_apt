@@ -30,6 +30,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
     private RatingBar rbUserRating;
 
     private String profilePhotoUrl;
+    Integer currentRatingValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +98,8 @@ public class InstructorDetailsActivity extends AppCompatActivity {
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 updateRating(rating);
                 tvUserProvidedRating.setText("You have provided "+detailedWorkshop.getTeacher().get("firstName")+" with a rating of "+rbUserRating.getRating());
+                // rbInstructorAverage.setRating(currentRatingValue);
+                tvNotYetRated.setText(" ");
             }
         });
     }
@@ -109,6 +112,12 @@ public class InstructorDetailsActivity extends AppCompatActivity {
             @Override
             public void done(List<Ratings> objects, ParseException e) {
                 if (e == null) {
+                    for (int i = 0; i < objects.size(); i++) {
+                        Ratings currentRating = objects.get(i);
+
+                        currentRating.setAverageRating((int) ratingValue);
+                        currentRatingValue = (int) ratingValue;
+                    }
                     Log.e("Nice", "Nice");
                 } else {
                     Log.e("not Nice", "not Nice");
@@ -119,15 +128,11 @@ public class InstructorDetailsActivity extends AppCompatActivity {
     }
 
 
-
     private void refreshDetailsPage(Workshop editedWorkshop) {
         Intent data = new Intent();
         data.putExtra("updated", Parcels.wrap(editedWorkshop));
         setResult(RESULT_OK, data);
     }
 
-    private void getRating() {
 
-
-    }
 }
