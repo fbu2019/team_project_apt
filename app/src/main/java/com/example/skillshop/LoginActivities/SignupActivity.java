@@ -134,7 +134,7 @@ public class SignupActivity extends AppCompatActivity {
             user.put("sumRatings", 0);
             user.put("instructorRating", 0);
             user.put("friends", friends);
-            
+
             String image_url = "https://graph.facebook.com/" + fbID + "/picture?type=large";
             user.put("profilePicUrl", image_url);
 
