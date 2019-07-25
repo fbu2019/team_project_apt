@@ -37,7 +37,9 @@ The following **stretch** features are implemented:
 
 We have 2 models in our database a User model and a Workshop model we used to build our app
 
-The user object is represented like this: [User](request.py)
+The user object is represented like this: [user](DatabaseModels/user.py)
+
+The workshop object is represented like this: [workshop](DatabaseModels/workshop.py)
 
 ## Credits
 
