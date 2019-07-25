@@ -96,5 +96,6 @@ public class Query extends ParseQuery<Workshop> {
 
         return this;
     }
+
 }
 
