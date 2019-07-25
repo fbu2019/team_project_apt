@@ -1,17 +1,8 @@
 package com.example.skillshop.Models;
 
 import com.parse.ParseClassName;
-import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
-import com.parse.SignUpCallback;
-
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-
-import com.parse.ParseClassName;
 
 @ParseClassName("Ratings")
 public class Ratings extends ParseObject {
@@ -30,7 +21,8 @@ public class Ratings extends ParseObject {
     public int getNumRatings() {return getInt(KEY_NUM_RATINGS); }
     public void setNumRatings(int i) { put(KEY_NUM_RATINGS, i); }
 
-    //TODO - complete rest
-    // public HashMap<String, Integer> getUsersWhoRated() {return get(KEY_USER_RATINGS); }
+    //  public Ratings getParseRating(String key) { return getParseObject(key); }
+
+    // public Ratings getByUser(String userFBiD){ return}
 
 }
