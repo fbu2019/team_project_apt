@@ -4,10 +4,13 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -28,10 +31,15 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,6 +52,7 @@ import java.util.List;
 public class NewClassActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener{
 
     public static final String TAG = "NewClassActivity";
+    public final String APP_TAG = "MyCustomApp";
 
     TextView etClassname;
     TextView etDate;
@@ -54,6 +63,9 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     TextView etCost;
     ImageView ivClassImage;
     Button btSubmit;
+    Workshop newClass ;
+
+
 
 
     ParseGeoPoint location;
@@ -75,6 +87,8 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         findAllViews();
         setSubmitListener();
 
+        newClass = new Workshop();
+
 
 
         // Initialize Places.
@@ -82,8 +96,6 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
            Places.initialize(getApplicationContext(), apiKey);
          }
 
-        //Create a new Places client instance.
-         PlacesClient placesClient = Places.createClient(NewClassActivity.this);
 
 
         btLocation.setOnClickListener(new View.OnClickListener() {
@@ -193,7 +205,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
 
     private void postWorkshop() {
 
-        final Workshop newClass = new Workshop();
+
 
 
         newClass.setDescription(etDescription.getText().toString());
@@ -214,6 +226,13 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
 
         newClass.setLocation(location);
 
+
+
+//        ParseFile imageFile = new ParseFile();
+//
+//
+//        newClass.setImage(imageFile);
+
         ArrayList<String> students = new ArrayList<>();
         newClass.setStudents(students);
 
@@ -230,6 +249,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
                 }
                 else
                 {
+
                     Toast.makeText(NewClassActivity.this, "Class wasn't made", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -266,22 +286,23 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     }
 
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if ((data != null) && (requestCode == PICK_PHOTO_CODE)){
             Uri photoUri = data.getData();
             // Do something with the photo based on Uri
-
             Bitmap selectedImage = null;
             try {
                 selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             // Load the selected image into a preview
             ImageView ivPreview = findViewById(R.id.ivClassImage);
             ivPreview.setImageBitmap(selectedImage);
+
+
         }
         if ((data != null) && (requestCode == AUTOCOMPLETE_REQUEST_CODE)){
             Place place = Autocomplete.getPlaceFromIntent(data);
