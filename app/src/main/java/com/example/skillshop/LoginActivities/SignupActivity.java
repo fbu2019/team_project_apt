@@ -161,19 +161,14 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void initializeRatings(ParseUser user) {
-        //TODO - initialize everything
+        Ratings userRating = new Ratings();
 
         HashMap<String, Integer> usersWhoRated = new HashMap<String, Integer>();
-        usersWhoRated.put(user.getUsername(), 3);
-
-
-        Ratings userRating = new Ratings();
+        // usersWhoRated.put(user.getUsername(), 3); //  remove after testing
         userRating.put("userRatings", usersWhoRated);
-        //userRating.put
         userRating.setUser(user);
-
-        Log.e("SignupActivity","HERE");
-        Log.e("SignupActivity", user.get("firstName").toString());
+        userRating.setAverageRating(0);
+        userRating.setNumRatings(0);
 
         userRating.saveInBackground(new SaveCallback() {
             @Override
