@@ -38,13 +38,7 @@ public class Ratings extends ParseObject {
         public Query getAllRatings() {
             return this;
         }
-
-        public Query withClassInstructor(ParseUser user, Workshop workshop){
-            String instructorID = user.getUsername();
-            String workshopInstructorID = workshop.getTeacher().getUsername();
-            whereEqualTo(instructorID, workshopInstructorID);
-            return this;
-        }
+        
 
         public Query withUser() {
             include(KEY_USER);

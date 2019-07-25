@@ -9,12 +9,15 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.skillshop.LoginActivities.SignupActivity;
 import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.Models.Workshop;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.SaveCallback;
 
 import java.util.List;
 
@@ -89,16 +92,16 @@ public class InstructorDetailsActivity extends AppCompatActivity {
             tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated " + numTimesRated + " times.");
         }
 
-        if ( true ){
-            //TODO - DETERMINE RELATIONSHIP BETWEEN USER AND IF THEY'VE RATD A USER
+        if (true) {
+            //TODO - DETERMINE RELATIONSHIP BETWEEN USER AND IF THEY'VE RATeD A USER
             tvUserProvidedRating.setText("You have not yet rated this instructor");
         }
+
         rbUserRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 updateRating(rating);
-                tvUserProvidedRating.setText("You have provided "+detailedWorkshop.getTeacher().get("firstName")+" with a rating of "+rbUserRating.getRating());
-                // rbInstructorAverage.setRating(currentRatingValue);
+                tvUserProvidedRating.setText("You have provided " + detailedWorkshop.getTeacher().get("firstName") + " with a rating of " + rbUserRating.getRating());
                 tvNotYetRated.setText(" ");
             }
         });
@@ -107,19 +110,42 @@ public class InstructorDetailsActivity extends AppCompatActivity {
     private void updateRating(float ratingValue) {
 
         Ratings.Query ratingParseQuery = new Ratings.Query();
-        ratingParseQuery.getAllRatings().withClassInstructor(detailedWorkshop.getTeacher(), detailedWorkshop);
+        ratingParseQuery.getAllRatings().whereEqualTo("user", detailedWorkshop.getTeacher());
+
         ratingParseQuery.findInBackground(new FindCallback<Ratings>() {
+
             @Override
             public void done(List<Ratings> objects, ParseException e) {
                 if (e == null) {
-                    for (int i = 0; i < objects.size(); i++) {
-                        Ratings currentRating = objects.get(i);
 
-                        currentRating.setAverageRating((int) ratingValue);
-                        currentRatingValue = (int) ratingValue;
-                    }
-                    Log.e("Nice", "Nice");
+                    String size = String.valueOf(objects.size()+1);
+
+                    Toast.makeText(InstructorDetailsActivity.this, size, Toast.LENGTH_SHORT).show();
+                    Log.e("InstructorActivity", "Reached above");
+
+                    Ratings currentRating = objects.get(0);
+                    currentRating.setAverageRating((int) ratingValue);
+                    currentRatingValue = (int) ratingValue;
+
+                    Log.e("InstructorActivity", "Reached here");
+
+                    currentRating.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                Toast.makeText(InstructorDetailsActivity.this, "Your rating has been recorded", Toast.LENGTH_SHORT).show();
+
+                            } else {
+
+                                Toast.makeText(InstructorDetailsActivity.this, "Error saving changes", Toast.LENGTH_SHORT).show();
+                                Log.e("InstructorActivity", "CHANGES NOT SAVED");
+                            }
+
+                        }
+                    });
                 } else {
+                    e.printStackTrace();
+                    Toast.makeText(InstructorDetailsActivity.this, "not good", Toast.LENGTH_SHORT).show();
                     Log.e("not Nice", "not Nice");
                 }
             }
