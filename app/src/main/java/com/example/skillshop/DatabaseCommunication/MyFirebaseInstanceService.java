@@ -68,11 +68,11 @@ public class MyFirebaseInstanceService extends FirebaseMessagingService {
 
     }
     private void sendNotification(String messageBody, int time, Workshop editedClass) {
-//        Intent intent = new Intent(this, ClassDetailsActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        intent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(editedClass));
-//        PendingIntent pendingIntent = PendingIntent.getActivity(this, time, intent,
-//                PendingIntent.FLAG_ONE_SHOT);
+        Intent intent = new Intent(this, ClassDetailsActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(editedClass));
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, time, intent,
+                PendingIntent.FLAG_ONE_SHOT);
         String channelId =CHANNEL_ID;
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder =
@@ -81,6 +81,7 @@ public class MyFirebaseInstanceService extends FirebaseMessagingService {
                         .setContentTitle("Skillshop")
                         .setContentText(messageBody)
                         .setAutoCancel(true)
+                        .setContentIntent(pendingIntent)
                         .setSound(defaultSoundUri);
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

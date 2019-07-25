@@ -51,7 +51,6 @@ public class CalendarFragment extends Fragment {
         calendarView = view.findViewById(R.id.calendarView);
 
 
-         calendarView.clearDisappearingChildren();
 
 
         teachingDays = new ArrayList<>();
@@ -60,12 +59,23 @@ public class CalendarFragment extends Fragment {
         overlapDays = new ArrayList<>();
 
 
+
+
         //TODO figure out how to clear calendar every time it is opened
 
 
 
 
+
         populateCalendarClassesTaking();
+
+
+        calendarView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                populateCalendarClassesTeaching();
+            }
+        });
 
 
         calendarView.initCalderItemClickCallback(new CalenderDayClickListener() {
@@ -74,11 +84,14 @@ public class CalendarFragment extends Fragment {
 
                 if(dayContainerModel.getEvent() != null) {
 
+
                     Intent eventsToday = new Intent(getContext(), DaysEventsActivity.class);
                     Long time = dayContainerModel.getTimeInMillisecond();
                     eventsToday.putExtra("Date",time);
+                    calendarView.removeEvent(dayContainerModel.getEvent());
                     getContext().startActivity(eventsToday);
                 }
+
 
             }
         });

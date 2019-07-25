@@ -1,6 +1,7 @@
 package com.example.skillshop.Models;
 
 import com.parse.ParseClassName;
+import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -24,6 +25,7 @@ public class Workshop extends ParseObject {
     public final static String KEY_COST = "cost";
     public final static String KEY_CATEGORY = "category";
     public static final String KEY_STUDENTS = "students";
+    public static final String KEY_IMAGE = "image";
 
 
     public  String getName() {
@@ -77,6 +79,13 @@ public class Workshop extends ParseObject {
         return getString(KEY_CATEGORY);
     }
 
+    public ParseFile getImage() {
+        return getParseFile(KEY_IMAGE);
+    }
+
+    public void setImage(ParseFile image) {
+        put(KEY_IMAGE,image);
+    }
     public void setCategory(String category) {
         put(KEY_CATEGORY,category);
     }

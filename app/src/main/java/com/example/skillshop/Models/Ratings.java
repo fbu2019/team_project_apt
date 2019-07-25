@@ -1,8 +1,12 @@
 package com.example.skillshop.Models;
 
+import com.parse.FindCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import static com.example.skillshop.Models.Workshop.KEY_TEACHER;
 
 @ParseClassName("Ratings")
 public class Ratings extends ParseObject {
@@ -24,5 +28,30 @@ public class Ratings extends ParseObject {
     //  public Ratings getParseRating(String key) { return getParseObject(key); }
 
     // public Ratings getByUser(String userFBiD){ return}
+
+    //  Can return different things to feed depending on specifications
+    public static class Query extends ParseQuery<Ratings> {
+        public Query() {
+            super(Ratings.class);
+        }
+
+        public Query getAllRatings() {
+            return this;
+        }
+
+        public Query withClassInstructor(ParseUser user, Workshop workshop){
+            String instructorID = user.getUsername();
+            String workshopInstructorID = workshop.getTeacher().getUsername();
+            whereEqualTo(instructorID, workshopInstructorID);
+            return this;
+        }
+
+        public Query withUser() {
+            include(KEY_USER);
+            return this;
+        }
+
+
+    }
 
 }

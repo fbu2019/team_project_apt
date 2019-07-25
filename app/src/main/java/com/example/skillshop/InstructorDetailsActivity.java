@@ -1,32 +1,21 @@
 package com.example.skillshop;
 
 import org.parceler.Parcels;
-import org.w3c.dom.Text;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.skillshop.ClassManipulationActivities.EditClassActivity;
-import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.Models.Workshop;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
-import com.parse.SignUpCallback;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class InstructorDetailsActivity extends AppCompatActivity {
@@ -41,6 +30,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
     private RatingBar rbUserRating;
 
     private String profilePhotoUrl;
+    Integer currentRatingValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,43 +98,35 @@ public class InstructorDetailsActivity extends AppCompatActivity {
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 updateRating(rating);
                 tvUserProvidedRating.setText("You have provided "+detailedWorkshop.getTeacher().get("firstName")+" with a rating of "+rbUserRating.getRating());
+                // rbInstructorAverage.setRating(currentRatingValue);
+                tvNotYetRated.setText(" ");
             }
         });
     }
 
     private void updateRating(float ratingValue) {
 
-        int numTimesRated = (int) detailedWorkshop.getTeacher().get("numRatings") + 1;
-
-       Ratings instructorRating = (Ratings) detailedWorkshop.get("instructorRating");
-       if(instructorRating!=null) {
-           Log.e("Instructor details", String.valueOf((instructorRating.getNumRatings())));
-       }
-
-       /*
-        HashMap<String, Integer> usersWhoRated = (HashMap<String, Integer>) instructorRating.get("userRatings");
-        if(usersWhoRated.get(detailedWorkshop.getTeacher().getUsername())!=null){
-            usersWhoRated.put(detailedWorkshop.getTeacher().getUsername(), (int) ratingValue);
-            //TODO - update message
-        } else {
-            usersWhoRated.put(detailedWorkshop.getTeacher().getUsername(), (int) ratingValue);
-        }
-        */
-       instructorRating.setNumRatings(33);
-
-        instructorRating.saveInBackground(new SaveCallback() {
+        Ratings.Query ratingParseQuery = new Ratings.Query();
+        ratingParseQuery.getAllRatings().withClassInstructor(detailedWorkshop.getTeacher(), detailedWorkshop);
+        ratingParseQuery.findInBackground(new FindCallback<Ratings>() {
             @Override
-            public void done(ParseException e) {
-                if(e == null){
-                    Toast.makeText(InstructorDetailsActivity.this, "Changes have been saved (changes may take a while to be reflected in the app)", Toast.LENGTH_SHORT).show();
-                } else {
+            public void done(List<Ratings> objects, ParseException e) {
+                if (e == null) {
+                    for (int i = 0; i < objects.size(); i++) {
+                        Ratings currentRating = objects.get(i);
 
-                    Toast.makeText(InstructorDetailsActivity.this, "Error saving changes", Toast.LENGTH_SHORT).show();
+                        currentRating.setAverageRating((int) ratingValue);
+                        currentRatingValue = (int) ratingValue;
+                    }
+                    Log.e("Nice", "Nice");
+                } else {
+                    Log.e("not Nice", "not Nice");
                 }
             }
         });
 
     }
+
 
     private void refreshDetailsPage(Workshop editedWorkshop) {
         Intent data = new Intent();
@@ -152,8 +134,5 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         setResult(RESULT_OK, data);
     }
 
-    private void getRating() {
 
-
-    }
 }
