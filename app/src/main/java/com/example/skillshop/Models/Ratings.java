@@ -38,7 +38,7 @@ public class Ratings extends ParseObject {
         public Query getAllRatings() {
             return this;
         }
-        
+
 
         public Query withUser() {
             include(KEY_USER);
