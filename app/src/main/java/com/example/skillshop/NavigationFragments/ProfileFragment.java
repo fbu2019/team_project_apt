@@ -145,7 +145,7 @@ public class ProfileFragment extends Fragment {
                     if (userRating.getNumRatings() == 0) {
                         tvRatingMessage.setText("You have not been rated as an instructor.");
                     } else if (userRating.getNumRatings() == 1) {
-                        tvRatingMessage.setText( userRating.getUser().getString("firstName")+" once");
+                        tvRatingMessage.setText( ParseUser.getCurrentUser().getString("firstName")+" once");
                         rbUserRating.setRating((int) userRating.getAverageRating());
                     } else {
                         tvRatingMessage.setText("You have been rated " + userRating.getAverageRating() + "times.");
