@@ -2,6 +2,7 @@ package com.example.skillshop.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.skillshop.Models.Message;
 import com.example.skillshop.R;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.math.BigInteger;
@@ -55,10 +59,36 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         }
 
         final ImageView profileView = isMe ? holder.imageMe : holder.imageOther;
-        Glide.with(mContext).load(ParseUser.getCurrentUser().getString("profilePicUrl")).into(profileView);
+        setProfileUrl(profileView,message.getString("userId"));
+
+
+
         holder.body.setText(message.getBody());
     }
 
+    public void setProfileUrl(ImageView imageMe, String id)
+    {
+
+        ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
+        query.whereEqualTo("objectId",id);
+
+
+
+        // This is equivalent to a SELECT query with SQL
+        query.findInBackground(new FindCallback<ParseUser>() {
+            public void done(List<ParseUser> users, ParseException e) {
+                if (e == null) {
+                    String url = users.get(0).getString("profilePicUrl");
+                    Glide.with(mContext).load(url).into(imageMe);
+                } else {
+                    Log.e("message", "Error Loading Messages" + e);
+                }
+            }
+        });
+
+
+
+    }
 
 
     @Override
