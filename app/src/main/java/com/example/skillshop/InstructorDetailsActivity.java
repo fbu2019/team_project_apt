@@ -93,6 +93,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
             tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated " + numTimesRated + " times.");
         }
 
+
         if (true) {
             //TODO - DETERMINE RELATIONSHIP BETWEEN USER AND IF THEY'VE RATeD A USER
             tvUserProvidedRating.setText("You have not yet rated this instructor");
@@ -123,8 +124,6 @@ public class InstructorDetailsActivity extends AppCompatActivity {
                     Ratings currentRating = objects.get(0);
                     int currentNumberOfRatings = currentRating.getNumRatings();
                     int currentSumOfRatings = currentRating.getSumRatings();
-                    //Log.e("InstructorDetails", detailedWorkshop.getTeacher().getUsername() );
-                    //String instructorUserId = detailedWorkshop.getTeacher().getUsername();
 
 
                     HashMap<String, Integer> usersWhoRated = (HashMap<String, Integer>) currentRating.get("userRatings");
