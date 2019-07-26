@@ -193,10 +193,10 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
 
         // adds date values to map
 
-        dateMap.put("year",year);
-        dateMap.put("month",month);
-        dateMap.put("dayOfMonth",dayOfMonth);
-        etDate.setText(String.format("%d/%d/%d",month+1,dayOfMonth,year));
+        dateMap.put("year", year);
+        dateMap.put("month", month);
+        dateMap.put("dayOfMonth", dayOfMonth);
+        etDate.setText(String.format("%d/%d/%d", month + 1, dayOfMonth, year));
 
 
     }
@@ -207,12 +207,14 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         // adds time values to map
         dateMap.put("hourOfDay", hourOfDay);
         dateMap.put("minute", minute);
+
         etTime.setText(String.format("%d:%d", hourOfDay, minute));
+
+
 
     }
 
     private void postWorkshop() {
-
 
 
         try {
@@ -236,48 +238,18 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
             newClass.setLocation(location);
 
 
-
-
             ArrayList<String> students = new ArrayList<>();
             newClass.setStudents(students);
-         /*  String path = photoUri.getPath();
-            File imageFile =  new File(path);
-            ParseFile classPhotoFile = new ParseFile(imageFile);
-            newClass.setImage(classPhotoFile);
 
-            classPhotoFile.saveInBackground(new SaveCallback() {
+
+            newClass.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
-                    if (null == e)
+                    if (e == null) {
+                        Toast.makeText(NewClassActivity.this, "Class was made", Toast.LENGTH_SHORT).show();
+                        // TODO go home and refresh home page
 
-                        newClass.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                if (e == null) {
-                                    Toast.makeText(NewClassActivity.this, "Class was made", Toast.LENGTH_SHORT).show();
-                                    // TODO go home and refresh home page
-                                    finish();
-
-                                } else {
-
-                                    Toast.makeText(NewClassActivity.this, "Class wasn't made", Toast.LENGTH_SHORT).show();
-
-                                }
-                            }
-                        });
-
-                }
-            });*/
-
-        newClass.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    Toast.makeText(NewClassActivity.this, "Class was made", Toast.LENGTH_SHORT).show();
-                    // TODO go home and refresh home page
-                   // addRating(); //   TODO - determine if addRating is necessary
-
-                    finish();
+                        finish();
 
                     } else {
 
@@ -287,9 +259,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
                 }
             });
 
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             Toast.makeText(NewClassActivity.this, "One or more items were not filled in for this class to be made", Toast.LENGTH_SHORT).show();
         }
     }
@@ -329,7 +299,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         if ((data != null) && (requestCode == PICK_PHOTO_CODE)) {
             if (resultCode == RESULT_OK) {
                 photoUri = data.getData();
-              //  photoFile = getPhotoFileUri(photoFileName);
+                //  photoFile = getPhotoFileUri(photoFileName);
                 // Do something with the photo based on Uri
 
                /* Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -353,7 +323,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
                 // Load the selected image into a preview
                 ImageView ivPreview = findViewById(R.id.ivClassImage);
                 ivPreview.setImageBitmap(selectedImage);
-            }else{
+            } else {
                 // Result was a failure
                 Toast.makeText(NewClassActivity.this, "No picture was selected.", Toast.LENGTH_SHORT).show();
             }
@@ -377,7 +347,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         File mediaStorageDir = new File(NewClassActivity.this.getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
 
         // Create the storage directory if it does not exist
-        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
+        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
             Log.d(TAG, "failed to create directory");
         }
 
@@ -394,44 +364,6 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
                 .build(this);
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
-    }
-
-    private void addRating() {
-
-        /*
-        Ratings.Query ratingParseQuery = new Ratings.Query();
-        ratingParseQuery.getAllRatings().whereEqualTo("user", newClass.getTeacher());
-
-        ratingParseQuery.findInBackground(new FindCallback<Ratings>() {
-
-            @Override
-            public void done(List<Ratings> objects, ParseException e) {
-                if (e == null) {
-                    newClass.setInstructorRating(objects.get(0));
-                    //Ratings classInstructorRating = objects.get(0);
-                    //newClass.put("instructorRating", classInstructorRating);
-
-                    Log.e("NewClassActivity", "number of ratings is "+String.valueOf(objects.get(0).getNumRatings()));
-                    Log.e("NewClassActivity", newClass.getName());
-                    newClass.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e == null) {
-                                Toast.makeText(NewClassActivity.this, "Your rating has been recorded", Toast.LENGTH_SHORT).show();
-                                Log.e("NewClassActivity", "CHANGES SAVED");
-                            } else {
-
-                                Toast.makeText(NewClassActivity.this, "Error saving changes", Toast.LENGTH_SHORT).show();
-                                Log.e("NewClassActivity", "CHANGES NOT SAVED");
-                            }
-                        }
-                    });
-                }
-            }
-        });
-
-        */
-
     }
 
 }

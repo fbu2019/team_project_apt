@@ -8,6 +8,7 @@ public class Message extends ParseObject {
     public static final String USER_ID_KEY = "userId";
     public static final String BODY_KEY = "body";
     public static final String NAME_KEY = "name";
+    public static final String WORKSHOP_KEY = "workshop";
 
     public String getUserId() {
         return getString(USER_ID_KEY);
@@ -19,6 +20,9 @@ public class Message extends ParseObject {
     public String getName() {
         return getString(NAME_KEY);
     }
+    public String getWorkshop() {
+        return getString(WORKSHOP_KEY);
+    }
 
     public void setUserId(String userId) {
         put(USER_ID_KEY, userId);
@@ -29,6 +33,9 @@ public class Message extends ParseObject {
     }
     public void setName(String name) {
         put(NAME_KEY, name);
+    }
+    public void setWorkshop(String objectId) {
+        put(WORKSHOP_KEY, objectId);
     }
 
 
