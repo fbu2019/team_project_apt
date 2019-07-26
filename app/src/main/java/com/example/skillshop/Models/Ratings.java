@@ -41,7 +41,6 @@ public class Ratings extends ParseObject {
             return this;
         }
 
-
     }
 
 }

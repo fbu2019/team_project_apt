@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Rating;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -240,7 +241,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
                 if (e == null) {
                     Toast.makeText(NewClassActivity.this, "Class was made", Toast.LENGTH_SHORT).show();
                     // TODO go home and refresh home page
-                    addRating();
+                   // addRating(); //   TODO - determine if addRating is necessary
 
                     finish();
 
@@ -327,6 +328,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
 
     private void addRating() {
 
+        /*
         Ratings.Query ratingParseQuery = new Ratings.Query();
         ratingParseQuery.getAllRatings().whereEqualTo("user", newClass.getTeacher());
 
@@ -336,7 +338,11 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
             public void done(List<Ratings> objects, ParseException e) {
                 if (e == null) {
                     newClass.setInstructorRating(objects.get(0));
+                    //Ratings classInstructorRating = objects.get(0);
+                    //newClass.put("instructorRating", classInstructorRating);
 
+                    Log.e("NewClassActivity", "number of ratings is "+String.valueOf(objects.get(0).getNumRatings()));
+                    Log.e("NewClassActivity", newClass.getName());
                     newClass.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
@@ -353,6 +359,8 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
                 }
             }
         });
+
+        */
 
     }
 
