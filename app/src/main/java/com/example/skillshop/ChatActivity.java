@@ -70,23 +70,27 @@ public class ChatActivity extends AppCompatActivity {
         btSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 String data = etMessage.getText().toString();
+                if(data.length()>0) {
 
-                // Using new `Message` Parse-backed model now
-                Message message = new Message();
-                message.setBody(data);
-                message.setUserId(ParseUser.getCurrentUser().getObjectId());
-                message.setName(ParseUser.getCurrentUser().get("firstName").toString());
-                message.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        Toast.makeText(ChatActivity.this, "Successfully created message on Parse",
-                                Toast.LENGTH_SHORT).show();
-                        refreshMessages();
-                        etMessage.setText(null);
+                    // Using new `Message` Parse-backed model now
+                    Message message = new Message();
+                    message.setBody(data);
+                    message.setUserId(ParseUser.getCurrentUser().getObjectId());
+                    message.setName(ParseUser.getCurrentUser().get("firstName").toString());
+                    message.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            Toast.makeText(ChatActivity.this, "Successfully created message on Parse",
+                                    Toast.LENGTH_SHORT).show();
+                            refreshMessages();
+                            etMessage.setText(null);
 
-                    }
-                });
+                        }
+                    });
+                }
             }
         });
     }
