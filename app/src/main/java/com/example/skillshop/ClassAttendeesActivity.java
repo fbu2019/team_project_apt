@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
-import com.example.skillshop.ClassManipulationActivities.ClassDetailsActivity;
-import com.example.skillshop.Models.Query;
+import com.example.skillshop.Adapters.UserAdapter;
 import com.example.skillshop.Models.Workshop;
 import com.parse.FindCallback;
 import com.parse.ParseException;

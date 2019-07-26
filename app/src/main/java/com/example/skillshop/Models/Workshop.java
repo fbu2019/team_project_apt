@@ -10,6 +10,7 @@ import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -72,7 +73,6 @@ public class Workshop extends ParseObject {
         put(KEY_COST,cost);
     }
 
-
     //  Description Methods
     public  String getDescription() {
         return getString(KEY_DESCRIPTION);
@@ -90,7 +90,7 @@ public class Workshop extends ParseObject {
     }
     public Boolean isTeacher(){return (ParseUser.getCurrentUser().getObjectId().equals(getParseUser(KEY_TEACHER).getObjectId()));}
 
-    //  Instructor Methods
+    //  Rating Methods
     public void setInstructorRating(Ratings instructorRating) {put(KEY_INSTRUCTOR_RATING, instructorRating); }
 
     //  Student Methods

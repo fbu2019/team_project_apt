@@ -18,13 +18,11 @@ import com.bumptech.glide.Glide;
 import com.example.skillshop.AddUserPreferences;
 import com.example.skillshop.LoginActivities.LoginActivity;
 import com.example.skillshop.Models.Ratings;
-import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.R;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.parse.FindCallback;
@@ -33,7 +31,6 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -67,12 +64,14 @@ public class ProfileFragment extends Fragment {
         tvRatingMessage = view.findViewById(R.id.ratingMessage);
         tvRatingMessage = view.findViewById(R.id.ratingMessage);
         ivProfilePic = view.findViewById(R.id.profilePicture);
-        rbUserRating = view.findViewById(R.id.userRating);
+        rbUserRating = view.findViewById(R.id.instructorAverage);
+        rbUserRating.setIsIndicator(true);
         rbUserRating.setNumStars(5);
 
         ParseUser user = ParseUser.getCurrentUser();
         String locationName = (user.getString("locationName"));
         String profilePhotoUrl = user.getString("profilePicUrl");
+
         int averageRating = (int) user.get("instructorRating");
         int numTimesRates = (int) user.get("numRatings");
         displayUserInfo(view, locationName, profilePhotoUrl, averageRating, numTimesRates);
@@ -128,7 +127,7 @@ public class ProfileFragment extends Fragment {
 
 
         Ratings.Query ratingParseQuery = new Ratings.Query();
-        ratingParseQuery.getAllRatings().withUser();
+        ratingParseQuery.getAllRatings().whereEqualTo("user", ParseUser.getCurrentUser());
         ratingParseQuery.findInBackground(new FindCallback<Ratings>() {
             @Override
             public void done(List<Ratings> objects, ParseException e) {
@@ -139,13 +138,12 @@ public class ProfileFragment extends Fragment {
                     if (userRating.getNumRatings() == 0) {
                         tvRatingMessage.setText("You have not been rated as an instructor.");
                     } else if (userRating.getNumRatings() == 1) {
-                        tvRatingMessage.setText("You have been rated 1 time.");
+                        tvRatingMessage.setText( userRating.getUser().getString("firstName")+" once");
                         rbUserRating.setRating((int) userRating.getAverageRating());
                     } else {
                         tvRatingMessage.setText("You have been rated " + userRating.getAverageRating() + "times.");
                         rbUserRating.setRating((int) userRating.getAverageRating());
                     }
-
 
                 } else {
                     e.printStackTrace();

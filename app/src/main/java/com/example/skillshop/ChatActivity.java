@@ -95,7 +95,7 @@ public class ChatActivity extends AppCompatActivity {
                     message.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
-                            
+
                             refreshMessages();
                             etMessage.setText(null);
 

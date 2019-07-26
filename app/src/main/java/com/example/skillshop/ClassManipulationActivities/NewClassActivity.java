@@ -6,10 +6,12 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Rating;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -73,6 +75,9 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
 
     ParseGeoPoint location;
     String locationName;
+    private File photoFile;
+    Uri photoUri;
+
 
     HashMap<String, Integer> dateMap;
 
@@ -80,7 +85,10 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     public final static int PICK_PHOTO_CODE = 1046;
     public final static int AUTOCOMPLETE_REQUEST_CODE = 42;
     public final static int YEAR_OFFSET = 1900;
+    public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
 
+
+    public String photoFileName = "photo.jpg";
     private String apiKey;
 
     @Override
@@ -185,10 +193,10 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
 
         // adds date values to map
 
-        dateMap.put("year",year);
-        dateMap.put("month",month);
-        dateMap.put("dayOfMonth",dayOfMonth);
-        etDate.setText(String.format("%d/%d/%d",month+1,dayOfMonth,year));
+        dateMap.put("year", year);
+        dateMap.put("month", month);
+        dateMap.put("dayOfMonth", dayOfMonth);
+        etDate.setText(String.format("%d/%d/%d", month + 1, dayOfMonth, year));
 
 
     }
@@ -204,7 +212,6 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     }
 
     private void postWorkshop() {
-
 
 
         try {
@@ -232,28 +239,24 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
             newClass.setStudents(students);
 
 
+            newClass.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e == null) {
+                        Toast.makeText(NewClassActivity.this, "Class was made", Toast.LENGTH_SHORT).show();
+                        // TODO go home and refresh home page
 
+                        finish();
 
-        newClass.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    Toast.makeText(NewClassActivity.this, "Class was made", Toast.LENGTH_SHORT).show();
-                    // TODO go home and refresh home page
-                    addRating();
+                    } else {
 
-                    finish();
+                        Toast.makeText(NewClassActivity.this, "Class wasn't made", Toast.LENGTH_SHORT).show();
 
-                } else {
-
-                    Toast.makeText(NewClassActivity.this, "Class wasn't made", Toast.LENGTH_SHORT).show();
-
+                    }
                 }
-            }
-             });
-        }
-        catch(Exception e)
-        {
+            });
+
+        } catch (Exception e) {
             Toast.makeText(NewClassActivity.this, "One or more items were not filled in for this class to be made", Toast.LENGTH_SHORT).show();
         }
     }
@@ -291,17 +294,36 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if ((data != null) && (requestCode == PICK_PHOTO_CODE)) {
-            Uri photoUri = data.getData();
-            // Do something with the photo based on Uri
-            Bitmap selectedImage = null;
-            try {
-                selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (resultCode == RESULT_OK) {
+                photoUri = data.getData();
+                //  photoFile = getPhotoFileUri(photoFileName);
+                // Do something with the photo based on Uri
+
+               /* Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                Uri fileProvider = FileProvider.getUriForFile(NewClassActivity.this, "com.codepath.fileprovider", photoFile);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
+
+                // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
+                // So as long as the result is not null, it's safe to use the intent.
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    // Start the image capture intent to take photo
+                    startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+                }*/
+
+
+                Bitmap selectedImage = null;
+                try {
+                    selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                // Load the selected image into a preview
+                ImageView ivPreview = findViewById(R.id.ivClassImage);
+                ivPreview.setImageBitmap(selectedImage);
+            } else {
+                // Result was a failure
+                Toast.makeText(NewClassActivity.this, "No picture was selected.", Toast.LENGTH_SHORT).show();
             }
-            // Load the selected image into a preview
-            ImageView ivPreview = findViewById(R.id.ivClassImage);
-            ivPreview.setImageBitmap(selectedImage);
 
 
         }
@@ -315,6 +337,22 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         }
     }
 
+    private File getPhotoFileUri(String photoFileName) {
+        // Get safe storage directory for photos
+        // Use `getExternalFilesDir` on Context to access package-specific directories.
+        // This way, we don't need to request external read/write runtime permissions.
+        File mediaStorageDir = new File(NewClassActivity.this.getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
+
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
+            Log.d(TAG, "failed to create directory");
+        }
+
+        // Return the file target for the photo based on filename
+        File file = new File(mediaStorageDir.getPath() + File.separator + photoFileName);
+        return file;
+    }
+
     private void launchIntent() {
         // Specify the types of place data to return.
         List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
@@ -323,37 +361,6 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
                 .build(this);
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
-    }
-
-    private void addRating() {
-
-        Ratings.Query ratingParseQuery = new Ratings.Query();
-        ratingParseQuery.getAllRatings().whereEqualTo("user", newClass.getTeacher());
-
-        ratingParseQuery.findInBackground(new FindCallback<Ratings>() {
-
-            @Override
-            public void done(List<Ratings> objects, ParseException e) {
-                if (e == null) {
-                    newClass.setInstructorRating(objects.get(0));
-
-                    newClass.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e == null) {
-                                Toast.makeText(NewClassActivity.this, "Your rating has been recorded", Toast.LENGTH_SHORT).show();
-                                Log.e("NewClassActivity", "CHANGES SAVED");
-                            } else {
-
-                                Toast.makeText(NewClassActivity.this, "Error saving changes", Toast.LENGTH_SHORT).show();
-                                Log.e("NewClassActivity", "CHANGES NOT SAVED");
-                            }
-                        }
-                    });
-                }
-            }
-        });
-
     }
 
 }
