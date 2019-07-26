@@ -1,5 +1,6 @@
 package com.example.skillshop.NavigationFragments.CalendarActivities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -78,6 +79,7 @@ public class CalendarFragment extends Fragment {
         });
 
 
+
         calendarView.initCalderItemClickCallback(new CalenderDayClickListener() {
             @Override
             public void onGetDay(DayContainerModel dayContainerModel) {
@@ -89,7 +91,8 @@ public class CalendarFragment extends Fragment {
                     Long time = dayContainerModel.getTimeInMillisecond();
                     eventsToday.putExtra("Date",time);
                     calendarView.removeEvent(dayContainerModel.getEvent());
-                    getContext().startActivity(eventsToday);
+                    getActivity().startActivityForResult(eventsToday,1);
+
                 }
 
 
@@ -126,6 +129,16 @@ public class CalendarFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        getActivity();
+        if(requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            populateCalendarClassesTeaching();
+        }
+    }
+
     public void populateCalendarClassesTeaching()
     {
         Query parseQuery = new Query();

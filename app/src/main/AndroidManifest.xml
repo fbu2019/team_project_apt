@@ -69,11 +69,13 @@
         -->
         <!-- added for maps -->
         <activity android:name=".LoginActivities.SignupActivity" />
-        <activity android:name=".ClassManipulationActivities.EditClassActivity" />
+        <activity android:name=".ClassManipulationActivities.EditClassActivity"/>
         <activity android:name=".ClassManipulationActivities.NewClassActivity" />
-        <activity
-            android:name=".ClassManipulationActivities.ClassDetailsActivity"
-            android:parentActivityName=".NavigationFragments.FragmentHandler">
+
+        <activity android:name=".ClassManipulationActivities.ClassDetailsActivity"
+            android:parentActivityName=".NavigationFragments.FragmentHandler"
+            >
+
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
