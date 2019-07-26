@@ -34,6 +34,8 @@ The following **stretch** features are implemented:
 - [ ] Friends graph vizualization
 - [ ] In class messaging system
 - [ ] Rating system
+- [ ] Users past hurtory in teaching and class taking
+- [ ] User Profile animation
 
 
 ## Database Models
