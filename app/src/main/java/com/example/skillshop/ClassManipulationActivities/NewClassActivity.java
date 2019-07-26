@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.skillshop.Models.Workshop;
 
+import com.example.skillshop.NavigationFragments.FragmentHandler;
 import com.example.skillshop.R;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
@@ -189,7 +190,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         dateMap.put("year",year);
         dateMap.put("month",month);
         dateMap.put("dayOfMonth",dayOfMonth);
-        etDate.setText(String.format("%d/%d/%d",month,dayOfMonth,year));
+        etDate.setText(String.format("%d/%d/%d",month+1,dayOfMonth,year));
 
     }
 
@@ -206,54 +207,50 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     private void postWorkshop() {
 
 
+        try {
+
+            newClass.setDescription(etDescription.getText().toString());
+
+            newClass.setName(etClassname.getText().toString());
+
+            // creates new date instance with values form map to post
+            Date date = new Date(dateMap.get("year") - YEAR_OFFSET, dateMap.get("month") + 1, dateMap.get("dayOfMonth"), dateMap.get("hourOfDay"), dateMap.get("minute"));
+            newClass.setDate(date);
+
+            newClass.setCost(Double.parseDouble(etCost.getText().toString()));
+
+            newClass.setCategory(spinCategory.getSelectedItem().toString());
+
+            newClass.setTeacher(ParseUser.getCurrentUser());
+
+            newClass.setLocationName(locationName);
+
+            newClass.setLocation(location);
 
 
-        newClass.setDescription(etDescription.getText().toString());
-
-        newClass.setName(etClassname.getText().toString());
-
-        // creates new date instance with values form map to post
-        Date date = new Date(dateMap.get("year")-YEAR_OFFSET,dateMap.get("month")+1,dateMap.get("dayOfMonth"),dateMap.get("hourOfDay"),dateMap.get("minute"));
-        newClass.setDate(date);
-
-        newClass.setCost(Double.parseDouble(etCost.getText().toString()));
-
-        newClass.setCategory(spinCategory.getSelectedItem().toString());
-
-        newClass.setTeacher(ParseUser.getCurrentUser());
-
-        newClass.setLocationName(locationName);
-
-        newClass.setLocation(location);
+            ArrayList<String> students = new ArrayList<>();
+            newClass.setStudents(students);
 
 
+            newClass.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e == null) {
+                        Toast.makeText(NewClassActivity.this, "Class was made", Toast.LENGTH_SHORT).show();
 
-//        ParseFile imageFile = new ParseFile();
-//
-//
-//        newClass.setImage(imageFile);
+                        Intent i = new Intent(NewClassActivity.this, FragmentHandler.class);
+                        startActivity(i);
 
-        ArrayList<String> students = new ArrayList<>();
-        newClass.setStudents(students);
-
-
-        newClass.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if(e == null)
-                {
-                    Toast.makeText(NewClassActivity.this, "Class was made", Toast.LENGTH_SHORT).show();
-                    // TODO go home and refresh home page
-                    finish();
-
+                    } else {
+                        Toast.makeText(NewClassActivity.this, "Class wasn't made", Toast.LENGTH_SHORT).show();
+                    }
                 }
-                else
-                {
-
-                    Toast.makeText(NewClassActivity.this, "Class wasn't made", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+            });
+        }
+        catch(Exception e)
+        {
+            Toast.makeText(NewClassActivity.this, "One or more items were not filled in for this class to be made", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
