@@ -17,6 +17,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.skillshop.AddUserPreferences;
 import com.example.skillshop.LoginActivities.LoginActivity;
+import com.example.skillshop.Models.Ratings;
+import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.R;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.maps.model.LatLng;
@@ -25,6 +27,7 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
@@ -123,18 +126,32 @@ public class ProfileFragment extends Fragment {
             Log.i("Profile Frag", "No profile image");
         }
 
-        if (numTimesRated == 0) {
-            tvRatingMessage.setText("You have not been rated as an instructor.");
 
-        } else if (numTimesRated == 1) {
-            tvRatingMessage.setText("You have been rated 1 time.");
-            rbUserRating.setRating((int)user.get("instructorRating"));
+        Ratings.Query ratingParseQuery = new Ratings.Query();
+        ratingParseQuery.getAllRatings().withUser();
+        ratingParseQuery.findInBackground(new FindCallback<Ratings>() {
+            @Override
+            public void done(List<Ratings> objects, ParseException e) {
 
-        } else {
-            tvRatingMessage.setText("You have been rated " + numTimesRated + "times.");
-            rbUserRating.setRating((int)user.get("instructorRating"));
-        }
+                if (e == null) {
+                    Ratings userRating = objects.get(0);
 
+                    if (userRating.getNumRatings() == 0) {
+                        tvRatingMessage.setText("You have not been rated as an instructor.");
+                    } else if (userRating.getNumRatings() == 1) {
+                        tvRatingMessage.setText("You have been rated 1 time.");
+                        rbUserRating.setRating((int) userRating.getAverageRating());
+                    } else {
+                        tvRatingMessage.setText("You have been rated " + userRating.getAverageRating() + "times.");
+                        rbUserRating.setRating((int) userRating.getAverageRating());
+                    }
+
+
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void logout() {
