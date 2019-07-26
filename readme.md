@@ -22,7 +22,7 @@ The following **required** functionality is completed:
 - [x] User can click on dates in the calendar and view classes they have on that day
 - [x] User can click edit button on classes they are teachers for
 - [x] User can change location preferences 
-- [ ] User can see the changes they have made refresh on the app when they have eddited the information in the db
+- [x] User can see the changes they have made refresh on the app when they have eddited the information in the db
 
 
 The following **stretch** features are implemented:
@@ -30,7 +30,10 @@ The following **stretch** features are implemented:
 - [x] Have all the classes available show up on a map activity 
 - [ ] User can pay for classes they are interested in taking
 - [ ] Recommendations for classes based on past classes
-- [ ] Notifications for user when a class they are involved with changes
+- [x] Notifications for user when a class they are involved with changes
+- [ ] Friends graph vizualization
+- [ ] In class messaging system
+- [ ] Rating system
 
 
 ## Database Models
