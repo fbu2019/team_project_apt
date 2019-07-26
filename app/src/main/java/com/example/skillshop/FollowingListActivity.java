@@ -50,8 +50,6 @@ public class FollowingListActivity extends AppCompatActivity {
 
 
     private void getStudentArray() {
-
-
         ArrayList<String> following = (ArrayList<String>) ParseUser.getCurrentUser().get("friends");
 
         for (int i = 0; i < following.size(); i++ ){
@@ -69,7 +67,6 @@ public class FollowingListActivity extends AppCompatActivity {
                     } else {
                         e.printStackTrace();
                     }
-
                 }
             });
         }

@@ -66,14 +66,10 @@ public class ClassAttendeesActivity extends AppCompatActivity {
                     if (e == null) {
                         for (int i = 0; i < attendees.size(); i++) {
                             ParseUser userItem = attendees.get(i);
-                            mUsers.add(userItem);
-                            userAdapter.notifyItemInserted(mUsers.size()-1);
-                          //  String firstName = attendees.get(i).get("firstName").toString();
-                          //  Log.i("classAttendees", firstName);
-
-                            // Workshop workshopItem = objects.get(i);
-                          //  mWorkshops.add(workshopItem);
-                           // classAdapter.notifyItemInserted(mWorkshops.size()-1);
+                            if (userItem.getBoolean("visible")) {
+                                mUsers.add(userItem);
+                                userAdapter.notifyItemInserted(mUsers.size() - 1);
+                            }
                         }
                     } else {
                         e.printStackTrace();

@@ -50,7 +50,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class NewClassActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener{
+public class NewClassActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     public static final String TAG = "NewClassActivity";
     public final String APP_TAG = "MyCustomApp";
@@ -64,9 +64,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     TextView etCost;
     ImageView ivClassImage;
     Button btSubmit;
-    Workshop newClass ;
-
-
+    Workshop newClass;
 
 
     ParseGeoPoint location;
@@ -80,6 +78,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     public final static int YEAR_OFFSET = 1900;
 
     private String apiKey;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,18 +90,16 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         newClass = new Workshop();
 
 
-
         // Initialize Places.
-          if (!Places.isInitialized()){
-           Places.initialize(getApplicationContext(), apiKey);
-         }
-
+        if (!Places.isInitialized()) {
+            Places.initialize(getApplicationContext(), apiKey);
+        }
 
 
         btLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                  launchIntent();
+                launchIntent();
             }
         });
 
@@ -115,8 +112,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
 
     }
 
-    public void  setSpinner()
-    {
+    public void setSpinner() {
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.categories, android.R.layout.simple_spinner_item);
@@ -126,8 +122,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         spinCategory.setAdapter(adapter);
     }
 
-    public void setOnPictureUploadButton()
-    {
+    public void setOnPictureUploadButton() {
         // allow user to pick a picture from their gallery to set as image of the class
         ivClassImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,8 +132,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         });
     }
 
-    public void setTimeAndDateListeners()
-    {
+    public void setTimeAndDateListeners() {
 
         // dates todays date
         Calendar cal = Calendar.getInstance();
@@ -146,10 +140,10 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
 
         // initializes date picker with today's date
         final DatePickerDialog datePickerDialog = new DatePickerDialog(
-                this, NewClassActivity.this, date.getYear()+YEAR_OFFSET, date.getMonth(), date.getDay());
+                this, NewClassActivity.this, date.getYear() + YEAR_OFFSET, date.getMonth(), date.getDay());
 
         // initializes date picker with the current time
-        final TimePickerDialog timePickerDialog = new TimePickerDialog(this,NewClassActivity.this,date.getHours(),date.getMinutes(),true);
+        final TimePickerDialog timePickerDialog = new TimePickerDialog(this, NewClassActivity.this, date.getHours(), date.getMinutes(), true);
 
         // initialize map to remember date values for class
         dateMap = new HashMap<>();
@@ -172,7 +166,6 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     }
 
 
-
     private void setSubmitListener() {
 
         btSubmit.setOnClickListener(new View.OnClickListener() {
@@ -187,10 +180,12 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
         // adds date values to map
+
         dateMap.put("year",year);
         dateMap.put("month",month);
         dateMap.put("dayOfMonth",dayOfMonth);
         etDate.setText(String.format("%d/%d/%d",month+1,dayOfMonth,year));
+
 
     }
 
@@ -198,13 +193,14 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
         // adds time values to map
-        dateMap.put("hourOfDay",hourOfDay);
-        dateMap.put("minute",minute);
-        etTime.setText(String.format("%d:%d",hourOfDay,minute));
+        dateMap.put("hourOfDay", hourOfDay);
+        dateMap.put("minute", minute);
+        etTime.setText(String.format("%d:%d", hourOfDay, minute));
 
     }
 
     private void postWorkshop() {
+
 
 
         try {
@@ -232,20 +228,23 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
             newClass.setStudents(students);
 
 
-            newClass.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e == null) {
-                        Toast.makeText(NewClassActivity.this, "Class was made", Toast.LENGTH_SHORT).show();
 
-                        Intent i = new Intent(NewClassActivity.this, FragmentHandler.class);
-                        startActivity(i);
 
-                    } else {
-                        Toast.makeText(NewClassActivity.this, "Class wasn't made", Toast.LENGTH_SHORT).show();
-                    }
+        newClass.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Toast.makeText(NewClassActivity.this, "Class was made", Toast.LENGTH_SHORT).show();
+                    // TODO go home and refresh home page
+                    finish();
+
+                } else {
+
+                    Toast.makeText(NewClassActivity.this, "Class wasn't made", Toast.LENGTH_SHORT).show();
+
                 }
-            });
+            }
+             });
         }
         catch(Exception e)
         {
@@ -283,10 +282,9 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     }
 
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if ((data != null) && (requestCode == PICK_PHOTO_CODE)){
+        if ((data != null) && (requestCode == PICK_PHOTO_CODE)) {
             Uri photoUri = data.getData();
             // Do something with the photo based on Uri
             Bitmap selectedImage = null;
@@ -301,7 +299,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
 
 
         }
-        if ((data != null) && (requestCode == AUTOCOMPLETE_REQUEST_CODE)){
+        if ((data != null) && (requestCode == AUTOCOMPLETE_REQUEST_CODE)) {
             Place place = Autocomplete.getPlaceFromIntent(data);
             locationName = place.getName();
             btLocation.setText(locationName);

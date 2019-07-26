@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Checkable;
+import android.widget.Switch;
 
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -21,6 +22,7 @@ public class AddUserPreferences extends AppCompatActivity {
     CheckBox educationBox;
     CheckBox fitnessBox;
     CheckBox artsCraftsBox;
+    Switch switchVisible;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,17 +33,49 @@ public class AddUserPreferences extends AppCompatActivity {
         educationBox = findViewById(R.id.educationBox);
         fitnessBox = findViewById(R.id.fitnessBox);
         artsCraftsBox = findViewById(R.id.artsCraftsBox);
+        switchVisible = findViewById(R.id.switchVisible);
 
         checkCurrentPreferences();
+        checkCurrentVisibility();
 
         submitButton = findViewById(R.id.continueButton);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                retrieveVisibility();
                 retrievePreferences();
                 finish();
             }
         });
+    }
+
+    private void retrieveVisibility() {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (switchVisible.isChecked()){
+            currentUser.put("visible", true);
+        }else{
+            currentUser.put("visible", false);
+        }
+    }
+
+    private void checkCurrentVisibility() {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        Boolean visible = currentUser.getBoolean("visible");
+        if (visible){
+            switchVisible.setChecked(true);
+        }else{
+            switchVisible.setChecked(false);
+        }
+        currentUser.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    e.printStackTrace();
+                    return;
+                }
+            }
+        });
+
     }
 
     private void checkCurrentPreferences() {
