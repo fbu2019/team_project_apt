@@ -46,6 +46,7 @@ public class ProfileFragment extends Fragment {
     Button submitNewLocationButton;
     Button addPreferencesButton;
     Button logoutButton;
+    Button deleteAccountButton;
     RatingBar rbUserRating;
 
     ParseGeoPoint location;
@@ -101,6 +102,14 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 logout();
+            }
+        });
+
+        deleteAccountButton = view.findViewById(R.id.deleteAccount);
+        deleteAccountButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteAccount();
             }
         });
     }
@@ -198,4 +207,13 @@ public class ProfileFragment extends Fragment {
             });
         }
     }
+
+    private void deleteAccount() {
+        //TODO - toast or WARNING activity
+        // remove user from facebook
+        // remove classes
+        // remove rating
+        // delete parse user
+    }
+
 }
