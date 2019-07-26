@@ -106,6 +106,12 @@ public class MapActivity extends AppCompatActivity implements
         getClasses();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
     private void getClasses() {
         mWorkshops = new ArrayList<>();
         Query parseQuery = new Query();
@@ -327,4 +333,6 @@ public class MapActivity extends AppCompatActivity implements
             return mDialog;
         }
     }
+
+
 }

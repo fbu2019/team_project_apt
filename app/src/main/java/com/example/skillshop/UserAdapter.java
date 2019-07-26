@@ -111,34 +111,42 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         }
 
         private void setupFollowButton(ParseUser fellowAttendee) {
-            
+
+
             //Checks if the current user is already following their fellow attendee and sets up the 
             //following button appropriately
             ParseUser currentUser = ParseUser.getCurrentUser();
             String fellowAttendeeId = fellowAttendee.getObjectId();
+
+
+            //Checks if the current attendee is the current user
+            if (currentUser.getObjectId() == fellowAttendeeId){
+                btnFollow.setVisibility(View.INVISIBLE);
+            }else{
             ArrayList<String> myFollowing = (ArrayList<String>) currentUser.get("friends");
-            Boolean isFollowing = myFollowing.contains(fellowAttendeeId);
-            if (isFollowing) {
-                btnFollow.setText("UNFOLLOW USER");
-            }
-
-            btnFollow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //Gets the list of users being followed by the current user. This has to be done 
-                    //each time the follow button is clicked because the list may change if the 
-                    //current user clicks multiple times.
-                    ArrayList<String> currentlyFollowing = (ArrayList<String>) currentUser.get("friends");
-                    Boolean isCurrentlyFollowing = currentlyFollowing.contains(fellowAttendeeId);
-                    
-                    if (!isCurrentlyFollowing) {
-                        followAttendee(currentlyFollowing, fellowAttendeeId, fellowAttendee, currentUser);
-
-                    }else{
-                        unfollowAttendee(currentlyFollowing, fellowAttendeeId, fellowAttendee, currentUser);
-                    }
+                Boolean isFollowing = myFollowing.contains(fellowAttendeeId);
+                if (isFollowing) {
+                    btnFollow.setText("UNFOLLOW USER");
                 }
-            });
+
+                btnFollow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Gets the list of users being followed by the current user. This has to be done
+                        //each time the follow button is clicked because the list may change if the
+                        //current user clicks multiple times.
+                        ArrayList<String> currentlyFollowing = (ArrayList<String>) currentUser.get("friends");
+                        Boolean isCurrentlyFollowing = currentlyFollowing.contains(fellowAttendeeId);
+
+                        if (!isCurrentlyFollowing) {
+                            followAttendee(currentlyFollowing, fellowAttendeeId, fellowAttendee, currentUser);
+
+                        }else{
+                            unfollowAttendee(currentlyFollowing, fellowAttendeeId, fellowAttendee, currentUser);
+                        }
+                    }
+                });
+            }
         }
 
         private void unfollowAttendee(ArrayList<String> currentlyFollowing, String fellowAttendeeId, ParseUser fellowAttendee, ParseUser currentUser) {
