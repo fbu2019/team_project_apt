@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -74,6 +75,9 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
 
     ParseGeoPoint location;
     String locationName;
+    private File photoFile;
+    Uri photoUri;
+
 
     HashMap<String, Integer> dateMap;
 
@@ -81,7 +85,10 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     public final static int PICK_PHOTO_CODE = 1046;
     public final static int AUTOCOMPLETE_REQUEST_CODE = 42;
     public final static int YEAR_OFFSET = 1900;
+    public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
 
+
+    public String photoFileName = "photo.jpg";
     private String apiKey;
 
     @Override
@@ -229,10 +236,42 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
             newClass.setLocation(location);
 
 
+
+
             ArrayList<String> students = new ArrayList<>();
             newClass.setStudents(students);
+         /*  String path = photoUri.getPath();
+            File imageFile =  new File(path);
+            ParseFile classPhotoFile = new ParseFile(imageFile);
+            newClass.setImage(classPhotoFile);
 
+            classPhotoFile.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (null == e)
 
+                        newClass.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    Toast.makeText(NewClassActivity.this, "Class was made", Toast.LENGTH_SHORT).show();
+                                    // TODO go home and refresh home page
+                                    finish();
+
+<<<<<<< HEAD
+=======
+                                } else {
+
+                                    Toast.makeText(NewClassActivity.this, "Class wasn't made", Toast.LENGTH_SHORT).show();
+
+                                }
+                            }
+                        });
+
+                }
+            });*/
+
+>>>>>>> 10acc93a165c6a2ec56b7e46c4c1632a068a58cc
         newClass.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -242,13 +281,14 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
 
                     finish();
 
-                } else {
+                    } else {
 
-                    Toast.makeText(NewClassActivity.this, "Class wasn't made", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NewClassActivity.this, "Class wasn't made", Toast.LENGTH_SHORT).show();
 
+                    }
                 }
-            }
-             });
+            });
+
         }
         catch(Exception e)
         {
@@ -289,17 +329,36 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if ((data != null) && (requestCode == PICK_PHOTO_CODE)) {
-            Uri photoUri = data.getData();
-            // Do something with the photo based on Uri
-            Bitmap selectedImage = null;
-            try {
-                selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (resultCode == RESULT_OK) {
+                photoUri = data.getData();
+              //  photoFile = getPhotoFileUri(photoFileName);
+                // Do something with the photo based on Uri
+
+               /* Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                Uri fileProvider = FileProvider.getUriForFile(NewClassActivity.this, "com.codepath.fileprovider", photoFile);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
+
+                // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
+                // So as long as the result is not null, it's safe to use the intent.
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    // Start the image capture intent to take photo
+                    startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+                }*/
+
+
+                Bitmap selectedImage = null;
+                try {
+                    selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                // Load the selected image into a preview
+                ImageView ivPreview = findViewById(R.id.ivClassImage);
+                ivPreview.setImageBitmap(selectedImage);
+            }else{
+                // Result was a failure
+                Toast.makeText(NewClassActivity.this, "No picture was selected.", Toast.LENGTH_SHORT).show();
             }
-            // Load the selected image into a preview
-            ImageView ivPreview = findViewById(R.id.ivClassImage);
-            ivPreview.setImageBitmap(selectedImage);
 
 
         }
@@ -311,6 +370,22 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
             LatLng latLng = place.getLatLng();
             location = new ParseGeoPoint(latLng.latitude, latLng.longitude);
         }
+    }
+
+    private File getPhotoFileUri(String photoFileName) {
+        // Get safe storage directory for photos
+        // Use `getExternalFilesDir` on Context to access package-specific directories.
+        // This way, we don't need to request external read/write runtime permissions.
+        File mediaStorageDir = new File(NewClassActivity.this.getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
+
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
+            Log.d(TAG, "failed to create directory");
+        }
+
+        // Return the file target for the photo based on filename
+        File file = new File(mediaStorageDir.getPath() + File.separator + photoFileName);
+        return file;
     }
 
     private void launchIntent() {

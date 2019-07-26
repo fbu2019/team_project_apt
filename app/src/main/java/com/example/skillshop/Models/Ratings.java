@@ -12,7 +12,6 @@ public class Ratings extends ParseObject {
     public final static String KEY_AVERAGE_RATING = "averageRating";
     public final static String KEY_NUM_RATINGS = "numRatings";
     public final static String KEY_SUM_RATINGS = "sumRatings";
-    public final static String KEY_USER_RATINGS = "userRatings";
 
     public ParseUser getUser() {return getParseUser(KEY_USER); }
     public void setUser(ParseUser user) { put(KEY_USER, user); }

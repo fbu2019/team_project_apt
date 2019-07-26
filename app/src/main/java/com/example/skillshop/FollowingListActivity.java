@@ -6,13 +6,11 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.example.skillshop.Models.Workshop;
+import com.example.skillshop.Adapters.UserAdapter;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
