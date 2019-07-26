@@ -73,9 +73,7 @@ public class ProfileFragment extends Fragment {
         String locationName = (user.getString("locationName"));
         String profilePhotoUrl = user.getString("profilePicUrl");
 
-        int averageRating = (int) user.get("instructorRating");
-        int numTimesRates = (int) user.get("numRatings");
-        displayUserInfo(view, locationName, profilePhotoUrl, averageRating, numTimesRates);
+        displayUserInfo(view, locationName, profilePhotoUrl);
 
         if (!Places.isInitialized()) {
             Places.initialize(getContext(), apiKey); // Initializes places
@@ -119,7 +117,7 @@ public class ProfileFragment extends Fragment {
         startActivity(i);
     }
 
-    private void displayUserInfo(View view, String locationName, String profilePhotoUrl, int averageRating, int numTimesRated) {
+    private void displayUserInfo(View view, String locationName, String profilePhotoUrl) {
 
         ParseUser user = ParseUser.getCurrentUser();
         if (locationName != null && user.getString("firstName") != null) {
