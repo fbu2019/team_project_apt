@@ -12,6 +12,8 @@
     <string name="Phone_Number">Phone Number</string>
     <string name="Email_Address">Email</string>
     <string name="promt_zipcode">Zipcode</string>
+    <string name="profile_me">My Profile Pic</string>
+    <string name="profile_other">Other profile pic</string>
 
     <string-array name="categories">
         <item>Culinary</item>

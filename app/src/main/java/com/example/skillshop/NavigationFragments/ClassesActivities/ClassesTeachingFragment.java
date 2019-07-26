@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.skillshop.ClassAdapter;
+import com.example.skillshop.Adapters.ClassAdapter;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.ClassManipulationActivities.NewClassActivity;
