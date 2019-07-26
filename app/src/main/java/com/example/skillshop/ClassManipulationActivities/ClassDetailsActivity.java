@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.example.skillshop.ClassAttendeesActivity;
 import com.example.skillshop.InstructorDetailsActivity;
 import com.example.skillshop.Models.Workshop;
+import com.example.skillshop.NavigationFragments.FragmentHandler;
 import com.example.skillshop.R;
 import com.google.android.gms.wallet.PaymentsClient;
 import com.parse.FindCallback;
@@ -256,13 +257,15 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
                     if(enroll) {
                         Toast.makeText(ClassDetailsActivity.this, "You dropped this class", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(ClassDetailsActivity.this, FragmentHandler.class);
+                        startActivity(i);
                     }
                     else
                     {
                         Toast.makeText(ClassDetailsActivity.this, "You signed up for this class", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(ClassDetailsActivity.this, FragmentHandler.class);
+                        startActivity(i);
                     }
-                    // TODO go home and refresh home page
-                    finish();
                 } else {
                     Toast.makeText(ClassDetailsActivity.this, "You weren't able to drop this class", Toast.LENGTH_SHORT).show();
                 }
