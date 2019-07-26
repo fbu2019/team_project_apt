@@ -60,7 +60,6 @@ public class InstructorDetailsActivity extends AppCompatActivity {
             ivInstructorProfile.setImageBitmap(null);
             Log.i("Instructor Details", "No profile image");
         }
-
     }
 
     private void initRatingBar() {
@@ -125,9 +124,8 @@ public class InstructorDetailsActivity extends AppCompatActivity {
                     int currentNumberOfRatings = currentRating.getNumRatings();
                     int currentSumOfRatings = currentRating.getSumRatings();
 
-
                     HashMap<String, Integer> usersWhoRated = (HashMap<String, Integer>) currentRating.get("userRatings");
-                    if( usersWhoRated.get(instructorID) != null){
+                    if (usersWhoRated.get(instructorID) != null) {
 
                         int formerRating = usersWhoRated.get(instructorID);
                         usersWhoRated.put(instructorID, (int) ratingValue);
@@ -135,7 +133,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
                         currentRating.setSumRatings(currentSumOfRatings - formerRating + (int) ratingValue);
 
-                        int avgRating = currentRating.getSumRatings()/currentRating.getNumRatings();
+                        int avgRating = currentRating.getSumRatings() / currentRating.getNumRatings();
                         currentRating.setAverageRating(avgRating);
                         currentRatingAverage = (float) avgRating;
 
@@ -144,10 +142,10 @@ public class InstructorDetailsActivity extends AppCompatActivity {
                         usersWhoRated.put(instructorID, (int) ratingValue);
                         currentRating.put("userRatings", usersWhoRated);
 
-                        currentRating.setNumRatings(currentNumberOfRatings+1);
-                        currentRating.setSumRatings(currentSumOfRatings+ (int) ratingValue);
+                        currentRating.setNumRatings(currentNumberOfRatings + 1);
+                        currentRating.setSumRatings(currentSumOfRatings + (int) ratingValue);
 
-                        int avgRating = currentRating.getSumRatings()/currentRating.getNumRatings();
+                        int avgRating = currentRating.getSumRatings() / currentRating.getNumRatings();
                         currentRating.setAverageRating(avgRating);
                         currentRatingAverage = (float) avgRating;
                     }
@@ -169,7 +167,6 @@ public class InstructorDetailsActivity extends AppCompatActivity {
                     });
                 } else {
                     e.printStackTrace();
-                    Log.e("not Nice", "not Nice");
                 }
             }
         });

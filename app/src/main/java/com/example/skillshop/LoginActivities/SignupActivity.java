@@ -171,6 +171,7 @@ public class SignupActivity extends AppCompatActivity {
         userRating.setUser(user);
         userRating.setAverageRating(0);
         userRating.setNumRatings(0);
+        userRating.setSumRatings(0);
 
         userRating.saveInBackground(new SaveCallback() {
             @Override

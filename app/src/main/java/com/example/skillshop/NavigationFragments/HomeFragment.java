@@ -284,7 +284,7 @@ public class HomeFragment extends Fragment {
                     for (int i = 0; i < objects.size(); i++) {
                         Workshop workshopItem = objects.get(i);
                         mWorkshops.add(workshopItem);
-                        classAdapter.notifyItemInserted(mWorkshops.size()-1);
+                        classAdapter.notifyItemInserted(mWorkshops.size() - 1);
                     }
                 } else {
                     e.printStackTrace();
