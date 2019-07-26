@@ -14,7 +14,9 @@ import com.bumptech.glide.Glide;
 import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.Models.Workshop;
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.HashMap;
@@ -77,10 +79,15 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         rbUserRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                updateRating(rating, detailedWorkshop.getTeacher().getUsername());
-                tvUserProvidedRating.setText("You have provided " + detailedWorkshop.getTeacher().get("firstName") + " with a rating of " + rbUserRating.getRating());
-                initializeAverageRating(detailedWorkshop.getTeacher().getUsername());
-                tvNotYetRated.setText(" ");
+
+                if(ParseUser.getCurrentUser().getUsername() == detailedWorkshop.getTeacher().getUsername()){
+                    Toast.makeText(InstructorDetailsActivity.this, "Instructors cannot rate themselves.", Toast.LENGTH_SHORT).show();
+                } else {
+                    updateRating(rating, detailedWorkshop.getTeacher().getUsername());
+                    tvUserProvidedRating.setText("You have provided " + detailedWorkshop.getTeacher().get("firstName") + " with a rating of " + rbUserRating.getRating());
+                    initializeAverageRating(detailedWorkshop.getTeacher().getUsername());
+                    tvNotYetRated.setText(" ");
+                }
             }
         });
     }
@@ -108,17 +115,17 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
                         rbInstructorAverage.setEnabled(false);
                         tvNotYetRated = findViewById(R.id.notRated);
-                        tvNotYetRated.setText("This instructor has not been rated");
+                        tvNotYetRated.setText("This instructor has not been rated. Provide your own rating below.");
 
                     } else if (currentNumberOfRatings == 1) {
 
                         rbInstructorAverage.setRating(currentRatingAverage);
-                        tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated by one user.");
+                        tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated by one user. Provide your own rating below.");
 
                     } else {
 
                         rbInstructorAverage.setRating(currentRatingAverage);
-                        tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated by " + currentNumberOfRatings + " users.");
+                        tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated by " + currentNumberOfRatings + " users. Provide your own rating below.");
                     }
 
                 } else {
@@ -213,7 +220,6 @@ public class InstructorDetailsActivity extends AppCompatActivity {
                     if(usersWhoRated.get(userID)!=null ){
                         answer[0] = true;
                     }
-
 
                 } else {
                     e.printStackTrace();
