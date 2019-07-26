@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.skillshop.ChatActivity;
 import com.example.skillshop.ClassAttendeesActivity;
 import com.example.skillshop.InstructorDetailsActivity;
 import com.example.skillshop.Models.Workshop;
@@ -124,6 +125,8 @@ public class ClassDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                Intent chatIntent = new Intent(ClassDetailsActivity.this, ChatActivity.class);
+                startActivity(chatIntent);
             }
         });
     }
