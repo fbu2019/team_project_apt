@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.skillshop.Adapters.ChatAdapter;
 import com.example.skillshop.Models.Message;
+import com.example.skillshop.Models.Workshop;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -19,8 +20,12 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.skillshop.Models.Message.WORKSHOP_KEY;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -33,6 +38,8 @@ public class ChatActivity extends AppCompatActivity {
     // Keep track of initial load to scroll to the bottom of the ListView
     boolean mFirstLoad;
 
+    Workshop detailedWorkshop;
+
 
 
     @Override
@@ -41,6 +48,9 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         setupMessagePosting();
         refreshMessages();
+
+        detailedWorkshop = Parcels.unwrap(getIntent().getParcelableExtra(Workshop.class.getSimpleName()));
+
     }
 
 
@@ -80,11 +90,12 @@ public class ChatActivity extends AppCompatActivity {
                     message.setBody(data);
                     message.setUserId(ParseUser.getCurrentUser().getObjectId());
                     message.setName(ParseUser.getCurrentUser().get("firstName").toString());
+                    message.setWorkshop(detailedWorkshop.getObjectId());
+
                     message.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
-                            Toast.makeText(ChatActivity.this, "Successfully created message on Parse",
-                                    Toast.LENGTH_SHORT).show();
+                            
                             refreshMessages();
                             etMessage.setText(null);
 
@@ -102,15 +113,22 @@ public class ChatActivity extends AppCompatActivity {
         // Configure limit and sort order
         query.setLimit(100);
 
-        // get the latest 50 messages, order will show up newest to oldest of this group
+        // get the latest messages, order will show up newest to oldest of this group
         query.orderByDescending("createdAt");
-        // Execute query to fetch all messages from Parse asynchronously
+
+
         // This is equivalent to a SELECT query with SQL
         query.findInBackground(new FindCallback<Message>() {
             public void done(List<Message> messages, ParseException e) {
                 if (e == null) {
                     mMessages.clear();
-                    mMessages.addAll(messages);
+                    for(int i = 0 ; i < messages.size();i++)
+                    {
+                        Log.e("message", messages.get(i).getWorkshop());
+                        if(detailedWorkshop.getObjectId().equals(messages.get(i).getWorkshop())) {
+                            mMessages.add(messages.get(i));
+                        }
+                    }
                     mAdapter.notifyDataSetChanged(); // update adapter
                     // Scroll to the bottom of the list on initial load
                     if (mFirstLoad) {
