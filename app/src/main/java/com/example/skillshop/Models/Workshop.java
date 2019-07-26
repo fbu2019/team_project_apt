@@ -90,7 +90,7 @@ public class Workshop extends ParseObject {
         put(KEY_CATEGORY,category);
     }
 
-    public Boolean isTeacher(){return (ParseUser.getCurrentUser() == getParseUser(KEY_TEACHER));}
+    public Boolean isTeacher(){return (ParseUser.getCurrentUser().getObjectId().equals(getParseUser(KEY_TEACHER).getObjectId()));}
 
 
     public Object getStudents() {
