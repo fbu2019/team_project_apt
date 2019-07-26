@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.skillshop.Models.Workshop;
@@ -20,6 +21,7 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,9 +57,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         //get the data according to position
-        final ParseUser user = mUsers.get(position);
+        final ParseUser fellowAttendee = mUsers.get(position);
         //populate the views according to this data
-        viewHolder.bind(user);
+        viewHolder.bind(fellowAttendee);
 
 
     }
@@ -88,48 +90,64 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             tvPreferences = itemView.findViewById(R.id.tvPreferences);
             ivProfilePic = (ImageView) itemView.findViewById(R.id.ivProfilePic);
             btnAddFriend = (Button) itemView.findViewById(R.id.btnAddFriend);
-
-
-
-
-
         }
 
-        private void setupAddFriendBtn(ParseUser user) {
+        private void setupAddFriendBtn(ParseUser fellowAttendee) {
+            ParseUser currentUser = ParseUser.getCurrentUser();
+
+
+            String fellowAttendeeId = fellowAttendee.getObjectId().toString();
+
+            ArrayList<String> myFriends = (ArrayList<String>) currentUser.get("friends");
+
+
+            Boolean isFollowing = myFriends.contains(fellowAttendeeId);
+            if (isFollowing) {
+                btnAddFriend.setText("UNFOLLOW USER");
+            }
 
             btnAddFriend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-/*                    ParseUser currentUser = ParseUser.getCurrentUser();
+                    ArrayList<String> myFriends = (ArrayList<String>) currentUser.get("friends");
 
 
-                    String lastname = user.getString("lastName");
-
-
-                    //  ParseQuery friendsQuery = ParseQuery.
-                    ParseQuery<ParseObject> friendsQuery = new ParseQuery<ParseObject>(ParseObject.class);
-
-                    try {
-                        friendsQuery.get("friends");
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    friendsQuery.findInBackground(new FindCallback<ParseObject>() {
-                        @Override
-                        public void done(List<ParseObject> objects, ParseException e) {
-                            if (e == null) {
-                                Log.i("arraycheck", objects.toString());
-
-                            } else {
-                                e.printStackTrace();
+                    Boolean isFollowing = myFriends.contains(fellowAttendeeId);
+                    if (!isFollowing) {
+                        myFriends.add(fellowAttendeeId);
+                        currentUser.put("friends", myFriends);
+                        currentUser.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    Toast.makeText(context, "You are now following " + fellowAttendee.get("firstName"), Toast.LENGTH_LONG).show();
+                                } else {
+                                    e.printStackTrace();
+                                }
                             }
-                        }
-                    });*/
+                        });
+
+                        btnAddFriend.setText("UNFOLLOW USER");
 
 
+                    }else{
+                        myFriends.remove(fellowAttendeeId);
+                        currentUser.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    Toast.makeText(context, "You are no longer following " + fellowAttendee.get("firstName"), Toast.LENGTH_LONG).show();
+                                } else {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        btnAddFriend.setText("FOLLOW USER");
+                    }
                 }
             });
         }
+
 
         public void bind(ParseUser user) {
             setAllViews(user);
@@ -137,8 +155,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         private void setAllViews(ParseUser user) {
             tvName.setText(user.get("firstName").toString() + " " + user.get("lastName").toString());
-           /* JSONArray preferences = user.getJSONArray("preferences");
-            if (!preferences.isNull(1)){
+            JSONArray preferences = user.getJSONArray("preferences");
+            String preferenceString = "";
+
+            if (preferences != null){
                 for (int i = 0; i < preferences.length(); i++){
                     try {
                         preferenceString += preferences.getString(i) + " | ";
@@ -147,8 +167,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                     }
 
                 }
-            }*/
-            String preferenceString = "";
+            }else{
+                preferenceString += user.get("firstName").toString() + " has no preferences set";
+            }
 
             tvPreferences.setText(preferenceString);
             Glide.with(context).load(user.getString("profilePicUrl")).into(ivProfilePic);
