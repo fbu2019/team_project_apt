@@ -15,8 +15,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 
-import com.example.skillshop.ClassAdapter;
-import com.example.skillshop.DatabaseCommunication.Notification;
+import com.example.skillshop.Adapters.ClassAdapter;
 import com.example.skillshop.FollowingListActivity;
 import com.example.skillshop.MapActivity;
 import com.example.skillshop.Models.Workshop;
