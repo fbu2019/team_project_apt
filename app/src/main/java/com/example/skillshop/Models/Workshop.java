@@ -40,19 +40,21 @@ public class Workshop extends ParseObject {
     }
 
     //  Date Methods
-
-
-    //  Location Methods
-    public  String getDescription() {
-        return getString(KEY_DESCRIPTION);
-    }
     public  String getDate() {
         return getDate(KEY_DATE).toString();
     }
-    public ParseGeoPoint getLocation() {return getParseGeoPoint(KEY_LOCATION); }
+
+    //  Location Methods
     public  String getLocationName() {
         return getString(KEY_LOCATION_NAME);
     }
+
+    public  String getDescription() {
+        return getString(KEY_DESCRIPTION);
+    }
+
+    public ParseGeoPoint getLocation() {return getParseGeoPoint(KEY_LOCATION); }
+    
     public Date getJavaDate(){
         return getDate(KEY_DATE);
     }
