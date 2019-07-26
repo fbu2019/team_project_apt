@@ -368,7 +368,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
             ImageView ivPreview = findViewById(R.id.ivClassImage);
             ivPreview.setImageBitmap(selectedImage);
         }
-        if ((data != null) && (requestCode == AUTOCOMPLETE_REQUEST_CODE)){
+        if ((data != null) && (requestCode == AUTOCOMPLETE_REQUEST_CODE)  && (resultCode == RESULT_OK)){
             Place place = Autocomplete.getPlaceFromIntent(data);
             locationName = place.getName();
             btLocation.setText(locationName);

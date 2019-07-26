@@ -305,7 +305,8 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
 
 
         }
-        if ((data != null) && (requestCode == AUTOCOMPLETE_REQUEST_CODE)) {
+        if ((data != null) && (requestCode == AUTOCOMPLETE_REQUEST_CODE) && (resultCode == RESULT_OK)) {
+
             Place place = Autocomplete.getPlaceFromIntent(data);
             locationName = place.getName();
             btLocation.setText(locationName);
