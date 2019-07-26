@@ -1,10 +1,12 @@
 package com.example.skillshop.ClassManipulationActivities;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Rating;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -22,6 +24,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.skillshop.InstructorDetailsActivity;
+import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.Models.Workshop;
 
 import com.example.skillshop.NavigationFragments.FragmentHandler;
@@ -32,6 +36,7 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
@@ -263,13 +268,16 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
 
                 }
             });*/
-             newClass.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e == null) {
-                        Toast.makeText(NewClassActivity.this, "Class was made", Toast.LENGTH_SHORT).show();
-                        // TODO go home and refresh home page
-                        finish();
+
+        newClass.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Toast.makeText(NewClassActivity.this, "Class was made", Toast.LENGTH_SHORT).show();
+                    // TODO go home and refresh home page
+                   // addRating(); //   TODO - determine if addRating is necessary
+
+                    finish();
 
                     } else {
 
@@ -388,6 +396,43 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
     }
 
+    private void addRating() {
+
+        /*
+        Ratings.Query ratingParseQuery = new Ratings.Query();
+        ratingParseQuery.getAllRatings().whereEqualTo("user", newClass.getTeacher());
+
+        ratingParseQuery.findInBackground(new FindCallback<Ratings>() {
+
+            @Override
+            public void done(List<Ratings> objects, ParseException e) {
+                if (e == null) {
+                    newClass.setInstructorRating(objects.get(0));
+                    //Ratings classInstructorRating = objects.get(0);
+                    //newClass.put("instructorRating", classInstructorRating);
+
+                    Log.e("NewClassActivity", "number of ratings is "+String.valueOf(objects.get(0).getNumRatings()));
+                    Log.e("NewClassActivity", newClass.getName());
+                    newClass.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                Toast.makeText(NewClassActivity.this, "Your rating has been recorded", Toast.LENGTH_SHORT).show();
+                                Log.e("NewClassActivity", "CHANGES SAVED");
+                            } else {
+
+                                Toast.makeText(NewClassActivity.this, "Error saving changes", Toast.LENGTH_SHORT).show();
+                                Log.e("NewClassActivity", "CHANGES NOT SAVED");
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+        */
+
+    }
 
 }
 

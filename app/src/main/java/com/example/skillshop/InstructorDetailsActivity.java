@@ -17,6 +17,7 @@ import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.Models.Workshop;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.HashMap;
@@ -67,46 +68,69 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         rbUserRating = findViewById(R.id.userRating);
         rbInstructorAverage = findViewById(R.id.instructorAverage);
         rbInstructorAverage.setNumStars(5);
+        rbInstructorAverage.setIsIndicator(true);
 
         tvNumRatings = findViewById(R.id.numRatings);
         tvNotYetRated = findViewById(R.id.notRated);
         tvUserProvidedRating = findViewById(R.id.userProvideRating);
 
-        int numTimesRated = (int) detailedWorkshop.getTeacher().get("numRatings");
+        initializeAverageRating(detailedWorkshop.getTeacher().getUsername());
 
-        if (numTimesRated == 0) {
-
-            rbInstructorAverage.setEnabled(false);
-            tvNotYetRated = findViewById(R.id.notRated);
-            tvNotYetRated.setText("This instructor has not been rated");
-
-        } else if (numTimesRated == 1) {
-
-            int avg = (int) detailedWorkshop.getTeacher().get("sumRatings") / (int) detailedWorkshop.getTeacher().get("numRatings");
-            rbInstructorAverage.setRating((int) detailedWorkshop.getTeacher().get("instructorRating"));
-            tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated " + numTimesRated + " time.");
-
-        } else {
-
-            rbInstructorAverage.setRating((int) detailedWorkshop.getTeacher().get("instructorRating"));
-            tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated " + numTimesRated + " times.");
-        }
-
-
-        if (true) {
-            //TODO - DETERMINE RELATIONSHIP BETWEEN USER AND IF THEY'VE RATeD A USER
-            tvUserProvidedRating.setText("You have not yet rated this instructor");
-        }
 
         rbUserRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 updateRating(rating, detailedWorkshop.getTeacher().getUsername());
                 tvUserProvidedRating.setText("You have provided " + detailedWorkshop.getTeacher().get("firstName") + " with a rating of " + rbUserRating.getRating());
-                rbInstructorAverage.setRating(currentRatingAverage);
+                initializeAverageRating(detailedWorkshop.getTeacher().getUsername());
                 tvNotYetRated.setText(" ");
             }
         });
+    }
+
+    private void initializeAverageRating(String instructorID){
+
+        Ratings.Query ratingParseQuery = new Ratings.Query();
+        ratingParseQuery.getAllRatings().whereEqualTo("user", detailedWorkshop.getTeacher());
+
+        ratingParseQuery.findInBackground(new FindCallback<Ratings>() {
+
+            @Override
+            public void done(List<Ratings> objects, ParseException e) {
+                if (e == null) {
+
+                    Ratings currentRating = objects.get(0);
+
+                    int avgRating = currentRating.getSumRatings() / currentRating.getNumRatings();
+                    currentRating.setAverageRating(avgRating);
+                    currentRatingAverage = (float) avgRating;
+
+                    int currentNumberOfRatings = currentRating.getNumRatings();
+
+                    if (currentNumberOfRatings == 0) {
+
+                        rbInstructorAverage.setEnabled(false);
+                        tvNotYetRated = findViewById(R.id.notRated);
+                        tvNotYetRated.setText("This instructor has not been rated");
+
+                    } else if (currentNumberOfRatings == 1) {
+
+                        rbInstructorAverage.setRating(currentRatingAverage);
+                        tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated one time.");
+
+                    } else {
+
+                        rbInstructorAverage.setRating(currentRatingAverage);
+                        tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated " + currentNumberOfRatings + " times.");
+                    }
+
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
     }
 
     private void updateRating(float ratingValue, String instructorID) {
@@ -173,12 +197,35 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
     }
 
+    private boolean checkIfRated(String userID){
 
-    private void refreshDetailsPage(Workshop editedWorkshop) {
-        Intent data = new Intent();
-        data.putExtra("updated", Parcels.wrap(editedWorkshop));
-        setResult(RESULT_OK, data);
+        final Boolean[] answer = {false};
+
+        Ratings.Query ratingParseQuery = new Ratings.Query();
+        ratingParseQuery.getAllRatings().whereEqualTo("user", detailedWorkshop.getTeacher());
+
+        ratingParseQuery.findInBackground(new FindCallback<Ratings>() {
+
+            @Override
+            public void done(List<Ratings> objects, ParseException e) {
+                if (e == null) {
+
+                    Ratings currentRating = objects.get(0);
+                    HashMap<String, Integer> usersWhoRated = (HashMap<String, Integer>) currentRating.get("userRatings");
+
+                    if(usersWhoRated.get(userID)!=null ){
+                        answer[0] = true;
+                    }
+
+
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        return answer[0];
+
     }
-
 
 }

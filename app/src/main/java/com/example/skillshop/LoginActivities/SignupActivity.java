@@ -136,9 +136,6 @@ public class SignupActivity extends AppCompatActivity {
             user.put("firstName", firstName);
             user.put("lastName", lastName);
             user.put("firebaseToken", FirebaseInstanceId.getInstance().getToken());
-            user.put("numRatings", 0);
-            user.put("sumRatings", 0);
-            user.put("sumRatings", 0);
             user.put("instructorRating", 0);
             user.put("friends", friends);
 

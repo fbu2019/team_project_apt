@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.skillshop.ChatActivity;
 import com.example.skillshop.ClassAttendeesActivity;
 import com.example.skillshop.InstructorDetailsActivity;
 import com.example.skillshop.Models.Workshop;
@@ -50,6 +51,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
     private TextView tvClassDescription;
     private Button btnClassOptions;
     private Button btnViewAttendees;
+    private Button btnChat;
 
     private static int REQUEST_CODE = 333;
     @Override
@@ -93,17 +95,40 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
         ParseUser teacher = detailedWorkshop.getTeacher();
 
+
         // if user is teacher
         if (teacher.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
             setUpTeacherSettings();
+            setUpChat();
         } else {
 
 
             ArrayList<String> students = (ArrayList<String>) detailedWorkshop.getStudents();
 
-            toggleClassSignUp(students.contains(ParseUser.getCurrentUser().getObjectId()));
+            boolean enrolled = students.contains(ParseUser.getCurrentUser().getObjectId());
+            toggleClassSignUp(enrolled);
+            if(enrolled)
+            {
+                setUpChat();
+            }
+
+
 
         }
+    }
+
+    private void setUpChat()
+    {
+        btnChat = findViewById(R.id.btnChat);
+        btnChat.setVisibility(View.VISIBLE);
+        btnChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent chatIntent = new Intent(ClassDetailsActivity.this, ChatActivity.class);
+                startActivity(chatIntent);
+            }
+        });
     }
 
     private void setUpTeacherSettings() {

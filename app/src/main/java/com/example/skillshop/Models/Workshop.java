@@ -1,5 +1,7 @@
 package com.example.skillshop.Models;
 
+import android.media.Rating;
+
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
@@ -27,79 +29,92 @@ public class Workshop extends ParseObject {
     public final static String KEY_CATEGORY = "category";
     public static final String KEY_STUDENTS = "students";
     public static final String KEY_IMAGE = "image";
+    public static final String KEY_INSTRUCTOR_RATING = "instructorRating";
 
 
+    //  Name Methods
     public  String getName() {
         return getString(KEY_NAME);
     }
-    public  String getDescription() {
-        return getString(KEY_DESCRIPTION);
+    public void setName(String name) {
+        put(KEY_NAME,name);
     }
+
+    //  Date Methods
     public  String getDate() {
         return getDate(KEY_DATE).toString();
-    }
-    public ParseGeoPoint getLocation() {return getParseGeoPoint(KEY_LOCATION); }
-    public  String getLocationName() {
-        return getString(KEY_LOCATION_NAME);
-    }
-    public Date getJavaDate(){
-        return getDate(KEY_DATE);
     }
     public void setDate(Date date) {
         put(KEY_DATE,date);
     }
-    public  Double getCost() {
-        return getDouble(KEY_COST);
+
+    public Date getJavaDate(){
+        return getDate(KEY_DATE);
     }
 
-    public  void setCost(Double cost) {
-         put(KEY_COST,cost);
-    }
-
-    public void setName(String name) {
-        put(KEY_NAME,name);
-    }
-    public void setDescription(String description) {
-        put(KEY_DESCRIPTION,description);
+    //  Location Methods
+    public  String getLocationName() {
+        return getString(KEY_LOCATION_NAME);
     }
     public void setLocationName(String locationName) {
         put(KEY_LOCATION_NAME,locationName);
     }
+
+    public ParseGeoPoint getLocation() {return getParseGeoPoint(KEY_LOCATION); }
     public void setLocation(ParseGeoPoint location)  {
         put(KEY_LOCATION,location);
     }
+
+    //  Cost Methods
+    public  Double getCost() {
+        return getDouble(KEY_COST);
+    }
+    public  void setCost(Double cost) {
+        put(KEY_COST,cost);
+    }
+
+    //  Description Methods
+    public  String getDescription() {
+        return getString(KEY_DESCRIPTION);
+    }
+    public void setDescription(String description) {
+        put(KEY_DESCRIPTION,description);
+    }
+
+    //  Teacher Methods
     public ParseUser getTeacher() {
         return getParseUser(KEY_TEACHER);
     }
-
     public void setTeacher(ParseUser user) {
         put(KEY_TEACHER,user);
     }
+    public Boolean isTeacher(){return (ParseUser.getCurrentUser().getObjectId().equals(getParseUser(KEY_TEACHER).getObjectId()));}
 
+    //  Rating Methods
+    public void setInstructorRating(Ratings instructorRating) {put(KEY_INSTRUCTOR_RATING, instructorRating); }
+
+    //  Student Methods
+    public Object getStudents() {
+        return get(KEY_STUDENTS);
+    }
+    public void setStudents(ArrayList<String> students) {
+        put(KEY_STUDENTS,students);
+    }
+
+    //  Category Methods
     public String getCategory() {
         return getString(KEY_CATEGORY);
-    }
-
-    public ParseFile getImage() {
-        return getParseFile(KEY_IMAGE);
-    }
-
-    public void setImage(ParseFile image) {
-        put(KEY_IMAGE,image);
     }
     public void setCategory(String category) {
         put(KEY_CATEGORY,category);
     }
 
-    public Boolean isTeacher(){return (ParseUser.getCurrentUser().getObjectId().equals(getParseUser(KEY_TEACHER).getObjectId()));}
-
-
-    public Object getStudents() {
-        return get(KEY_STUDENTS);
+    // Image Methods
+    public ParseFile getImage() {
+        return getParseFile(KEY_IMAGE);
     }
-
-    public void setStudents(ArrayList<String> students) {
-        put(KEY_STUDENTS,students);
+    public void setImage(ParseFile image) {
+        put(KEY_IMAGE,image);
     }
 
 }
