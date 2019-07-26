@@ -2,7 +2,6 @@ package com.example.skillshop;
 
 import org.parceler.Parcels;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,12 +11,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.skillshop.LoginActivities.SignupActivity;
 import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.Models.Workshop;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.HashMap;
@@ -116,12 +113,12 @@ public class InstructorDetailsActivity extends AppCompatActivity {
                     } else if (currentNumberOfRatings == 1) {
 
                         rbInstructorAverage.setRating(currentRatingAverage);
-                        tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated one time.");
+                        tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated by one user.");
 
                     } else {
 
                         rbInstructorAverage.setRating(currentRatingAverage);
-                        tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated " + currentNumberOfRatings + " times.");
+                        tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated by " + currentNumberOfRatings + " users.");
                     }
 
                 } else {
