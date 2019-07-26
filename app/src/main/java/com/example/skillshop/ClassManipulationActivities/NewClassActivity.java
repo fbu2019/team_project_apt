@@ -241,7 +241,6 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
                 if (e == null) {
                     Toast.makeText(NewClassActivity.this, "Class was made", Toast.LENGTH_SHORT).show();
                     // TODO go home and refresh home page
-                   // addRating(); //   TODO - determine if addRating is necessary
 
                     finish();
 
@@ -324,44 +323,6 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
                 .build(this);
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
-    }
-
-    private void addRating() {
-
-        /*
-        Ratings.Query ratingParseQuery = new Ratings.Query();
-        ratingParseQuery.getAllRatings().whereEqualTo("user", newClass.getTeacher());
-
-        ratingParseQuery.findInBackground(new FindCallback<Ratings>() {
-
-            @Override
-            public void done(List<Ratings> objects, ParseException e) {
-                if (e == null) {
-                    newClass.setInstructorRating(objects.get(0));
-                    //Ratings classInstructorRating = objects.get(0);
-                    //newClass.put("instructorRating", classInstructorRating);
-
-                    Log.e("NewClassActivity", "number of ratings is "+String.valueOf(objects.get(0).getNumRatings()));
-                    Log.e("NewClassActivity", newClass.getName());
-                    newClass.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e == null) {
-                                Toast.makeText(NewClassActivity.this, "Your rating has been recorded", Toast.LENGTH_SHORT).show();
-                                Log.e("NewClassActivity", "CHANGES SAVED");
-                            } else {
-
-                                Toast.makeText(NewClassActivity.this, "Error saving changes", Toast.LENGTH_SHORT).show();
-                                Log.e("NewClassActivity", "CHANGES NOT SAVED");
-                            }
-                        }
-                    });
-                }
-            }
-        });
-
-        */
-
     }
 
 }

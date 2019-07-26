@@ -148,7 +148,6 @@ public class ProfileFragment extends Fragment {
                         rbUserRating.setRating((int) userRating.getAverageRating());
                     }
 
-
                 } else {
                     e.printStackTrace();
                 }
