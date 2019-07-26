@@ -19,6 +19,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class InstructorDetailsActivity extends AppCompatActivity {
@@ -33,7 +34,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
     private RatingBar rbUserRating;
 
     private String profilePhotoUrl;
-    Integer currentRatingValue;
+    float currentRatingAverage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,14 +101,15 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         rbUserRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                updateRating(rating);
+                updateRating(rating, detailedWorkshop.getTeacher().getUsername());
                 tvUserProvidedRating.setText("You have provided " + detailedWorkshop.getTeacher().get("firstName") + " with a rating of " + rbUserRating.getRating());
+                rbInstructorAverage.setRating(currentRatingAverage);
                 tvNotYetRated.setText(" ");
             }
         });
     }
 
-    private void updateRating(float ratingValue) {
+    private void updateRating(float ratingValue, String instructorID) {
 
         Ratings.Query ratingParseQuery = new Ratings.Query();
         ratingParseQuery.getAllRatings().whereEqualTo("user", detailedWorkshop.getTeacher());
@@ -118,16 +120,39 @@ public class InstructorDetailsActivity extends AppCompatActivity {
             public void done(List<Ratings> objects, ParseException e) {
                 if (e == null) {
 
-                    String size = String.valueOf(objects.size()+1);
-
-                    Toast.makeText(InstructorDetailsActivity.this, size, Toast.LENGTH_SHORT).show();
-                    Log.e("InstructorActivity", "Reached above");
-
                     Ratings currentRating = objects.get(0);
-                    currentRating.setAverageRating((int) ratingValue);
-                    currentRatingValue = (int) ratingValue;
+                    int currentNumberOfRatings = currentRating.getNumRatings();
+                    int currentSumOfRatings = currentRating.getSumRatings();
+                    //Log.e("InstructorDetails", detailedWorkshop.getTeacher().getUsername() );
+                    //String instructorUserId = detailedWorkshop.getTeacher().getUsername();
 
-                    Log.e("InstructorActivity", "Reached here");
+
+                    HashMap<String, Integer> usersWhoRated = (HashMap<String, Integer>) currentRating.get("userRatings");
+                    if( usersWhoRated.get(instructorID) != null){
+                
+                        int formerRating = usersWhoRated.get(instructorID);
+                        usersWhoRated.put(instructorID, (int) ratingValue);
+                        currentRating.put("userRatings", usersWhoRated);
+
+                        currentRating.setSumRatings(currentSumOfRatings - formerRating + (int) ratingValue);
+
+                        int avgRating = currentRating.getSumRatings()/currentRating.getNumRatings();
+                        currentRating.setAverageRating(avgRating);
+                        currentRatingAverage = (float) avgRating;
+
+                    } else {
+
+                        usersWhoRated.put(instructorID, (int) ratingValue);
+                        currentRating.put("userRatings", usersWhoRated);
+
+                        currentRating.setNumRatings(currentNumberOfRatings+1);
+                        currentRating.setSumRatings(currentSumOfRatings+ (int) ratingValue);
+
+                        int avgRating = currentRating.getSumRatings()/currentRating.getNumRatings();
+                        currentRating.setAverageRating(avgRating);
+                        currentRatingAverage = (float) avgRating;
+                    }
+
 
                     currentRating.saveInBackground(new SaveCallback() {
                         @Override
