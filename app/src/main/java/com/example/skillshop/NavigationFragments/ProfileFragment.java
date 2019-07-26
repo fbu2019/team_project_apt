@@ -68,11 +68,16 @@ public class ProfileFragment extends Fragment {
         tvRatingMessage = view.findViewById(R.id.ratingMessage);
         ivProfilePic = view.findViewById(R.id.profilePicture);
         rbUserRating = view.findViewById(R.id.userRating);
+        rbUserRating.setIsIndicator(true);
+        rbUserRating.setFocusable(false);
         rbUserRating.setNumStars(5);
 
         ParseUser user = ParseUser.getCurrentUser();
         String locationName = (user.getString("locationName"));
         String profilePhotoUrl = user.getString("profilePicUrl");
+
+        //TODO - FIX WITH QUERY
+        //initializeRatingsBar();
         int averageRating = (int) user.get("instructorRating");
         int numTimesRates = (int) user.get("numRatings");
         displayUserInfo(view, locationName, profilePhotoUrl, averageRating, numTimesRates);

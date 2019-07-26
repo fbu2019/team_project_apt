@@ -68,6 +68,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         rbUserRating = findViewById(R.id.userRating);
         rbInstructorAverage = findViewById(R.id.instructorAverage);
         rbInstructorAverage.setNumStars(5);
+        rbInstructorAverage.setIsIndicator(true);
 
         tvNumRatings = findViewById(R.id.numRatings);
         tvNotYetRated = findViewById(R.id.notRated);
