@@ -60,7 +60,8 @@ public class AddUserPreferences extends AppCompatActivity {
 
     private void checkCurrentVisibility() {
         ParseUser currentUser = ParseUser.getCurrentUser();
-        if (currentUser.getBoolean("visibile")){
+        Boolean visible = currentUser.getBoolean("visible");
+        if (visible){
             switchVisible.setChecked(true);
         }else{
             switchVisible.setChecked(false);
