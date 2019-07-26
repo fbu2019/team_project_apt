@@ -233,8 +233,6 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
             newClass.setStudents(students);
 
 
-
-
         newClass.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
