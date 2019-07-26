@@ -26,6 +26,7 @@ import com.example.skillshop.InstructorDetailsActivity;
 import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.Models.Workshop;
 
+import com.example.skillshop.NavigationFragments.FragmentHandler;
 import com.example.skillshop.R;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
@@ -183,10 +184,12 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
         // adds date values to map
-        dateMap.put("year", year);
-        dateMap.put("month", month);
-        dateMap.put("dayOfMonth", dayOfMonth);
-        etDate.setText(String.format("%d/%d/%d", month, dayOfMonth, year));
+
+        dateMap.put("year",year);
+        dateMap.put("month",month);
+        dateMap.put("dayOfMonth",dayOfMonth);
+        etDate.setText(String.format("%d/%d/%d",month+1,dayOfMonth,year));
+
 
     }
 
@@ -203,32 +206,32 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     private void postWorkshop() {
 
 
-        newClass.setDescription(etDescription.getText().toString());
 
-        newClass.setName(etClassname.getText().toString());
+        try {
 
-        // creates new date instance with values form map to post
-        Date date = new Date(dateMap.get("year") - YEAR_OFFSET, dateMap.get("month") + 1, dateMap.get("dayOfMonth"), dateMap.get("hourOfDay"), dateMap.get("minute"));
-        newClass.setDate(date);
+            newClass.setDescription(etDescription.getText().toString());
 
-        newClass.setCost(Double.parseDouble(etCost.getText().toString()));
+            newClass.setName(etClassname.getText().toString());
 
-        newClass.setCategory(spinCategory.getSelectedItem().toString());
+            // creates new date instance with values form map to post
+            Date date = new Date(dateMap.get("year") - YEAR_OFFSET, dateMap.get("month") + 1, dateMap.get("dayOfMonth"), dateMap.get("hourOfDay"), dateMap.get("minute"));
+            newClass.setDate(date);
 
-        newClass.setTeacher(ParseUser.getCurrentUser());
+            newClass.setCost(Double.parseDouble(etCost.getText().toString()));
 
-        newClass.setLocationName(locationName);
+            newClass.setCategory(spinCategory.getSelectedItem().toString());
 
-        newClass.setLocation(location);
+            newClass.setTeacher(ParseUser.getCurrentUser());
+
+            newClass.setLocationName(locationName);
+
+            newClass.setLocation(location);
 
 
-//        ParseFile imageFile = new ParseFile();
-//
-//
-//        newClass.setImage(imageFile);
+            ArrayList<String> students = new ArrayList<>();
+            newClass.setStudents(students);
 
-        ArrayList<String> students = new ArrayList<>();
-        newClass.setStudents(students);
+
 
 
         newClass.saveInBackground(new SaveCallback() {
@@ -244,9 +247,15 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
                 } else {
 
                     Toast.makeText(NewClassActivity.this, "Class wasn't made", Toast.LENGTH_SHORT).show();
+
                 }
             }
-        });
+             });
+        }
+        catch(Exception e)
+        {
+            Toast.makeText(NewClassActivity.this, "One or more items were not filled in for this class to be made", Toast.LENGTH_SHORT).show();
+        }
     }
 
 

@@ -54,7 +54,7 @@ public class Workshop extends ParseObject {
     }
 
     public ParseGeoPoint getLocation() {return getParseGeoPoint(KEY_LOCATION); }
-    
+
     public Date getJavaDate(){
         return getDate(KEY_DATE);
     }
