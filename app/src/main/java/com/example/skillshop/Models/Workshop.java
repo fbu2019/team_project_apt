@@ -1,5 +1,7 @@
 package com.example.skillshop.Models;
 
+import android.media.Rating;
+
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
@@ -26,11 +28,21 @@ public class Workshop extends ParseObject {
     public final static String KEY_CATEGORY = "category";
     public static final String KEY_STUDENTS = "students";
     public static final String KEY_IMAGE = "image";
+    public static final String KEY_INSTRUCTOR_RATING = "instructorRating";
 
 
+    //  Name Methods
     public  String getName() {
         return getString(KEY_NAME);
     }
+    public void setName(String name) {
+        put(KEY_NAME,name);
+    }
+
+    //  Date Methods
+
+
+    //  Location Methods
     public  String getDescription() {
         return getString(KEY_DESCRIPTION);
     }
@@ -55,9 +67,6 @@ public class Workshop extends ParseObject {
          put(KEY_COST,cost);
     }
 
-    public void setName(String name) {
-        put(KEY_NAME,name);
-    }
     public void setDescription(String description) {
         put(KEY_DESCRIPTION,description);
     }
@@ -70,10 +79,10 @@ public class Workshop extends ParseObject {
     public ParseUser getTeacher() {
         return getParseUser(KEY_TEACHER);
     }
-
     public void setTeacher(ParseUser user) {
         put(KEY_TEACHER,user);
     }
+    public void setInstructorRating(Ratings instructorRating) {put(KEY_INSTRUCTOR_RATING, instructorRating); }
 
     public String getCategory() {
         return getString(KEY_CATEGORY);
