@@ -1,5 +1,6 @@
 package com.example.skillshop.NavigationFragments.CalendarActivities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -51,7 +52,6 @@ public class CalendarFragment extends Fragment {
         calendarView = view.findViewById(R.id.calendarView);
 
 
-         calendarView.clearDisappearingChildren();
 
 
         teachingDays = new ArrayList<>();
@@ -60,12 +60,24 @@ public class CalendarFragment extends Fragment {
         overlapDays = new ArrayList<>();
 
 
+
+
         //TODO figure out how to clear calendar every time it is opened
 
 
 
 
+
         populateCalendarClassesTaking();
+
+
+        calendarView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                populateCalendarClassesTeaching();
+            }
+        });
+
 
 
         calendarView.initCalderItemClickCallback(new CalenderDayClickListener() {
@@ -74,11 +86,15 @@ public class CalendarFragment extends Fragment {
 
                 if(dayContainerModel.getEvent() != null) {
 
+
                     Intent eventsToday = new Intent(getContext(), DaysEventsActivity.class);
                     Long time = dayContainerModel.getTimeInMillisecond();
                     eventsToday.putExtra("Date",time);
-                    getContext().startActivity(eventsToday);
+                    calendarView.removeEvent(dayContainerModel.getEvent());
+                    getActivity().startActivityForResult(eventsToday,1);
+
                 }
+
 
             }
         });
@@ -113,6 +129,16 @@ public class CalendarFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        getActivity();
+        if(requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            populateCalendarClassesTeaching();
+        }
+    }
+
     public void populateCalendarClassesTeaching()
     {
         Query parseQuery = new Query();

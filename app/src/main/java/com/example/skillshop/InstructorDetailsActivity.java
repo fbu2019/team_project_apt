@@ -129,7 +129,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
                     HashMap<String, Integer> usersWhoRated = (HashMap<String, Integer>) currentRating.get("userRatings");
                     if( usersWhoRated.get(instructorID) != null){
-                
+
                         int formerRating = usersWhoRated.get(instructorID);
                         usersWhoRated.put(instructorID, (int) ratingValue);
                         currentRating.put("userRatings", usersWhoRated);
@@ -170,7 +170,6 @@ public class InstructorDetailsActivity extends AppCompatActivity {
                     });
                 } else {
                     e.printStackTrace();
-                    Toast.makeText(InstructorDetailsActivity.this, "not good", Toast.LENGTH_SHORT).show();
                     Log.e("not Nice", "not Nice");
                 }
             }

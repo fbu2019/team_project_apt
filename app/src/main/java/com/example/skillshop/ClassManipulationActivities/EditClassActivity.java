@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -22,7 +23,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.skillshop.LoginActivities.LoginActivity;
 import com.example.skillshop.Models.Workshop;
+import com.example.skillshop.NavigationFragments.FragmentHandler;
 import com.example.skillshop.NavigationFragments.HomeFragment;
 import com.example.skillshop.R;
 import com.google.android.gms.maps.model.LatLng;
@@ -274,10 +277,13 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     }
 
     public void removeWorkshop() throws ParseException {
-        List<Workshop> objects = new ArrayList<>();
-        objects.add(currentWorkshop);
-        ParseObject.deleteAll(objects);
-        finish();
+//        List<Workshop> objects = new ArrayList<>();
+//        objects.add(currentWorkshop);
+//        ParseObject.deleteAll(objects);
+        Intent i = new Intent(this, FragmentHandler.class);
+        startActivity(i);
+
+
     }
 
 
