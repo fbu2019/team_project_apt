@@ -1,6 +1,10 @@
 package com.example.skillshop.Adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
@@ -11,6 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.skillshop.Models.Message;
 import com.example.skillshop.R;
 import com.parse.FindCallback;
@@ -21,6 +28,8 @@ import com.parse.ParseUser;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     private List<Message> mMessages;
@@ -80,6 +89,16 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                 if (e == null) {
                     String url = users.get(0).getString("profilePicUrl");
                     Glide.with(mContext).load(url).into(imageMe);
+
+                    Glide.with(mContext)
+                            .load(url)
+                            .error(R.drawable.profile)
+                            .placeholder(R.drawable.profile)
+                            .apply(new RequestOptions().circleCrop())
+                            .into(imageMe);
+
+
+
                 } else {
                     Log.e("message", "Error Loading Messages" + e);
                 }
