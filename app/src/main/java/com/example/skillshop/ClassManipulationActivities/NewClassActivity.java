@@ -207,7 +207,10 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         // adds time values to map
         dateMap.put("hourOfDay", hourOfDay);
         dateMap.put("minute", minute);
+
         etTime.setText(String.format("%d:%d", hourOfDay, minute));
+
+
 
     }
 
