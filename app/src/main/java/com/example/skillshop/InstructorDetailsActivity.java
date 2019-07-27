@@ -82,6 +82,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
                 if(ParseUser.getCurrentUser().getUsername() == detailedWorkshop.getTeacher().getUsername()){
                     Toast.makeText(InstructorDetailsActivity.this, "Instructors cannot rate themselves.", Toast.LENGTH_SHORT).show();
+                    // TODO - MAKE SURE THIS WORKS
                 } else {
                     updateRating(rating, detailedWorkshop.getTeacher().getUsername());
                     tvUserProvidedRating.setText("You have provided " + detailedWorkshop.getTeacher().get("firstName") + " with a rating of " + rbUserRating.getRating());
