@@ -1,7 +1,9 @@
 package com.example.skillshop;
 
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -50,6 +52,21 @@ public class ChatActivity extends AppCompatActivity {
         refreshMessages();
 
         detailedWorkshop = Parcels.unwrap(getIntent().getParcelableExtra(Workshop.class.getSimpleName()));
+        etMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rvChat.scrollToPosition(mMessages.size()-1);
+            }
+        });
+
+        // add dividers on messages
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvChat.getContext(),
+                new LinearLayoutManager(this).getOrientation());
+        rvChat.addItemDecoration(dividerItemDecoration);
+
+
+
+
 
     }
 
@@ -73,7 +90,6 @@ public class ChatActivity extends AppCompatActivity {
 
         // associate the LayoutManager with the RecylcerView
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ChatActivity.this);
-        linearLayoutManager.setReverseLayout(true);
         rvChat.setLayoutManager(linearLayoutManager);
 
         // When send button is clicked, create message object on Parse
@@ -95,10 +111,9 @@ public class ChatActivity extends AppCompatActivity {
                     message.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
-
                             refreshMessages();
                             etMessage.setText(null);
-
+                            rvChat.scrollToPosition(mMessages.size()-1);
                         }
                     });
                 }
@@ -126,23 +141,41 @@ public class ChatActivity extends AppCompatActivity {
                     {
                         Log.e("message", messages.get(i).getWorkshop());
                         if(detailedWorkshop.getObjectId().equals(messages.get(i).getWorkshop())) {
-                            mMessages.add(messages.get(i));
+                            mMessages.add(0,messages.get(i));
                         }
                     }
                     mAdapter.notifyDataSetChanged(); // update adapter
                     // Scroll to the bottom of the list on initial load
                     if (mFirstLoad) {
-                        rvChat.scrollToPosition(0);
                         mFirstLoad = false;
                     }
+                    rvChat.scrollToPosition(mMessages.size()-1);
 
-                    rvChat.scrollToPosition(0);
+
                 } else {
                     Log.e("message", "Error Loading Messages" + e);
                 }
             }
         });
     }
+
+//    class RefreshChat extends Thread {
+//        RefreshChat() {
+//        }
+//
+//        public void run() {
+//
+//            refreshMessages();
+//
+//            Log.d("","dsf");
+////            try {
+////                Thread.sleep(1000);
+////            } catch (InterruptedException e) {
+////                e.printStackTrace();
+////            }
+//
+//        }
+//    }
 
 
 
