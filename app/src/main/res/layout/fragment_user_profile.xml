@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <Button
+            android:id="@+id/logoutButton"
+            android:layout_width="66dp"
+            android:layout_height="28dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="11dp"
+            android:text="@string/com_facebook_loginview_log_out_action"
+            android:textSize="6sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/deleteAccount"
+            app:layout_constraintTop_toBottomOf="@+id/ratingMessage" />
+
+        <Button
+            android:id="@+id/modifyLocationButton"
+            android:layout_width="91dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="2dp"
+            android:text="Modify Location"
+            android:textSize="6sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/addPreferences"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profilePicture"
+            app:layout_constraintVertical_bias="0.716" />
+
+        <ImageView
+            android:id="@+id/profilePicture"
+            android:layout_width="103dp"
+            android:layout_height="94dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/ratingMessage"
+            app:layout_constraintEnd_toStartOf="@+id/nameView"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.526"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/nameView"
+            android:layout_width="191dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="32dp"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/instructorAverage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/profilePicture"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <RatingBar
+            android:id="@+id/instructorAverage"
+            style="@style/Widget.AppCompat.RatingBar"
+            android:layout_width="199dp"
+            android:layout_height="41dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:scaleX="0.5"
+            android:scaleY="0.4"
+            app:layout_constraintBottom_toTopOf="@+id/ratingMessage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/profilePicture"
+            app:layout_constraintTop_toBottomOf="@+id/nameView" />
+
+        <TextView
+            android:id="@+id/ratingMessage"
+            android:layout_width="175dp"
+            android:layout_height="39dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/logoutButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/profilePicture"
+            app:layout_constraintTop_toBottomOf="@+id/instructorAverage" />
+
+        <Button
+            android:id="@+id/addPreferences"
+            android:layout_width="121dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginBottom="20dp"
+            android:text="Modify Preferences"
+            android:textSize="6sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/deleteAccount"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/modifyLocationButton"
+            app:layout_constraintTop_toBottomOf="@+id/ratingMessage" />
+
+        <Button
+            android:id="@+id/deleteAccount"
+            android:layout_width="96dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="20dp"
+            android:text="Delete Account"
+            android:textSize="6sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/logoutButton"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/addPreferences"
+            app:layout_constraintTop_toBottomOf="@+id/ratingMessage"
+            app:layout_constraintVertical_bias="1.0" />
+    </android.support.constraint.ConstraintLayout>
+
+
+    <FrameLayout
+        android:id="@+id/classes_take_teach"
+        android:layout_width="381dp"
+        android:layout_height="321dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bottom_navigation"></FrameLayout>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="363dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/classes_take_teach"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+        app:menu="@menu/menu_top_navigation" />
+</android.support.constraint.ConstraintLayout>
