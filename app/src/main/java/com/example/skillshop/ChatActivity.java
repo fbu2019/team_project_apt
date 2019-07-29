@@ -72,32 +72,7 @@ public class ChatActivity extends AppCompatActivity {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvChat.getContext(),
                 new LinearLayoutManager(this).getOrientation());
         rvChat.addItemDecoration(dividerItemDecoration);
-
-
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(1000);
-                    refreshMessages();
-
-                } catch (Exception e) {
-                    Log.e("TAG", e.getLocalizedMessage());
-                }
-            }
-        });
-
-        t.start();
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Log.e("TAG", "ok");
-            }
-        }).start();
-
-
-
+        
     }
 
 
