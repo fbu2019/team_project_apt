@@ -190,11 +190,13 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
         String workshopObjectId = detailedWorkshop.getObjectId();
 
-        if (enrolled){
-            classesTaking.remove(workshopObjectId);
+        if (enrolled && (classesTaking.contains(workshopObjectId))){ //TODO double check
+
+                classesTaking.remove(workshopObjectId);
         }
         else
         {
+            if (!classesTaking.contains(workshopObjectId))
             classesTaking.add(workshopObjectId);
         }
 
