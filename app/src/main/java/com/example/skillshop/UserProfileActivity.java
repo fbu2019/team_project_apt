@@ -58,7 +58,7 @@ public class UserProfileActivity extends AppCompatActivity {
         ArrayList<String> classes = (ArrayList<String>) ParseUser.getCurrentUser().get("classesTaking");
         Query userClassesQuery = new Query();
         // query add all classes with all data and sort by time of class and only show new classes
-        userClassesQuery.getAllClasses().withItems().hasClasses(classes);
+        userClassesQuery.getAllClasses().withItems();
 
         userClassesQuery.findInBackground(new FindCallback<Workshop>() {
             @Override

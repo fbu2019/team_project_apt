@@ -46,10 +46,6 @@ public class Query extends ParseQuery<Workshop> {
         return this;
     }
 
-    public Query hasClasses(ArrayList<String> classes) {
-        whereContainedIn(KEY_OBJECT_ID, classes);
-        return this;
-    }
 
 
 

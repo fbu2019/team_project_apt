@@ -179,38 +179,12 @@ public class ClassDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // if enrolled giv option to un enroll and also the opposite
                 setStatusWorkshop(enrolled);
-                setStatusTaking(enrolled);
+
             }
         });
 
     }
 
-    private void setStatusTaking(boolean enrolled) {
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        ArrayList<String> classesTaking = (ArrayList<String>) currentUser.get("classesTaking");
-
-        String workshopObjectId = detailedWorkshop.getObjectId();
-
-        if (enrolled && (classesTaking.contains(workshopObjectId))){ //TODO double check
-
-                classesTaking.remove(workshopObjectId);
-        }
-        else
-        {
-            if (!classesTaking.contains(workshopObjectId))
-            classesTaking.add(workshopObjectId);
-        }
-
-        currentUser.put("classesTaking", classesTaking);
-        ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.i("ClassDetailsActivity", "Class was not successfully added to classesTaking array");
-                }
-            }
-        });
-    }
 
     private void populateFields(Workshop workshop) {
 
