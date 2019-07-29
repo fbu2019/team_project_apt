@@ -163,6 +163,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         private void unfollowAttendee(ArrayList<String> currentlyFollowing, String fellowAttendeeId, ParseUser fellowAttendee, ParseUser currentUser) {
             //Removes the attendee from the current user's following list and saves it to parse
             currentlyFollowing.remove(fellowAttendeeId);
+
+            currentUser.put("friends", currentlyFollowing);
             currentUser.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
