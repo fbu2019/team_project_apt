@@ -48,6 +48,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -63,8 +64,8 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     public final String APP_TAG = "MyCustomApp";
 
     TextView etClassname;
-    TextView etDate;
-    TextView etTime;
+    Button btnDate;
+    Button btnTime;
     Button btLocation;
     TextView etDescription;
     Spinner spinCategory;
@@ -165,7 +166,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         // initialize map to remember date values for class
         dateMap = new HashMap<>();
         // date text box when clicked launches date dialog
-        etDate.setOnClickListener(new View.OnClickListener() {
+        btnDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 datePickerDialog.show();
@@ -174,7 +175,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
 
 
         // time text box when clicked launches time dialog
-        etTime.setOnClickListener(new View.OnClickListener() {
+        btnTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 timePickerDialog.show();
@@ -201,7 +202,12 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         dateMap.put("year", year);
         dateMap.put("month", month);
         dateMap.put("dayOfMonth", dayOfMonth);
-        etDate.setText(String.format("%d/%d/%d", month + 1, dayOfMonth, year));
+
+        SimpleDateFormat dateString = new SimpleDateFormat("MM/dd/YYYY");
+        Date tempDate = new Date(year-YEAR_OFFSET,month,dayOfMonth);
+
+
+        btnDate.setText(dateString.format(tempDate));
 
 
     }
@@ -213,7 +219,10 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         dateMap.put("hourOfDay", hourOfDay);
         dateMap.put("minute", minute);
 
-        etTime.setText(String.format("%d:%d", hourOfDay, minute));
+        SimpleDateFormat dateString = new SimpleDateFormat("HH:mm");
+        Date tempDate = new Date(0,0,0,hourOfDay,minute);
+
+        btnTime.setText(dateString.format(tempDate));
 
 
     }
@@ -281,14 +290,14 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     private void findAllViews() {
 
         etClassname = findViewById(R.id.etClassname);
-        etDate = findViewById(R.id.etDate);
+        btnDate = findViewById(R.id.btnDate);
         btLocation = findViewById(R.id.btLocation);
         etDescription = findViewById(R.id.etDescription);
         spinCategory = findViewById(R.id.spinCategory);
         etCost = findViewById(R.id.etCost);
         btSubmit = findViewById(R.id.btSubmit);
         ivClassImage = findViewById(R.id.ivClassImage);
-        etTime = findViewById(R.id.etTime);
+        btnTime = findViewById(R.id.btnTime);
 
     }
 
