@@ -178,7 +178,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // if enrolled giv option to un enroll and also the opposite
                 setStatusWorkshop(enrolled);
-            //    setStatusTaking(enrolled);
+                setStatusTaking(enrolled);
             }
         });
 
@@ -199,7 +199,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
         }
 
         currentUser.put("classesTaking", classesTaking);
-        currentUser.saveInBackground(new SaveCallback() {
+        ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e != null) {
