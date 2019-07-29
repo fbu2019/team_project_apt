@@ -88,7 +88,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             public void done(List<ParseUser> users, ParseException e) {
                 if (e == null) {
                     String url = users.get(0).getString("profilePicUrl");
-                    Glide.with(mContext).load(url).into(imageMe);
+
                     Glide.with(mContext)
                             .load(url)
                             .error(R.drawable.profile)
