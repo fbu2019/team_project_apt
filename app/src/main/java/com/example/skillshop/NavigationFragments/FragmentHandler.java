@@ -51,6 +51,9 @@ public class FragmentHandler extends AppCompatActivity {
                     case R.id.classes_fragment:
                         fragment = new ClassesFragmentManager();
                         break;
+                    case R.id.user_profile_fragment:
+                        fragment = new UserProfileFragment();
+                        break;
                     default: break;
                 }
                 // switch to selected fragment
