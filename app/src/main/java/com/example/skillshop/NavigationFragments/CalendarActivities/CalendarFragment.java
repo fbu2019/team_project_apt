@@ -67,10 +67,14 @@ public class CalendarFragment extends Fragment {
         calendarView.setOnDayClickListener(new OnDayClickListener() {
             @Override
             public void onDayClick(EventDay eventDay) {
-                Intent eventsToday = new Intent(getContext(), DaysEventsActivity.class);
-                Long time = eventDay.getCalendar().getTimeInMillis();
-                eventsToday.putExtra("Date",time);
-                startActivity(eventsToday);
+
+
+                if(eventDay.getImageDrawable() != null) {
+                    Intent eventsToday = new Intent(getContext(), DaysEventsActivity.class);
+                    Long time = eventDay.getCalendar().getTimeInMillis();
+                    eventsToday.putExtra("Date", time);
+                    startActivity(eventsToday);
+                }
 
             }
         });
