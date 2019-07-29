@@ -58,8 +58,10 @@ public class FollowingListActivity extends AppCompatActivity {
                     if (e == null) {
                         for (int i = 0; i < attendees.size(); i++) {
                             ParseUser userItem = attendees.get(i);
-                            mUsers.add(userItem);
-                            userAdapter.notifyItemInserted(mUsers.size()-1);
+                            if(userItem != ParseUser.getCurrentUser()) {
+                                mUsers.add(userItem);
+                                userAdapter.notifyItemInserted(mUsers.size() - 1);
+                            }
 
                         }
                     } else {
