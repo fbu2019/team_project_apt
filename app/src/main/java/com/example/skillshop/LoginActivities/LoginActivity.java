@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
             //  if user has closed app during signing up without logging out, app will resume at SignupActivity
             Intent i = new Intent(LoginActivity.this, SignupActivity.class);
             startActivity(i);
-            finish();   //  Added to test if signup will automatically continue to Fragments
+
         }
 
         else {
@@ -73,6 +73,7 @@ public class LoginActivity extends AppCompatActivity {
             callbackManager = CallbackManager.Factory.create();
             checkLoginStatus();
 
+            Log.i("LoginActivity","Reached here above");
             FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
 
                 @Override
@@ -82,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
                                 nextActivity(currentProfile);
+                                Log.i("LoginActivity","Reached here");
                                 mProfileTracker.stopTracking();
                             }
                         };
@@ -135,6 +137,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int responseCode, @Nullable Intent intent) {
         callbackManager.onActivityResult(requestCode, responseCode, intent);
         super.onActivityResult(requestCode, responseCode, intent);
+
     }
 
     private void loadUserProfile(AccessToken newAccessToken) {
