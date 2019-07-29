@@ -3,6 +3,7 @@ package com.example.skillshop.NavigationFragments.CalendarActivities;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.applandeo.materialcalendarview.CalendarView;
+import com.applandeo.materialcalendarview.EventDay;
 import com.example.skillshop.NavigationFragments.CalendarActivities.DaysEventsActivity;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Workshop;
@@ -24,16 +27,19 @@ import com.skyhope.eventcalenderlibrary.model.Event;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 public class CalendarFragment extends Fragment {
 
-    CalenderEvent calendarView;
-    ArrayList<String> teachingDays;
-    ArrayList<Date> teachingDates;
-    ArrayList<String> takingDays;
-    ArrayList<Date> overlapDays;
+    CalendarView calendarView;
+
+    ArrayList<Workshop> taking;
+    ArrayList<Workshop> teaching;
+
+
+
 
     @Nullable
     @Override
@@ -48,58 +54,20 @@ public class CalendarFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        calendarView = null;
+
         calendarView = view.findViewById(R.id.calendarView);
 
-
-
-
-        teachingDays = new ArrayList<>();
-        teachingDates = new ArrayList<>();
-        takingDays = new ArrayList<>();
-        overlapDays = new ArrayList<>();
-
-
-
-
-        //TODO figure out how to clear calendar every time it is opened
-
-
+        taking = new ArrayList<>();
 
 
 
         populateCalendarClassesTaking();
 
 
-        calendarView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                populateCalendarClassesTeaching();
-            }
-        });
-
-
-
-        calendarView.initCalderItemClickCallback(new CalenderDayClickListener() {
-            @Override
-            public void onGetDay(DayContainerModel dayContainerModel) {
-
-                if(dayContainerModel.getEvent() != null) {
-
-
-                    Intent eventsToday = new Intent(getContext(), DaysEventsActivity.class);
-                    Long time = dayContainerModel.getTimeInMillisecond();
-                    eventsToday.putExtra("Date",time);
-                    calendarView.removeEvent(dayContainerModel.getEvent());
-                    getActivity().startActivityForResult(eventsToday,1);
-
-                }
-
-
-            }
-        });
 
     }
+
+
 
 
     public void populateCalendarClassesTaking()
@@ -110,33 +78,14 @@ public class CalendarFragment extends Fragment {
             @Override
             public void done(List<Workshop> objects, ParseException e) {
                 if (e == null) {
-                    for (int i = 0; i < objects.size(); i++) {
-                        Workshop workshopItem = objects.get(i);
-                        Date date = new Date(workshopItem.getDate());
-                        Event event = new Event(date.getTime(), "S",Color.RED);
-
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                        takingDays.add(format.format(date));
-
-                        calendarView.addEvent(event);
-
-                    }
-
+                    taking = (ArrayList<Workshop>) objects;
                     populateCalendarClassesTeaching();
+
                 } else {
                     e.printStackTrace();
                 }
             }
         });
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        getActivity();
-        if(requestCode == 1 && resultCode == Activity.RESULT_OK) {
-            populateCalendarClassesTeaching();
-        }
     }
 
     public void populateCalendarClassesTeaching()
@@ -147,20 +96,8 @@ public class CalendarFragment extends Fragment {
             @Override
             public void done(List<Workshop> objects, ParseException e) {
                 if (e == null) {
-                    for (int i = 0; i < objects.size(); i++) {
-                        Workshop workshopItem = objects.get(i);
-                        Date date = new Date(workshopItem.getDate());
-
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                        teachingDays.add(format.format(date));
-                        teachingDates.add(date);
-
-                        Event event = new Event(date.getTime(), "M",Color.BLUE);
-                        calendarView.addEvent(event);
-
-                        populateCalendarBoth();
-
-                    }
+                    teaching = (ArrayList<Workshop>) objects;
+                    populateCalendarBoth();
                 } else {
                     e.printStackTrace();
                 }
@@ -170,23 +107,49 @@ public class CalendarFragment extends Fragment {
 
     public  void  populateCalendarBoth()
     {
+        List<EventDay> events = new ArrayList<>();
 
-        for(String takingDay : takingDays)
+
+        ArrayList<Date> overlap = new ArrayList<>();
+
+        for(Workshop wTaking : taking)
         {
-            for(int i = 0; i < teachingDays.size();i++)
-            {
-                String teachingDay = teachingDays.get(i);
-                if(teachingDay.equals(takingDay))
+            Date takingDate = wTaking.getJavaDate();
+            for(Workshop wTeaching : teaching) {
+                Date teachingDate = wTeaching.getJavaDate();
+                if(takingDate.getDate() == teachingDate.getDate() &&
+                        takingDate.getDate() == teachingDate.getDate()&&
+                            takingDate.getDate() == teachingDate.getDate())
                 {
-                    Event event = new Event(teachingDates.get(i).getTime(), "SM",Color.MAGENTA);
-                    calendarView.addEvent(event);
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(takingDate);
+                    events.add(new EventDay(calendar, R.drawable.ic_both));
                 }
+
             }
         }
+
+
+        for(Workshop wTaking : taking)
+        {
+            Date takingDate = wTaking.getJavaDate();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(takingDate);
+            events.add(new EventDay(calendar, R.drawable.ic_taking_note));
+
+        }
+
+        for(Workshop wTeaching : teaching)
+        {
+            Date teachingDate = wTeaching.getJavaDate();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(teachingDate);
+            events.add(new EventDay(calendar, R.drawable.ic_teaching_note));
+
+        }
+        calendarView.setEvents(events);
+
     }
-
-
-
 
 
 }
