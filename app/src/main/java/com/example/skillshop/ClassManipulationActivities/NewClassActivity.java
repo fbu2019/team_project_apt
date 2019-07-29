@@ -52,6 +52,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -78,6 +79,8 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     private File photoFile;
     Uri photoUri;
 
+    Date today;
+
 
     HashMap<String, Integer> dateMap;
 
@@ -100,6 +103,10 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         setSubmitListener();
 
         newClass = new Workshop();
+
+        // dates todays date
+        Calendar cal = Calendar.getInstance();
+        today = cal.getTime();
 
 
         // Initialize Places.
@@ -146,16 +153,14 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
 
     public void setTimeAndDateListeners() {
 
-        // dates todays date
-        Calendar cal = Calendar.getInstance();
-        Date date = cal.getTime();
+
 
         // initializes date picker with today's date
         final DatePickerDialog datePickerDialog = new DatePickerDialog(
-                this, NewClassActivity.this, date.getYear() + YEAR_OFFSET, date.getMonth(), date.getDay());
+                this, NewClassActivity.this, today.getYear() + YEAR_OFFSET, today.getMonth(), today.getDay());
 
         // initializes date picker with the current time
-        final TimePickerDialog timePickerDialog = new TimePickerDialog(this, NewClassActivity.this, date.getHours(), date.getMinutes(), true);
+        final TimePickerDialog timePickerDialog = new TimePickerDialog(this, NewClassActivity.this, today.getHours(), today.getMinutes(), true);
 
         // initialize map to remember date values for class
         dateMap = new HashMap<>();
@@ -211,7 +216,6 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         etTime.setText(String.format("%d:%d", hourOfDay, minute));
 
 
-
     }
 
     private void postWorkshop() {
@@ -224,7 +228,12 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
             newClass.setName(etClassname.getText().toString());
 
             // creates new date instance with values form map to post
-            Date date = new Date(dateMap.get("year") - YEAR_OFFSET, dateMap.get("month") + 1, dateMap.get("dayOfMonth"), dateMap.get("hourOfDay"), dateMap.get("minute"));
+            Date date = new Date(dateMap.get("year") - YEAR_OFFSET, dateMap.get("month"), dateMap.get("dayOfMonth"), dateMap.get("hourOfDay"), dateMap.get("minute"));
+
+            if(date.compareTo(today) < 0)
+            {
+                throw new EmptyStackException();
+            }
             newClass.setDate(date);
 
             newClass.setCost(Double.parseDouble(etCost.getText().toString()));
@@ -248,7 +257,6 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
                     if (e == null) {
                         Toast.makeText(NewClassActivity.this, "Class was made", Toast.LENGTH_SHORT).show();
                         // TODO go home and refresh home page
-
                         finish();
 
                     } else {
@@ -259,9 +267,14 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
                 }
             });
 
-        } catch (Exception e) {
+        }
+        catch (EmptyStackException e) {
+            Toast.makeText(NewClassActivity.this, "The class you want to post is in the past", Toast.LENGTH_SHORT).show();
+        }
+        catch (Exception e) {
             Toast.makeText(NewClassActivity.this, "One or more items were not filled in for this class to be made", Toast.LENGTH_SHORT).show();
         }
+
     }
 
 
