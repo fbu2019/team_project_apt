@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.skillshop.AddUserPreferences;
+import com.example.skillshop.DeleteAccountActivity;
 import com.example.skillshop.LoginActivities.LoginActivity;
 import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.R;
@@ -207,11 +208,20 @@ public class ProfileFragment extends Fragment {
     }
 
     private void deleteAccount() {
+
+        Intent i = new Intent(getContext(), DeleteAccountActivity.class);
+        startActivity(i);
         //TODO - toast or WARNING activity
         // remove user from facebook
         // remove classes
         // remove rating
         // delete parse user
+
+        // RETRIEVE METHODS FROM EDIT CLASS ACTIVITY TO DELETE ALL CLASSES
+        // RETRIEVE METHODS FROM CLASSES TEACHING FRAGMENT TO RETRIEVE ALL CLASSES
+
+        //RETRIEVE METHODS FROM CLASSES TAKING FRAGMENT TO RETRIEVE ALL CLASSES
+
     }
 
 }
