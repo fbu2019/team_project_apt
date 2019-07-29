@@ -89,16 +89,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                 if (e == null) {
                     String url = users.get(0).getString("profilePicUrl");
                     Glide.with(mContext).load(url).into(imageMe);
-
                     Glide.with(mContext)
                             .load(url)
                             .error(R.drawable.profile)
                             .placeholder(R.drawable.profile)
                             .apply(new RequestOptions().circleCrop())
                             .into(imageMe);
-
-
-
                 } else {
                     Log.e("message", "Error Loading Messages" + e);
                 }
