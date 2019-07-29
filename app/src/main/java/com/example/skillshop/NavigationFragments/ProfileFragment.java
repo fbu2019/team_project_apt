@@ -71,10 +71,12 @@ public class ProfileFragment extends Fragment {
         rbUserRating.setNumStars(5);
 
         ParseUser user = ParseUser.getCurrentUser();
-        String locationName = (user.getString("locationName"));
-        String profilePhotoUrl = user.getString("profilePicUrl");
+        if(user!=null) {
+            String locationName = (user.getString("locationName")); // todo: reinstate after error solved
+            String profilePhotoUrl = user.getString("profilePicUrl");
+            displayUserInfo(view, locationName, profilePhotoUrl);
+        }
 
-        displayUserInfo(view, locationName, profilePhotoUrl);
 
         if (!Places.isInitialized()) {
             Places.initialize(getContext(), apiKey); // Initializes places
@@ -211,6 +213,8 @@ public class ProfileFragment extends Fragment {
 
         Intent i = new Intent(getContext(), DeleteAccountActivity.class);
         startActivity(i);
+
+        // finish();
         //TODO - toast or WARNING activity
         // remove user from facebook
         // remove classes

@@ -131,7 +131,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
                         rbInstructorAverage.setRating(currentRatingAverage);
                         tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated by one user.");
 
-                    } else {
+                    } else if (currentNumberOfRatings > 1){
 
                         rbInstructorAverage.setRating(currentRatingAverage);
                         tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated by " + currentNumberOfRatings + " users.");
