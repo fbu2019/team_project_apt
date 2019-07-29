@@ -265,7 +265,6 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
                 public void done(ParseException e) {
                     if (e == null) {
                         Toast.makeText(NewClassActivity.this, "Class was made", Toast.LENGTH_SHORT).show();
-                        // TODO go home and refresh home page
                         finish();
 
                     } else {
