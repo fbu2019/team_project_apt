@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
 
 import com.example.skillshop.ClassManipulationActivities.ClassDetailsActivity;
@@ -15,6 +16,7 @@ import com.example.skillshop.LoginActivities.LoginActivity;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.NavigationFragments.FragmentHandler;
+import com.example.skillshop.NavigationFragments.HomeFragment;
 import com.example.skillshop.R;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -49,7 +51,7 @@ public class MyFirebaseInstanceService extends FirebaseMessagingService {
         getEditedClass.findInBackground(new FindCallback<Workshop>() {
             @Override
             public void done(List<Workshop> objects, ParseException e) {
-                if(e == null)
+                if(e == null && objects.size()>0)
                 {
                     Workshop editedClass = objects.get(0);
                     sendNotification(remoteMessage.getNotification().getBody(), (int) remoteMessage.getSentTime(),editedClass);
@@ -68,11 +70,13 @@ public class MyFirebaseInstanceService extends FirebaseMessagingService {
 
     }
     private void sendNotification(String messageBody, int time, Workshop editedClass) {
-        Intent intent = new Intent(this, ClassDetailsActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(editedClass));
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        intent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(editedClass));
         PendingIntent pendingIntent = PendingIntent.getActivity(this, time, intent,
                 PendingIntent.FLAG_ONE_SHOT);
+
         String channelId =CHANNEL_ID;
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder =

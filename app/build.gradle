@@ -101,6 +101,9 @@ dependencies {
     implementation "com.github.hotchemi:permissionsdispatcher:$permissionDispatcherVersion"
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:$permissionDispatcherVersion"
 
+    implementation 'jp.wasabeef:glide-transformations:2.0.2'
+
+
     //added for maps
 
 }
