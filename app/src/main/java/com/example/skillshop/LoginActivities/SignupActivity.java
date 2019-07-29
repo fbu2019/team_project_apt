@@ -147,6 +147,7 @@ public class SignupActivity extends AppCompatActivity {
             user.put("classesTeaching", classesTeaching);
             user.put("classesTaking", classesTaking);
             user.put("preferences", preferences);
+            user.put("visible", true);
 
             String image_url = "https://graph.facebook.com/" + fbID + "/picture?type=large";
             user.put("profilePicUrl", image_url);
