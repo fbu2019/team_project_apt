@@ -75,20 +75,21 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
         initializeAverageRating(detailedWorkshop.getTeacher().getUsername());
 
+        if(ParseUser.getCurrentUser().getUsername().equals(detailedWorkshop.getTeacher().getUsername())){
+            rbUserRating.setEnabled(false);
+            tvUserProvidedRating.setText("Instructors cannot rate themselves");
+        }
+
 
         rbUserRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
 
-                if(ParseUser.getCurrentUser().getUsername() == detailedWorkshop.getTeacher().getUsername()){
-                    Toast.makeText(InstructorDetailsActivity.this, "Instructors cannot rate themselves.", Toast.LENGTH_SHORT).show();
-                    // TODO - MAKE SURE THIS WORKS
-                } else {
                     updateRating(rating, detailedWorkshop.getTeacher().getUsername());
                     tvUserProvidedRating.setText("You have provided " + detailedWorkshop.getTeacher().get("firstName") + " with a rating of " + rbUserRating.getRating());
                     initializeAverageRating(detailedWorkshop.getTeacher().getUsername());
                     tvNotYetRated.setText(" ");
-                }
+
             }
         });
     }
@@ -106,8 +107,12 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
                     Ratings currentRating = objects.get(0);
 
-                    int avgRating = currentRating.getSumRatings() / currentRating.getNumRatings();
-                    currentRating.setAverageRating(avgRating);
+                    float avgRating = 0;
+                    if(currentRating.getNumRatings() >0) {
+                        avgRating = currentRating.getSumRatings() / currentRating.getNumRatings();
+                    }
+
+                    currentRating.setAverageRating( (int) avgRating);
                     currentRatingAverage = (float) avgRating;
 
                     int currentNumberOfRatings = currentRating.getNumRatings();
@@ -154,7 +159,8 @@ public class InstructorDetailsActivity extends AppCompatActivity {
                     int currentSumOfRatings = currentRating.getSumRatings();
 
                     HashMap<String, Integer> usersWhoRated = (HashMap<String, Integer>) currentRating.get("userRatings");
-                    if (usersWhoRated.get(instructorID) != null) {
+
+                    if (usersWhoRated.get(instructorID) != null ) {
 
                         int formerRating = usersWhoRated.get(instructorID);
                         usersWhoRated.put(instructorID, (int) ratingValue);
@@ -184,7 +190,9 @@ public class InstructorDetailsActivity extends AppCompatActivity {
                         @Override
                         public void done(ParseException e) {
                             if (e == null) {
+                                if(instructorID != ParseUser.getCurrentUser().getUsername()){
                                 Toast.makeText(InstructorDetailsActivity.this, "Your rating has been recorded", Toast.LENGTH_SHORT).show();
+                                }
 
                             } else {
 
