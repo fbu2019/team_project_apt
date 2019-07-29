@@ -220,6 +220,7 @@ public class HomeFragment extends Fragment {
                 switch(position){
 
                     case (0):{
+                        //case zero is called when the activity is created so we do not need to call populateHomeFeed in onCreate
                         if (firstLoad){
                             firstLoad = false;
                         }else{
