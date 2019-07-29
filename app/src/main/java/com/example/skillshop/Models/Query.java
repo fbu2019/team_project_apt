@@ -13,6 +13,7 @@ import java.util.List;
 
 import static com.example.skillshop.Models.Workshop.KEY_CATEGORY;
 import static com.example.skillshop.Models.Workshop.KEY_DATE;
+import static com.example.skillshop.Models.Workshop.KEY_OBJECT_ID;
 import static com.example.skillshop.Models.Workshop.KEY_STUDENTS;
 import static com.example.skillshop.Models.Workshop.KEY_TEACHER;
 import static com.example.skillshop.Models.Workshop.KEY_COST;
@@ -44,6 +45,7 @@ public class Query extends ParseQuery<Workshop> {
         whereContainedIn(KEY_CATEGORY, categories);
         return this;
     }
+
 
 
 

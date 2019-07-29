@@ -25,4 +25,10 @@
         android:icon="@drawable/ic_profile"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/user_profile_fragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_profile"
+        app:showAsAction="ifRoom" />
+
 </menu>

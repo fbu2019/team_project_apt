@@ -43,15 +43,24 @@ public class ChatActivity extends AppCompatActivity {
     Workshop detailedWorkshop;
 
 
+    EndlessRecyclerViewScrollListener scrollListener;
+
+    int maxMessages;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_chat);
+        detailedWorkshop = Parcels.unwrap(getIntent().getParcelableExtra(Workshop.class.getSimpleName()));
         setupMessagePosting();
         refreshMessages();
 
-        detailedWorkshop = Parcels.unwrap(getIntent().getParcelableExtra(Workshop.class.getSimpleName()));
+        maxMessages = 20;
+
+
         etMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,14 +73,7 @@ public class ChatActivity extends AppCompatActivity {
                 new LinearLayoutManager(this).getOrientation());
         rvChat.addItemDecoration(dividerItemDecoration);
 
-
-
-
-
     }
-
-
-
 
 
     // Setup message field and posting
@@ -79,9 +81,9 @@ public class ChatActivity extends AppCompatActivity {
 
 
         // Find the text field and button
-        etMessage = (EditText) findViewById(R.id.etMessage);
-        btSend = (Button) findViewById(R.id.btSend);
-        rvChat = (RecyclerView) findViewById(R.id.rvChat);
+        etMessage = findViewById(R.id.etMessage);
+        btSend = findViewById(R.id.btSend);
+        rvChat = findViewById(R.id.rvChat);
         mMessages = new ArrayList<>();
         mFirstLoad = true;
         final String userId = ParseUser.getCurrentUser().getObjectId();
@@ -90,7 +92,9 @@ public class ChatActivity extends AppCompatActivity {
 
         // associate the LayoutManager with the RecylcerView
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ChatActivity.this);
+        linearLayoutManager.setReverseLayout(false);
         rvChat.setLayoutManager(linearLayoutManager);
+
 
         // When send button is clicked, create message object on Parse
         btSend.setOnClickListener(new View.OnClickListener() {
@@ -121,15 +125,17 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+
     // Query messages from Parse so we can load them into the chat adapter
     void refreshMessages() {
         // Construct query to execute
         ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
-        // Configure limit and sort order
-        query.setLimit(100);
+
 
         // get the latest messages, order will show up newest to oldest of this group
         query.orderByDescending("createdAt");
+
+        query.whereEqualTo("workshop",detailedWorkshop.getObjectId());
 
 
         // This is equivalent to a SELECT query with SQL
@@ -139,18 +145,11 @@ public class ChatActivity extends AppCompatActivity {
                     mMessages.clear();
                     for(int i = 0 ; i < messages.size();i++)
                     {
-                        Log.e("message", messages.get(i).getWorkshop());
-                        if(detailedWorkshop.getObjectId().equals(messages.get(i).getWorkshop())) {
-                            mMessages.add(0,messages.get(i));
-                        }
+                        mMessages.add(0,messages.get(i));
                     }
                     mAdapter.notifyDataSetChanged(); // update adapter
-                    // Scroll to the bottom of the list on initial load
-                    if (mFirstLoad) {
-                        mFirstLoad = false;
-                    }
-                    rvChat.scrollToPosition(mMessages.size()-1);
 
+                    rvChat.scrollToPosition(mMessages.size()-1);
 
                 } else {
                     Log.e("message", "Error Loading Messages" + e);
@@ -158,25 +157,6 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
-
-//    class RefreshChat extends Thread {
-//        RefreshChat() {
-//        }
-//
-//        public void run() {
-//
-//            refreshMessages();
-//
-//            Log.d("","dsf");
-////            try {
-////                Thread.sleep(1000);
-////            } catch (InterruptedException e) {
-////                e.printStackTrace();
-////            }
-//
-//        }
-//    }
-
 
 
 

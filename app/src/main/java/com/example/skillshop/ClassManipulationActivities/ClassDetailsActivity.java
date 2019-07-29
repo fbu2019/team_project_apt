@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.skillshop.ChatActivity;
 import com.example.skillshop.ClassAttendeesActivity;
 import com.example.skillshop.InstructorDetailsActivity;
@@ -178,36 +179,12 @@ public class ClassDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // if enrolled giv option to un enroll and also the opposite
                 setStatusWorkshop(enrolled);
-                setStatusTaking(enrolled);
+
             }
         });
 
     }
 
-    private void setStatusTaking(boolean enrolled) {
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        ArrayList<String> classesTaking = (ArrayList<String>) currentUser.get("classesTaking");
-
-        String workshopObjectId = detailedWorkshop.getObjectId();
-
-        if (enrolled){
-            classesTaking.remove(workshopObjectId);
-        }
-        else
-        {
-            classesTaking.add(workshopObjectId);
-        }
-
-        currentUser.put("classesTaking", classesTaking);
-        ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.i("ClassDetailsActivity", "Class was not successfully added to classesTaking array");
-                }
-            }
-        });
-    }
 
     private void populateFields(Workshop workshop) {
 
@@ -270,7 +247,13 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
         ivInstructorProfile = findViewById(R.id.ivProfile);
         if (profilePhotoUrl != null) {
-            Glide.with(ClassDetailsActivity.this).load(profilePhotoUrl).into(ivInstructorProfile);
+            Glide.with(ClassDetailsActivity.this)
+                    .load(profilePhotoUrl)
+                    .error(R.drawable.profile)
+                    .placeholder(R.drawable.profile)
+                    .apply(new RequestOptions().circleCrop())
+                    .into(ivInstructorProfile);
+
             Log.i("ClassDetails", profilePhotoUrl);
         } else {
             ivInstructorProfile.setImageBitmap(null);

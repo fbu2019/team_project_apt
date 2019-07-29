@@ -131,8 +131,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
 
             //Checks if the current attendee is the current user
-            if (currentUser.getObjectId() == fellowAttendeeId){
-                btnFollow.setVisibility(View.INVISIBLE);
+
+            if (currentUser.getObjectId().equals(fellowAttendeeId)){
+                btnFollow.setVisibility(View.GONE);
             }else{
             ArrayList<String> myFollowing = (ArrayList<String>) currentUser.get("friends");
                 Boolean isFollowing = myFollowing.contains(fellowAttendeeId);
