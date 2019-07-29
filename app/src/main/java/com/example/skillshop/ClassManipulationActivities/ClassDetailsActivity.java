@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.skillshop.ChatActivity;
 import com.example.skillshop.ClassAttendeesActivity;
 import com.example.skillshop.InstructorDetailsActivity;
@@ -246,7 +247,13 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
         ivInstructorProfile = findViewById(R.id.ivProfile);
         if (profilePhotoUrl != null) {
-            Glide.with(ClassDetailsActivity.this).load(profilePhotoUrl).into(ivInstructorProfile);
+            Glide.with(ClassDetailsActivity.this)
+                    .load(profilePhotoUrl)
+                    .error(R.drawable.profile)
+                    .placeholder(R.drawable.profile)
+                    .apply(new RequestOptions().circleCrop())
+                    .into(ivInstructorProfile);
+
             Log.i("ClassDetails", profilePhotoUrl);
         } else {
             ivInstructorProfile.setImageBitmap(null);
