@@ -49,17 +49,19 @@ public class LoginActivity extends AppCompatActivity {
 
         if (currentUser != null) {
 
-
             //  continue to next activity if user previously logged in and user has submitted location
             Intent i = new Intent(LoginActivity.this, FragmentHandler.class);
             startActivity(i);
+            finish();
 
         }
 
-        //  if user has closed app during signing up without logging out, app will resume at SignupActivity
         else if (currentUser == null && Profile.getCurrentProfile() != null) {
+
+            //  if user has closed app during signing up without logging out, app will resume at SignupActivity
             Intent i = new Intent(LoginActivity.this, SignupActivity.class);
             startActivity(i);
+            finish();   //  Added to test if signup will automatically continue to Fragments
         }
 
         else {
@@ -79,8 +81,6 @@ public class LoginActivity extends AppCompatActivity {
                         mProfileTracker = new ProfileTracker() {
                             @Override
                             protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
-                                Log.v("facebook - profile", currentProfile.getFirstName());
-                                Log.e("LoginActivity", "made it here");
                                 nextActivity(currentProfile);
                                 mProfileTracker.stopTracking();
                             }
@@ -125,6 +125,7 @@ public class LoginActivity extends AppCompatActivity {
                     //  continues to sign up activity if does not recognize facebook user
                     Intent main = new Intent(LoginActivity.this, SignupActivity.class);
                     startActivity(main);
+                    finish();
                 }
             }
         });

@@ -178,7 +178,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // if enrolled giv option to un enroll and also the opposite
                 setStatusWorkshop(enrolled);
-            //    setStatusTaking(enrolled);
+                setStatusTaking(enrolled);
             }
         });
 
@@ -190,16 +190,18 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
         String workshopObjectId = detailedWorkshop.getObjectId();
 
-        if (enrolled){
-            classesTaking.remove(workshopObjectId);
+        if (enrolled && (classesTaking.contains(workshopObjectId))){ //TODO double check
+
+                classesTaking.remove(workshopObjectId);
         }
         else
         {
+            if (!classesTaking.contains(workshopObjectId))
             classesTaking.add(workshopObjectId);
         }
 
         currentUser.put("classesTaking", classesTaking);
-        currentUser.saveInBackground(new SaveCallback() {
+        ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e != null) {
@@ -213,7 +215,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
         tvClassName.setText(workshop.getName());
 
-        if(workshop.getTeacher()!= null && workshop.getTeacher() instanceof ParseUser &&  workshop.getTeacher().getString("firstName")!=null && workshop.getString("lastName")!=null){
+        if(workshop.getTeacher()!= null){
             tvInstructor.setText(workshop.getTeacher().getString("firstName")+" "+workshop.getTeacher().getString("lastName"));
         }
 

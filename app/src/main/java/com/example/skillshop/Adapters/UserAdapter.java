@@ -131,8 +131,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
 
             //Checks if the current attendee is the current user
-            if (currentUser.getObjectId() == fellowAttendeeId){
-                btnFollow.setVisibility(View.INVISIBLE);
+
+            if (currentUser.getObjectId().equals(fellowAttendeeId)){
+                btnFollow.setVisibility(View.GONE);
             }else{
             ArrayList<String> myFollowing = (ArrayList<String>) currentUser.get("friends");
                 Boolean isFollowing = myFollowing.contains(fellowAttendeeId);
@@ -163,6 +164,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         private void unfollowAttendee(ArrayList<String> currentlyFollowing, String fellowAttendeeId, ParseUser fellowAttendee, ParseUser currentUser) {
             //Removes the attendee from the current user's following list and saves it to parse
             currentlyFollowing.remove(fellowAttendeeId);
+
+            currentUser.put("friends", currentlyFollowing);
             currentUser.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {

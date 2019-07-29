@@ -30,7 +30,7 @@ public class Workshop extends ParseObject {
     public static final String KEY_STUDENTS = "students";
     public static final String KEY_IMAGE = "image";
     public static final String KEY_INSTRUCTOR_RATING = "instructorRating";
-
+    public static final String KEY_OBJECT_ID = "objectId";
 
     //  Name Methods
     public  String getName() {
