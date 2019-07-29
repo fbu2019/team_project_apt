@@ -42,6 +42,8 @@ public class SignupActivity extends AppCompatActivity {
     private String apiKey;
     public final static int AUTOCOMPLETE_REQUEST_CODE = 42;
 
+
+    //TODO - SET UP USER PREFERENCES TO NULL AND VISIBILITY
     TextView signupMessage;
     TextView userLocation;
     Button launchMapButton;
@@ -128,6 +130,7 @@ public class SignupActivity extends AppCompatActivity {
             ArrayList<String> friends = new ArrayList<>();
             ArrayList<String> classesTeaching = new ArrayList<>();
             ArrayList<String> classesTaking = new ArrayList<>();
+            ArrayList<String> preferences = new ArrayList<>();
 
             final String username = fbID;
             final String password = fbID;
@@ -143,6 +146,8 @@ public class SignupActivity extends AppCompatActivity {
             user.put("friends", friends);
             user.put("classesTeaching", classesTeaching);
             user.put("classesTaking", classesTaking);
+            user.put("preferences", preferences);
+            user.put("visible", true);
 
             String image_url = "https://graph.facebook.com/" + fbID + "/picture?type=large";
             user.put("profilePicUrl", image_url);

@@ -103,7 +103,6 @@ public class AddUserPreferences extends AppCompatActivity {
 
     }
 
-    //TODO: potentiall make each preference an individual boolean column
     private void retrievePreferences() {
         ArrayList <String> preferences = new ArrayList<String>();
 
