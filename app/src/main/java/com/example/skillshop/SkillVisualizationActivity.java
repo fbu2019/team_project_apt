@@ -16,6 +16,10 @@ import com.anychart.enums.ScaleStackMode;
 import com.anychart.enums.ScaleTypes;
 import com.anychart.enums.TooltipDisplayMode;
 import com.anychart.scales.Linear;
+import com.example.skillshop.Models.Query;
+import com.example.skillshop.Models.Workshop;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +38,43 @@ public class SkillVisualizationActivity extends AppCompatActivity {
         Polar polar = AnyChart.polar();
 
         List<DataEntry> data = new ArrayList<>();
+
+  //
+
+        String[] categoryArray= {"Culinary", "Education", "Fitness", "Arts/Crafts", "Other"};
+        for (String category:categoryArray){
+            final int[] teachTake = new int[2];
+            Query parseQuery = new Query();
+            ArrayList<String> singletonCategory = new ArrayList<String>();
+            singletonCategory.add("Culinary");
+            parseQuery.getClassesTaking().byCategory(singletonCategory);
+            parseQuery.findInBackground(new FindCallback<Workshop>() {
+                @Override
+                public void done(List<Workshop> objects, ParseException e) {
+                    if (e == null) {
+                        teachTake[0] = objects.size();
+                    } else {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            parseQuery.getClassesTeaching().byCategory(singletonCategory);
+            parseQuery.findInBackground(new FindCallback<Workshop>() {
+                @Override
+                public void done(List<Workshop> objects, ParseException e) {
+                    if (e == null) {
+                        teachTake[1] = objects.size();
+                    } else {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            data.add(new CustomDataEntry(singletonCategory.get(0), 12814, 4376));
+        }
+
+
+    //
         data.add(new CustomDataEntry("Culinary", 12814, 4376));
         data.add(new CustomDataEntry("Education", 13012, 3987));
         data.add(new CustomDataEntry("Fitness", 11624, 3574 ));
@@ -42,6 +83,9 @@ public class SkillVisualizationActivity extends AppCompatActivity {
 
 
 
+
+
+//
         Set set = Set.instantiate();
         set.data(data);
         Mapping series1Data = set.mapAs("{ x: 'x', value: 'value' }");
