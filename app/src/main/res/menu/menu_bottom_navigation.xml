@@ -21,18 +21,13 @@
         android:title="Calendar"
 
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/profile_fragment"
-        android:enabled="true"
-        android:icon="@drawable/ic_profile"
-        android:title="Profile 1"
-        app:showAsAction="ifRoom" />
+
 
     <item
         android:id="@+id/user_profile_fragment"
         android:enabled="true"
         android:icon="@drawable/ic_profile"
-        android:title="Profile 2"
+        android:title="Profile"
         app:showAsAction="ifRoom" />
 
 </menu>

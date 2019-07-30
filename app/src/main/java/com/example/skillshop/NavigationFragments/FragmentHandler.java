@@ -10,8 +10,6 @@ import android.view.MenuItem;
 
 import com.example.skillshop.NavigationFragments.CalendarActivities.CalendarFragment;
 import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesFragmentManager;
-import com.example.skillshop.NavigationFragments.HomeFragment;
-import com.example.skillshop.NavigationFragments.ProfileFragment;
 import com.example.skillshop.R;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.parse.ParseException;
@@ -26,7 +24,7 @@ public class FragmentHandler extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_fragment_handler);
 
         fragmentManager = getSupportFragmentManager();
 
@@ -45,9 +43,7 @@ public class FragmentHandler extends AppCompatActivity {
                     case R.id.calendar_fragment:
                         fragment = new CalendarFragment();
                         break;
-                    case R.id.profile_fragment:
-                        fragment = new ProfileFragment();
-                        break;
+
                     case R.id.classes_fragment:
                         fragment = new ClassesFragmentManager();
                         break;
