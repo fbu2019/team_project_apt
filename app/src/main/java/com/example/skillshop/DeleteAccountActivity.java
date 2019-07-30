@@ -2,6 +2,9 @@ package com.example.skillshop;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Rating;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +19,9 @@ import com.example.skillshop.LoginActivities.SignupActivity;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.Models.Workshop;
+import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesTakingFragment;
 import com.example.skillshop.NavigationFragments.FragmentHandler;
+import com.example.skillshop.NavigationFragments.HomeFragment;
 import com.facebook.login.LoginManager;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
@@ -26,12 +31,16 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class DeleteAccountActivity extends AppCompatActivity {
 
     private TextView tvWarning;
     private Button continueButton;
+
+    FragmentManager fragmentManager;
+    private ParseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,21 +50,84 @@ public class DeleteAccountActivity extends AppCompatActivity {
         tvWarning = findViewById(R.id.warningMessage);
         continueButton = findViewById(R.id.continueTODELETE);
 
+
+        fragmentManager = getSupportFragmentManager();
+        currentUser = ParseUser.getCurrentUser();
+
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //retrieve and delete classes user is teaching , must remove all classes from each user
-               // deleteRating();
-                Log.i("DeleteAccountActivity", "Reached onClick");
-                deleteClassesTeaching();
-                Log.i("DeleteAccountActivity", "Below");
-                removeFromClassesTaking();
-                Log.i("DeleteAccountActivity", "Below here");
 
-                try {
-                    removeUser();
-                } catch (ParseException e) {
+                //FragmentHandler.onPause();
+
+                fragmentManager.beginTransaction().addToBackStack(null).commit();
+             //   fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+
+
+                removeRatings();
+                //removeRatings calls deleteClassesTaking, which deletes classes teaching etc.
+            }
+        });
+
+    }
+
+    private void removeRatings() {
+
+        //TODO - query to retrieve all ratings with user ratings
+        Ratings.Query ratingParseQuery = new Ratings.Query();
+        ratingParseQuery.getAllRatings().withUserRatings();
+
+        ratingParseQuery.findInBackground(new FindCallback<Ratings>() {
+            @Override
+            public void done(List<Ratings> objects, ParseException e) {
+
+                if (e == null) {
+                    if (objects.size() > 0) {
+                        for (int i = 0; i < objects.size(); i++) {
+
+                            Ratings currentRating = objects.get(i);
+                            HashMap<String, Integer> userRatings = currentRating.getUserRatings();
+
+                            if (userRatings.size() > 0) {
+
+                                String userKey = currentUser.getUsername();
+
+                                if (userRatings.containsKey(userKey) && userRatings.get(userKey) != null)
+
+                                {
+                                    Log.e("DeleteAccount", "Userratings " + userRatings.get(userKey));
+                                    if (userRatings.get(userKey) > 0) {
+                                        int rating = userRatings.get(userKey);
+
+                                        currentRating.setSumRatings(currentRating.getSumRatings() - rating);
+                                        currentRating.setNumRatings(currentRating.getNumRatings() - 1);
+                                        currentRating.setAverageRating(currentRating.getSumRatings() / currentRating.getNumRatings());
+
+                                        userRatings.remove(currentUser.getUsername());
+                                    }
+
+                                    currentRating.saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            if (e == null) {
+                                                Log.e("DeleteAccount", "Rating successfully updated");
+                                                // Toast.makeText(DeleteAccountActivity.this, "Changes have been saved (changes may take a while to be reflected in the app)", Toast.LENGTH_SHORT).show();
+                                                finish();
+                                            } else {
+                                                Log.e("DeleteAccount", "Failure to update rating");
+                                                Toast.makeText(DeleteAccountActivity.this, "Error saving changes", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+
+                                }
+                            }
+                        }
+
+                        removeFromClassesTaking();
+                    }
+                } else {
                     e.printStackTrace();
                 }
             }
@@ -72,7 +144,7 @@ public class DeleteAccountActivity extends AppCompatActivity {
             public void done(List<Ratings> objects, ParseException e) {
 
                 if (e == null) {
-                  Ratings currentUserRating = objects.get(0);
+                    Ratings currentUserRating = objects.get(0);
                     currentUserRating.setUser(null);
 
                 } else {
@@ -100,6 +172,11 @@ public class DeleteAccountActivity extends AppCompatActivity {
                             e1.printStackTrace(); // attempts to delete
                         }
                     }
+                    try {
+                        removeUser();
+                    } catch (ParseException e1) {
+                        e1.printStackTrace();
+                    }
                 } else {
                     e.printStackTrace();
                 }
@@ -122,12 +199,12 @@ public class DeleteAccountActivity extends AppCompatActivity {
                         ArrayList<String> students = (ArrayList<String>) workshopItem.getStudents();
 
                         //iterate through, check for current user, and remove user
-                        for(int j = 0; j<students.size(); j++){
+                        for (int j = 0; j < students.size(); j++) {
 
-                            Log.e("DeleteAccount", "Student id "+students.get(j));
-                            Log.e("DeleteAccount", "User id "+ParseUser.getCurrentUser().getObjectId());
+                            Log.e("DeleteAccount", "Student id " + students.get(j));
+                            Log.e("DeleteAccount", "User id " + ParseUser.getCurrentUser().getObjectId());
 
-                            if(students.get(j).equals(ParseUser.getCurrentUser().getObjectId())){
+                            if (students.get(j).equals(ParseUser.getCurrentUser().getObjectId())) {
                                 students.remove(j);
                                 workshopItem.setStudents(students);
                             }
@@ -136,20 +213,19 @@ public class DeleteAccountActivity extends AppCompatActivity {
                         workshopItem.saveInBackground(new SaveCallback() {
                             @Override
                             public void done(ParseException e) {
-                                if(e == null)
-                                {
+                                if (e == null) {
                                     Log.e("DeleteAccount", "successful update");
                                     Toast.makeText(DeleteAccountActivity.this, "Changes have been saved (changes may take a while to be reflected in the app)", Toast.LENGTH_SHORT).show();
                                     finish();
-                                }
-                                else
-                                {
+                                } else {
                                     Log.e("DeleteAccount", "failure update");
                                     Toast.makeText(DeleteAccountActivity.this, "Error saving changes", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
                     }
+
+                    deleteClassesTeaching();
 
                 } else {
                     e.printStackTrace();

@@ -262,5 +262,6 @@ public class UserProfileFragment extends Fragment {
 
         Intent i = new Intent(getContext(), DeleteAccountActivity.class);
         startActivity(i);
+        getActivity().finish();
     }
 }
