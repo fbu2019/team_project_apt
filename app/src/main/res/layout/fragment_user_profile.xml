@@ -86,8 +86,8 @@
         <RatingBar
             android:id="@+id/instructorAverage"
             style="@style/Widget.AppCompat.RatingBar"
-            android:layout_width="199dp"
-            android:layout_height="41dp"
+            android:layout_width="236dp"
+            android:layout_height="50dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:scaleX="0.5"

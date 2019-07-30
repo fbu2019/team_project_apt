@@ -16,6 +16,8 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.parceler.Parcels;
+
 
 public class FragmentHandler extends AppCompatActivity {
     FragmentManager fragmentManager;
@@ -44,11 +46,12 @@ public class FragmentHandler extends AppCompatActivity {
                         fragment = new CalendarFragment();
                         break;
 
-                    case R.id.classes_fragment:
-                        fragment = new ClassesFragmentManager();
+                    case R.id.maps_fragment:
+                        fragment = new MapFragment();
                         break;
                     case R.id.user_profile_fragment:
                         fragment = new UserProfileFragment();
+
                         break;
                     default: break;
                 }

@@ -40,6 +40,8 @@ import com.parse.SaveCallback;
 import java.util.Arrays;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 public class UserProfileFragment extends Fragment {
     public static final String TAG = "UserProfileFragment";
     public final static int AUTOCOMPLETE_REQUEST_CODE = 42;
@@ -75,6 +77,7 @@ public class UserProfileFragment extends Fragment {
         rbUserRating.setNumStars(5);
 
         ParseUser user = ParseUser.getCurrentUser();
+
         String locationName = (user.getString("locationName"));
         String profilePhotoUrl = user.getString("profilePicUrl");
 
@@ -221,7 +224,7 @@ public class UserProfileFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if ((data != null) && (requestCode == AUTOCOMPLETE_REQUEST_CODE)) {
+        if ((data != null) && (requestCode == AUTOCOMPLETE_REQUEST_CODE) && (resultCode == RESULT_OK)) {
 
             Place place = Autocomplete.getPlaceFromIntent(data);
             locationName = place.getName();
