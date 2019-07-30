@@ -70,6 +70,7 @@ public class ProfileFragment extends Fragment {
         rbUserRating.setIsIndicator(true);
         rbUserRating.setNumStars(5);
 
+
         ParseUser user = ParseUser.getCurrentUser();
         if(user!=null) {
             String locationName = (user.getString("locationName")); // todo: reinstate after error solved

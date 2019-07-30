@@ -114,7 +114,8 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if ((data != null) && (requestCode == AUTOCOMPLETE_REQUEST_CODE) && (resultCode == RESULT_OK)) {
+        if ((data != null) && (requestCode == AUTOCOMPLETE_REQUEST_CODE) && (resultCode == RESULT_OK) ) {
+
             Place place = Autocomplete.getPlaceFromIntent(data);
             locationName = place.getName();
             LatLng latLng = place.getLatLng();
