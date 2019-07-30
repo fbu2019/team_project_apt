@@ -5,6 +5,7 @@
         android:id="@+id/taking"
         android:enabled="true"
         android:icon="@drawable/ic_taking_class"
+        android:title="Classes Taking"
 
         app:showAsAction="ifRoom" />
 
@@ -12,6 +13,7 @@
         android:id="@+id/teaching"
         android:enabled="true"
         android:icon="@drawable/ic_teaching_class"
+        android:title="Classes Teaching"
         app:showAsAction="ifRoom" />
 
 </menu>

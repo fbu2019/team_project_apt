@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
+import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
 import com.example.skillshop.NavigationFragments.CalendarActivities.DaysEventsActivity;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Workshop;
@@ -62,6 +63,21 @@ public class CalendarFragment extends Fragment {
 
 
         populateCalendarClassesTaking();
+
+        calendarView.setOnDayClickListener(new OnDayClickListener() {
+            @Override
+            public void onDayClick(EventDay eventDay) {
+
+
+                if(eventDay.getImageDrawable() != null) {
+                    Intent eventsToday = new Intent(getContext(), DaysEventsActivity.class);
+                    Long time = eventDay.getCalendar().getTimeInMillis();
+                    eventsToday.putExtra("Date", time);
+                    startActivity(eventsToday);
+                }
+
+            }
+        });
 
 
 

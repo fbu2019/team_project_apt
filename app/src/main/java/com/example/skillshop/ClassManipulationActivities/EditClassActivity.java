@@ -45,10 +45,12 @@ import com.parse.SaveCallback;
 import org.parceler.Parcels;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -61,8 +63,8 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     public static final String TAG = "EditClassActivity";
 
     TextView etClassname;
-    TextView etDate;
-    TextView etTime;
+    Button btnDate;
+    Button btnTime;
     Button btLocation;
     TextView etDescription;
     Spinner spinCategory;
@@ -71,6 +73,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     Button btSubmit;
     Workshop currentWorkshop;
     ImageView ivTrash;
+    Date currentDate;
 
 
     ParseGeoPoint location;
@@ -90,6 +93,10 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         super.onCreate(savedInstanceState);
         apiKey = this.getResources().getString(R.string.places_api_key);
         setContentView(R.layout.activity_edit_class);
+
+        currentWorkshop = Parcels.unwrap(getIntent().getParcelableExtra(Workshop.class.getSimpleName()));
+        currentDate = currentWorkshop.getJavaDate();
+
         findAllViews();
         setupPlacesApi();
         setupDatePicker();
@@ -109,9 +116,9 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     private void setupDatePicker() {
 
         final DatePickerDialog datePickerDialog = new DatePickerDialog(
-                this, EditClassActivity.this, 2019, 7, 1);
+                this, EditClassActivity.this, currentDate.getYear()+YEAR_OFFSET, currentDate.getMonth(), currentDate.getDate());
 
-        final TimePickerDialog timePickerDialog = new TimePickerDialog(this,EditClassActivity.this,0,0,true);
+        final TimePickerDialog timePickerDialog = new TimePickerDialog(this,EditClassActivity.this,currentDate.getHours(),currentDate.getMinutes(),true);
 
         dateMap = new HashMap<>();
 
@@ -123,14 +130,14 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         });
 
 
-        etDate.setOnClickListener(new View.OnClickListener() {
+        btnDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 datePickerDialog.show();
             }
         });
 
-        etTime.setOnClickListener(new View.OnClickListener() {
+        btnTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 timePickerDialog.show();
@@ -152,14 +159,13 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
 
     @TargetApi(Build.VERSION_CODES.O)
     private void setCurrentDetails() {
-        currentWorkshop = Parcels.unwrap(getIntent().getParcelableExtra(Workshop.class.getSimpleName()));
         etClassname.setText(currentWorkshop.getName());
         etDescription.setText(currentWorkshop.getDescription());
         btLocation.setText(currentWorkshop.getLocationName());
         etCost.setText(currentWorkshop.getCost().toString());
         Integer categoryPosition = adapter.getPosition(currentWorkshop.getCategory());
         spinCategory.setSelection(categoryPosition);
-        Date currentDate = currentWorkshop.getJavaDate();
+
 
         LocalDateTime localDateTime = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
         //TODO figure out year offset
@@ -168,11 +174,19 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         int day   = localDateTime.getDayOfMonth();
         int hour = localDateTime.getHour() - HOUR_OFFSET;
         int minute = localDateTime.getMinute();
-        etDate.setText(String.format("%d/%d/%d",month,day,year));
+
+        SimpleDateFormat dateString = new SimpleDateFormat("MM/dd/YYYY");
+
+        btnDate.setText(dateString.format(currentDate));
+
+
         dateMap.put("year",year);
         dateMap.put("month",month);
         dateMap.put("dayOfMonth",day);
-        etTime.setText(String.format("%d:%d",hour,minute));
+
+        SimpleDateFormat timeString = new SimpleDateFormat("HH:mm");
+        btnTime.setText(timeString.format(currentDate));
+
         dateMap.put("hourOfDay",hour);
         dateMap.put("minute",minute);
 
@@ -231,7 +245,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         dateMap.put("year",year);
         dateMap.put("month",month);
         dateMap.put("dayOfMonth",dayOfMonth);
-        etDate.setText(String.format("%d/%d/%d",month,dayOfMonth,year));
+        btnDate.setText(String.format("%d/%d/%d",month,dayOfMonth,year));
 
     }
 
@@ -239,7 +253,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         dateMap.put("hourOfDay",hourOfDay);
         dateMap.put("minute",minute);
-        etTime.setText(String.format("%d:%d",hourOfDay,minute));
+        btnTime.setText(String.format("%d:%d",hourOfDay,minute));
 
 
     }
@@ -325,14 +339,14 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     private void findAllViews() {
 
         etClassname = findViewById(R.id.etClassname);
-        etDate = findViewById(R.id.etDate);
+        btnDate = findViewById(R.id.btnDate);
         btLocation = findViewById(R.id.btLocation);
         etDescription = findViewById(R.id.etDescription);
         spinCategory = findViewById(R.id.spinCategory);
         etCost = findViewById(R.id.etCost);
         btSubmit = findViewById(R.id.btSubmit);
         ivClassImage = findViewById(R.id.ivClassImage);
-        etTime = findViewById(R.id.etTime);
+        btnTime = findViewById(R.id.btnTime);
         ivTrash =findViewById(R.id.ivTrash);
 
     }
