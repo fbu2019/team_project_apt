@@ -56,7 +56,7 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         detailedWorkshop = Parcels.unwrap(getIntent().getParcelableExtra(Workshop.class.getSimpleName()));
         setupMessagePosting();
-        refreshMessages();
+        refreshMessages(true);
 
         maxMessages = 20;
 
@@ -73,7 +73,40 @@ public class ChatActivity extends AppCompatActivity {
                 new LinearLayoutManager(this).getOrientation());
         rvChat.addItemDecoration(dividerItemDecoration);
 
+
+        refreshInBackground();
+
     }
+
+    public  void refreshInBackground()
+    {
+
+        MessageRefresher refresher = new MessageRefresher();
+        refresher.start();
+
+
+    }
+
+    class MessageRefresher extends Thread{
+
+        MessageRefresher(){
+        }
+
+        @Override
+        public void run() {
+            while(true) {
+                refreshMessages(false);
+
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }
+
 
 
     // Setup message field and posting
@@ -116,7 +149,7 @@ public class ChatActivity extends AppCompatActivity {
                     message.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
-                            refreshMessages();
+                            refreshMessages(true);
                             etMessage.setText(null);
                             rvChat.scrollToPosition(mMessages.size()-1);
 
@@ -133,7 +166,7 @@ public class ChatActivity extends AppCompatActivity {
 
 
     // Query messages from Parse so we can load them into the chat adapter
-    void refreshMessages() {
+    void refreshMessages(boolean scroll) {
         // Construct query to execute
         ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
 
@@ -155,7 +188,9 @@ public class ChatActivity extends AppCompatActivity {
                     }
                     mAdapter.notifyDataSetChanged(); // update adapter
 
-                    rvChat.scrollToPosition(mMessages.size()-1);
+                    if(scroll) {
+                        rvChat.scrollToPosition(mMessages.size() - 1);
+                    }
 
                 } else {
                     Log.e("message", "Error Loading Messages" + e);
