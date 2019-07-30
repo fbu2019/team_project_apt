@@ -64,7 +64,6 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         spinSorters = view.findViewById(R.id.spinSorters);
         spinFilters = view.findViewById(R.id.spinFilters);
-        setupMapButton(view);
         setupPreferenceFilterButton(view);
         setupFollowingListButton(view);
 
@@ -116,18 +115,7 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void setupMapButton(View view) {
-        btnMap = view.findViewById(R.id.btnMap);
 
-        btnMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent openMapActivity = new Intent(getContext(), MapActivity.class);
-                startActivity(openMapActivity);
-            }
-        });
-
-    }
 
 
     @Override
