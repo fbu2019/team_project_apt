@@ -56,8 +56,8 @@ public class MapFragment extends Fragment{
 
 
                 CameraPosition googlePlex = CameraPosition.builder()
-                        .target(new LatLng(37.4219999,-122.0862462))
-                        .zoom(10)
+                        .target(new LatLng(37.4530,-122.1817))
+                        .zoom(7)
                         .bearing(0)
                         .tilt(45)
                         .build();
@@ -168,5 +168,6 @@ public class MapFragment extends Fragment{
         }
         return marker;
     }
-    
+
+
 }
