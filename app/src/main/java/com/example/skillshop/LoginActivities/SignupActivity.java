@@ -30,8 +30,10 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -129,10 +131,10 @@ public class SignupActivity extends AppCompatActivity {
             String lastName = profile.getLastName();
             String fbID = profile.getId();
             ArrayList<String> friends = new ArrayList<>();
-            ArrayList<String> classesTeaching = new ArrayList<>();
-            ArrayList<String> classesTaking = new ArrayList<>();
+
             ArrayList<String> preferences = new ArrayList<>();
 
+      //      ArrayList<Integer> teachTakeData = new ArrayList<>()
             final String username = fbID;
             final String password = fbID;
 
@@ -145,11 +147,10 @@ public class SignupActivity extends AppCompatActivity {
             user.put("firebaseToken", FirebaseInstanceId.getInstance().getToken());
             user.put("instructorRating", 0);
             user.put("friends", friends);
-            user.put("classesTeaching", classesTeaching);
-            user.put("classesTaking", classesTaking);
             user.put("preferences", preferences);
             user.put("visible", true);
-
+            List<Integer> skillsData = new ArrayList<Integer>(Collections.nCopies(10, 0));
+            user.put("skillsData", skillsData);
             String image_url = "https://graph.facebook.com/" + fbID + "/picture?type=large";
             user.put("profilePicUrl", image_url);
 
