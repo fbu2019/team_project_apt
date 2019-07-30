@@ -78,15 +78,18 @@ public class UserProfileFragment extends Fragment {
         rbUserRating.setIsIndicator(true);
         rbUserRating.setNumStars(5);
 
+
         ParseUser user = ParseUser.getCurrentUser();
 
-        String locationName = (user.getString("locationName"));
-        String profilePhotoUrl = user.getString("profilePicUrl");
+        if(user!=null) {
+            String locationName = (user.getString("locationName"));
+            String profilePhotoUrl = user.getString("profilePicUrl");
 
-        displayUserInfo(view, locationName, profilePhotoUrl);
+            displayUserInfo(view, locationName, profilePhotoUrl);
 
-        if (!Places.isInitialized()) {
-            Places.initialize(getContext(), apiKey); // Initializes places
+            if (!Places.isInitialized()) {
+                Places.initialize(getContext(), apiKey); // Initializes places
+            }
         }
 
         submitNewLocationButton = view.findViewById(R.id.modifyLocationButton);
@@ -188,21 +191,26 @@ public class UserProfileFragment extends Fragment {
 
         Ratings.Query ratingParseQuery = new Ratings.Query();
         ratingParseQuery.getAllRatings().whereEqualTo("user", ParseUser.getCurrentUser());
+
         ratingParseQuery.findInBackground(new FindCallback<Ratings>() {
             @Override
             public void done(List<Ratings> objects, ParseException e) {
 
                 if (e == null) {
-                    Ratings userRating = objects.get(0);
+                    if (objects != null && objects.size()>0){
 
-                    if (userRating.getNumRatings() == 0) {
-                        tvRatingMessage.setText("You have not been rated as an instructor.");
-                    } else if (userRating.getNumRatings() == 1) {
-                        tvRatingMessage.setText( "You have been rated 1 time");
-                        rbUserRating.setRating((int) userRating.getAverageRating());
-                    } else {
-                        tvRatingMessage.setText("You have been rated " + userRating.getAverageRating() + "times.");
-                        rbUserRating.setRating((int) userRating.getAverageRating());
+                        Ratings userRating = objects.get(0);
+
+                        if (userRating.getNumRatings() == 0) {
+                            tvRatingMessage.setText("You have not been rated as an instructor.");
+                        } else if (userRating.getNumRatings() == 1) {
+                            tvRatingMessage.setText("You have been rated 1 time");
+                            rbUserRating.setRating((int) userRating.getAverageRating());
+                        } else {
+                            tvRatingMessage.setText("You have been rated " + userRating.getAverageRating() + "times.");
+                            rbUserRating.setRating((int) userRating.getAverageRating());
+                        }
+
                     }
 
                 } else {
@@ -263,16 +271,5 @@ public class UserProfileFragment extends Fragment {
 
         Intent i = new Intent(getContext(), DeleteAccountActivity.class);
         startActivity(i);
-        //TODO - toast or WARNING activity
-        // remove user from facebook
-        // remove classes
-        // remove rating
-        // delete parse user
-
-        // RETRIEVE METHODS FROM EDIT CLASS ACTIVITY TO DELETE ALL CLASSES
-        // RETRIEVE METHODS FROM CLASSES TEACHING FRAGMENT TO RETRIEVE ALL CLASSES
-
-        //RETRIEVE METHODS FROM CLASSES TAKING FRAGMENT TO RETRIEVE ALL CLASSES
-
     }
 }
