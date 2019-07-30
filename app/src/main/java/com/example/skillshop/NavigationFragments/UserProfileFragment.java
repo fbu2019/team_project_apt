@@ -25,6 +25,7 @@ import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesTakingFragment;
 import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesTeachingFragment;
 import com.example.skillshop.R;
+import com.example.skillshop.SkillVisualizationActivity;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
@@ -127,7 +128,8 @@ public class UserProfileFragment extends Fragment {
         mySkillsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-          //      Intent startMySkillsActivity = new Intent(Use)
+                Intent startMySkillsActivity = new Intent(getContext(), SkillVisualizationActivity.class);
+                startActivity(startMySkillsActivity);
             }
         });
 
