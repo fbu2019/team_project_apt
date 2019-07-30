@@ -12,12 +12,15 @@ import android.widget.Toast;
 
 import com.example.skillshop.ClassManipulationActivities.EditClassActivity;
 import com.example.skillshop.LoginActivities.LoginActivity;
+import com.example.skillshop.LoginActivities.SignupActivity;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.Models.Workshop;
+import com.example.skillshop.NavigationFragments.FragmentHandler;
 import com.facebook.login.LoginManager;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
+import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -159,6 +162,8 @@ public class DeleteAccountActivity extends AppCompatActivity {
         Log.e("DeleteAccount", "reached removeUser");
 
         ParseUser user = ParseUser.getCurrentUser();
+        Log.i("DeleteAccount", ParseUser.getCurrentUser().getUsername());
+
         user.deleteInBackground(new DeleteCallback() {
             @Override
             public void done(com.parse.ParseException e) {
@@ -178,10 +183,36 @@ public class DeleteAccountActivity extends AppCompatActivity {
 
         LoginManager.getInstance().logOut(); // logs user out of facebook TODO - look into actually deleting fb user info
         // Deletes user only the first time
+        // AUTHENTICATION ERROR
 
         Intent i = new Intent(DeleteAccountActivity.this, LoginActivity.class);
         startActivity(i);
 
     }
 
+
+    private void login(String username, String password) {
+
+        Log.i("LoginActivity", "Reached login method");
+        ParseUser.logInInBackground(username, password, new LogInCallback() {
+            @Override
+            public void done(ParseUser user, ParseException e) {
+                if (e == null) {
+                    Log.d("DeleteActivity", "Login successful");
+                    final Intent intent = new Intent(DeleteAccountActivity.this, FragmentHandler.class);
+                    Log.i("DeleteActivity", "Reached login success");
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Log.e("LoginActivity", "Login failure");
+                    e.printStackTrace();
+
+                    //  continues to sign up activity if does not recognize facebook user
+                    Intent main = new Intent(DeleteAccountActivity.this, SignupActivity.class);
+                    startActivity(main);
+                    finish();
+                }
+            }
+        });
+    }
 }
