@@ -23,6 +23,7 @@ public class FragmentHandler extends AppCompatActivity {
     FragmentManager fragmentManager;
     BottomNavigationView bottomNavigationView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +64,6 @@ public class FragmentHandler extends AppCompatActivity {
         // default fragment in home fragment
         bottomNavigationView.setSelectedItemId(R.id.home_fragment);
 //        updateFirebaseToken();
-
 
 
     }

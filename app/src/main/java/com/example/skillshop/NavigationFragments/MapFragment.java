@@ -138,6 +138,7 @@ public class MapFragment extends Fragment{
 
     }
 
+
     private BitmapDescriptor setMarkerColor(BitmapDescriptor marker, String category) {
         switch (category){
             case ("Culinary"): {
@@ -167,5 +168,5 @@ public class MapFragment extends Fragment{
         }
         return marker;
     }
-
+    
 }

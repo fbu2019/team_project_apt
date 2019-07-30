@@ -18,6 +18,7 @@ import com.example.skillshop.ClassManipulationActivities.NewClassActivity;
 import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,25 +80,27 @@ public class ClassesTakingFragment extends Fragment {
 
     public void getClassesTaking() {
 
-        // get all the classes the user is taking and display them
-        Query parseQuery = new Query();
-        parseQuery.getAllClasses().getClassesTaking().withItems().byTimeOfClass();
+        if(ParseUser.getCurrentUser().getUsername()!=null) {
+            // get all the classes the user is taking and display them
+            Query parseQuery = new Query();
+            parseQuery.getAllClasses().getClassesTaking().withItems().byTimeOfClass();
 
-        parseQuery.findInBackground(new FindCallback<Workshop>() {
-            @Override
-            public void done(List<Workshop> objects, ParseException e) {
-                if (e == null) {
+            parseQuery.findInBackground(new FindCallback<Workshop>() {
+                @Override
+                public void done(List<Workshop> objects, ParseException e) {
+                    if (e == null) {
 
-                    for (int i = 0; i < objects.size(); i++) {
-                        Workshop workshopItem = objects.get(i);
-                        mWorkshops.add(workshopItem);
-                        classAdapter.notifyItemInserted(mWorkshops.size()-1);
+                        for (int i = 0; i < objects.size(); i++) {
+                            Workshop workshopItem = objects.get(i);
+                            mWorkshops.add(workshopItem);
+                            classAdapter.notifyItemInserted(mWorkshops.size() - 1);
+                        }
+                    } else {
+                        e.printStackTrace();
                     }
-                } else {
-                    e.printStackTrace();
                 }
-            }
-        });
+            });
+        }
     }
 }
 
