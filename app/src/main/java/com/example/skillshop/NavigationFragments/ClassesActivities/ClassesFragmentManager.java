@@ -11,8 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesTakingFragment;
-import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesTeachingFragment;
 import com.example.skillshop.NavigationFragments.HomeFragment;
 import com.example.skillshop.R;
 
@@ -30,7 +28,7 @@ public class ClassesFragmentManager extends Fragment {
         // define manager to decide which fragment to display
         final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
-        BottomNavigationView topNavigationBar = view.findViewById(R.id.bottom_navigation);
+        BottomNavigationView topNavigationBar = view.findViewById(R.id.top_navigation);
         topNavigationBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -47,7 +45,7 @@ public class ClassesFragmentManager extends Fragment {
                     default: break;
                 }
                 // switch to selected fragment
-                fragmentManager.beginTransaction().replace(R.id.classes_take_teach, fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.classes_today, fragment).commit();
                 return true;
             }
         });

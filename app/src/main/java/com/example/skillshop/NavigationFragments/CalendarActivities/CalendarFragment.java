@@ -1,9 +1,6 @@
 package com.example.skillshop.NavigationFragments.CalendarActivities;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,18 +12,12 @@ import android.view.ViewGroup;
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
-import com.example.skillshop.NavigationFragments.CalendarActivities.DaysEventsActivity;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.skyhope.eventcalenderlibrary.CalenderEvent;
-import com.skyhope.eventcalenderlibrary.listener.CalenderDayClickListener;
-import com.skyhope.eventcalenderlibrary.model.DayContainerModel;
-import com.skyhope.eventcalenderlibrary.model.Event;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -38,6 +29,7 @@ public class CalendarFragment extends Fragment {
 
     ArrayList<Workshop> taking;
     ArrayList<Workshop> teaching;
+    ArrayList<Workshop> allClasses;
 
 
 
@@ -63,6 +55,8 @@ public class CalendarFragment extends Fragment {
 
 
         populateCalendarClassesTaking();
+        populateAllClasses();
+
 
         calendarView.setOnDayClickListener(new OnDayClickListener() {
             @Override
@@ -70,17 +64,35 @@ public class CalendarFragment extends Fragment {
 
 
                 if(eventDay.getImageDrawable() != null) {
-                    Intent eventsToday = new Intent(getContext(), DaysEventsActivity.class);
+                    Intent eventsToday = new Intent(getContext(), DayFragmentHandler.class);
                     Long time = eventDay.getCalendar().getTimeInMillis();
                     eventsToday.putExtra("Date", time);
                     startActivity(eventsToday);
                 }
+
 
             }
         });
 
 
 
+    }
+    public void populateAllClasses()
+    {
+        Query parseQuery = new Query();
+        parseQuery.getAllClasses().withItems().byTimeOfClass();
+        parseQuery.findInBackground(new FindCallback<Workshop>() {
+            @Override
+            public void done(List<Workshop> objects, ParseException e) {
+                if (e == null) {
+                    allClasses = (ArrayList<Workshop>) objects;
+                    populateCalendarClassesTeaching();
+
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 
@@ -163,6 +175,17 @@ public class CalendarFragment extends Fragment {
             events.add(new EventDay(calendar, R.drawable.ic_teaching_note));
 
         }
+
+        for(Workshop wAll : allClasses)
+        {
+            Date teachingDate = wAll.getJavaDate();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(teachingDate);
+            events.add(new EventDay(calendar, R.drawable.ic_new_class));
+
+        }
+
+
         calendarView.setEvents(events);
 
     }

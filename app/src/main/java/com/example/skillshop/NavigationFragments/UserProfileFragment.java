@@ -91,7 +91,7 @@ public class UserProfileFragment extends Fragment {
 
         ParseUser user = ParseUser.getCurrentUser();
 
-        if(user!=null) {
+        if (user != null) {
             String locationName = (user.getString("locationName"));
             String profilePhotoUrl = user.getString("profilePicUrl");
 
@@ -150,7 +150,7 @@ public class UserProfileFragment extends Fragment {
         // define manager to decide which fragment to display
         final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
-        BottomNavigationView topNavigationBar = view.findViewById(R.id.bottom_navigation);
+        BottomNavigationView topNavigationBar = view.findViewById(R.id.top_navigation);
         topNavigationBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -163,10 +163,11 @@ public class UserProfileFragment extends Fragment {
                     case R.id.teaching:
                         fragment = new ClassesTeachingFragment();
                         break;
-                    default: break;
+                    default:
+                        break;
                 }
                 // switch to selected fragment
-                fragmentManager.beginTransaction().replace(R.id.classes_take_teach, fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.classes_today, fragment).commit();
                 return true;
             }
         });
@@ -203,7 +204,7 @@ public class UserProfileFragment extends Fragment {
             public void done(List<Ratings> objects, ParseException e) {
 
                 if (e == null) {
-                    if (objects != null && objects.size()>0){
+                    if (objects != null && objects.size() > 0) {
 
                         Ratings userRating = objects.get(0);
 
@@ -280,7 +281,7 @@ public class UserProfileFragment extends Fragment {
         getActivity().finish();
     }
 
-    private void getNumFollowers(){
+    private void getNumFollowers() {
 
         ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
         userQuery.findInBackground(new FindCallback<ParseUser>() {
@@ -290,18 +291,15 @@ public class UserProfileFragment extends Fragment {
                     for (int i = 0; i < allUsers.size(); i++) {
                         ParseUser userItem = allUsers.get(i);
 
-                        if(userItem != ParseUser.getCurrentUser()) {
+                        if (userItem != ParseUser.getCurrentUser()) {
 
-                            Log.i("UserProfile","also here");
+                            Log.i("UserProfile", "also here");
 
                             ArrayList<String> usersFollowing = (ArrayList<String>) userItem.get("friends");
 
-                            for(int j = 0; j<usersFollowing.size(); j++){
-                                if(usersFollowing.get(j).equals(ParseUser.getCurrentUser().getObjectId())){
-                                    numberOfFollowers ++;
-                                    Log.i("UserProfile","Reached inner loop "+numberOfFollowers);
-                                    Log.i("UserProfile","Id from array: "+usersFollowing.get(j));
-                                    Log.i("UserProfile","Current user Id "+ParseUser.getCurrentUser().getObjectId());
+                            for (int j = 0; j < usersFollowing.size(); j++) {
+                                if (usersFollowing.get(j).equals(ParseUser.getCurrentUser().getObjectId())) {
+                                    numberOfFollowers++;
                                 }
 
                             }
@@ -310,7 +308,12 @@ public class UserProfileFragment extends Fragment {
 
                     }
 
-                    tvNumberOfFollowers.setText(numberOfFollowers+" followers");
+                    if (numberOfFollowers == 1) {
+                        tvNumberOfFollowers.setText("1 follower");
+
+                    } else {
+                        tvNumberOfFollowers.setText(numberOfFollowers + " followers");
+                    }
 
                 } else {
                     e.printStackTrace();

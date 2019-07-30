@@ -88,7 +88,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                 holder.ivTeacherOther.setVisibility(View.GONE);
             }
 
-            holder.ivTeacherOther.setVisibility(View.VISIBLE);
             holder.imageMe.setVisibility(View.GONE);
             holder.ivTeacherMe.setVisibility(View.GONE);
             holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);

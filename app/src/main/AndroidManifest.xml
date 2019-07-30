@@ -34,7 +34,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".SkillVisualizationActivity">    </activity>
+        <activity android:name=".NavigationFragments.CalendarActivities.DayFragmentHandler"></activity>
+        <activity android:name=".SkillVisualizationActivity"></activity>
         <activity android:name=".DeleteAccountActivity" />
         <activity android:name=".UserProfileActivity" />
         <activity android:name=".ChatActivity" />
