@@ -58,15 +58,10 @@ public class DeleteAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
-                //FragmentHandler.onPause();
-
                 fragmentManager.beginTransaction().addToBackStack(null).commit();
-             //   fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
-
 
                 removeRatings();
-                //removeRatings calls deleteClassesTaking, which deletes classes teaching etc.
+
             }
         });
 
@@ -93,9 +88,7 @@ public class DeleteAccountActivity extends AppCompatActivity {
 
                                 String userKey = currentUser.getUsername();
 
-                                if (userRatings.containsKey(userKey) && userRatings.get(userKey) != null)
-
-                                {
+                                if (userRatings.containsKey(userKey) && userRatings.get(userKey) != null) {
                                     Log.e("DeleteAccount", "Userratings " + userRatings.get(userKey));
                                     if (userRatings.get(userKey) > 0) {
                                         int rating = userRatings.get(userKey);
@@ -125,6 +118,7 @@ public class DeleteAccountActivity extends AppCompatActivity {
                             }
                         }
 
+                        deleteRating();
                         removeFromClassesTaking();
                     }
                 } else {
@@ -144,9 +138,16 @@ public class DeleteAccountActivity extends AppCompatActivity {
             public void done(List<Ratings> objects, ParseException e) {
 
                 if (e == null) {
-                    Ratings currentUserRating = objects.get(0);
-                    currentUserRating.setUser(null);
 
+                    if (objects.size() > 0) {
+                        Ratings currentUserRating = objects.get(0);
+                        try {
+                            currentUserRating.delete();
+                            Log.i("DeleteAccount", "User's rating has been deleted");
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
                 } else {
                     e.printStackTrace();
                 }
