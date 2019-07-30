@@ -118,7 +118,7 @@ public class MapFragment extends Fragment {
 
                         marker.setTag(workshopItem);
 
-                        
+
 
                     }
                 } else {
@@ -128,6 +128,7 @@ public class MapFragment extends Fragment {
         });
 
     }
+
 
     private BitmapDescriptor setMarkerColor(BitmapDescriptor marker, String category) {
         switch (category){
@@ -160,13 +161,7 @@ public class MapFragment extends Fragment {
     }
 
 
-    public void onInfoWindowClick(Marker marker) {
-        Workshop workshop = (Workshop) marker.getTag();
-        final Intent profileDetailsIntent = new Intent(MapActivity.this, ClassDetailsActivity.class);
-        //pass in class that was selected
-        profileDetailsIntent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(workshop));
-        startActivity(profileDetailsIntent);
-    }
+
 
 
 
