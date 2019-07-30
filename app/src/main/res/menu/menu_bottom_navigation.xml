@@ -9,10 +9,10 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/classes_fragment"
+        android:id="@+id/maps_fragment"
         android:enabled="true"
-        android:icon="@drawable/ic_list"
-        android:title="Classes"
+        android:icon="@drawable/ic_map"
+        android:title="Maps"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/calendar_fragment"

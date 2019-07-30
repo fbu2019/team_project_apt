@@ -44,8 +44,8 @@ public class FragmentHandler extends AppCompatActivity {
                         fragment = new CalendarFragment();
                         break;
 
-                    case R.id.classes_fragment:
-                        fragment = new ClassesFragmentManager();
+                    case R.id.maps_fragment:
+                        fragment = new MapFragment();
                         break;
                     case R.id.user_profile_fragment:
                         fragment = new UserProfileFragment();
