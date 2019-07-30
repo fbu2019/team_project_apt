@@ -89,7 +89,7 @@ public class DeleteAccountActivity extends AppCompatActivity {
 
                             if (userRatings.size() > 0) {
 
-                                String userKey = currentUser.getUsername();
+                                String userKey = fbID;
 
                                 if (userRatings.containsKey(userKey) && userRatings.get(userKey) != null) {
                                     Log.e("DeleteAccount", "Userratings " + userRatings.get(userKey));
@@ -98,7 +98,12 @@ public class DeleteAccountActivity extends AppCompatActivity {
 
                                         currentRating.setSumRatings(currentRating.getSumRatings() - rating);
                                         currentRating.setNumRatings(currentRating.getNumRatings() - 1);
-                                        currentRating.setAverageRating(currentRating.getSumRatings() / currentRating.getNumRatings());
+
+                                        if(currentRating.getNumRatings()>0) {
+                                            currentRating.setAverageRating(currentRating.getSumRatings() / currentRating.getNumRatings());
+                                        } else {
+                                            currentRating.setAverageRating(0);
+                                        }
 
                                         userRatings.remove(currentUser.getUsername());
                                     }
