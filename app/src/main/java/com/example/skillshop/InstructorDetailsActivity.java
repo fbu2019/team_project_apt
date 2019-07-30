@@ -166,7 +166,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
                     if (usersWhoRated.get(instructorID) != null) {
 
                         int formerRating = usersWhoRated.get(instructorID);
-                        usersWhoRated.put(instructorID, (int) ratingValue);
+                        usersWhoRated.put(ParseUser.getCurrentUser().getUsername(), (int) ratingValue);
                         currentRating.put("userRatings", usersWhoRated);
 
                         currentRating.setSumRatings(currentSumOfRatings - formerRating + (int) ratingValue);
@@ -187,7 +187,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
                     } else {
 
-                        usersWhoRated.put(instructorID, (int) ratingValue);
+                        usersWhoRated.put(ParseUser.getCurrentUser().getUsername(), (int) ratingValue);
                         currentRating.put("userRatings", usersWhoRated);
 
                         currentRating.setNumRatings(currentNumberOfRatings + 1);

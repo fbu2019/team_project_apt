@@ -146,7 +146,7 @@ public class UserProfileFragment extends Fragment {
         // define manager to decide which fragment to display
         final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
-        BottomNavigationView topNavigationBar = view.findViewById(R.id.bottom_navigation);
+        BottomNavigationView topNavigationBar = view.findViewById(R.id.top_navigation);
         topNavigationBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -162,7 +162,7 @@ public class UserProfileFragment extends Fragment {
                     default: break;
                 }
                 // switch to selected fragment
-                fragmentManager.beginTransaction().replace(R.id.classes_take_teach, fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.classes_today, fragment).commit();
                 return true;
             }
         });

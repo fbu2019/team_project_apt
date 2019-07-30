@@ -38,6 +38,7 @@ public class CalendarFragment extends Fragment {
 
     ArrayList<Workshop> taking;
     ArrayList<Workshop> teaching;
+    ArrayList<Workshop> allClasses;
 
 
 
@@ -63,6 +64,8 @@ public class CalendarFragment extends Fragment {
 
 
         populateCalendarClassesTaking();
+        populateAllClasses();
+
 
         calendarView.setOnDayClickListener(new OnDayClickListener() {
             @Override
@@ -70,7 +73,14 @@ public class CalendarFragment extends Fragment {
 
 
                 if(eventDay.getImageDrawable() != null) {
-                    Intent eventsToday = new Intent(getContext(), DaysEventsActivity.class);
+                    Intent eventsToday = new Intent(getContext(), DayExploreActivity.class);
+                    Long time = eventDay.getCalendar().getTimeInMillis();
+                    eventsToday.putExtra("Date", time);
+                    startActivity(eventsToday);
+                }
+                else
+                {
+                    Intent eventsToday = new Intent(getContext(), DayExploreActivity.class);
                     Long time = eventDay.getCalendar().getTimeInMillis();
                     eventsToday.putExtra("Date", time);
                     startActivity(eventsToday);
@@ -81,6 +91,23 @@ public class CalendarFragment extends Fragment {
 
 
 
+    }
+    public void populateAllClasses()
+    {
+        Query parseQuery = new Query();
+        parseQuery.getAllClasses().withItems().byTimeOfClass();
+        parseQuery.findInBackground(new FindCallback<Workshop>() {
+            @Override
+            public void done(List<Workshop> objects, ParseException e) {
+                if (e == null) {
+                    allClasses = (ArrayList<Workshop>) objects;
+                    populateCalendarClassesTeaching();
+
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 
@@ -163,6 +190,17 @@ public class CalendarFragment extends Fragment {
             events.add(new EventDay(calendar, R.drawable.ic_teaching_note));
 
         }
+
+        for(Workshop wAll : allClasses)
+        {
+            Date teachingDate = wAll.getJavaDate();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(teachingDate);
+            events.add(new EventDay(calendar, R.drawable.ic_new_class));
+
+        }
+
+
         calendarView.setEvents(events);
 
     }
