@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.example.skillshop.AddUserPreferences;
 import com.example.skillshop.DeleteAccountActivity;
 import com.example.skillshop.LoginActivities.LoginActivity;
+import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesTakingFragment;
 import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesTeachingFragment;
@@ -35,9 +36,11 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -48,18 +51,21 @@ public class UserProfileFragment extends Fragment {
     public final static int AUTOCOMPLETE_REQUEST_CODE = 42;
     private final String apiKey = "AIzaSyARv5bJ1b1bnym8eUwPZlGm_7HN__WsbFE";
 
-    TextView tvUserName;
-    TextView tvRatingMessage;
-    ImageView ivProfilePic;
-    Button submitNewLocationButton;
-    Button addPreferencesButton;
-    Button mySkillsButton;
-    Button logoutButton;
-    Button deleteAccountButton;
-    RatingBar rbUserRating;
+    private TextView tvUserName;
+    private TextView tvRatingMessage;
+    private TextView tvNumberOfFollowers;
+    private ImageView ivProfilePic;
+    private Button submitNewLocationButton;
+    private Button addPreferencesButton;
+    private Button mySkillsButton;
+    private Button logoutButton;
+    private Button deleteAccountButton;
+    private RatingBar rbUserRating;
 
-    ParseGeoPoint location;
-    String locationName;
+    private ParseGeoPoint location;
+    private String locationName;
+
+    public int numberOfFollowers = 0;
 
     @Nullable
     @Override
@@ -70,9 +76,12 @@ public class UserProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
 
+
         tvUserName = view.findViewById(R.id.nameView);
         tvRatingMessage = view.findViewById(R.id.ratingMessage);
         tvRatingMessage = view.findViewById(R.id.ratingMessage);
+        tvNumberOfFollowers = view.findViewById(R.id.numberOfFollowers);
+        getNumFollowers(); //   sets view within method
         ivProfilePic = view.findViewById(R.id.profilePicture);
         rbUserRating = view.findViewById(R.id.instructorAverage);
         mySkillsButton = view.findViewById(R.id.btnMySkills);
@@ -82,7 +91,7 @@ public class UserProfileFragment extends Fragment {
 
         ParseUser user = ParseUser.getCurrentUser();
 
-        if(user!=null) {
+        if (user != null) {
             String locationName = (user.getString("locationName"));
             String profilePhotoUrl = user.getString("profilePicUrl");
 
@@ -135,11 +144,6 @@ public class UserProfileFragment extends Fragment {
 
         setupFragments(view);
 
-
-
-
-
-
     }
 
     private void setupFragments(View view) {
@@ -159,7 +163,8 @@ public class UserProfileFragment extends Fragment {
                     case R.id.teaching:
                         fragment = new ClassesTeachingFragment();
                         break;
-                    default: break;
+                    default:
+                        break;
                 }
                 // switch to selected fragment
                 fragmentManager.beginTransaction().replace(R.id.classes_today, fragment).commit();
@@ -199,7 +204,7 @@ public class UserProfileFragment extends Fragment {
             public void done(List<Ratings> objects, ParseException e) {
 
                 if (e == null) {
-                    if (objects != null && objects.size()>0){
+                    if (objects != null && objects.size() > 0) {
 
                         Ratings userRating = objects.get(0);
 
@@ -274,5 +279,40 @@ public class UserProfileFragment extends Fragment {
         Intent i = new Intent(getContext(), DeleteAccountActivity.class);
         startActivity(i);
         getActivity().finish();
+    }
+
+    private void getNumFollowers() {
+
+        ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+        userQuery.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> allUsers, ParseException e) {
+                if (e == null) {
+                    for (int i = 0; i < allUsers.size(); i++) {
+                        ParseUser userItem = allUsers.get(i);
+
+                        if (userItem != ParseUser.getCurrentUser()) {
+
+                            ArrayList<String> usersFollowing = (ArrayList<String>) userItem.get("friends");
+                            for (int j = 0; j < usersFollowing.size(); j++) {
+                                if (usersFollowing.get(j).equals(ParseUser.getCurrentUser().getObjectId())) {
+                                    numberOfFollowers++;
+                                }
+                            }
+                        }
+                    }
+
+                    if (numberOfFollowers == 1) {
+                        tvNumberOfFollowers.setText("1 follower");
+
+                    } else {
+                        tvNumberOfFollowers.setText(numberOfFollowers + " followers");
+                    }
+
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }

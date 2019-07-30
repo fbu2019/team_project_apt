@@ -46,9 +46,6 @@ public class ClassAttendeesActivity extends AppCompatActivity {
                 new LinearLayoutManager(this).getOrientation());
         rvUsers.addItemDecoration(dividerItemDecoration);
 
-
-
-
     }
 
     private void getStudentArray() {
