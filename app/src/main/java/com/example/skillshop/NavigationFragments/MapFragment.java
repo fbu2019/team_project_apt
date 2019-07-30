@@ -35,7 +35,7 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapFragment extends Fragment {
+public class MapFragment extends Fragment{
 
     protected ArrayList<Workshop> mWorkshops;
     private GoogleMap mMap;
@@ -63,10 +63,20 @@ public class MapFragment extends Fragment {
                         .build();
 
                 mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 10000, null);
+                mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                    @Override
+                    public void onInfoWindowClick(Marker marker) {
+                        Workshop workshop = (Workshop) marker.getTag();
+                        final Intent profileDetailsIntent = new Intent(getContext(), ClassDetailsActivity.class);
+                        //pass in class that was selected
+                        profileDetailsIntent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(workshop));
+                        startActivity(profileDetailsIntent);
 
+                    }
+                });
                 loadMap(mMap);
 
-        }
+            }
         });
 
 
@@ -95,7 +105,6 @@ public class MapFragment extends Fragment {
                     for (int i = 0; i < objects.size(); i++) {
                         Workshop workshopItem = objects.get(i);
                         mWorkshops.add(workshopItem);
-//                        addMarker(workshopItem);
 
                         // Define color of marker icon
                         ParseGeoPoint workshopLocation = workshopItem.getLocation();
@@ -118,7 +127,7 @@ public class MapFragment extends Fragment {
 
                         marker.setTag(workshopItem);
 
-                        
+
 
                     }
                 } else {
@@ -158,20 +167,5 @@ public class MapFragment extends Fragment {
         }
         return marker;
     }
-
-
-    public void onInfoWindowClick(Marker marker) {
-        Workshop workshop = (Workshop) marker.getTag();
-        final Intent profileDetailsIntent = new Intent(MapActivity.this, ClassDetailsActivity.class);
-        //pass in class that was selected
-        profileDetailsIntent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(workshop));
-        startActivity(profileDetailsIntent);
-    }
-
-
-
-
-
-
 
 }
