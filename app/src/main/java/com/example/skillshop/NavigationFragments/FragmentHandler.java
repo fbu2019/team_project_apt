@@ -9,14 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.example.skillshop.NavigationFragments.CalendarActivities.CalendarFragment;
-import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesFragmentManager;
 import com.example.skillshop.R;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-
-import org.parceler.Parcels;
 
 
 public class FragmentHandler extends AppCompatActivity {
@@ -31,7 +28,7 @@ public class FragmentHandler extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
 
         // define manager to decide which fragment to display
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.top_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
