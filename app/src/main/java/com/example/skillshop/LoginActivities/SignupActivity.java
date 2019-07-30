@@ -198,7 +198,9 @@ public class SignupActivity extends AppCompatActivity {
 
     private void linkUserRating(ParseUser user, Ratings userRating) {
 
+        //TODO - determine why not linking
         user.put("rating", userRating);
+
         user.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

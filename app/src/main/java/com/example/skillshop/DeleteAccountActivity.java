@@ -1,6 +1,7 @@
 package com.example.skillshop;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,10 +11,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.skillshop.ClassManipulationActivities.EditClassActivity;
+import com.example.skillshop.LoginActivities.LoginActivity;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.Models.Workshop;
 import com.facebook.login.LoginManager;
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -41,37 +44,19 @@ public class DeleteAccountActivity extends AppCompatActivity {
 
                 //retrieve and delete classes user is teaching , must remove all classes from each user
                // deleteRating();
-                Log.e("DeleteAccountActivity", "Reached here");
+                Log.i("DeleteAccountActivity", "Reached onClick");
                 deleteClassesTeaching();
-                Log.e("DeleteAccountActivity", "Below");
+                Log.i("DeleteAccountActivity", "Below");
                 removeFromClassesTaking();
-                Log.e("DeleteAccountActivity", "Below here");
+                Log.i("DeleteAccountActivity", "Below here");
 
-                /*
                 try {
                     removeUser();
-                    Log.e("DeleteAccountActivity", "Last");
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-
-                */
-
-
             }
         });
-
-        // remove rating
-        // remove classes teaching
-        // remove classes
-        // remove user from facebook
-        // delete parse user
-        // remove user from facebook
-
-        // RETRIEVE METHODS FROM EDIT CLASS ACTIVITY TO DELETE ALL CLASSES
-        // RETRIEVE METHODS FROM CLASSES TEACHING FRAGMENT TO RETRIEVE ALL CLASSES
-
-        //RETRIEVE METHODS FROM CLASSES TAKING FRAGMENT TO RETRIEVE ALL CLASSES
 
     }
 
@@ -171,11 +156,32 @@ public class DeleteAccountActivity extends AppCompatActivity {
     }
 
     private void removeUser() throws ParseException {
+        Log.e("DeleteAccount", "reached removeUser");
+
+        ParseUser user = ParseUser.getCurrentUser();
+        user.deleteInBackground(new DeleteCallback() {
+            @Override
+            public void done(com.parse.ParseException e) {
+                if (e == null) {
+                    Log.e("DeleteAccount", "Deleted user");
+                    //user deleted
+                } else {
+                    Log.e("DeleteAccount", "Failed to delete user");
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        Log.i("DeleteAccount", ParseUser.getCurrentUser().getUsername());
+
+        ParseUser.logOutInBackground();
+
         LoginManager.getInstance().logOut(); // logs user out of facebook TODO - look into actually deleting fb user info
-        ParseUser.logOut();
-        ParseUser.getCurrentUser().delete();
+        // Deletes user only the first time
+
+        Intent i = new Intent(DeleteAccountActivity.this, LoginActivity.class);
+        startActivity(i);
 
     }
-
 
 }
