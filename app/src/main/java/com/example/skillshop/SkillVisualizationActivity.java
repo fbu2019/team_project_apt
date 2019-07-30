@@ -90,6 +90,8 @@ public class SkillVisualizationActivity extends AppCompatActivity {
                                 polar.tooltip()
                                         .displayMode(TooltipDisplayMode.UNION);
 
+
+                                polar.palette(new String[] { "#0288d1", "#d4e157", "#ff6e40", "#f8bbd0" });
                                 anyChartView.setChart(polar);
 
                             } else {
