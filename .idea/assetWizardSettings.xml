@@ -35,7 +35,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material_design_icons/maps/ic_map_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_bookmark_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -58,9 +58,9 @@
                                   <option name="values">
                                     <map>
                                       <entry key="imageAsset" value="$USER_HOME$/Downloads/ok.png" />
-                                      <entry key="outputName" value="ic_map" />
-                                      <entry key="theme" value="HOLO_DARK" />
-                                      <entry key="themeColor" value="ff0ffb" />
+                                      <entry key="outputName" value="ic_teacher_chat" />
+                                      <entry key="theme" value="CUSTOM" />
+                                      <entry key="themeColor" value="17fffd" />
                                     </map>
                                   </option>
                                 </PersistentState>
