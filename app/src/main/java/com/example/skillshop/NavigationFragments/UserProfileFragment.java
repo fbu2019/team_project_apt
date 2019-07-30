@@ -142,7 +142,6 @@ public class UserProfileFragment extends Fragment {
                     case R.id.taking:
                         fragment = new ClassesTakingFragment();
                         break;
-
                     case R.id.teaching:
                         fragment = new ClassesTeachingFragment();
                         break;
