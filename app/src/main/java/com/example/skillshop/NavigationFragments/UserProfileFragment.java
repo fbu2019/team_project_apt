@@ -25,6 +25,7 @@ import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesTakingFragment;
 import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesTeachingFragment;
 import com.example.skillshop.R;
+import com.example.skillshop.SkillVisualizationActivity;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
@@ -52,6 +53,7 @@ public class UserProfileFragment extends Fragment {
     ImageView ivProfilePic;
     Button submitNewLocationButton;
     Button addPreferencesButton;
+    Button mySkillsButton;
     Button logoutButton;
     Button deleteAccountButton;
     RatingBar rbUserRating;
@@ -73,6 +75,7 @@ public class UserProfileFragment extends Fragment {
         tvRatingMessage = view.findViewById(R.id.ratingMessage);
         ivProfilePic = view.findViewById(R.id.profilePicture);
         rbUserRating = view.findViewById(R.id.instructorAverage);
+        mySkillsButton = view.findViewById(R.id.btnMySkills);
         rbUserRating.setIsIndicator(true);
         rbUserRating.setNumStars(5);
 
@@ -119,6 +122,14 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 deleteAccount();
+            }
+        });
+
+        mySkillsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startMySkillsActivity = new Intent(getContext(), SkillVisualizationActivity.class);
+                startActivity(startMySkillsActivity);
             }
         });
 

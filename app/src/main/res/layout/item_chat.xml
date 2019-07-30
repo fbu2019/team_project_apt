@@ -10,10 +10,9 @@
         android:id="@+id/ivProfileOther"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:contentDescription="@string/project_id"
-        android:src="@mipmap/ic_launcher"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,12 +38,28 @@
         android:id="@+id/ivProfileMe"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:layout_marginTop="8dp"
 
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/all_circle_white_bg"
         android:contentDescription="@string/profile_me"
-        android:src="@mipmap/ic_launcher"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivTeacherMe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/ivProfileMe"
+        app:layout_constraintTop_toTopOf="@+id/ivProfileMe"
+        app:srcCompat="@drawable/ic_teacher_chat" />
+
+    <ImageView
+        android:id="@+id/ivTeacherOther"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/ivProfileOther"
+        app:layout_constraintTop_toTopOf="@+id/ivProfileOther"
+        app:srcCompat="@drawable/ic_teacher_chat" />
+
 </android.support.constraint.ConstraintLayout>

@@ -57,13 +57,40 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         Message message = mMessages.get(position);
         final boolean isMe = message.getUserId() != null && message.getUserId().equals(mUserId);
 
+
+
         if (isMe) {
+
             holder.imageMe.setVisibility(View.VISIBLE);
+
+
+            if(message.getTeacher().equals(ParseUser.getCurrentUser().getObjectId()))
+            {
+                holder.ivTeacherMe.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                holder.ivTeacherMe.setVisibility(View.GONE);
+            }
+
             holder.imageOther.setVisibility(View.GONE);
+            holder.ivTeacherOther.setVisibility(View.GONE);
             holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT);
         } else {
             holder.imageOther.setVisibility(View.VISIBLE);
+
+            if(message.getTeacher().equals(message.getUserId()))
+            {
+                holder.ivTeacherOther.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                holder.ivTeacherOther.setVisibility(View.GONE);
+            }
+
+            holder.ivTeacherOther.setVisibility(View.VISIBLE);
             holder.imageMe.setVisibility(View.GONE);
+            holder.ivTeacherMe.setVisibility(View.GONE);
             holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
         }
 
@@ -80,15 +107,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
         ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
         query.whereEqualTo("objectId",id);
-
-
-
         // This is equivalent to a SELECT query with SQL
         query.findInBackground(new FindCallback<ParseUser>() {
             public void done(List<ParseUser> users, ParseException e) {
                 if (e == null) {
                     String url = users.get(0).getString("profilePicUrl");
-
+                    ParseUser user = users.get(0);
                     Glide.with(mContext)
                             .load(url)
                             .error(R.drawable.profile)
@@ -113,7 +137,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageOther;
+        ImageView ivTeacherOther;
         ImageView imageMe;
+        ImageView ivTeacherMe;
         TextView body;
 
         public ViewHolder(View itemView) {
@@ -121,6 +147,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             imageOther = (ImageView)itemView.findViewById(R.id.ivProfileOther);
             imageMe = (ImageView)itemView.findViewById(R.id.ivProfileMe);
             body = (TextView)itemView.findViewById(R.id.tvBody);
+
+            ivTeacherMe = itemView.findViewById(R.id.ivTeacherMe);
+            ivTeacherOther = itemView.findViewById(R.id.ivTeacherOther);
         }
     }
 }

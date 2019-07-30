@@ -111,6 +111,7 @@ public class ChatActivity extends AppCompatActivity {
                     message.setUserId(ParseUser.getCurrentUser().getObjectId());
                     message.setName(ParseUser.getCurrentUser().get("firstName").toString());
                     message.setWorkshop(detailedWorkshop.getObjectId());
+                    message.setTeacher(detailedWorkshop.getTeacher().getObjectId());
 
                     message.saveInBackground(new SaveCallback() {
                         @Override
@@ -118,6 +119,11 @@ public class ChatActivity extends AppCompatActivity {
                             refreshMessages();
                             etMessage.setText(null);
                             rvChat.scrollToPosition(mMessages.size()-1);
+
+                            if(e != null)
+                            {
+                                e.printStackTrace();
+                            }
                         }
                     });
                 }
