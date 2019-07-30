@@ -114,7 +114,8 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if ((data != null) && (requestCode == AUTOCOMPLETE_REQUEST_CODE) && (resultCode == RESULT_OK)) {
+        if ((data != null) && (requestCode == AUTOCOMPLETE_REQUEST_CODE) && (resultCode == RESULT_OK) ) {
+
             Place place = Autocomplete.getPlaceFromIntent(data);
             locationName = place.getName();
             LatLng latLng = place.getLatLng();
@@ -198,7 +199,9 @@ public class SignupActivity extends AppCompatActivity {
 
     private void linkUserRating(ParseUser user, Ratings userRating) {
 
+        //TODO - determine why not linking
         user.put("rating", userRating);
+
         user.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

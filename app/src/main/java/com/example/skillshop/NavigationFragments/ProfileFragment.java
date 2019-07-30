@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.skillshop.AddUserPreferences;
@@ -70,11 +71,14 @@ public class ProfileFragment extends Fragment {
         rbUserRating.setIsIndicator(true);
         rbUserRating.setNumStars(5);
 
+
         ParseUser user = ParseUser.getCurrentUser();
         if(user!=null) {
             String locationName = (user.getString("locationName")); // todo: reinstate after error solved
             String profilePhotoUrl = user.getString("profilePicUrl");
             displayUserInfo(view, locationName, profilePhotoUrl);
+        } else {
+            Toast.makeText(getContext(), "user profile is null", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -106,7 +110,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        deleteAccountButton = view.findViewById(R.id.deleteAccount);
+        deleteAccountButton = view.findViewById(R.id.deleteAccountBUTTON);
         deleteAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,21 +142,27 @@ public class ProfileFragment extends Fragment {
 
         Ratings.Query ratingParseQuery = new Ratings.Query();
         ratingParseQuery.getAllRatings().whereEqualTo("user", ParseUser.getCurrentUser());
+
+
         ratingParseQuery.findInBackground(new FindCallback<Ratings>() {
             @Override
             public void done(List<Ratings> objects, ParseException e) {
 
                 if (e == null) {
-                    Ratings userRating = objects.get(0);
 
-                    if (userRating.getNumRatings() == 0) {
-                        tvRatingMessage.setText("You have not been rated as an instructor.");
-                    } else if (userRating.getNumRatings() == 1) {
-                        tvRatingMessage.setText( "You have been rated 1 time");
-                        rbUserRating.setRating((int) userRating.getAverageRating());
-                    } else {
-                        tvRatingMessage.setText("You have been rated " + userRating.getAverageRating() + "times.");
-                        rbUserRating.setRating((int) userRating.getAverageRating());
+                    if(objects != null) {
+                        Ratings userRating = objects.get(0);
+
+                        if (userRating.getNumRatings() == 0) {
+                            tvRatingMessage.setText("You have not been rated as an instructor.");
+                        } else if (userRating.getNumRatings() == 1) {
+                            tvRatingMessage.setText("You have been rated 1 time");
+                            rbUserRating.setRating((int) userRating.getAverageRating());
+                        } else {
+                            tvRatingMessage.setText("You have been rated " + userRating.getAverageRating() + "times.");
+                            rbUserRating.setRating((int) userRating.getAverageRating());
+                        }
+
                     }
 
                 } else {
@@ -213,18 +223,6 @@ public class ProfileFragment extends Fragment {
 
         Intent i = new Intent(getContext(), DeleteAccountActivity.class);
         startActivity(i);
-
-        // finish();
-        //TODO - toast or WARNING activity
-        // remove user from facebook
-        // remove classes
-        // remove rating
-        // delete parse user
-
-        // RETRIEVE METHODS FROM EDIT CLASS ACTIVITY TO DELETE ALL CLASSES
-        // RETRIEVE METHODS FROM CLASSES TEACHING FRAGMENT TO RETRIEVE ALL CLASSES
-
-        //RETRIEVE METHODS FROM CLASSES TAKING FRAGMENT TO RETRIEVE ALL CLASSES
 
     }
 
