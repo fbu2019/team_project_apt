@@ -150,7 +150,7 @@ public class ProfileFragment extends Fragment {
 
                 if (e == null) {
 
-                    if(objects != null) {
+                    if(objects != null && objects.size()>0) {
                         Ratings userRating = objects.get(0);
 
                         if (userRating.getNumRatings() == 0) {
