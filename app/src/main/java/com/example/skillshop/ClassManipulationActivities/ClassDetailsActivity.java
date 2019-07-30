@@ -113,8 +113,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
                 setUpChat();
             }
 
-
-
         }
     }
 
@@ -127,7 +125,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent chatIntent = new Intent(ClassDetailsActivity.this, ChatActivity.class);
-
 
                 //pass in class that was selected
                 chatIntent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(detailedWorkshop));

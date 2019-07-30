@@ -293,19 +293,13 @@ public class UserProfileFragment extends Fragment {
 
                         if (userItem != ParseUser.getCurrentUser()) {
 
-                            Log.i("UserProfile", "also here");
-
                             ArrayList<String> usersFollowing = (ArrayList<String>) userItem.get("friends");
-
                             for (int j = 0; j < usersFollowing.size(); j++) {
                                 if (usersFollowing.get(j).equals(ParseUser.getCurrentUser().getObjectId())) {
                                     numberOfFollowers++;
                                 }
-
                             }
-
                         }
-
                     }
 
                     if (numberOfFollowers == 1) {

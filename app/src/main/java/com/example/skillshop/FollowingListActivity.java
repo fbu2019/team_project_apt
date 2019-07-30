@@ -46,7 +46,6 @@ public class FollowingListActivity extends AppCompatActivity {
     }
 
 
-
     private void getStudentArray() {
         ArrayList<String> following = (ArrayList<String>) ParseUser.getCurrentUser().get("friends");
 

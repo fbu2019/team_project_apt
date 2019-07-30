@@ -5,6 +5,7 @@ import org.parceler.Parcels;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -16,9 +17,11 @@ import com.example.skillshop.Models.Workshop;
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,11 +33,15 @@ public class InstructorDetailsActivity extends AppCompatActivity {
     private TextView tvNotYetRated;
     private TextView tvNumRatings;
     private TextView tvUserProvidedRating;
+    private TextView tvNumberOfFollowers;
+    private Button followInstructorButton;
     private RatingBar rbInstructorAverage;
     private RatingBar rbUserRating;
 
     private String profilePhotoUrl;
     float currentRatingAverage;
+
+    public int numberOfFollowers = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +52,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         tvInstructorName = findViewById(R.id.instructorName);
         tvInstructorName.setText(detailedWorkshop.getTeacher().getString("firstName") + " " + detailedWorkshop.getTeacher().getString("lastName"));
 
+        setNumFollowers();
         loadProfilePicture();
         initRatingBar();
     }
@@ -131,7 +139,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
                         rbInstructorAverage.setRating(currentRatingAverage);
                         tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated by one user.");
 
-                    } else if (currentNumberOfRatings > 1){
+                    } else if (currentNumberOfRatings > 1) {
 
                         rbInstructorAverage.setRating(currentRatingAverage);
                         tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated by " + currentNumberOfRatings + " users.");
@@ -142,7 +150,6 @@ public class InstructorDetailsActivity extends AppCompatActivity {
                 }
             }
         });
-
 
     }
 
@@ -208,7 +215,6 @@ public class InstructorDetailsActivity extends AppCompatActivity {
                         }
                     }
 
-
                     currentRating.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
@@ -233,7 +239,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
     }
 
-    private boolean checkIfRated(String userID) {
+    private boolean checkIfRated(String userID) { //    todo - see if necessary then delete if not
 
         final Boolean[] answer = {false};
 
@@ -260,6 +266,43 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         });
 
         return answer[0];
+    }
+
+    private void setNumFollowers() {
+
+        tvNumberOfFollowers = findViewById(R.id.numberOfFollowers);
+
+        ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+        userQuery.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> allUsers, ParseException e) {
+                if (e == null) {
+                    for (int i = 0; i < allUsers.size(); i++) {
+                        ParseUser userItem = allUsers.get(i);
+
+                        if (userItem != detailedWorkshop.getTeacher()) {
+
+                            ArrayList<String> usersFollowing = (ArrayList<String>) userItem.get("friends");
+                            for (int j = 0; j < usersFollowing.size(); j++) {
+                                if (usersFollowing.get(j).equals(detailedWorkshop.getTeacher().getObjectId())) {
+                                    numberOfFollowers++;
+                                }
+                            }
+                        }
+                    }
+
+                    if (numberOfFollowers == 1) {
+                        tvNumberOfFollowers.setText("1 follower");
+
+                    } else {
+                        tvNumberOfFollowers.setText(numberOfFollowers + " followers");
+                    }
+
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
 
