@@ -41,6 +41,7 @@ public class DeleteAccountActivity extends AppCompatActivity {
 
     FragmentManager fragmentManager;
     private ParseUser currentUser;
+    private String fbID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,9 @@ public class DeleteAccountActivity extends AppCompatActivity {
 
 
         fragmentManager = getSupportFragmentManager();
+
         currentUser = ParseUser.getCurrentUser();
+        fbID = currentUser.getUsername();
 
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,7 +241,7 @@ public class DeleteAccountActivity extends AppCompatActivity {
     private void removeUser() throws ParseException {
         Log.e("DeleteAccount", "reached removeUser");
 
-        ParseUser user = ParseUser.getCurrentUser();
+        ParseUser user = ParseUser.logIn(fbID,fbID);
         Log.i("DeleteAccount", ParseUser.getCurrentUser().getUsername());
 
         user.deleteInBackground(new DeleteCallback() {
