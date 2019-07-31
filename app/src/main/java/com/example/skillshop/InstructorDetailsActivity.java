@@ -315,6 +315,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
                         currentRating.put("userRatings", usersWhoRated);
 
                         currentRating.setNumRatings(currentNumberOfRatings + 1);
+                        currentNumberOfRatings++; //used to update text views before rating is savedInBackground
                         currentRating.setSumRatings(currentSumOfRatings + (int) ratingValue);
 
                         int avgRating = currentRating.getSumRatings() / currentRating.getNumRatings();

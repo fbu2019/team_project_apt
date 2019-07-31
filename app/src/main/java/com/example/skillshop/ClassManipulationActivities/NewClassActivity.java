@@ -30,6 +30,7 @@ import com.example.skillshop.Models.Workshop;
 
 import com.example.skillshop.NavigationFragments.FragmentHandler;
 import com.example.skillshop.R;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -37,6 +38,7 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
@@ -229,6 +231,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
 
     private void postWorkshop() {
 
+        String category = spinCategory.getSelectedItem().toString();
 
         try {
 
@@ -247,7 +250,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
 
             newClass.setCost(Double.parseDouble(etCost.getText().toString()));
 
-            newClass.setCategory(spinCategory.getSelectedItem().toString());
+            newClass.setCategory(category);
 
             newClass.setTeacher(ParseUser.getCurrentUser());
 
@@ -265,6 +268,21 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
                 public void done(ParseException e) {
                     if (e == null) {
                         Toast.makeText(NewClassActivity.this, "Class was made", Toast.LENGTH_SHORT).show();
+                        ParseUser currentUser = ParseUser.getCurrentUser();
+                        ArrayList<Integer> skillsData = (ArrayList<Integer>) currentUser.get("skillsData");
+                        skillsData = updateSkillsArray(skillsData, category);
+
+                        currentUser.put("skillsData", skillsData);
+                        currentUser.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null){
+                                    Log.i("NewClassActivity", "SkillsData array successfully saved");
+                                }else{
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
                         finish();
 
                     } else {
@@ -283,6 +301,38 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
             Toast.makeText(NewClassActivity.this, "One or more items were not filled in for this class to be made", Toast.LENGTH_SHORT).show();
         }
 
+
+
+
+    }
+
+    private ArrayList<Integer> updateSkillsArray(ArrayList<Integer> skillsData, String category) {
+        switch (category){
+            case ("Culinary"): {
+                skillsData.set(0, skillsData.get(0) + 1);
+                break;
+            }
+            case ("Education"): {
+               skillsData.set(1, skillsData.get(1) + 1);
+                break;
+            }
+            case ("Fitness"): {
+                skillsData.set(2, skillsData.get(2) + 1);
+                break;
+            }
+            case ("Arts/Crafts"): {
+                skillsData.set(3, skillsData.get(3) + 1);
+                break;
+            }
+            case ("Other"): {
+                skillsData.set(4, skillsData.get(4) + 1);
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+        return skillsData;
     }
 
 

@@ -43,7 +43,9 @@ public class FragmentHandler extends AppCompatActivity {
                     case R.id.calendar_fragment:
                         fragment = new CalendarFragment();
                         break;
-
+                    case R.id.compose_fragment:
+                        fragment = new ComposeFragment();
+                        break;
                     case R.id.maps_fragment:
                         fragment = new MapFragment();
                         break;
@@ -60,7 +62,6 @@ public class FragmentHandler extends AppCompatActivity {
         });
         // default fragment in home fragment
         bottomNavigationView.setSelectedItemId(R.id.home_fragment);
-//        updateFirebaseToken();
 
 
     }
