@@ -8,6 +8,7 @@ import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.Polar;
+import com.anychart.core.polar.series.Column;
 import com.anychart.data.Mapping;
 import com.anychart.enums.PolarSeriesType;
 import com.anychart.data.Set;
@@ -16,6 +17,7 @@ import com.anychart.enums.ScaleStackMode;
 import com.anychart.enums.ScaleTypes;
 import com.anychart.enums.TooltipDisplayMode;
 import com.anychart.scales.Linear;
+import com.anychart.scales.OrdinalColor;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Workshop;
 import com.parse.FindCallback;
@@ -71,16 +73,30 @@ public class SkillVisualizationActivity extends AppCompatActivity {
                                 Mapping series1Data = set.mapAs("{ x: 'x', value: 'value' }");
                                 Mapping series2Data = set.mapAs("{ x: 'x', value: 'value2' }");
 
-                                polar.column(series1Data);
+                              /*  OrdinalColor scaleBarColorScale = OrdinalColor.instantiate();
+                                scaleBarColorScale.ranges(new String[]{
+                                        "{ from: 0, to: 1, color: ['red 0.5'] }",
+                                        "{ from: 1, to: 3, color: ['yellow 0.5'] }",
+                                        "{ from: 3, to: 7, color: ['green 0.5'] }",
+                                        "{ from: 7, to: 8, color: ['yellow 0.5'] }",
+                                        "{ from: 8, to: 10, color: ['red 0.5'] }"
+                                });*/
+                              //  Column series1 = polar.column(series1Data);
 
+                             //   series1.colorScale(scaleBarColorScale);
+                            //    Column series2 = polar.column(series2Data);
+                               // series2.colorScale(scaleBarColorScale);
+                                polar.column(series1Data);
                                 polar.column(series2Data);
 
-
+                                // set the inner radius
+                                polar.innerRadius(50);
                                 polar.title("Skill Graph");
 
                                 polar.sortPointsByX(true)
                                         .defaultSeriesType(PolarSeriesType.COLUMN)
                                         .yAxis(false)
+                                        .padding("20")
                                         .xScale(ScaleTypes.ORDINAL);
 
                                 polar.title().margin().bottom(20d);
@@ -90,8 +106,6 @@ public class SkillVisualizationActivity extends AppCompatActivity {
                                 polar.tooltip()
                                         .displayMode(TooltipDisplayMode.UNION);
 
-
-                                polar.palette(new String[] { "#0288d1", "#d4e157", "#ff6e40", "#f8bbd0" });
                                 anyChartView.setChart(polar);
 
                             } else {
