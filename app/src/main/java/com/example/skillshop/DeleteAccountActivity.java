@@ -96,6 +96,7 @@ public class DeleteAccountActivity extends AppCompatActivity {
                                     if (userRatings.get(userKey) > 0) {
                                         int rating = userRatings.get(userKey);
 
+                                        //TODO - fix this error
                                         currentRating.setSumRatings(currentRating.getSumRatings() - rating);
                                         currentRating.setNumRatings(currentRating.getNumRatings() - 1);
 

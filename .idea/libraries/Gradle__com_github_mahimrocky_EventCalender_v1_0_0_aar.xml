@@ -1,8 +1,13 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.mahimrocky:EventCalender:v1.0.0@aar">
     <CLASSES>
+<<<<<<< HEAD
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6b002777650d3c447c88fbfd811255d1/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6b002777650d3c447c88fbfd811255d1/res" />
+=======
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/cb6dee3e369842589fbfa5a5ef95de1e/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/cb6dee3e369842589fbfa5a5ef95de1e/jars/classes.jar!/" />
+>>>>>>> 552447c125a587a1df4f6fc7fec2c46fd4560569
     </CLASSES>
     <JAVADOC />
     <SOURCES>
