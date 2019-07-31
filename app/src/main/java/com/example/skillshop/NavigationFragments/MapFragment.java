@@ -58,11 +58,12 @@ public class MapFragment extends Fragment{
                 CameraPosition googlePlex = CameraPosition.builder()
                         .target(new LatLng(37.4530,-122.1817))
                         .zoom(7)
+
                         .bearing(0)
                         .tilt(45)
                         .build();
 
-                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 10000, null);
+                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 2000, null);
                 mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                     @Override
                     public void onInfoWindowClick(Marker marker) {
