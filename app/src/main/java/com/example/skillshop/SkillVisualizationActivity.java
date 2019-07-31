@@ -21,7 +21,9 @@ import com.anychart.scales.OrdinalColor;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Workshop;
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,35 +45,20 @@ public class SkillVisualizationActivity extends AppCompatActivity {
 
         List<DataEntry> data = new ArrayList<>();
 
-        final int[] check = {0};
-        Query parseQueryTaking = new Query();
-        parseQueryTaking.getClassesTaking();
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        ArrayList<Integer> skillsData = (ArrayList<Integer>) currentUser.get("skillsData");
 
-        parseQueryTaking.findInBackground(new FindCallback<Workshop>() {
-            @Override
-            public void done(List<Workshop> takingWorkshops, ParseException e) {
-                if (e == null) {
-                   takingCategories[0] = countCategories(takingWorkshops);
+        data.add(new CustomDataEntry("Culinary", skillsData.get(0),  skillsData.get(5)));
+        data.add(new CustomDataEntry("Education",  skillsData.get(1),  skillsData.get(6)));
+        data.add(new CustomDataEntry("Fitness",  skillsData.get(2),  skillsData.get(7)));
+        data.add(new CustomDataEntry("Arts/Crafts",  skillsData.get(3),  skillsData.get(8)));
+        data.add(new CustomDataEntry("Other",  skillsData.get(4),  skillsData.get(9)));
 
 
-                    Query parseQueryTeaching = new Query();
-                    parseQueryTeaching.getClassesTeaching();
-
-                    parseQueryTeaching.findInBackground(new FindCallback<Workshop>() {
-                        @Override
-                        public void done(List<Workshop> teachingWorkshops, ParseException e) {
-                            if (e == null) {
-                                teachingCategories[0] = countCategories(teachingWorkshops);
-
-                                data.add(new CustomDataEntry("Culinary", teachingCategories[0][0], takingCategories[0][0]));
-                                data.add(new CustomDataEntry("Education", teachingCategories[0][1], takingCategories[0][1]));
-                                data.add(new CustomDataEntry("Fitness", teachingCategories[0][2], takingCategories[0][2]));
-                                data.add(new CustomDataEntry("Arts/Crafts", teachingCategories[0][3], takingCategories[0][3]));
-                                data.add(new CustomDataEntry("Other", teachingCategories[0][4], takingCategories[0][4]));
-                                Set set = Set.instantiate();
-                                set.data(data);
-                                Mapping series1Data = set.mapAs("{ x: 'x', value: 'value' }");
-                                Mapping series2Data = set.mapAs("{ x: 'x', value: 'value2' }");
+        Set set = Set.instantiate();
+        set.data(data);
+        Mapping series1Data = set.mapAs("{ x: 'x', value: 'value' }");
+        Mapping series2Data = set.mapAs("{ x: 'x', value: 'value2' }");
 
                               /*  OrdinalColor scaleBarColorScale = OrdinalColor.instantiate();
                                 scaleBarColorScale.ranges(new String[]{
@@ -81,46 +68,32 @@ public class SkillVisualizationActivity extends AppCompatActivity {
                                         "{ from: 7, to: 8, color: ['yellow 0.5'] }",
                                         "{ from: 8, to: 10, color: ['red 0.5'] }"
                                 });*/
-                              //  Column series1 = polar.column(series1Data);
+        //  Column series1 = polar.column(series1Data);
 
-                             //   series1.colorScale(scaleBarColorScale);
-                            //    Column series2 = polar.column(series2Data);
-                               // series2.colorScale(scaleBarColorScale);
-                                polar.column(series1Data);
-                                polar.column(series2Data);
+        //   series1.colorScale(scaleBarColorScale);
+        //    Column series2 = polar.column(series2Data);
+        // series2.colorScale(scaleBarColorScale);
+        polar.column(series1Data);
+        polar.column(series2Data);
 
-                                // set the inner radius
-                                polar.innerRadius(50);
-                                polar.title("Skill Graph");
+        // set the inner radius
+        polar.innerRadius(50);
+        polar.title("Skill Graph");
 
-                                polar.sortPointsByX(true)
-                                        .defaultSeriesType(PolarSeriesType.COLUMN)
-                                        .yAxis(false)
-                                        .padding("20")
-                                        .xScale(ScaleTypes.ORDINAL);
+        polar.sortPointsByX(true)
+                .defaultSeriesType(PolarSeriesType.COLUMN)
+                .yAxis(false)
+                .padding("20")
+                .xScale(ScaleTypes.ORDINAL);
 
-                                polar.title().margin().bottom(20d);
+        polar.title().margin().bottom(20d);
 
-                                ((Linear) polar.yScale(Linear.class)).stackMode(ScaleStackMode.VALUE);
+        ((Linear) polar.yScale(Linear.class)).stackMode(ScaleStackMode.VALUE);
 
-                                polar.tooltip()
-                                        .displayMode(TooltipDisplayMode.UNION);
+        polar.tooltip()
+                .displayMode(TooltipDisplayMode.UNION);
 
-                                anyChartView.setChart(polar);
-
-                            } else {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-
-
-
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
+        anyChartView.setChart(polar);
 
 
 

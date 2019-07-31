@@ -290,15 +290,24 @@ public class ClassDetailsActivity extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
+                    Boolean increment = true;
 
                     if(enroll) {
                         Toast.makeText(ClassDetailsActivity.this, "You dropped this class", Toast.LENGTH_SHORT).show();
+                        increment = false;
+                        getAndSetSkillsArray(detailedWorkshop.getCategory(), increment);
                         Intent i = new Intent(ClassDetailsActivity.this, FragmentHandler.class);
+
                         startActivity(i);
                     }
                     else
                     {
+
                         Toast.makeText(ClassDetailsActivity.this, "You signed up for this class", Toast.LENGTH_SHORT).show();
+                        increment = true;
+                        getAndSetSkillsArray(detailedWorkshop.getCategory(), increment);
+
+
                         Intent i = new Intent(ClassDetailsActivity.this, FragmentHandler.class);
                         startActivity(i);
                     }
@@ -308,4 +317,74 @@ public class ClassDetailsActivity extends AppCompatActivity {
             }
         });
     }
+
+    private ArrayList<Integer> updateSkillsArray(ArrayList<Integer> skillsData, String category, Boolean increment) {
+        switch (category){
+            case ("Culinary"): {
+                if (increment){
+                    skillsData.set(5, skillsData.get(5) + 1);
+                }else{
+                    skillsData.set(5, skillsData.get(5) - 1);
+                }
+                break;
+
+            }
+            case ("Education"): {
+                if (increment){
+                    skillsData.set(6, skillsData.get(6) + 1);
+                }else{
+                    skillsData.set(6, skillsData.get(6) - 1);
+                }
+                break;
+            }
+            case ("Fitness"): {
+                if (increment){
+                    skillsData.set(7, skillsData.get(7) + 1);
+                }else{
+                    skillsData.set(7, skillsData.get(7) - 1);
+                }
+                break;
+            }
+            case ("Arts/Crafts"): {
+                if (increment){
+                    skillsData.set(8, skillsData.get(8) + 1);
+                }else{
+                    skillsData.set(8, skillsData.get(8) - 1);
+                }
+                break;
+            }
+            case ("Other"): {
+                if (increment){
+                    skillsData.set(9, skillsData.get(9) + 1);
+                }else{
+                    skillsData.set(9, skillsData.get(9) - 1);
+                }
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+        return skillsData;
+    }
+
+
+    private void getAndSetSkillsArray(String category, Boolean increment) {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        ArrayList<Integer> skillsData = (ArrayList<Integer>) currentUser.get("skillsData");
+        skillsData = updateSkillsArray(skillsData, category, increment);
+
+        currentUser.put("skillsData", skillsData);
+        currentUser.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null){
+                    Log.i("ClassDetailsActivity", "SkillsData array successfully saved");
+                }else{
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
 }

@@ -100,12 +100,13 @@ dependencies {
     implementation "com.google.android.gms:play-services-maps:$googlePlayVersion"
 
     implementation "com.google.android.gms:play-services-location:$googlePlayVersion"
+
     implementation "com.github.hotchemi:permissionsdispatcher:$permissionDispatcherVersion"
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:$permissionDispatcherVersion"
 
     implementation 'jp.wasabeef:glide-transformations:2.0.2'
-    implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'
 
+    implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'
 
 
     //added for maps
