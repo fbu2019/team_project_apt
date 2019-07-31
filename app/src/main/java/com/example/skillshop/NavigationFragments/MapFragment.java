@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.skillshop.Adapters.CustomWindowAdapter;
 import com.example.skillshop.ClassManipulationActivities.ClassDetailsActivity;
 import com.example.skillshop.MapActivity;
 import com.example.skillshop.Models.Query;
@@ -67,6 +68,7 @@ public class MapFragment extends Fragment{
                         .build();
 
                 mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 2000, null);
+                mMap.setInfoWindowAdapter(new CustomWindowAdapter(getLayoutInflater()));
                 mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                     @Override
                     public void onInfoWindowClick(Marker marker) {
