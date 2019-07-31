@@ -55,6 +55,7 @@ public class UserProfileFragment extends Fragment {
     private TextView tvUserName;
     private TextView tvRatingMessage;
     private TextView tvNumberOfFollowers;
+    private TextView tvNumberFollowing;
     private ImageView ivProfilePic;
     private Button submitNewLocationButton;
     private Button addPreferencesButton;
@@ -77,18 +78,18 @@ public class UserProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
 
-
         tvUserName = view.findViewById(R.id.nameView);
         tvRatingMessage = view.findViewById(R.id.ratingMessage);
         tvRatingMessage = view.findViewById(R.id.ratingMessage);
         tvNumberOfFollowers = view.findViewById(R.id.numberOfFollowers);
-        getNumFollowers(); //   sets view within method
+        setNumFollowers(); //   sets view within method
+        tvNumberFollowing = view.findViewById(R.id.numberFollowing);
+        setNumFollowing();
         ivProfilePic = view.findViewById(R.id.profilePicture);
         rbUserRating = view.findViewById(R.id.instructorAverage);
         mySkillsButton = view.findViewById(R.id.btnMySkills);
         rbUserRating.setIsIndicator(true);
         rbUserRating.setNumStars(5);
-
 
         ParseUser user = ParseUser.getCurrentUser();
 
@@ -282,7 +283,7 @@ public class UserProfileFragment extends Fragment {
         getActivity().finish();
     }
 
-    private void getNumFollowers() {
+    private void setNumFollowers() {
 
         ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
         userQuery.findInBackground(new FindCallback<ParseUser>() {
@@ -315,5 +316,14 @@ public class UserProfileFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void setNumFollowing() {
+
+        ParseUser user = ParseUser.getCurrentUser();
+        ArrayList <String> following = (ArrayList<String>) user.get("friends");
+        int numberFollowing = following.size();
+        tvNumberFollowing.setText("Following "+numberFollowing);
+
     }
 }

@@ -45,6 +45,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
 
     //TODO - make sure user's rating only impacts once
+    //TODO - maks sure follow/unfollow correctly stores to database
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
