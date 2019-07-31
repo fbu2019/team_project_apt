@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +33,10 @@ import com.parse.ParseGeoPoint;
 
 import org.parceler.Parcels;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MapFragment extends Fragment{
 
@@ -57,7 +60,7 @@ public class MapFragment extends Fragment{
 
                 CameraPosition googlePlex = CameraPosition.builder()
                         .target(new LatLng(37.4530,-122.1817))
-                        .zoom(7)
+                        .zoom(10)
 
                         .bearing(0)
                         .tilt(45)
@@ -123,7 +126,7 @@ public class MapFragment extends Fragment{
                                 .position(point)
                                 .icon(defaultMarker)
                                 .title(workshopItem.getName())
-                                .snippet(workshopItem.getDate())
+                                .snippet(getRelativeTimeAgo(workshopItem.getDate()))
                         );
 
                         marker.setTag(workshopItem);
@@ -169,6 +172,24 @@ public class MapFragment extends Fragment{
         }
         return marker;
     }
+
+    public static String getRelativeTimeAgo(String rawJsonDate) {
+        String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+        SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
+        sf.setLenient(true);
+
+        String relativeDate = "";
+        try {
+            long dateMillis = sf.parse(rawJsonDate).getTime();
+            relativeDate = DateUtils.getRelativeTimeSpanString(dateMillis,
+                    System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+
+        return relativeDate;
+    }
+
 
 
 }
