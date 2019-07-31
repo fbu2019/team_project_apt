@@ -49,8 +49,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         return viewHolder;
     }
 
-
-
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         //get the data according to position
@@ -63,8 +61,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public int getItemCount() {
         return mUsers.size();
     }
-
-
 
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
@@ -121,7 +117,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         private void setupFollowButton(ParseUser fellowAttendee) {
 
-
             //Checks if the current user is already following their fellow attendee and sets up the 
             //following button appropriately
             ParseUser currentUser = ParseUser.getCurrentUser();
@@ -129,7 +124,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
 
             //Checks if the current attendee is the current user
-
             if (currentUser.getObjectId().equals(fellowAttendeeId)){
                 btnFollow.setVisibility(View.GONE);
             }else{
@@ -179,10 +173,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         }
 
         private void followAttendee(ArrayList<String> currentlyFollowing, String fellowAttendeeId, ParseUser fellowAttendee, ParseUser currentUser) {
+
             //Adds the attendee to the current user's following list and saves it to parse
             currentlyFollowing.add(fellowAttendeeId);
-            currentUser.put("friends", currentlyFollowing);
-            currentUser.saveInBackground(new SaveCallback() {
+            ParseUser.getCurrentUser().put("friends", currentlyFollowing);
+            ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
                     if (e == null) {

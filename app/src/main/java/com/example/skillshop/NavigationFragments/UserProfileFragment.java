@@ -18,6 +18,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.skillshop.AddUserPreferences;
 import com.example.skillshop.DeleteAccountActivity;
 import com.example.skillshop.LoginActivities.LoginActivity;
@@ -188,7 +189,7 @@ public class UserProfileFragment extends Fragment {
         }
 
         if (profilePhotoUrl != null) {
-            Glide.with(getContext()).load(profilePhotoUrl).into(ivProfilePic);
+            Glide.with(getContext()).load(profilePhotoUrl).apply(new RequestOptions().circleCrop()).into(ivProfilePic);
             Log.i("ProfileFragment", profilePhotoUrl);
         } else {
             ivProfilePic.setImageBitmap(null);
@@ -214,7 +215,7 @@ public class UserProfileFragment extends Fragment {
                             tvRatingMessage.setText("You have been rated 1 time");
                             rbUserRating.setRating((int) userRating.getAverageRating());
                         } else {
-                            tvRatingMessage.setText("You have been rated " + userRating.getAverageRating() + "times.");
+                            tvRatingMessage.setText("You have been rated " + userRating.getAverageRating() + " times.");
                             rbUserRating.setRating((int) userRating.getAverageRating());
                         }
 
