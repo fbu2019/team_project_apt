@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment {
 
     Spinner spinSorters;
     Spinner spinFilters;
-    ImageButton btnMap;
+    Button btnMap;
     Button btnPreferenceFilter;
     Button btnFollowing;
     Boolean firstLoad = true;
@@ -64,6 +64,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         spinSorters = view.findViewById(R.id.spinSorters);
         spinFilters = view.findViewById(R.id.spinFilters);
+
         setupPreferenceFilterButton(view);
         setupFollowingListButton(view);
 

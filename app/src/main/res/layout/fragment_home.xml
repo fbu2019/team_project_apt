@@ -8,21 +8,23 @@
 
     <Spinner
         android:id="@+id/spinFilters"
-        android:layout_width="103dp"
-        android:layout_height="20dp"
+        android:layout_width="143dp"
+        android:layout_height="24dp"
 
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/rvClasses"
+        app:layout_constraintEnd_toStartOf="@+id/btnPreferenceFilter"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/spinSorters"
         app:layout_constraintTop_toBottomOf="@+id/tvFilters" />
 
     <Spinner
         android:id="@+id/spinSorters"
-        android:layout_width="79dp"
-        android:layout_height="19dp"
+        android:layout_width="120dp"
+        android:layout_height="24dp"
 
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/rvClasses"
         app:layout_constraintEnd_toStartOf="@+id/spinFilters"
         app:layout_constraintHorizontal_bias="0.5"
@@ -34,25 +36,23 @@
         android:layout_width="398dp"
         android:layout_height="564dp"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.622" />
+        app:layout_constraintTop_toBottomOf="@+id/spinFilters" />
 
     <TextView
         android:id="@+id/tvSorters"
-        android:layout_width="wrap_content"
-        android:layout_height="22dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="44dp"
+        android:layout_width="105dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="64dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="Sort by:"
         app:layout_constraintBottom_toTopOf="@+id/spinSorters"
         app:layout_constraintEnd_toStartOf="@+id/tvFilters"
@@ -62,40 +62,44 @@
 
     <TextView
         android:id="@+id/tvFilters"
-        android:layout_width="120dp"
-        android:layout_height="23dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="138dp"
+        android:layout_height="26dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="8dp"
         android:text="Filter by Category:"
         app:layout_constraintBottom_toTopOf="@+id/spinFilters"
+        app:layout_constraintEnd_toStartOf="@+id/btnFollowing"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tvSorters"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.851" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnPreferenceFilter"
-        android:layout_width="73dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="20dp"
+        android:layout_width="72dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="Filter by Preferences"
         android:textSize="6sp"
         app:layout_constraintBottom_toTopOf="@+id/rvClasses"
-        app:layout_constraintEnd_toStartOf="@+id/btnFollowing"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/spinFilters"
+        app:layout_constraintTop_toBottomOf="@+id/btnFollowing" />
 
     <Button
         android:id="@+id/btnFollowing"
-        android:layout_width="62dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="72dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="8dp"
         android:text="Following"
         android:textSize="6dp"
-        app:layout_constraintBottom_toTopOf="@+id/rvClasses"
+        app:layout_constraintBottom_toTopOf="@+id/btnPreferenceFilter"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.512" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tvFilters"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
