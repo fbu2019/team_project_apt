@@ -57,9 +57,7 @@ List an 3rd party libraries, icons, graphics, or other assets you used in your a
 - Glide
 - Parse
 
-## Walkthrough
 
-![Walkthrough](walk.gif)
 
 ## License
 
