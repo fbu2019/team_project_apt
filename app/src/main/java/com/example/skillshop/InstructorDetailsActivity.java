@@ -279,6 +279,8 @@ public class InstructorDetailsActivity extends AppCompatActivity {
                     int currentSumOfRatings = currentRating.getSumRatings();
 
                     HashMap<String, Integer> usersWhoRated = (HashMap<String, Integer>) currentRating.get("userRatings");
+
+                   /*
                     if(usersWhoRated.size() > 0){
                         if(usersWhoRated.get(instructorID)>=0){
                             // first case - user has rated before and is looking to modify their rating - change their rating
@@ -291,6 +293,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
 
                     }
+                    */
 
                     if (usersWhoRated.get(instructorID) != null) {
 
