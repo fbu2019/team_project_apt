@@ -93,10 +93,9 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
 
         private ImageView ivClassIcon;
         private TextView tvClassName;
-        private TextView tvInstructor;
+        private TextView tvDescription;
         private TextView tvDate;
         private TextView tvTime;
-        private TextView tvLocation;
         private TextView tvCost;
         private ImageView ivTeacherBadge;
 
@@ -109,10 +108,9 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
             //perform findViewById lookups by id in the xml file
             ivClassIcon = itemView.findViewById(R.id.ivClassIcon);
             tvClassName = itemView.findViewById(R.id.tvClassName);
-            tvInstructor = itemView.findViewById(R.id.tvInstructor);
+            tvDescription = itemView.findViewById(R.id.tvDescription);
             tvDate = itemView.findViewById(R.id.tvDate);
             tvTime =itemView.findViewById(R.id.tvTime);
-            tvLocation =  itemView.findViewById(R.id.etLocation);
             tvCost =  itemView.findViewById(R.id.tvCost);
             ivTeacherBadge = itemView.findViewById(R.id.ivTeacherBadge);
         }
@@ -130,7 +128,7 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
 
             ParseUser teacher = tWorkshop.getTeacher();
             if(teacher.getString("firstName")!=null && teacher.getString("lastName")!=null){
-               tvInstructor.setText(teacher.getString("firstName")+" "+teacher.getString("lastName"));
+                tvDescription.setText(tWorkshop.getDescription());
             }
 
             if(tWorkshop.isTeacher())
@@ -153,7 +151,6 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
             DateFormat timeFormat = new SimpleDateFormat("HH:mm");
             tvDate.setText(dateFormat.format(date));
             tvTime.setText(timeFormat.format(date));
-            tvLocation.setText(tWorkshop.getLocationName());
 
             Double cost = tWorkshop.getCost();
 
@@ -163,7 +160,7 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
             }
             else
             {
-                tvCost.setText("$ "+cost);
+                tvCost.setText("$ "+cost+" / hr");
             }
 
 
