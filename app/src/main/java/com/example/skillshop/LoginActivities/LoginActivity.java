@@ -55,17 +55,13 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(i);
             finish();
 
-        }
-
-        else if (currentUser == null && Profile.getCurrentProfile() != null) {
+        } else if (currentUser == null && Profile.getCurrentProfile() != null) {
 
             //  if user has closed app during signing up without logging out, app will resume at SignupActivity
             Intent i = new Intent(LoginActivity.this, SignupActivity.class);
             startActivity(i);
 
-        }
-
-        else {
+        } else {
             setContentView(R.layout.activity_login);
 
             fbLoginButton = (LoginButton) findViewById(R.id.login_button);
@@ -74,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
             callbackManager = CallbackManager.Factory.create();
             checkLoginStatus();
 
-            Log.i("LoginActivity","Reached here above");
+            Log.i("LoginActivity", "Reached here above");
             FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
 
                 @Override
@@ -84,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
                                 nextActivity(currentProfile);
-                                Log.i("LoginActivity","Reached here");
+                                Log.i("LoginActivity", "Reached here");
                                 mProfileTracker.stopTracking();
                             }
                         };

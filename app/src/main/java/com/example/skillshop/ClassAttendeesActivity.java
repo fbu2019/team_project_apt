@@ -25,6 +25,7 @@ public class ClassAttendeesActivity extends AppCompatActivity {
     private RecyclerView rvUsers;
     protected ArrayList<ParseUser> mUsers;
     protected UserAdapter userAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +54,7 @@ public class ClassAttendeesActivity extends AppCompatActivity {
         currentWorkshop = Parcels.unwrap(getIntent().getParcelableExtra(Workshop.class.getSimpleName()));
         ArrayList<String> students = (ArrayList<String>) currentWorkshop.getStudents();
 
-        for (int i = 0; i < students.size(); i++ ){
+        for (int i = 0; i < students.size(); i++) {
             final ParseQuery<ParseUser> userQuery = ParseUser.getQuery().whereMatches("objectId", students.get(i));
             userQuery.findInBackground(new FindCallback<ParseUser>() {
                 @Override
@@ -73,6 +74,5 @@ public class ClassAttendeesActivity extends AppCompatActivity {
                 }
             });
         }
-
     }
 }

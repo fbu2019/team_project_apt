@@ -2,6 +2,8 @@ package com.example.skillshop.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.example.skillshop.NavigationFragments.HomeFragment;
+import com.example.skillshop.NavigationFragments.UserProfileFragment;
 import com.example.skillshop.R;
 import com.example.skillshop.UserProfileActivity;
 import com.parse.ParseException;
@@ -29,6 +34,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     private List<ParseUser> mUsers;
     private Context context;
+    FragmentManager fragmentManager;
 
     //pass in the Posts array in the constructor
     public UserAdapter(ArrayList<ParseUser> users, Context context) {
@@ -96,7 +102,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             JSONArray preferences = user.getJSONArray("preferences");
             String preferenceList = getPreferences(preferences, user);
             tvPreferences.setText(preferenceList);
-            Glide.with(context).load(user.getString("profilePicUrl")).into(ivProfilePic);
+            Glide.with(context).load(user.getString("profilePicUrl")).apply(new RequestOptions().circleCrop()).into(ivProfilePic);
         }
 
         private String getPreferences(JSONArray preferences, ParseUser user) {
@@ -193,17 +199,25 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         @Override
         public void onClick(View v) {
+
             //gets item position
             int position = getAdapterPosition();
             //make sure the position is valid (that it exists in the view)
             if (position != RecyclerView.NO_POSITION) {
                 //get the post at the position (will not work if the class is static)
                 ParseUser user = mUsers.get(position);
-                //create intent for the new activity
-                Intent openUserProfileIntent = new Intent(context, UserProfileActivity.class);
-                //serialize the movie using parceler, uses the short name of the movie as a key
-                openUserProfileIntent.putExtra(ParseUser.class.getSimpleName(), Parcels.wrap(user));
-                context.startActivity(openUserProfileIntent);
+
+                //if user clicks on themselves, continues to UserProfileFragment
+                if(user.getUsername().equals(ParseUser.getCurrentUser().getUsername())){
+
+                    //TODO - switch to userprofilefragment - find out how...
+                } else {
+                    //create intent for the new activity
+                    Intent openUserProfileIntent = new Intent(context, UserProfileActivity.class);
+                    //serialize the movie using parceler, uses the short name of the movie as a key
+                    openUserProfileIntent.putExtra(ParseUser.class.getSimpleName(), Parcels.wrap(user));
+                    context.startActivity(openUserProfileIntent);
+                }
             }
 
         }

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.skillshop.LoginActivities.LoginActivity;
 import com.example.skillshop.LoginActivities.SignupActivity;
 import com.example.skillshop.Models.Ratings;
@@ -73,7 +74,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         profilePhotoUrl = detailedWorkshop.getTeacher().getString("profilePicUrl");
 
         if (profilePhotoUrl != null) {
-            Glide.with(InstructorDetailsActivity.this).load(profilePhotoUrl).into(ivInstructorProfile);
+            Glide.with(InstructorDetailsActivity.this).load(profilePhotoUrl).apply(new RequestOptions().circleCrop()).into(ivInstructorProfile);
         } else {
             ivInstructorProfile.setImageBitmap(null);
             Log.i("Instructor Details", "No profile image");
@@ -128,7 +129,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
         ParseUser.getCurrentUser().put("friends", currentlyFollowing);
 
-        Log.e("InstructorDetails", "Before saving arraylist size: "+currentlyFollowing.size());
+        Log.e("InstructorDetails", "Before saving arraylist size: " + currentlyFollowing.size());
 
 
         ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
@@ -147,7 +148,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         ArrayList<String> friends = (ArrayList<String>) ParseUser.getCurrentUser().get("friends");
         int size = friends.size();
 
-        Log.e("InstructorDetails", "After saving arraylist size: "+size);
+        Log.e("InstructorDetails", "After saving arraylist size: " + size);
 
         followInstructorButton.setText("FOLLOW USER");
         numberOfFollowers--;
@@ -165,7 +166,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         currentlyFollowing.add(instructorId);
         ParseUser.getCurrentUser().put("friends", currentlyFollowing);
 
-        Log.e("InstructorDetails", "Currently logged in as "+ParseUser.getCurrentUser().getUsername());
+        Log.e("InstructorDetails", "Currently logged in as " + ParseUser.getCurrentUser().getUsername());
 
         login(ParseUser.getCurrentUser().getUsername(), ParseUser.getCurrentUser().getUsername());
         ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
@@ -207,7 +208,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
             rbUserRating.setEnabled(false);
             tvUserProvidedRating.setText("Instructors cannot rate themselves");
 
-        } else  {
+        } else {
 
             checkIfRated(ParseUser.getCurrentUser().getUsername()); // Checks to see if current user has rated the instructor before
         }
@@ -220,7 +221,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
 
-                Log.e("InstructorDetails", "Current setting is "+hasRatedBefore);
+                Log.e("InstructorDetails", "Current setting is " + hasRatedBefore);
                 updateRating(hasRatedBefore, rating, detailedWorkshop.getTeacher().getUsername());
                 tvUserProvidedRating.setText("You have provided " + detailedWorkshop.getTeacher().get("firstName") + " with a rating of " + rbUserRating.getRating());
                 tvNotYetRated.setText(" ");
@@ -292,10 +293,10 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
                     HashMap<String, Integer> usersWhoRated = (HashMap<String, Integer>) currentRating.get("userRatings");
 
-                    if(userRatedBefore){
+                    if (userRatedBefore) {
 
-                        Log.e("InstructorDetails", "Hash map is this big: "+String.valueOf(usersWhoRated.size()));
-                        Log.e("InstructorDetails", "Current user id is: "+ParseUser.getCurrentUser().getUsername());
+                        Log.e("InstructorDetails", "Hash map is this big: " + String.valueOf(usersWhoRated.size()));
+                        Log.e("InstructorDetails", "Current user id is: " + ParseUser.getCurrentUser().getUsername());
 
                         int formerRating = usersWhoRated.get(ParseUser.getCurrentUser().getUsername());
                         usersWhoRated.put(ParseUser.getCurrentUser().getUsername(), (int) ratingValue);
@@ -407,7 +408,6 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
     }
 
-
     private void checkIfRated(String userID) {
 
         hasRatedBefore = false;
@@ -421,13 +421,13 @@ public class InstructorDetailsActivity extends AppCompatActivity {
             public void done(List<Ratings> objects, ParseException e) {
                 if (e == null) {
 
-                    if(objects.size()>0) {
+                    if (objects.size() > 0) {
                         Ratings currentRating = objects.get(0);
                         HashMap<String, Integer> usersWhoRated = (HashMap<String, Integer>) currentRating.get("userRatings");
 
                         if (usersWhoRated.get(userID) != null) {
 
-                            Log.e("InstructorDetails", "User has rated before with rating "+usersWhoRated.get(userID));
+                            Log.e("InstructorDetails", "User has rated before with rating " + usersWhoRated.get(userID));
                             hasRatedBefore = true;
                             tvUserProvidedRating.setText("You have previously rated this instructor. You may modify your rating above.");
 
