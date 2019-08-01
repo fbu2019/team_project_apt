@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import com.example.skillshop.Adapters.ClassAdapter;
+import com.example.skillshop.Adapters.ClassAdapterCard;
 import com.example.skillshop.FollowingListActivity;
 import com.example.skillshop.MapActivity;
 import com.example.skillshop.Models.Workshop;
@@ -40,7 +42,7 @@ public class HomeFragment extends Fragment {
     private static final String CHANNEL_ID = "CHANNEL_ID";
     private RecyclerView rvClasses;
     protected ArrayList<Workshop> mWorkshops;
-    protected ClassAdapter classAdapter;
+    protected ClassAdapterCard classAdapter;
 
 
     Spinner spinSorters;
@@ -338,9 +340,11 @@ public class HomeFragment extends Fragment {
         //init the arraylist (data source)
         mWorkshops = new ArrayList<>();
         //construct the adapter from this datasource
-        classAdapter = new ClassAdapter(mWorkshops, getContext());
+        classAdapter = new ClassAdapterCard(mWorkshops, getContext());
+
+        final GridLayoutManager layout = new GridLayoutManager(getActivity(), 2);
         //RecyclerView setup (layout manager, use adapter)
-        rvClasses.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvClasses.setLayoutManager(layout);
         //set the adapter
         rvClasses.setAdapter(classAdapter);
 
@@ -360,7 +364,7 @@ public class HomeFragment extends Fragment {
 
         Query parseQuery = new Query();
         // query add all classes with all data and sort by time of class and only show new classes
-        parseQuery.getAllClasses().withItems().byTimeOfClass().getClassesNotTaking();
+        parseQuery.getAllClasses().withItems().byTimeOfClass();
 
         parseQuery.findInBackground(new FindCallback<Workshop>() {
             @Override
