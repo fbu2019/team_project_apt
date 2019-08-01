@@ -51,10 +51,9 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
     //called when new rows are created
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View classView = inflater.inflate(R.layout.item_class_card, parent, false);
-        ViewHolder viewHolder = new ViewHolder(classView);
-        return viewHolder;
+
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_class_card, parent, false);
+        return new ViewHolder(itemView);
     }
 
     //bind the values based on the position of the element

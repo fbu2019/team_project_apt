@@ -349,10 +349,6 @@ public class HomeFragment extends Fragment {
         rvClasses.setAdapter(classAdapter);
 
 
-        // add dividers on posts
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvClasses.getContext(),
-                new LinearLayoutManager(getContext()).getOrientation());
-        rvClasses.addItemDecoration(dividerItemDecoration);
     }
 
 
