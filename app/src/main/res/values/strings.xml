@@ -34,7 +34,8 @@
 
     <string-array name="sorters">
         <item>Date</item>
-        <item>Cost</item>
+        <item>Cost ($-$$)</item>
+        <item>Cost ($$-$)</item>
         <item>Location</item>
 
 
