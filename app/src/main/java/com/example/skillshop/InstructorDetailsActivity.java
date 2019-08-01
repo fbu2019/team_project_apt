@@ -289,11 +289,18 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
                         currentRating.setSumRatings(currentSumOfRatings - formerRating + (int) ratingValue);
 
-                        int avgRating = currentRating.getSumRatings() / currentRating.getNumRatings();
-                        currentRating.setAverageRating(avgRating);
-                        currentRatingAverage = (float) avgRating;
+                        if(currentRating.getNumRatings() == 0){
+                            int avgRating = 0;
+                            currentRating.setAverageRating(avgRating);
+                            currentRatingAverage = (float) avgRating;
+                            rbInstructorAverage.setRating(currentRatingAverage);
 
-                        rbInstructorAverage.setRating(currentRatingAverage);
+                        } else {
+                            int avgRating = currentRating.getSumRatings() / currentRating.getNumRatings();
+                            currentRating.setAverageRating(avgRating);
+                            currentRatingAverage = (float) avgRating;
+                            rbInstructorAverage.setRating(currentRatingAverage);
+                        }
 
                         if (currentNumberOfRatings == 1) {
 
