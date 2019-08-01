@@ -2,11 +2,14 @@ package com.example.skillshop.NavigationFragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -49,6 +52,8 @@ public class HomeFragment extends Fragment {
     Button btnFollowing;
     private SwipeRefreshLayout swipeContainer;
 
+    private ArrayList<String> category;
+
     Boolean firstLoad = true;
     @Override
 
@@ -78,7 +83,10 @@ public class HomeFragment extends Fragment {
         setupFollowingListButton(view);
 
         connectRecyclerView(view);
-      //  populateHomeFeed();
+
+        category = new ArrayList<String>();
+
+        category.add("Culinary");
 
         updateToken();
         // Lookup the swipe container view
@@ -90,7 +98,9 @@ public class HomeFragment extends Fragment {
                 // Your code to refresh the list here.
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
-                populateHomeFeed();
+                filterFeed(category,0,false);
+
+                swipeContainer.setRefreshing(false);
             }
         });
 
@@ -100,8 +110,53 @@ public class HomeFragment extends Fragment {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
+        setUpNavBar(getView());
+
 
     }
+
+    public void setUpNavBar(View v)
+    {
+        BottomNavigationView topNavigationBar = v.findViewById(R.id.top_navigation);
+        topNavigationBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+
+                category = new ArrayList<String>();
+
+                switch (item.getItemId()) {
+                    case R.id.culinary_category:
+                        category.add("Culinary");
+
+                        break;
+                    case R.id.education_category:
+                        category.add("Education");
+
+                        break;
+                    case R.id.fitness_category:
+                        category.add("Fitness");
+                        break;
+                    case R.id.arts_fragment:
+                        category.add("Arts/Crafts");
+                        break;
+                    case R.id.other_fragment:
+                        category.add("Other");
+                        break;
+                    default:
+                        category.add("Culinary");
+                        break;
+                }
+                filterFeed(category,0,false);
+
+                return true;
+            }
+        });
+        topNavigationBar.setSelectedItemId(R.id.culinary_category);
+
+    }
+
+
 
 
 
@@ -140,7 +195,7 @@ public class HomeFragment extends Fragment {
                     }
 
                 }
-                filterByCategory(preferenceList);
+                filterFeed(preferenceList,0,false);
 
             }
         });
@@ -158,7 +213,6 @@ public class HomeFragment extends Fragment {
     public void  setSpinners()
     {
         setSorters();
-        setFilters();
     }
 
     @Override
@@ -181,123 +235,65 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                //     classAdapter.notifyDataSetChanged();
                 switch(position){
 
                     case (0):{
-
-                        populateHomeFeed();
-                        break;
-                    }
-                    case (1):{
-                        populateByCost(true);
-                        break;
-                    }
-                    case (2):{
-                        populateByCost(false);
-                        break;
-                    }
-                    case(3):{
-
-                        final ParseQuery<ParseUser> userQuery = new ParseQuery<ParseUser>(ParseUser.class);
-                        userQuery.whereEqualTo("objectId", ParseUser.getCurrentUser().getObjectId());
-                        userQuery.findInBackground(new FindCallback<ParseUser>() {
-
-                            @Override
-                            public void done(List<ParseUser> singletonUserList, ParseException e) {
-                                ParseGeoPoint userLocation = singletonUserList.get(0).getParseGeoPoint("userLocation");
-                                populateByLocation(userLocation);
-                            }
-                        });
-                        break;
-                    }
-                    default:
-                        break;
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
-
-
-    private void setFilters() {
-        final ArrayAdapter<CharSequence> filterAdapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.categoryFilters, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinFilters.setAdapter(filterAdapter);
-
-        //set listener for selected spinner item
-        spinFilters.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                ArrayList<String> singletonCategory = new ArrayList<String>();
-                //     classAdapter.notifyDataSetChanged();
-                switch(position){
-
-                    case (0):{
-                        //case zero is called when the activity is created so we do not need to call populateHomeFeed in onCreate
-                        if (firstLoad){
-                            firstLoad = false;
-                        }else{
-                            populateHomeFeed();
+                        if(!firstLoad) {
+                            filterFeed(category, 0, false);
+                        }
+                        else{
+                            firstLoad=!firstLoad;
                         }
                         break;
                     }
                     case (1):{
-
-                        singletonCategory.add("Culinary");
-                       filterByCategory(singletonCategory);
+                        filterFeed(category,2,false);
                         break;
                     }
                     case (2):{
-                        singletonCategory.add("Education");
-                        filterByCategory(singletonCategory);
+                        filterFeed(category,1,false);
                         break;
                     }
-                    case (3):{
-                        singletonCategory.add("Fitness");
-                        filterByCategory(singletonCategory);
-                        break;
-                    }
-                    case (4):{
-                        singletonCategory.add("Arts/Crafts");
-                        filterByCategory(singletonCategory);
-                        break;
-                    }
-                    case (5):{
-                        singletonCategory.add("Other");
-                        filterByCategory(singletonCategory);
-                        break;
+                    case(3):{
+                        filterFeed(category,0,true);
+
+
                     }
                     default:
                         break;
-
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                    int i = 0;
+
             }
         });
-
-
     }
 
-    private void filterByCategory(ArrayList<String> categories) {
+
+    private void filterFeed(ArrayList<String> categories, int byCost, boolean byLocation) {
         mWorkshops.clear();
         classAdapter.notifyDataSetChanged();
         Query parseQuery = new Query();
         // query add all classes with all data and sort by time of class and only show new classes
         parseQuery.getAllClasses().withItems().byCategory(categories).getClassesNotTaking();
+
+        if(byCost == 1)
+        {
+            parseQuery.byCostDescending();
+        }
+        else if(byCost == 2)
+        {
+            parseQuery.byCostAscending();
+        }
+        if(byLocation)
+        {
+
+            parseQuery.byLocation(ParseUser.getCurrentUser().getParseGeoPoint("userLocation"));
+        }
+
+
 
         parseQuery.findInBackground(new FindCallback<Workshop>() {
             @Override
@@ -314,60 +310,8 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
-
-    }
-    private void populateByLocation(ParseGeoPoint userLocation) {
-        mWorkshops.clear();
-        classAdapter.notifyDataSetChanged();
-        Query parseQuery = new Query();
-        // query add all classes with all data and sort by time of class and only show new classes
-        parseQuery.getAllClasses().withItems().byLocation(userLocation).getClassesNotTaking();
-
-        parseQuery.findInBackground(new FindCallback<Workshop>() {
-            @Override
-            public void done(List<Workshop> objects, ParseException e) {
-                //
-                if (e == null) {
-                    for (int i = 0; i < objects.size(); i++) {
-                        Workshop workshopItem = objects.get(i);
-                        mWorkshops.add(workshopItem);
-                        classAdapter.notifyItemInserted(mWorkshops.size()-1);
-                    }
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
-
     }
 
-    private void populateByCost(boolean ascending) {
-        mWorkshops.clear();
-        classAdapter.notifyDataSetChanged();
-        Query parseQuery = new Query();
-        // query add all classes with all data and sort by time of class and only show new classes
-        if (ascending) {
-            parseQuery.getAllClasses().withItems().byCostAscending().getClassesNotTaking();
-        }else{
-            parseQuery.getAllClasses().withItems().byCostDescending().getClassesNotTaking();
-        }
-
-
-        parseQuery.findInBackground(new FindCallback<Workshop>() {
-            @Override
-            public void done(List<Workshop> objects, ParseException e) {
-                if (e == null) {
-                    for (int i = 0; i < objects.size(); i++) {
-                        Workshop workshopItem = objects.get(i);
-                        mWorkshops.add(workshopItem);
-                        classAdapter.notifyItemInserted(mWorkshops.size()-1);
-                    }
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
 
 
 
@@ -390,31 +334,7 @@ public class HomeFragment extends Fragment {
 
 
 
-    public void populateHomeFeed() {
 
-        mWorkshops.clear();
-        classAdapter.notifyDataSetChanged();
-
-        Query parseQuery = new Query();
-        // query add all classes with all data and sort by time of class and only show new classes
-        parseQuery.getAllClasses().withItems().byTimeOfClass().getClassesNotTaking();
-
-        parseQuery.findInBackground(new FindCallback<Workshop>() {
-            @Override
-            public void done(List<Workshop> objects, ParseException e) {
-                if (e == null) {
-                    for (int i = 0; i < objects.size(); i++) {
-                        Workshop workshopItem = objects.get(i);
-                        mWorkshops.add(workshopItem);
-                        classAdapter.notifyItemInserted(mWorkshops.size()-1);
-                    }
-                } else {
-                    e.printStackTrace();
-                }
-                swipeContainer.setRefreshing(false);
-            }
-        });
-    }
 }
 
 

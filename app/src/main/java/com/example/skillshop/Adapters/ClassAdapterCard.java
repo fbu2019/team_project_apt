@@ -194,32 +194,8 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
                 default: break;
             }
 
-            // Define a listener for image loading
-            SimpleTarget<Bitmap> target = new SimpleTarget<Bitmap>() {
-                @Override
-                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                    // TODO 1. Insert the bitmap into the profile image view
-                    ivClassIcon.setImageBitmap(resource);
 
-
-                    // TODO 2. Use generate() method from the Palette API to get the vibrant color from the bitmap
-                    // Set the result as the background color for `R.id.vPalette` view containing the contact's name.
-                    Palette palette = Palette.from(resource).generate();
-                    Palette.Swatch vibrantPalette = palette.getVibrantSwatch();
-                    int vibrant = vibrantPalette.getRgb();
-                    int dominant = palette.getDominantColor(Color.WHITE);
-                    ivClassIcon.setBackgroundColor(vibrant);
-
-                }
-
-            };
-
-
-            ivClassIcon.setTag(target);
-
-
-            Drawable draw = context.getResources().getDrawable(res);
-            Glide.with(context).asBitmap().load(res).centerCrop().into(target);
+            Glide.with(context).asBitmap().load(res).centerCrop().into(ivClassIcon);
 
 
         }

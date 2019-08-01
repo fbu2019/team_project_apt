@@ -6,24 +6,6 @@
     android:layout_height="match_parent">
 
 
-    <Spinner
-        android:id="@+id/spinFilters"
-        android:layout_width="143dp"
-        android:layout_height="24dp"
-
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="@+id/tvFilters"
-        app:layout_constraintTop_toBottomOf="@+id/tvFilters" />
-
-    <Spinner
-        android:id="@+id/spinSorters"
-        android:layout_width="120dp"
-        android:layout_height="24dp"
-
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="@+id/tvSorters"
-        app:layout_constraintTop_toBottomOf="@+id/tvSorters" />
-
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeContainer"
         android:layout_width="0dp"
@@ -51,44 +33,26 @@
             app:layout_constraintTop_toBottomOf="@+id/btnPreferenceFilter" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <TextView
-        android:id="@+id/tvSorters"
-        android:layout_width="105dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="32dp"
-        android:text="Sort by:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvFilters" />
-
-    <TextView
-        android:id="@+id/tvFilters"
-        android:layout_width="138dp"
-        android:layout_height="26dp"
-        android:layout_marginStart="24dp"
+    <Button
+        android:id="@+id/btnPreferenceFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Filter by Category:"
-        app:layout_constraintStart_toEndOf="@+id/tvSorters"
+        android:layout_marginEnd="8dp"
+        android:text="Filter by Preferences"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/btnFollowing"
         app:layout_constraintTop_toBottomOf="@+id/searchView" />
 
     <Button
-        android:id="@+id/btnPreferenceFilter"
-        android:layout_width="72dp"
-        android:layout_height="34dp"
-        android:layout_marginTop="8dp"
-        android:text="Filter by Preferences"
-        android:textSize="6sp"
-        app:layout_constraintStart_toStartOf="@+id/btnFollowing"
-        app:layout_constraintTop_toBottomOf="@+id/btnFollowing" />
-
-    <Button
         android:id="@+id/btnFollowing"
-        android:layout_width="72dp"
-        android:layout_height="28dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="28dp"
         android:text="Following"
-        android:textSize="6dp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvFilters" />
+        app:layout_constraintTop_toTopOf="@+id/btnPreferenceFilter" />
 
     <SearchView
         android:id="@+id/searchView"
@@ -110,8 +74,41 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnPreferenceFilter"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
         app:menu="@menu/menu_category_selection" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:text="All"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnPreferenceFilter" />
+
+    <TextView
+        android:id="@+id/tvSorters"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Filter by:"
+        app:layout_constraintEnd_toStartOf="@+id/spinSorters"
+        app:layout_constraintTop_toBottomOf="@+id/btnPreferenceFilter" />
+
+    <Spinner
+        android:id="@+id/spinSorters"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+
+        android:layout_marginEnd="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvSorters" />
 
 </android.support.constraint.ConstraintLayout>
