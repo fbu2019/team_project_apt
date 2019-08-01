@@ -338,9 +338,9 @@ public class HomeFragment extends Fragment {
         Query parseQuery = new Query();
         // query add all classes with all data and sort by time of class and only show new classes
         if (ascending) {
-            parseQuery.getAllClasses().withItems().byCost().getClassesNotTaking();
+            parseQuery.getAllClasses().withItems().byCostAscending().getClassesNotTaking();
         }else{
-            parseQuery.getAllClasses().withItems().byCost().getClassesNotTaking();
+            parseQuery.getAllClasses().withItems().byCostDescending().getClassesNotTaking();
         }
 
 
