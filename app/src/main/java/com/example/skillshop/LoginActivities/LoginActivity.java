@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login(String username, String password) {
 
-        Log.i("LoginActivity", "Reachhed login method");
+        Log.i("LoginActivity", "Reached login method");
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
