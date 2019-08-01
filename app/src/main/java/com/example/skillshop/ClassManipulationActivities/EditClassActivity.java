@@ -92,8 +92,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         apiKey = this.getResources().getString(R.string.places_api_key);
-        setContentView(R.layout.activity_edit_class);
-
+        setContentView(R.layout.activity_edit_class_new);
         currentWorkshop = Parcels.unwrap(getIntent().getParcelableExtra(Workshop.class.getSimpleName()));
         currentDate = currentWorkshop.getJavaDate();
 
