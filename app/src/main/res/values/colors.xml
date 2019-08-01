@@ -217,4 +217,6 @@
     <color name="red_6">#ffc62330</color>
     <color name="red_7">#ffa70311</color>
     <color name="red_8">#ff6e0008</color>
+    <color name="light_gray">#F3F3F3</color>
+
 </resources>
