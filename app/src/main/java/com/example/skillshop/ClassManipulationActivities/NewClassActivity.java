@@ -54,6 +54,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.EmptyStackException;
 import java.util.HashMap;
@@ -101,6 +102,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         apiKey = this.getResources().getString(R.string.places_api_key);
+
         setContentView(R.layout.activity_new_class);
         findAllViews();
         setSubmitListener();
@@ -257,6 +259,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
             newClass.setLocationName(locationName);
 
             newClass.setLocation(location);
+
 
 
             ArrayList<String> students = new ArrayList<>();
