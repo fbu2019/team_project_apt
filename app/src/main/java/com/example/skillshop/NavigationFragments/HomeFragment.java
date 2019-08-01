@@ -3,6 +3,7 @@ package com.example.skillshop.NavigationFragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -48,6 +49,8 @@ public class HomeFragment extends Fragment {
     Button btnMap;
     Button btnPreferenceFilter;
     Button btnFollowing;
+    private SwipeRefreshLayout swipeContainer;
+
     Boolean firstLoad = true;
     @Override
 
@@ -72,9 +75,30 @@ public class HomeFragment extends Fragment {
       //  populateHomeFeed();
 
         updateToken();
+        // Lookup the swipe container view
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                populateHomeFeed();
+            }
+        });
+
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
 
     }
+
+
+
 
     private void setupFollowingListButton(View view) {
         btnFollowing = view.findViewById(R.id.btnFollowing);
@@ -374,6 +398,7 @@ public class HomeFragment extends Fragment {
                 } else {
                     e.printStackTrace();
                 }
+                swipeContainer.setRefreshing(false);
             }
         });
     }
