@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.skillshop.Adapters.ClassAdapterCard;
 import com.example.skillshop.ChatActivity;
 import com.example.skillshop.ClassAttendeesActivity;
 import com.example.skillshop.InstructorDetailsActivity;
@@ -55,6 +57,8 @@ public class ClassDetailsActivity extends AppCompatActivity {
     private Button btnViewAttendees;
     private Button btnChat;
     private Button btnFollowInstructor;
+    protected ClassAdapterCard classAdapter;
+    private SwipeRefreshLayout swipeContainer;
 
     private static int REQUEST_CODE = 333;
 

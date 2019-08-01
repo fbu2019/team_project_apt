@@ -41,6 +41,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
     private TextView tvNumRatings;
     private TextView tvUserProvidedRating;
     private TextView tvNumberOfFollowers;
+    private TextView  tvNumberFollowing;
     private Button followInstructorButton;
     private RatingBar rbInstructorAverage;
     private RatingBar rbUserRating;
@@ -63,6 +64,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         tvInstructorName.setText(detailedWorkshop.getTeacher().getString("firstName") + " " + detailedWorkshop.getTeacher().getString("lastName"));
 
         setNumFollowers();
+        setNumFollowing();
         initFollowButton();
         loadProfilePicture();
         initRatingBar();
@@ -114,7 +116,6 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
                 }
             });
-
         }
     }
 
@@ -139,12 +140,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
         followInstructorButton.setText("FOLLOW INSTRUCTOR");
         numberOfFollowers--;
-        if (numberOfFollowers == 1) {
-            tvNumberOfFollowers.setText("1 follower");
-
-        } else {
-            tvNumberOfFollowers.setText(numberOfFollowers + " followers");
-        }
+        tvNumberOfFollowers.setText(""+numberOfFollowers);
     }
 
     private void followInstructor(ArrayList<String> currentlyFollowing, String instructorId, ParseUser instructor, ParseUser currentUser) {
@@ -169,12 +165,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         //Resets the following button
         followInstructorButton.setText("UNFOLLOW INSTRUCTOR");
         numberOfFollowers++;
-        if (numberOfFollowers == 1) {
-            tvNumberOfFollowers.setText("1 follower");
-
-        } else {
-            tvNumberOfFollowers.setText(numberOfFollowers + " followers");
-        }
+        tvNumberOfFollowers.setText(numberOfFollowers+"");
     }
 
     private void initRatingBar() {
@@ -358,13 +349,12 @@ public class InstructorDetailsActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
 
     private void setNumFollowers() {
 
-        tvNumberOfFollowers = findViewById(R.id.numberOfFollowers);
+        tvNumberOfFollowers = findViewById(R.id.numFollowers);
 
         ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
         userQuery.findInBackground(new FindCallback<ParseUser>() {
@@ -385,18 +375,24 @@ public class InstructorDetailsActivity extends AppCompatActivity {
                         }
                     }
 
-                    if (numberOfFollowers == 1) {
-                        tvNumberOfFollowers.setText("1 follower");
-
-                    } else {
-                        tvNumberOfFollowers.setText(numberOfFollowers + " followers");
-                    }
+                    tvNumberOfFollowers.setText(numberOfFollowers+"");
 
                 } else {
                     e.printStackTrace();
                 }
             }
         });
+
+    }
+
+
+    private void setNumFollowing(){
+
+        tvNumberFollowing = findViewById(R.id.numFollowing);
+        ArrayList<String> instructorFollowing = (ArrayList<String>) detailedWorkshop.getTeacher().get("friends");
+        int numFollowing = instructorFollowing.size();
+
+        tvNumberFollowing.setText(numFollowing+"");
 
     }
 
