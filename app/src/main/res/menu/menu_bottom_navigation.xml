@@ -5,24 +5,37 @@
         android:id="@+id/home_fragment"
         android:enabled="true"
         android:icon="@drawable/ic_home"
-
+        android:title="Home"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/classes_fragment"
+        android:id="@+id/maps_fragment"
         android:enabled="true"
-        android:icon="@drawable/ic_list"
+        android:icon="@drawable/ic_map"
+        android:title="Maps"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/compose_fragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_compose"
+        android:title="Compose"
+        app:showAsAction="ifRoom" />
+
     <item
         android:id="@+id/calendar_fragment"
         android:enabled="true"
         android:icon="@drawable/ic_calendar"
+        android:title="Calendar"
 
         app:showAsAction="ifRoom" />
+
+
     <item
-        android:id="@+id/profile_fragment"
+        android:id="@+id/user_profile_fragment"
         android:enabled="true"
         android:icon="@drawable/ic_profile"
+        android:title="Profile"
         app:showAsAction="ifRoom" />
 
 </menu>

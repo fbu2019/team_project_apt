@@ -12,7 +12,8 @@
     <string name="Phone_Number">Phone Number</string>
     <string name="Email_Address">Email</string>
     <string name="promt_zipcode">Zipcode</string>
-    <string name= "places_api_key" >AIzaSyARv5bJ1b1bnym8eUwPZlGm_7HN__WsbFE</string>
+    <string name="profile_me">My Profile Pic</string>
+    <string name="profile_other">Other profile pic</string>
 
     <string-array name="categories">
         <item>Culinary</item>
@@ -21,5 +22,24 @@
         <item>Arts/Crafts</item>
         <item>Other</item>
     </string-array>
+
+    <string-array name="categoryFilters">
+        <item>No filter</item>
+        <item>Culinary</item>
+        <item>Education</item>
+        <item>Fitness</item>
+        <item>Arts/Crafts</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="sorters">
+        <item>Date</item>
+        <item>Cost</item>
+        <item>Location</item>
+
+
+    </string-array>
+    <string name="google_maps_api_key">AIzaSyDpivnu2RgJcJdaNe-0IbYKz9-EMTpZKEY</string>
+
 
 </resources>

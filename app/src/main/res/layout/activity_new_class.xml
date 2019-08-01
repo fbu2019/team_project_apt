@@ -4,25 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewClassActivity">
+    tools:context=".ClassManipulationActivities.NewClassActivity">
 
-    <TextView
-        android:id="@+id/tvDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="32dp"
-        android:text="Date"
+    <Button
+        android:id="@+id/btnTime"
+        android:layout_width="141dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="52dp"
+        android:layout_marginBottom="16dp"
+        android:text="HH:MM"
         app:layout_constraintBottom_toTopOf="@+id/btLocation"
-        app:layout_constraintEnd_toStartOf="@+id/etDate"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/etDate"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
         android:id="@+id/ivClassImage"
@@ -57,23 +49,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="40dp"
         android:text="Location"
         app:layout_constraintBottom_toTopOf="@+id/tvCost"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btLocation"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/tvTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:text="Time"
-        app:layout_constraintEnd_toStartOf="@+id/etTime"
-        app:layout_constraintTop_toTopOf="@+id/etDate" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tvCategory"
@@ -101,13 +80,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginBottom="8dp"
         android:text="Description"
-        app:layout_constraintBottom_toTopOf="@+id/tvDate"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/etDescription"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@+id/etDescription" />
 
     <EditText
         android:id="@+id/etClassname"
@@ -136,31 +111,6 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
-        android:id="@+id/etDate"
-        android:layout_width="122dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="16dp"
-        android:ems="10"
-        android:hint="MM/DD/YYYY"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/btLocation"
-        app:layout_constraintEnd_toStartOf="@+id/tvTime" />
-
-    <EditText
-        android:id="@+id/etTime"
-        android:layout_width="78dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="52dp"
-        android:layout_marginRight="52dp"
-        android:ems="10"
-        android:hint="HH:MM"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvTime" />
-
-    <EditText
         android:id="@+id/etCost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -178,12 +128,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="52dp"
-        android:layout_marginRight="52dp"
         android:layout_marginBottom="16dp"
         android:ems="10"
         android:hint="Description"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/etDate"
+        app:layout_constraintBottom_toTopOf="@+id/btnTime"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
@@ -209,6 +158,18 @@
         android:layout_marginBottom="52dp"
         app:layout_constraintBottom_toTopOf="@+id/btSubmit"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btnDate"
+        android:layout_width="141dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:text="MM/DD/YYYY"
+        app:layout_constraintBottom_toTopOf="@+id/btLocation"
+        app:layout_constraintEnd_toStartOf="@+id/btnTime"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

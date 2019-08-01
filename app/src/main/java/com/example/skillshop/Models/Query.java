@@ -1,13 +1,24 @@
 package com.example.skillshop.Models;
 
 
+import com.parse.FindCallback;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import static com.example.skillshop.Models.Workshop.KEY_CREATED_AT;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
+import static com.example.skillshop.Models.Workshop.KEY_CATEGORY;
 import static com.example.skillshop.Models.Workshop.KEY_DATE;
-import static com.example.skillshop.Models.Workshop.KEY_MENTOR;
+import static com.example.skillshop.Models.Workshop.KEY_OBJECT_ID;
 import static com.example.skillshop.Models.Workshop.KEY_STUDENTS;
+import static com.example.skillshop.Models.Workshop.KEY_TEACHER;
+import static com.example.skillshop.Models.Workshop.KEY_COST;
+import static com.example.skillshop.Models.Workshop.KEY_LOCATION;
+
 
 public class Query extends ParseQuery<Workshop> {
 
@@ -20,44 +31,73 @@ public class Query extends ParseQuery<Workshop> {
     }
 
     public Query withItems() {
-        include(KEY_MENTOR);
-        include(KEY_STUDENTS);
+        include(KEY_TEACHER);
         return this;
     }
 
-    public Query byTimeMade() {
-        addDescendingOrder(KEY_CREATED_AT);
+    public Query byLocation(ParseGeoPoint userLocation){
+        whereNear(KEY_LOCATION, userLocation);
         return this;
     }
+
+
+    public Query byCategory(ArrayList<String> categories) {
+        whereContainedIn(KEY_CATEGORY, categories);
+        return this;
+    }
+
+
+
+
+
 
     public Query byTimeOfClass() {
-        addDescendingOrder(KEY_DATE);
+        addAscendingOrder(KEY_DATE);
+        return this;
+    }
+
+    public Query byCost() {
+        addAscendingOrder(KEY_COST);
         return this;
     }
 
 
     public Query getClassesTeaching(){
-        whereEqualTo(KEY_MENTOR, ParseUser.getCurrentUser());
+        whereEqualTo(KEY_TEACHER, ParseUser.getCurrentUser());
         return this;
     }
 
 
     public Query getClassesTaking(){
+        List<String> list = Arrays.asList(ParseUser.getCurrentUser().getObjectId());
 
-        whereEqualTo(KEY_STUDENTS,ParseUser.getCurrentUser());
+        whereContainedIn(KEY_STUDENTS,list);
 
         return this;
     }
 
     public Query getClassesNotTaking(){
 
-        whereNotEqualTo(KEY_STUDENTS,ParseUser.getCurrentUser());
+        List<String> list = Arrays.asList(ParseUser.getCurrentUser().getObjectId());
+
+        whereNotContainedIn(KEY_STUDENTS,list);
+        whereNotEqualTo(KEY_TEACHER,ParseUser.getCurrentUser().getObjectId());
 
         return this;
     }
 
+    public Query onDate(Long date){
 
+        Date dateOfClass = new Date(date);
 
+        Date lowerBound = new Date(dateOfClass.getYear(),dateOfClass.getMonth(),dateOfClass.getDate());
+        Date upperBound = new Date(dateOfClass.getYear(),dateOfClass.getMonth(),dateOfClass.getDate()+1);
+
+        whereGreaterThanOrEqualTo(KEY_DATE,lowerBound);
+        whereLessThanOrEqualTo(KEY_DATE,upperBound);
+
+        return this;
+    }
 
 }
 

@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".SignupActivity">
+    android:layout_height="wrap_content"
+    tools:context=".LoginActivities.SignupActivity">
 
 
     <TextView
@@ -12,7 +12,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+<<<<<<< HEAD
         android:layout_marginTop="84dp"
+=======
+        android:layout_marginTop="88dp"
+>>>>>>> 13b774e9f5db9d9413b00c08532ec21b27b5ce0d
         android:layout_marginEnd="8dp"
         android:fontFamily="sans-serif-smallcaps"
         android:text="Sign Up Here"
@@ -22,6 +26,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+<<<<<<< HEAD
         android:id="@+id/submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,10 +43,29 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
         android:text="Launch Map"
+=======
+        android:id="@+id/launchMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="60dp"
+        android:text="Add Location"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userLocation" />
+
+    <TextView
+        android:id="@+id/userLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:text="You have not yet inputted your location"
+>>>>>>> 13b774e9f5db9d9413b00c08532ec21b27b5ce0d
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signUpMessage" />
+<<<<<<< HEAD
 
     <TextView
         android:id="@+id/userLocation"
@@ -54,6 +78,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/launchMap" />
+=======
+>>>>>>> 13b774e9f5db9d9413b00c08532ec21b27b5ce0d
 
 
 </android.support.constraint.ConstraintLayout>
