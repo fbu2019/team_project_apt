@@ -87,7 +87,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
         ParseUser teacher = detailedWorkshop.getTeacher();
 
-
         // if user is teacher
         if (teacher.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
             setUpTeacherSettings();
@@ -105,7 +104,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
         }
     }
-
 
     private void setUpViewAttendees() {
         btnViewAttendees = findViewById(R.id.btnViewAttendees);
@@ -137,7 +135,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
                 btnFollowInstructor.setText("UNFOLLOW");
             }
 
-           btnFollowInstructor.setOnClickListener(new View.OnClickListener() {
+            btnFollowInstructor.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
@@ -202,7 +200,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
         });
     }
 
-
     private void setUpChat() {
         btnChat = findViewById(R.id.btnChat);
         btnChat.setVisibility(View.VISIBLE);
@@ -238,7 +235,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if ((data != null) && (requestCode == REQUEST_CODE)) {
 
-
             Workshop updatedWorkshop = Parcels.unwrap(data.getParcelableExtra("updated"));
             populateFields(updatedWorkshop);
             setUpInstructor(updatedWorkshop);
@@ -266,7 +262,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
         });
 
     }
-
 
     private void populateFields(Workshop workshop) {
 
@@ -448,7 +443,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
         }
         return skillsData;
     }
-
 
     private void getAndSetSkillsArray(String category, Boolean increment) {
         ParseUser currentUser = ParseUser.getCurrentUser();
