@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,13 +12,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 
-import com.example.skillshop.Adapters.ClassAdapter;
 import com.example.skillshop.Adapters.ClassAdapterCard;
 import com.example.skillshop.FollowingListActivity;
-import com.example.skillshop.MapActivity;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.R;
@@ -186,10 +181,14 @@ public class HomeFragment extends Fragment {
                         break;
                     }
                     case (1):{
-                        populateByCost();
+                        populateByCost(true);
                         break;
                     }
-                    case(2):{
+                    case (2):{
+                        populateByCost(false);
+                        break;
+                    }
+                    case(3):{
 
                         final ParseQuery<ParseUser> userQuery = new ParseQuery<ParseUser>(ParseUser.class);
                         userQuery.whereEqualTo("objectId", ParseUser.getCurrentUser().getObjectId());
@@ -333,12 +332,17 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void populateByCost() {
+    private void populateByCost(boolean ascending) {
         mWorkshops.clear();
         classAdapter.notifyDataSetChanged();
         Query parseQuery = new Query();
         // query add all classes with all data and sort by time of class and only show new classes
-        parseQuery.getAllClasses().withItems().byCost().getClassesNotTaking();
+        if (ascending) {
+            parseQuery.getAllClasses().withItems().byCostAscending().getClassesNotTaking();
+        }else{
+            parseQuery.getAllClasses().withItems().byCostDescending().getClassesNotTaking();
+        }
+
 
         parseQuery.findInBackground(new FindCallback<Workshop>() {
             @Override
