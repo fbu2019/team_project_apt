@@ -370,7 +370,7 @@ public class HomeFragment extends Fragment {
         //construct the adapter from this datasource
         classAdapter = new ClassAdapterCard(mWorkshops, getContext());
 
-        final GridLayoutManager layout = new GridLayoutManager(getActivity(), 2);
+        final GridLayoutManager layout = new GridLayoutManager(getActivity(), 1);
         //RecyclerView setup (layout manager, use adapter)
         rvClasses.setLayoutManager(layout);
         //set the adapter
