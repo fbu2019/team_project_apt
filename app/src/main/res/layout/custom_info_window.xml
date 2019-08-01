@@ -2,46 +2,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="#0A2196F3"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_info_window_title"
-        android:layout_width="230dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:singleLine="true"
-        android:text="Ruth-Ann Armstrong"
-        android:textAlignment="center"
-        android:textColor="#ff669900"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/tv_info_window_description"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_info_window_title2" />
-
-    <TextView
-        android:id="@+id/tv_info_window_title2"
-        android:layout_width="230dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:singleLine="true"
-        android:text="My class"
-        android:textAlignment="center"
-        android:textColor="#ff669900"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/tv_info_window_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/MyRating" />
+    <!-- app:layout_constraintBottom_toTopOf="@+id/tvClassDate"-->
 
     <RatingBar
-        android:id="@+id/MyRating"
+        android:id="@+id/rbInstructorAverage"
         style="?android:attr/ratingBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -50,13 +18,14 @@
         android:isIndicator="true"
         android:numStars="5"
         android:stepSize="0.1"
-        app:layout_constraintBottom_toTopOf="@+id/tv_info_window_title2"
+        app:layout_constraintBottom_toTopOf="@+id/tvClassNameMV"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+        app:layout_constraintTop_toBottomOf="@+id/ivClassImage" />
 
-    <TextView
-        android:id="@+id/tv_info_window_description"
+    <!--   <TextView
+        android:id="@+id/tvClassDate"
         android:layout_width="230dp"
         android:layout_height="33dp"
         android:layout_marginStart="8dp"
@@ -67,18 +36,54 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_info_window_title" />
-
+        app:layout_constraintTop_toBottomOf="@+id/tvInstructorName" />
+-->
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/ivClassImage"
         android:layout_width="89dp"
         android:layout_height="88dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/MyRating"
+        app:layout_constraintBottom_toTopOf="@+id/rbInstructorAverage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/education" />
+
+    <TextView
+        android:id="@+id/tvClassNameMV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="My class"
+        app:layout_constraintBottom_toTopOf="@+id/tvInstructorNameMV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rbInstructorAverage" />
+
+    <TextView
+        android:id="@+id/tvInstructorNameMV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Ruth-Ann Armstrong"
+        app:layout_constraintBottom_toTopOf="@+id/tvClassDateMV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvClassNameMV" />
+
+    <TextView
+        android:id="@+id/tvClassDateMV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="November 18, 2019"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvInstructorNameMV" />
 
 </android.support.constraint.ConstraintLayout>
