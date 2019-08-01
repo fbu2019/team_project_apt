@@ -80,6 +80,11 @@ public class Query extends ParseQuery<Workshop> {
         return this;
     }
 
+    public Query getClassById(String objectId){
+        whereEqualTo(KEY_OBJECT_ID, objectId);
+        return this;
+    }
+
     public Query getClassesNotTaking(){
 
         List<String> list = Arrays.asList(ParseUser.getCurrentUser().getObjectId());

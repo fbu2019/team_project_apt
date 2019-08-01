@@ -7,10 +7,13 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.example.skillshop.Models.Query;
+import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -40,9 +43,10 @@ public class CustomWindowAdapter implements GoogleMap.InfoWindowAdapter {
         // Getting view from the layout file
         View view = mInflater.inflate(R.layout.custom_info_window, null);
         findViewsById(view);
-        ParseQuery<Workshop> workshopQuery = ParseQuery.getQuery(Workshop.class);
-        workshopQuery.whereEqualTo("objectId", marker.getTitle());
-        // Execute the find asynchronously
+        Query workshopQuery = new Query();
+        // query add all classes with all data and sort by time of class and only show new classes
+        workshopQuery.getAllClasses().withItems().getClassById(marker.getTitle());
+
         try {
             List<Workshop> singletonWorkshop = workshopQuery.find();
             Workshop workshop = singletonWorkshop.get(0);
@@ -64,7 +68,21 @@ public class CustomWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
     private void populateViews(Workshop workshop) {
         tvClassname.setText(workshop.getName());
-        rbInstructorAverage.setRating(5);
+        ParseUser teacher = workshop.getTeacher();
+        Ratings.Query ratingParseQuery = new Ratings.Query();
+        ratingParseQuery.getAllRatings().whereEqualTo("user", teacher);
+
+        try {
+            List<Ratings> ratingsList = ratingParseQuery.find();
+            Ratings userRating = ratingsList.get(0);
+            rbInstructorAverage.setRating((int) userRating.getAverageRating());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if(teacher != null && teacher.getString("firstName")!=null && teacher.getString("lastName")!=null){
+             tvInstructorName.setText(teacher.getString("firstName")+" "+teacher.getString("lastName"));
+        }
+
         switch (workshop.getCategory()) {
 
             case "Culinary":
@@ -116,7 +134,4 @@ public class CustomWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
         return relativeDate;
     }
-
-
-
 }
