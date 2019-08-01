@@ -12,7 +12,7 @@
         android:layout_height="24dp"
 
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="12dp"
         app:layout_constraintBottom_toTopOf="@+id/swipeContainer"
         app:layout_constraintEnd_toStartOf="@+id/btnPreferenceFilter"
         app:layout_constraintHorizontal_bias="0.5"
@@ -39,7 +39,9 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinSorters">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvClasses"
@@ -61,9 +63,8 @@
         android:layout_width="105dp"
         android:layout_height="24dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="60dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:text="Sort by:"
         app:layout_constraintBottom_toTopOf="@+id/spinSorters"
         app:layout_constraintEnd_toStartOf="@+id/tvFilters"
@@ -82,12 +83,13 @@
         app:layout_constraintEnd_toStartOf="@+id/btnFollowing"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tvSorters"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btnPreferenceFilter"
-        android:layout_width="72dp"
-        android:layout_height="34dp"
+        android:layout_width="76dp"
+        android:layout_height="33dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
@@ -105,6 +107,7 @@
         android:layout_height="28dp"
         android:layout_marginTop="64dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="Following"
         android:textSize="6dp"
         app:layout_constraintBottom_toTopOf="@+id/btnPreferenceFilter"
