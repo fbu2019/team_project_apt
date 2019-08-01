@@ -13,6 +13,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -39,9 +40,6 @@ public class CustomWindowAdapter implements GoogleMap.InfoWindowAdapter {
         // Getting view from the layout file
         View view = mInflater.inflate(R.layout.custom_info_window, null);
         findViewsById(view);
-        // Populate fields
-       // TextView title = (TextView) v.findViewById(R.id.tv_info_window_title);
-      //  title.setText(marker.getTitle());
         ParseQuery<Workshop> workshopQuery = ParseQuery.getQuery(Workshop.class);
         workshopQuery.whereEqualTo("objectId", marker.getTitle());
         // Execute the find asynchronously
@@ -52,34 +50,21 @@ public class CustomWindowAdapter implements GoogleMap.InfoWindowAdapter {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-      /*  new FindCallback<Workshop>() {
-            public void done(List<Workshop> singletonWorkshop, ParseException e) {
-                if (e == null) {
-                    Workshop workshop = singletonWorkshop.get(0);
-                    populateViews(workshop);
-                } else {
-                    Log.d("item", "Error: " + e.getMessage());
-                }
-            }
-        });*/
-    //    TextView description = (TextView) v.findViewById(R.id.tv_info_window_description);
-       // description.setText(marker.getSnippet());
         // Return info window contents
         return view;
     }
 
     private void findViewsById(View view) {
-       // tvClassname = view.findViewById(R.id.tvClassName);
-     //   tvInstructorName = view.findViewById(R.id.tvInstructorName);
+        tvClassname = view.findViewById(R.id.tvClassNameMV);
+        tvInstructorName = view.findViewById(R.id.tvInstructorNameMV);
         rbInstructorAverage = view.findViewById(R.id.rbInstructorAverage);
-      //  tvClassDate = view.findViewById(R.id.tvClassDate);
+        tvClassDate = view.findViewById(R.id.tvClassDateMV);
         ivClassImage = view.findViewById(R.id.ivClassImage);
     }
 
     private void populateViews(Workshop workshop) {
-      //  tvClassname.setText(/*workshop.getName()*/"checl");
-       // tvInstructorName.setText(workshop.getTeacher().getString("firstName")+" "+workshop.getTeacher().getString("lastName"));
-        rbInstructorAverage.setRating(/*(int) userRating.getAverageRating()*/ 5);
+        tvClassname.setText(workshop.getName());
+        rbInstructorAverage.setRating(5);
         switch (workshop.getCategory()) {
 
             case "Culinary":
@@ -103,7 +88,7 @@ public class CustomWindowAdapter implements GoogleMap.InfoWindowAdapter {
             default:
                 break;
         }
-     //   tvClassDate.setText(getRelativeTimeAgo(workshop.getDate()));
+        tvClassDate.setText(getRelativeTimeAgo(workshop.getDate()));
 
 
     }
