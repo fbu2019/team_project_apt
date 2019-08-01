@@ -53,7 +53,6 @@ import permissions.dispatcher.RuntimePermissions;
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 
 
-
 @RuntimePermissions
 
 public class MapActivity extends AppCompatActivity implements
@@ -160,7 +159,7 @@ public class MapActivity extends AppCompatActivity implements
     }
 
     private BitmapDescriptor setMarkerColor(BitmapDescriptor marker, String category) {
-        switch (category){
+        switch (category) {
             case ("Culinary"): {
                 marker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
                 break;
@@ -306,8 +305,6 @@ public class MapActivity extends AppCompatActivity implements
         profileDetailsIntent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(workshop));
         startActivity(profileDetailsIntent);
     }
-
-
 
 
     // Define a DialogFragment that displays the error dialog

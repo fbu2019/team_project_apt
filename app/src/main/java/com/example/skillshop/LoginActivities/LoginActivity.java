@@ -45,8 +45,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ParseUser currentUser = ParseUser.getCurrentUser();
         FacebookSdk.sdkInitialize(getApplicationContext());
-        //Profile profile = Profile.getCurrentProfile();
-
 
         if (currentUser != null) {
 

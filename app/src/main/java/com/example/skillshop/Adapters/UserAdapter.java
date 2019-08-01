@@ -70,7 +70,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
-    public class ViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
         public TextView tvName;
@@ -107,15 +107,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         private String getPreferences(JSONArray preferences, ParseUser user) {
             String preferenceString = "";
-            if (preferences != null){
-                for (int i = 0; i < preferences.length(); i++){
+            if (preferences != null) {
+                for (int i = 0; i < preferences.length(); i++) {
                     try {
                         preferenceString += preferences.getString(i) + " | ";
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-            }else{
+            } else {
                 preferenceString += user.get("firstName").toString() + " has no preferences set";
             }
             return preferenceString;
@@ -128,12 +128,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             ParseUser currentUser = ParseUser.getCurrentUser();
             String fellowAttendeeId = fellowAttendee.getObjectId();
 
-
             //Checks if the current attendee is the current user
-            if (currentUser.getObjectId().equals(fellowAttendeeId)){
+            if (currentUser.getObjectId().equals(fellowAttendeeId)) {
                 btnFollow.setVisibility(View.GONE);
-            }else{
-            ArrayList<String> myFollowing = (ArrayList<String>) currentUser.get("friends");
+            } else {
+                ArrayList<String> myFollowing = (ArrayList<String>) currentUser.get("friends");
                 Boolean isFollowing = myFollowing.contains(fellowAttendeeId);
                 if (isFollowing) {
                     btnFollow.setText("UNFOLLOW USER");
@@ -151,7 +150,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                         if (!isCurrentlyFollowing) {
                             followAttendee(currentlyFollowing, fellowAttendeeId, fellowAttendee, currentUser);
 
-                        }else{
+                        } else {
                             unfollowAttendee(currentlyFollowing, fellowAttendeeId, fellowAttendee, currentUser);
                         }
                     }
@@ -208,7 +207,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 ParseUser user = mUsers.get(position);
 
                 //if user clicks on themselves, continues to UserProfileFragment
-                if(user.getUsername().equals(ParseUser.getCurrentUser().getUsername())){
+                if (user.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
 
                     //TODO - switch to userprofilefragment - find out how...
                 } else {
