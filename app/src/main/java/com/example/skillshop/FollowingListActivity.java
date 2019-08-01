@@ -32,7 +32,7 @@ public class FollowingListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_following_list);
 
-        login(ParseUser.getCurrentUser().getUsername(), ParseUser.getCurrentUser().getUsername());
+        loginAndRefresh(ParseUser.getCurrentUser().getUsername(), ParseUser.getCurrentUser().getUsername());
 
         //find the RecyclerView
         rvUsers = (RecyclerView) findViewById(R.id.rvUsers);
@@ -48,6 +48,26 @@ public class FollowingListActivity extends AppCompatActivity {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvUsers.getContext(),
                 new LinearLayoutManager(this).getOrientation());
         rvUsers.addItemDecoration(dividerItemDecoration);
+    }
+
+    // Log in user again to work around retrieval issues
+    private void loginAndRefresh(String username, String password) {
+
+        ParseUser.logInInBackground(username, password, new LogInCallback() {
+            @Override
+            public void done(ParseUser user, ParseException e) {
+                if (e == null) {
+                    Log.d("LoginActivity", "Login successful");
+                    ArrayList<String> following = (ArrayList<String>) ParseUser.getCurrentUser().get("friends"); // todo - user says has no friends?
+                    Log.i("FollowingList", "Number of friends: " + following.size());
+                    getStudentArray();
+
+                } else {
+                    Log.e("LoginActivity", "Login failure");
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void getStudentArray() {
@@ -75,24 +95,5 @@ public class FollowingListActivity extends AppCompatActivity {
                 }
             });
         }
-    }
-
-    private void login(String username, String password) {
-
-        ParseUser.logInInBackground(username, password, new LogInCallback() {
-            @Override
-            public void done(ParseUser user, ParseException e) {
-                if (e == null) {
-                    Log.d("LoginActivity", "Login successful");
-                    ArrayList<String> following = (ArrayList<String>) ParseUser.getCurrentUser().get("friends"); // todo - user says has no friends?
-                    Log.i("FollowingList", "Number of friends: " + following.size());
-                    getStudentArray();
-
-                } else {
-                    Log.e("LoginActivity", "Login failure");
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 }
