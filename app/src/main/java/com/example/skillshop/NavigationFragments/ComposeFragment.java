@@ -41,6 +41,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.EmptyStackException;
 import java.util.HashMap;
@@ -100,6 +101,10 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        List<Integer> skillsData = new ArrayList<Integer>(Collections.nCopies(10, 0));
+        ParseUser curr = ParseUser.getCurrentUser();
+        curr.put("skillsData", skillsData);
+        curr.saveInBackground();
         apiKey = this.getResources().getString(R.string.places_api_key);
         findAllViews(view);
         setSubmitListener();
@@ -174,6 +179,9 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
             @Override
             public void onClick(View v) {
                 datePickerDialog.show();
+
+
+
             }
         });
 
