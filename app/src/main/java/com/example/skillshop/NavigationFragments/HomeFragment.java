@@ -67,12 +67,12 @@ public class HomeFragment extends Fragment {
         spinFilters = view.findViewById(R.id.spinFilters);
         searchView = view.findViewById(R.id.searchView);
 
-//        searchView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                searchView.onActionViewExpanded();
-//            }
-//        });
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchView.onActionViewExpanded();
+            }
+        });
 
         setupPreferenceFilterButton(view);
         setupFollowingListButton(view);

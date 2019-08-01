@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/culinary_category"
+        android:enabled="true"
+        android:icon="@drawable/ic_culinary"
+        android:title="Culinary"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/education_category"
+        android:enabled="true"
+        android:icon="@drawable/ic_education"
+        android:title="Education"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/fitness_category"
+        android:enabled="true"
+        android:icon="@drawable/ic_sports"
+        android:title="Fitness"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/arts_fragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_arts"
+        android:title="Arts"
+
+        app:showAsAction="ifRoom" />
+
+
+    <item
+        android:id="@+id/other_fragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_other"
+        android:title="Other"
+        app:showAsAction="ifRoom" />
+
+</menu>

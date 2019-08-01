@@ -54,8 +54,8 @@ public class CalendarFragment extends Fragment {
 
 
 
-        populateCalendarClassesTaking();
         populateAllClasses();
+
 
 
         calendarView.setOnDayClickListener(new OnDayClickListener() {
@@ -86,7 +86,7 @@ public class CalendarFragment extends Fragment {
             public void done(List<Workshop> objects, ParseException e) {
                 if (e == null) {
                     allClasses = (ArrayList<Workshop>) objects;
-                    populateCalendarClassesTeaching();
+                    populateCalendarClassesTaking();
 
                 } else {
                     e.printStackTrace();
