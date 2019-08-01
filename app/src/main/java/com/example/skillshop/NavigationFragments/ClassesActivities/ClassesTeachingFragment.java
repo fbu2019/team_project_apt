@@ -31,7 +31,7 @@ public class ClassesTeachingFragment extends Fragment {
     @Override
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate((R.layout.fragment_classes_teaching), container, false);
+        return inflater.inflate((R.layout.fragment_classes_taking), container, false);
     }
 
     @Override
@@ -62,17 +62,7 @@ public class ClassesTeachingFragment extends Fragment {
         rvClasses.addItemDecoration(dividerItemDecoration);
 
 
-        // add button to add a class
-        FloatingActionButton fabAddClass = view.findViewById(R.id.fabAddClass);
 
-        // btn add a class
-        fabAddClass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent newClassIntent = new Intent(getContext(), NewClassActivity.class);
-                startActivity(newClassIntent);
-            }
-        });
 
     }
 

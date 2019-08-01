@@ -2,6 +2,7 @@ package com.example.skillshop;
 
 import org.parceler.Parcels;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,9 +14,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.example.skillshop.LoginActivities.LoginActivity;
+import com.example.skillshop.LoginActivities.SignupActivity;
 import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.Models.Workshop;
+import com.example.skillshop.NavigationFragments.FragmentHandler;
 import com.parse.FindCallback;
+import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -42,10 +48,11 @@ public class InstructorDetailsActivity extends AppCompatActivity {
     private String profilePhotoUrl;
     private float currentRatingAverage;
     private int numberOfFollowers = 0;
+    boolean hasRatedBefore = false;
 
 
     //TODO - make sure user's rating only impacts once
-    //TODO - maks sure follow/unfollow correctly stores to database
+    //TODO - makes sure follow/unfollow correctly stores to database
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +74,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         profilePhotoUrl = detailedWorkshop.getTeacher().getString("profilePicUrl");
 
         if (profilePhotoUrl != null) {
-            Glide.with(InstructorDetailsActivity.this).load(profilePhotoUrl).into(ivInstructorProfile);
+            Glide.with(InstructorDetailsActivity.this).load(profilePhotoUrl).apply(new RequestOptions().circleCrop()).into(ivInstructorProfile);
         } else {
             ivInstructorProfile.setImageBitmap(null);
             Log.i("Instructor Details", "No profile image");
@@ -100,9 +107,9 @@ public class InstructorDetailsActivity extends AppCompatActivity {
                     Boolean isCurrentlyFollowing = currentlyFollowing.contains(detailedWorkshop.getTeacher().getObjectId());
 
                     if (!isCurrentlyFollowing) {
-                       followInstructor(currentlyFollowing, detailedWorkshop.getTeacher().getObjectId(), detailedWorkshop.getTeacher(), ParseUser.getCurrentUser());
+                        followInstructor(currentlyFollowing, detailedWorkshop.getTeacher().getObjectId(), detailedWorkshop.getTeacher(), ParseUser.getCurrentUser());
                     } else {
-                      unfollowInstructor(currentlyFollowing, detailedWorkshop.getTeacher().getObjectId(), detailedWorkshop.getTeacher(), ParseUser.getCurrentUser());
+                        unfollowInstructor(currentlyFollowing, detailedWorkshop.getTeacher().getObjectId(), detailedWorkshop.getTeacher(), ParseUser.getCurrentUser());
                     }
 
                 }
@@ -112,31 +119,38 @@ public class InstructorDetailsActivity extends AppCompatActivity {
     }
 
     private void unfollowInstructor(ArrayList<String> currentlyFollowing, String instructorId, ParseUser instructor, ParseUser currentUser) {
+
         //Removes the attendee from the current user's following list and saves it to parse
         currentlyFollowing.remove(instructorId);
 
-        if(currentlyFollowing.size()>0) {
+        if (currentlyFollowing.size() > 0) {
             Log.e("InstructorDetails", currentlyFollowing.get(0));
         }
 
         ParseUser.getCurrentUser().put("friends", currentlyFollowing);
 
+        login(ParseUser.getCurrentUser().getUsername(), ParseUser.getCurrentUser().getUsername());
         ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
                     Toast.makeText(InstructorDetailsActivity.this, "You are no longer following " + instructor.get("firstName"), Toast.LENGTH_LONG).show();
                 } else {
-                    Log.e("InstructorDetails","error saving");
+                    Log.e("InstructorDetails", "error saving");
                     e.printStackTrace();
                 }
             }
         });
 
         //Resets the following button
-       followInstructorButton.setText("FOLLOW USER");
-       numberOfFollowers--;
-        if(numberOfFollowers==1){
+        ArrayList<String> friends = (ArrayList<String>) ParseUser.getCurrentUser().get("friends");
+        int size = friends.size();
+
+        Log.e("InstructorDetails", "After saving arraylist size: " + size);
+
+        followInstructorButton.setText("FOLLOW USER");
+        numberOfFollowers--;
+        if (numberOfFollowers == 1) {
             tvNumberOfFollowers.setText("1 follower");
 
         } else {
@@ -149,37 +163,32 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         //Adds the attendee to the current user's following list and saves it to parse
         currentlyFollowing.add(instructorId);
         ParseUser.getCurrentUser().put("friends", currentlyFollowing);
-        Log.e("InstructorDetails",currentlyFollowing.get(0));
 
-        for(int i = 0; i<currentlyFollowing.size(); i++){
+        Log.e("InstructorDetails", "Currently logged in as " + ParseUser.getCurrentUser().getUsername());
 
-            Log.e("InstructorDetails","Index "+i+" "+currentlyFollowing.get(0));
-
-        }
-
+        login(ParseUser.getCurrentUser().getUsername(), ParseUser.getCurrentUser().getUsername());
         ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
                     Toast.makeText(InstructorDetailsActivity.this, "You are now following " + instructor.get("firstName"), Toast.LENGTH_LONG).show();
                 } else {
-                    Log.e("InstructorDetails","error saving");
+                    Log.e("InstructorDetails", "error saving");
                     e.printStackTrace();
                 }
             }
         });
 
         //Resets the following button
-       followInstructorButton.setText("UNFOLLOW USER");
+        followInstructorButton.setText("UNFOLLOW USER");
         numberOfFollowers++;
-        if(numberOfFollowers==1){
+        if (numberOfFollowers == 1) {
             tvNumberOfFollowers.setText("1 follower");
 
         } else {
             tvNumberOfFollowers.setText(numberOfFollowers + " followers");
         }
     }
-
 
     private void initRatingBar() {
 
@@ -196,21 +205,23 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
             rbUserRating.setEnabled(false);
             tvUserProvidedRating.setText("Instructors cannot rate themselves");
+
         } else {
 
-            tvUserProvidedRating.setText("Provide a rating for your instructor above");
+            checkIfRated(ParseUser.getCurrentUser().getUsername()); // Checks to see if current user has rated the instructor before
         }
 
         initializeAverageRating(detailedWorkshop.getTeacher().getUsername());
+        checkIfRated(ParseUser.getCurrentUser().getUsername());
 
 
         rbUserRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
 
-                updateRating(rating, detailedWorkshop.getTeacher().getUsername());
+                Log.e("InstructorDetails", "Current setting is " + hasRatedBefore);
+                updateRating(hasRatedBefore, rating, detailedWorkshop.getTeacher().getUsername());
                 tvUserProvidedRating.setText("You have provided " + detailedWorkshop.getTeacher().get("firstName") + " with a rating of " + rbUserRating.getRating());
-                // initializeAverageRating(detailedWorkshop.getTeacher().getUsername());
                 tvNotYetRated.setText(" ");
             }
         });
@@ -263,7 +274,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         });
     }
 
-    private void updateRating(float ratingValue, String instructorID) {
+    private void updateRating(Boolean userRatedBefore, float ratingValue, String instructorID) {
 
         Ratings.Query ratingParseQuery = new Ratings.Query();
         ratingParseQuery.getAllRatings().whereEqualTo("user", detailedWorkshop.getTeacher());
@@ -274,47 +285,26 @@ public class InstructorDetailsActivity extends AppCompatActivity {
             public void done(List<Ratings> objects, ParseException e) {
                 if (e == null) {
 
-                    //todo - add additional check here to make sure user cannot rate multiple times
                     Ratings currentRating = objects.get(0);
                     int currentNumberOfRatings = currentRating.getNumRatings();
                     int currentSumOfRatings = currentRating.getSumRatings();
 
                     HashMap<String, Integer> usersWhoRated = (HashMap<String, Integer>) currentRating.get("userRatings");
 
-                   /*
-                    if(usersWhoRated.size() > 0){
-                        if(usersWhoRated.get(instructorID)>=0){
-                            // first case - user has rated before and is looking to modify their rating - change their rating
-                            // numRatings should NOT be incremented
-                        } else {
-                            // user has NOT rated this instructor before - add userId to instructorRatings
+                    if (userRatedBefore) {
 
-                        }
+                        Log.e("InstructorDetails", "Hash map is this big: " + String.valueOf(usersWhoRated.size()));
+                        Log.e("InstructorDetails", "Current user id is: " + ParseUser.getCurrentUser().getUsername());
 
-
-
-                    }
-                    */
-
-                    if (usersWhoRated.get(instructorID) != null) {
-
-                        int formerRating = usersWhoRated.get(instructorID);
+                        int formerRating = usersWhoRated.get(ParseUser.getCurrentUser().getUsername());
                         usersWhoRated.put(ParseUser.getCurrentUser().getUsername(), (int) ratingValue);
                         currentRating.put("userRatings", usersWhoRated);
 
                         currentRating.setSumRatings(currentSumOfRatings - formerRating + (int) ratingValue);
 
-                        if(currentRating.getNumRatings()==0) {
-                            currentRating.setNumRatings(1);
-                        }
-
-                        if(currentRating.getNumRatings()>0) {
-                            int avgRating = currentRating.getSumRatings() / currentRating.getNumRatings();
-                            currentRating.setAverageRating(avgRating);
-                            currentRatingAverage = (float) avgRating;
-                        } else {
-                            currentRatingAverage = 0;
-                        }
+                        int avgRating = currentRating.getSumRatings() / currentRating.getNumRatings();
+                        currentRating.setAverageRating(avgRating);
+                        currentRatingAverage = (float) avgRating;
 
                         rbInstructorAverage.setRating(currentRatingAverage);
 
@@ -332,6 +322,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
                         currentRating.put("userRatings", usersWhoRated);
 
                         currentRating.setNumRatings(currentNumberOfRatings + 1);
+                        currentNumberOfRatings++; //used to update text views before rating is savedInBackground
                         currentRating.setSumRatings(currentSumOfRatings + (int) ratingValue);
 
                         int avgRating = currentRating.getSumRatings() / currentRating.getNumRatings();
@@ -347,6 +338,9 @@ public class InstructorDetailsActivity extends AppCompatActivity {
                         } else {
                             tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated by " + currentNumberOfRatings + " users.");
                         }
+
+                        hasRatedBefore = true;
+
                     }
 
                     currentRating.saveInBackground(new SaveCallback() {
@@ -373,34 +367,6 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
     }
 
-    private boolean checkIfRated(String userID) { //    todo - see if necessary then delete if not
-
-        final Boolean[] answer = {false};
-
-        Ratings.Query ratingParseQuery = new Ratings.Query();
-        ratingParseQuery.getAllRatings().whereEqualTo("user", detailedWorkshop.getTeacher());
-
-        ratingParseQuery.findInBackground(new FindCallback<Ratings>() {
-
-            @Override
-            public void done(List<Ratings> objects, ParseException e) {
-                if (e == null) {
-
-                    Ratings currentRating = objects.get(0);
-                    HashMap<String, Integer> usersWhoRated = (HashMap<String, Integer>) currentRating.get("userRatings");
-
-                    if (usersWhoRated.get(userID) != null) {
-                        answer[0] = true;
-                    }
-
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        return answer[0];
-    }
 
     private void setNumFollowers() {
 
@@ -440,4 +406,57 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
     }
 
+    private void checkIfRated(String userID) {
+
+        hasRatedBefore = false;
+
+        Ratings.Query ratingParseQuery = new Ratings.Query();
+        ratingParseQuery.getAllRatings().whereEqualTo("user", detailedWorkshop.getTeacher());
+
+        ratingParseQuery.findInBackground(new FindCallback<Ratings>() {
+
+            @Override
+            public void done(List<Ratings> objects, ParseException e) {
+                if (e == null) {
+
+                    if (objects.size() > 0) {
+                        Ratings currentRating = objects.get(0);
+                        HashMap<String, Integer> usersWhoRated = (HashMap<String, Integer>) currentRating.get("userRatings");
+
+                        if (usersWhoRated.get(userID) != null) {
+
+                            Log.e("InstructorDetails", "User has rated before with rating " + usersWhoRated.get(userID));
+                            hasRatedBefore = true;
+                            tvUserProvidedRating.setText("You have previously rated this instructor. You may modify your rating above.");
+
+                        }
+                    } else {
+
+                        tvUserProvidedRating.setText("Provide a rating for this instructor above");
+                    }
+
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+
+    private void login(String username, String password) {
+
+        Log.i("LoginActivity", "Reached login method");
+        ParseUser.logInInBackground(username, password, new LogInCallback() {
+            @Override
+            public void done(ParseUser user, ParseException e) {
+                if (e == null) {
+                    Log.d("LoginActivity", "Login successful");
+
+                } else {
+                    Log.e("LoginActivity", "Login failure");
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 }

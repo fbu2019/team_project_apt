@@ -62,17 +62,7 @@ public class ClassesTakingFragment extends Fragment {
                 new LinearLayoutManager(getContext()).getOrientation());
         rvClasses.addItemDecoration(dividerItemDecoration);
 
-        // add button to add a class
-        FloatingActionButton fabAddClass = view.findViewById(R.id.fabAddClass);
 
-        // btn add a class
-        fabAddClass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent newClassIntent = new Intent(getContext(), NewClassActivity.class);
-                startActivity(newClassIntent);
-            }
-        });
 
     }
 

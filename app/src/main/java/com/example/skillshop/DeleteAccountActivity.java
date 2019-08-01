@@ -92,7 +92,7 @@ public class DeleteAccountActivity extends AppCompatActivity {
                                 String userKey = fbID;
 
                                 if (userRatings.containsKey(userKey) && userRatings.get(userKey) != null) {
-                                    Log.e("DeleteAccount", "Userratings " + userRatings.get(userKey));
+                                    Log.e("DeleteAccount", "User ratings " + userRatings.get(userKey));
                                     if (userRatings.get(userKey) > 0) {
                                         int rating = userRatings.get(userKey);
 
@@ -302,3 +302,5 @@ public class DeleteAccountActivity extends AppCompatActivity {
         });
     }
 }
+
+//TODO - let ruth-ann / moises know that when a user is deleted it cannot modify who another user is following... should add checks for if null in displaying who ur following
