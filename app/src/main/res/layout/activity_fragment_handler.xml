@@ -9,16 +9,12 @@
 
     <FrameLayout
         android:id="@+id/flContainer"
-        android:layout_width="401dp"
-        android:layout_height="667dp"
+        android:layout_width="406dp"
+        android:layout_height="598dp"
         android:layout_above="@id/top_navigation"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/top_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></FrameLayout>

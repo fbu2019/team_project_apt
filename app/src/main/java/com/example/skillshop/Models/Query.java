@@ -56,8 +56,12 @@ public class Query extends ParseQuery<Workshop> {
         return this;
     }
 
-    public Query byCost() {
+    public Query byCostAscending() {
         addAscendingOrder(KEY_COST);
+        return this;
+    }
+    public Query byCostDescending() {
+        addDescendingOrder(KEY_COST);
         return this;
     }
 
