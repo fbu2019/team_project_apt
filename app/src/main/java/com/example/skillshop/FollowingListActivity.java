@@ -54,6 +54,7 @@ public class FollowingListActivity extends AppCompatActivity {
     private void getStudentArray() {
 
         ArrayList<String> following = (ArrayList<String>) ParseUser.getCurrentUser().get("friends");
+        Log.i("FollowingList", "Number of friends "+following.size());
         for (int i = 0; i < following.size(); i++) {
             final ParseQuery<ParseUser> userQuery = ParseUser.getQuery().whereMatches("objectId", following.get(i));
             Log.i("FollowingList", "made parseQuery");
