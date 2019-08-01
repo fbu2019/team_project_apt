@@ -1,5 +1,6 @@
 package com.example.skillshop;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -8,7 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.example.skillshop.Adapters.UserAdapter;
+import com.example.skillshop.LoginActivities.LoginActivity;
+import com.example.skillshop.LoginActivities.SignupActivity;
+import com.example.skillshop.NavigationFragments.FragmentHandler;
 import com.parse.FindCallback;
+import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -27,7 +32,8 @@ public class FollowingListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_following_list);
 
-        getStudentArray();
+        login(ParseUser.getCurrentUser().getUsername(), ParseUser.getCurrentUser().getUsername());
+
         //find the RecyclerView
         rvUsers = (RecyclerView) findViewById(R.id.rvUsers);
         //init the arraylist (data source)
@@ -47,16 +53,12 @@ public class FollowingListActivity extends AppCompatActivity {
     private void getStudentArray() {
         ArrayList<String> following = (ArrayList<String>) ParseUser.getCurrentUser().get("friends"); // todo - user says has no friends?
 
-
-        Log.i("FollowingList", "Number of friends: " + following.size());
         for (int i = 0; i < following.size(); i++) {
             final ParseQuery<ParseUser> userQuery = ParseUser.getQuery().whereMatches("objectId", following.get(i));
-            Log.i("FollowingList", "made parseQuery");
             userQuery.findInBackground(new FindCallback<ParseUser>() {
                 @Override
                 public void done(List<ParseUser> attendees, ParseException e) {
                     if (e == null) {
-                        Log.i("FollowingList", "Reached before loop");
                         for (int i = 0; i < attendees.size(); i++) {
                             ParseUser userItem = attendees.get(i);
                             Log.i("FollowingList", String.valueOf(attendees.get(i).get("firstName")));
@@ -73,5 +75,24 @@ public class FollowingListActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void login(String username, String password) {
+
+        ParseUser.logInInBackground(username, password, new LogInCallback() {
+            @Override
+            public void done(ParseUser user, ParseException e) {
+                if (e == null) {
+                    Log.d("LoginActivity", "Login successful");
+                    ArrayList<String> following = (ArrayList<String>) ParseUser.getCurrentUser().get("friends"); // todo - user says has no friends?
+                    Log.i("FollowingList", "Number of friends: " + following.size());
+                    getStudentArray();
+
+                } else {
+                    Log.e("LoginActivity", "Login failure");
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }

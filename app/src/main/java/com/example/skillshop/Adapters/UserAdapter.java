@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.skillshop.FollowingListActivity;
 import com.example.skillshop.NavigationFragments.HomeFragment;
 import com.example.skillshop.NavigationFragments.UserProfileFragment;
 import com.example.skillshop.R;
@@ -34,7 +35,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     private List<ParseUser> mUsers;
     private Context context;
-    FragmentManager fragmentManager;
 
     //pass in the Posts array in the constructor
     public UserAdapter(ArrayList<ParseUser> users, Context context) {
@@ -168,6 +168,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 public void done(ParseException e) {
                     if (e == null) {
                         Toast.makeText(context, "You are no longer following " + fellowAttendee.get("firstName"), Toast.LENGTH_LONG).show();
+                        //todo - make invisible?
+
                     } else {
                         e.printStackTrace();
                     }
