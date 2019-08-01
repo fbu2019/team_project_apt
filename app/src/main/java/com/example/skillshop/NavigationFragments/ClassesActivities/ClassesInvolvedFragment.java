@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.skillshop.Adapters.ClassAdapter;
+import com.example.skillshop.Adapters.ClassAdapterCard;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.R;
@@ -25,7 +26,7 @@ public class ClassesInvolvedFragment extends Fragment {
 
     private RecyclerView rvClasses;
     protected ArrayList<Workshop> mWorkshops;
-    protected ClassAdapter classAdapter;
+    protected ClassAdapterCard classAdapter;
     private SwipeRefreshLayout swipeContainer;
     private boolean taking;
 
@@ -77,7 +78,7 @@ public class ClassesInvolvedFragment extends Fragment {
         //init the arraylist (data source)
         mWorkshops = new ArrayList<>();
         //construct the adapter from this datasource
-        classAdapter = new ClassAdapter(mWorkshops, getContext());
+        classAdapter = new ClassAdapterCard(mWorkshops, getContext());
         //RecyclerView setup (layout manager, use adapter)
         rvClasses.setLayoutManager(new LinearLayoutManager(getContext()));
         //set the adapter

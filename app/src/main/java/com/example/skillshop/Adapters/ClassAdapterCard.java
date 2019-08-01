@@ -93,10 +93,9 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
 
         private ImageView ivClassIcon;
         private TextView tvClassName;
-        private TextView tvInstructor;
+        private TextView tvDescription;
         private TextView tvDate;
         private TextView tvTime;
-        private TextView tvLocation;
         private TextView tvCost;
         private ImageView ivTeacherBadge;
 
@@ -109,10 +108,9 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
             //perform findViewById lookups by id in the xml file
             ivClassIcon = itemView.findViewById(R.id.ivClassIcon);
             tvClassName = itemView.findViewById(R.id.tvClassName);
-            tvInstructor = itemView.findViewById(R.id.tvInstructor);
+            tvDescription = itemView.findViewById(R.id.tvDescription);
             tvDate = itemView.findViewById(R.id.tvDate);
             tvTime =itemView.findViewById(R.id.tvTime);
-            tvLocation =  itemView.findViewById(R.id.etLocation);
             tvCost =  itemView.findViewById(R.id.tvCost);
             ivTeacherBadge = itemView.findViewById(R.id.ivTeacherBadge);
         }
@@ -130,7 +128,7 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
 
             ParseUser teacher = tWorkshop.getTeacher();
             if(teacher.getString("firstName")!=null && teacher.getString("lastName")!=null){
-               tvInstructor.setText(teacher.getString("firstName")+" "+teacher.getString("lastName"));
+                tvDescription.setText(tWorkshop.getDescription());
             }
 
             if(tWorkshop.isTeacher())
@@ -153,7 +151,6 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
             DateFormat timeFormat = new SimpleDateFormat("HH:mm");
             tvDate.setText(dateFormat.format(date));
             tvTime.setText(timeFormat.format(date));
-            tvLocation.setText(tWorkshop.getLocationName());
 
             Double cost = tWorkshop.getCost();
 
@@ -163,7 +160,7 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
             }
             else
             {
-                tvCost.setText("$ "+cost);
+                tvCost.setText("$ "+cost+" / hr");
             }
 
 
@@ -194,32 +191,8 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
                 default: break;
             }
 
-            // Define a listener for image loading
-            SimpleTarget<Bitmap> target = new SimpleTarget<Bitmap>() {
-                @Override
-                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                    // TODO 1. Insert the bitmap into the profile image view
-                    ivClassIcon.setImageBitmap(resource);
 
-
-                    // TODO 2. Use generate() method from the Palette API to get the vibrant color from the bitmap
-                    // Set the result as the background color for `R.id.vPalette` view containing the contact's name.
-                    Palette palette = Palette.from(resource).generate();
-                    Palette.Swatch vibrantPalette = palette.getVibrantSwatch();
-                    int vibrant = vibrantPalette.getRgb();
-                    int dominant = palette.getDominantColor(Color.WHITE);
-                    ivClassIcon.setBackgroundColor(vibrant);
-
-                }
-
-            };
-
-
-            ivClassIcon.setTag(target);
-
-
-            Drawable draw = context.getResources().getDrawable(res);
-            Glide.with(context).asBitmap().load(res).centerCrop().into(target);
+            Glide.with(context).asBitmap().load(res).centerCrop().into(ivClassIcon);
 
 
         }
