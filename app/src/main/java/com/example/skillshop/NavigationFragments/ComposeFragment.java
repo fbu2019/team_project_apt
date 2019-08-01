@@ -90,7 +90,7 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
     private String apiKey;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate((R.layout.fragment_compose), container, false);
+        return inflater.inflate((R.layout.fragment_new_compose), container, false);
     }
 
 
