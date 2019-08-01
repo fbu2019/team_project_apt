@@ -1,22 +1,58 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0A2196F3"
     android:orientation="vertical">
 
+    <RatingBar
+        android:id="@+id/instructorAverage2"
+        style="@style/Widget.AppCompat.RatingBar"
+        android:layout_width="237dp"
+        android:layout_height="43dp"
+        android:scaleX="0.5"
+        android:scaleY="0.4"
+        tools:layout_editor_absoluteX="134dp"
+        tools:layout_editor_absoluteY="80dp" />
+
     <TextView
         android:id="@+id/tv_info_window_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="239dp"
+        android:layout_height="35dp"
         android:singleLine="true"
+        android:text="Ruth-Ann Armstrong"
         android:textColor="#ff669900"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="135dp"
+        tools:layout_editor_absoluteY="45dp" />
+
+    <TextView
+        android:id="@+id/tv_info_window_title2"
+        android:layout_width="239dp"
+        android:layout_height="30dp"
+        android:singleLine="true"
+        android:text="My class"
+        android:textColor="#ff669900"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="135dp"
+        tools:layout_editor_absoluteY="16dp" />
 
     <TextView
         android:id="@+id/tv_info_window_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hours"
-        android:textColor="#ff0099cc" />
+        android:layout_width="238dp"
+        android:layout_height="33dp"
+        android:text="November 18, 2019"
+        android:textColor="#ff0099cc"
+        tools:layout_editor_absoluteX="133dp"
+        tools:layout_editor_absoluteY="123dp" />
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="109dp"
+        android:layout_height="107dp"
+        app:srcCompat="@drawable/education"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+</android.support.constraint.ConstraintLayout>

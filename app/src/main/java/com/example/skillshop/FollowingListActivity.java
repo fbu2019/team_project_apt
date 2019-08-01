@@ -79,6 +79,8 @@ public class FollowingListActivity extends AppCompatActivity {
                 @Override
                 public void done(List<ParseUser> attendees, ParseException e) {
                     if (e == null) {
+
+
                         for (int i = 0; i < attendees.size(); i++) {
                             ParseUser userItem = attendees.get(i);
                             Log.i("FollowingList", String.valueOf(attendees.get(i).get("firstName")));
