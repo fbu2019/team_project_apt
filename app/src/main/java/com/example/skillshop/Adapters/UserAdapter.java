@@ -110,7 +110,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             if (preferences != null) {
                 for (int i = 0; i < preferences.length(); i++) {
                     try {
-                        preferenceString += preferences.getString(i) + " | ";
+                        if(i==preferences.length()-1) {
+                            preferenceString += preferences.getString(i);
+                        } else {
+                            preferenceString += preferences.getString(i) + " | ";
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
