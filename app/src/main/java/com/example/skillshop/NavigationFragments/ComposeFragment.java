@@ -90,7 +90,7 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
     private String apiKey;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate((R.layout.fragment_compose), container, false);
+        return inflater.inflate((R.layout.fragment_new_compose), container, false);
     }
 
 
@@ -100,38 +100,38 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        apiKey = this.getResources().getString(R.string.places_api_key);
-        findAllViews(view);
-        setSubmitListener();
-
-        v = view;
-
-        newClass = new Workshop();
-
-        // dates todays date
-        Calendar cal = Calendar.getInstance();
-        today = cal.getTime();
-
-
-        // Initialize Places.
-        if (!Places.isInitialized()) {
-            Places.initialize(getApplicationContext(), apiKey);
-        }
-
-
-        btLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchIntent();
-            }
-        });
-
-
-        setOnPictureUploadButton();
-
-        setTimeAndDateListeners();
-
-        setSpinner();
+//        apiKey = this.getResources().getString(R.string.places_api_key);
+//        findAllViews(view);
+//        setSubmitListener();
+//
+//        v = view;
+//
+//        newClass = new Workshop();
+//
+//        // dates todays date
+//        Calendar cal = Calendar.getInstance();
+//        today = cal.getTime();
+//
+//
+//        // Initialize Places.
+//        if (!Places.isInitialized()) {
+//            Places.initialize(getApplicationContext(), apiKey);
+//        }
+//
+//
+//        btLocation.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                launchIntent();
+//            }
+//        });
+//
+//
+//        setOnPictureUploadButton();
+//
+//        setTimeAndDateListeners();
+//
+//        setSpinner();
 
 
     }
