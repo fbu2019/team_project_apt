@@ -1,9 +1,6 @@
 package com.example.skillshop.NavigationFragments.CalendarActivities;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,13 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.skillshop.Adapters.ClassAdapter;
-import com.example.skillshop.ClassManipulationActivities.NewClassActivity;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +29,7 @@ public class TodaysClassesFragment extends Fragment {
     @Override
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate((R.layout.fragment_calendar_day_list), container, false);
+        return inflater.inflate((R.layout.fragment_classes_list), container, false);
     }
 
     @Override

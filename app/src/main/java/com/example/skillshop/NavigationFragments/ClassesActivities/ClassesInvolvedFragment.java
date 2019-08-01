@@ -1,8 +1,6 @@
 package com.example.skillshop.NavigationFragments.ClassesActivities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
@@ -15,7 +13,6 @@ import android.view.ViewGroup;
 import com.example.skillshop.Adapters.ClassAdapter;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.Models.Query;
-import com.example.skillshop.ClassManipulationActivities.NewClassActivity;
 import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -24,24 +21,30 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassesTakingFragment extends Fragment {
+public class ClassesInvolvedFragment extends Fragment {
 
     private RecyclerView rvClasses;
     protected ArrayList<Workshop> mWorkshops;
     protected ClassAdapter classAdapter;
     private SwipeRefreshLayout swipeContainer;
+    private boolean taking;
 
 
     @Override
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate((R.layout.fragment_classes_taking), container, false);
+        return inflater.inflate((R.layout.fragment_classes_list), container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
+
+        Bundle bundle = this.getArguments();
+        taking = bundle.getBoolean("taking");
+
+
 
 
         connectRecyclerView(view);
@@ -99,7 +102,15 @@ public class ClassesTakingFragment extends Fragment {
         if(ParseUser.getCurrentUser().getUsername()!=null) {
             // get all the classes the user is taking and display them
             Query parseQuery = new Query();
-            parseQuery.getAllClasses().getClassesTaking().withItems().byTimeOfClass();
+
+            if(taking){
+                parseQuery.getAllClasses().getClassesTaking().withItems().byTimeOfClass();
+            }
+            else
+            {
+                parseQuery.getAllClasses().getClassesTeaching().withItems().byTimeOfClass();
+            }
+
 
             parseQuery.findInBackground(new FindCallback<Workshop>() {
                 @Override
