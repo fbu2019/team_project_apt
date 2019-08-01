@@ -129,9 +129,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
         ParseUser.getCurrentUser().put("friends", currentlyFollowing);
 
-        Log.e("InstructorDetails", "Before saving arraylist size: " + currentlyFollowing.size());
-
-
+        login(ParseUser.getCurrentUser().getUsername(), ParseUser.getCurrentUser().getUsername());
         ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
