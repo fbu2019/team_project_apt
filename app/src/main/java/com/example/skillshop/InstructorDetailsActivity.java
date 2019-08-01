@@ -93,7 +93,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
             Boolean isFollowing = myFollowing.contains(detailedWorkshop.getTeacher().getObjectId());
 
             if (isFollowing) {
-                followInstructorButton.setText("UNFOLLOW USER");
+                followInstructorButton.setText("UNFOLLOW INSTRUCTOR");
             }
 
             followInstructorButton.setOnClickListener(new View.OnClickListener() {
@@ -122,11 +122,6 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
         //Removes the attendee from the current user's following list and saves it to parse
         currentlyFollowing.remove(instructorId);
-
-        if (currentlyFollowing.size() > 0) {
-            Log.e("InstructorDetails", currentlyFollowing.get(0));
-        }
-
         ParseUser.getCurrentUser().put("friends", currentlyFollowing);
 
         login(ParseUser.getCurrentUser().getUsername(), ParseUser.getCurrentUser().getUsername());
@@ -142,13 +137,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
             }
         });
 
-        //Resets the following button
-        ArrayList<String> friends = (ArrayList<String>) ParseUser.getCurrentUser().get("friends");
-        int size = friends.size();
-
-        Log.e("InstructorDetails", "After saving arraylist size: " + size);
-
-        followInstructorButton.setText("FOLLOW USER");
+        followInstructorButton.setText("FOLLOW INSTRUCTOR");
         numberOfFollowers--;
         if (numberOfFollowers == 1) {
             tvNumberOfFollowers.setText("1 follower");
@@ -164,8 +153,6 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         currentlyFollowing.add(instructorId);
         ParseUser.getCurrentUser().put("friends", currentlyFollowing);
 
-        Log.e("InstructorDetails", "Currently logged in as " + ParseUser.getCurrentUser().getUsername());
-
         login(ParseUser.getCurrentUser().getUsername(), ParseUser.getCurrentUser().getUsername());
         ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
             @Override
@@ -180,7 +167,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         });
 
         //Resets the following button
-        followInstructorButton.setText("UNFOLLOW USER");
+        followInstructorButton.setText("UNFOLLOW INSTRUCTOR");
         numberOfFollowers++;
         if (numberOfFollowers == 1) {
             tvNumberOfFollowers.setText("1 follower");
@@ -441,7 +428,6 @@ public class InstructorDetailsActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void login(String username, String password) {
 
