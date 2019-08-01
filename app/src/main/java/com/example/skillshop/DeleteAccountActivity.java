@@ -1,9 +1,6 @@
 package com.example.skillshop;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.media.Rating;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,15 +10,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.skillshop.ClassManipulationActivities.EditClassActivity;
 import com.example.skillshop.LoginActivities.LoginActivity;
 import com.example.skillshop.LoginActivities.SignupActivity;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.Models.Workshop;
-import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesTakingFragment;
 import com.example.skillshop.NavigationFragments.FragmentHandler;
-import com.example.skillshop.NavigationFragments.HomeFragment;
 import com.facebook.login.LoginManager;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;

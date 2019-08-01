@@ -22,10 +22,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.skillshop.AddUserPreferences;
 import com.example.skillshop.DeleteAccountActivity;
 import com.example.skillshop.LoginActivities.LoginActivity;
-import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Ratings;
-import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesTakingFragment;
-import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesTeachingFragment;
+import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesInvolvedFragment;
 import com.example.skillshop.R;
 import com.example.skillshop.SkillVisualizationActivity;
 import com.facebook.login.LoginManager;
@@ -158,16 +156,23 @@ public class UserProfileFragment extends Fragment {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment = new HomeFragment();
                 // depending on which button the user presses the classes will be displayed
+                Bundle bundle = new Bundle();
+
+
+
                 switch (item.getItemId()) {
                     case R.id.taking:
-                        fragment = new ClassesTakingFragment();
+                        fragment = new ClassesInvolvedFragment();
+                        bundle.putBoolean("taking", true);
                         break;
+
                     case R.id.teaching:
-                        fragment = new ClassesTeachingFragment();
+                        fragment = new ClassesInvolvedFragment();
+                        bundle.putBoolean("taking", false);
                         break;
-                    default:
-                        break;
+                    default: break;
                 }
+                fragment.setArguments(bundle);
                 // switch to selected fragment
                 fragmentManager.beginTransaction().replace(R.id.classes_today, fragment).commit();
                 return true;
