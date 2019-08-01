@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.Spinner;
 
 import com.example.skillshop.Adapters.ClassAdapterCard;
@@ -43,7 +44,7 @@ public class HomeFragment extends Fragment {
 
     Spinner spinSorters;
     Spinner spinFilters;
-    Button btnMap;
+    SearchView searchView;
     Button btnPreferenceFilter;
     Button btnFollowing;
     private SwipeRefreshLayout swipeContainer;
@@ -64,6 +65,14 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         spinSorters = view.findViewById(R.id.spinSorters);
         spinFilters = view.findViewById(R.id.spinFilters);
+        searchView = view.findViewById(R.id.searchView);
+
+//        searchView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                searchView.onActionViewExpanded();
+//            }
+//        });
 
         setupPreferenceFilterButton(view);
         setupFollowingListButton(view);
