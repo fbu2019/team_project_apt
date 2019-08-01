@@ -2,6 +2,7 @@ package com.example.skillshop;
 
 import org.parceler.Parcels;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,9 +14,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.skillshop.LoginActivities.LoginActivity;
+import com.example.skillshop.LoginActivities.SignupActivity;
 import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.Models.Workshop;
+import com.example.skillshop.NavigationFragments.FragmentHandler;
 import com.parse.FindCallback;
+import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -113,6 +118,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
     }
 
     private void unfollowInstructor(ArrayList<String> currentlyFollowing, String instructorId, ParseUser instructor, ParseUser currentUser) {
+
         //Removes the attendee from the current user's following list and saves it to parse
         currentlyFollowing.remove(instructorId);
 
@@ -121,6 +127,9 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         }
 
         ParseUser.getCurrentUser().put("friends", currentlyFollowing);
+
+        Log.e("InstructorDetails", "Before saving arraylist size: "+currentlyFollowing.size());
+
 
         ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
             @Override
@@ -135,6 +144,11 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         });
 
         //Resets the following button
+        ArrayList<String> friends = (ArrayList<String>) ParseUser.getCurrentUser().get("friends");
+        int size = friends.size();
+
+        Log.e("InstructorDetails", "After saving arraylist size: "+size);
+
         followInstructorButton.setText("FOLLOW USER");
         numberOfFollowers--;
         if (numberOfFollowers == 1) {
@@ -150,14 +164,10 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         //Adds the attendee to the current user's following list and saves it to parse
         currentlyFollowing.add(instructorId);
         ParseUser.getCurrentUser().put("friends", currentlyFollowing);
-        Log.e("InstructorDetails", currentlyFollowing.get(0));
 
-        for (int i = 0; i < currentlyFollowing.size(); i++) {
+        Log.e("InstructorDetails", "Currently logged in as "+ParseUser.getCurrentUser().getUsername());
 
-            Log.e("InstructorDetails", "Index " + i + " " + currentlyFollowing.get(0));
-
-        }
-
+        login(ParseUser.getCurrentUser().getUsername(), ParseUser.getCurrentUser().getUsername());
         ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -180,7 +190,6 @@ public class InstructorDetailsActivity extends AppCompatActivity {
             tvNumberOfFollowers.setText(numberOfFollowers + " followers");
         }
     }
-
 
     private void initRatingBar() {
 
@@ -277,7 +286,6 @@ public class InstructorDetailsActivity extends AppCompatActivity {
             public void done(List<Ratings> objects, ParseException e) {
                 if (e == null) {
 
-                    //todo - add additional check here to make sure user cannot rate multiple times
                     Ratings currentRating = objects.get(0);
                     int currentNumberOfRatings = currentRating.getNumRatings();
                     int currentSumOfRatings = currentRating.getSumRatings();
@@ -360,41 +368,6 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
     }
 
-    private void checkIfRated(String userID) { //    todo - see if necessary then delete if not
-
-        hasRatedBefore = false;
-
-        Ratings.Query ratingParseQuery = new Ratings.Query();
-        ratingParseQuery.getAllRatings().whereEqualTo("user", detailedWorkshop.getTeacher());
-
-        ratingParseQuery.findInBackground(new FindCallback<Ratings>() {
-
-            @Override
-            public void done(List<Ratings> objects, ParseException e) {
-                if (e == null) {
-
-                    if(objects.size()>0) {
-                        Ratings currentRating = objects.get(0);
-                        HashMap<String, Integer> usersWhoRated = (HashMap<String, Integer>) currentRating.get("userRatings");
-
-                        if (usersWhoRated.get(userID) != null) {
-
-                            Log.e("InstructorDetails", "User has rated before with rating "+usersWhoRated.get(userID));
-                            hasRatedBefore = true;
-                            tvUserProvidedRating.setText("You have previously rated this instructor. You may modify your rating above.");
-
-                        }
-                    } else {
-
-                        tvUserProvidedRating.setText("Provide a rating for this instructor above");
-                    }
-
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
 
     private void setNumFollowers() {
 
@@ -434,4 +407,58 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
     }
 
+
+    private void checkIfRated(String userID) {
+
+        hasRatedBefore = false;
+
+        Ratings.Query ratingParseQuery = new Ratings.Query();
+        ratingParseQuery.getAllRatings().whereEqualTo("user", detailedWorkshop.getTeacher());
+
+        ratingParseQuery.findInBackground(new FindCallback<Ratings>() {
+
+            @Override
+            public void done(List<Ratings> objects, ParseException e) {
+                if (e == null) {
+
+                    if(objects.size()>0) {
+                        Ratings currentRating = objects.get(0);
+                        HashMap<String, Integer> usersWhoRated = (HashMap<String, Integer>) currentRating.get("userRatings");
+
+                        if (usersWhoRated.get(userID) != null) {
+
+                            Log.e("InstructorDetails", "User has rated before with rating "+usersWhoRated.get(userID));
+                            hasRatedBefore = true;
+                            tvUserProvidedRating.setText("You have previously rated this instructor. You may modify your rating above.");
+
+                        }
+                    } else {
+
+                        tvUserProvidedRating.setText("Provide a rating for this instructor above");
+                    }
+
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+
+    private void login(String username, String password) {
+
+        Log.i("LoginActivity", "Reached login method");
+        ParseUser.logInInBackground(username, password, new LogInCallback() {
+            @Override
+            public void done(ParseUser user, ParseException e) {
+                if (e == null) {
+                    Log.d("LoginActivity", "Login successful");
+
+                } else {
+                    Log.e("LoginActivity", "Login failure");
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 }
