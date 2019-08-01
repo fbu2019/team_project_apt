@@ -360,7 +360,7 @@ public class HomeFragment extends Fragment {
 
         Query parseQuery = new Query();
         // query add all classes with all data and sort by time of class and only show new classes
-        parseQuery.getAllClasses().withItems().byTimeOfClass();
+        parseQuery.getAllClasses().withItems().byTimeOfClass().getClassesNotTaking();
 
         parseQuery.findInBackground(new FindCallback<Workshop>() {
             @Override

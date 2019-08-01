@@ -160,7 +160,6 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
             if(cost == 0)
             {
                 tvCost.setText("Free");
-                tvCost.setBackground(new ColorDrawable(Color.parseColor("#00DD00")));
             }
             else
             {
