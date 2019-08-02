@@ -38,7 +38,7 @@ public class FragmentHandler extends AppCompatActivity {
                 // depending on which button is pressed launch the corresponding fragment
                 switch (item.getItemId()) {
                     case R.id.home_fragment:
-                        fragment = new HomeFragment();
+                        fragment = new CategoryFragment();
                         break;
                     case R.id.calendar_fragment:
                         fragment = new CalendarFragment();
