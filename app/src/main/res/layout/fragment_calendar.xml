@@ -17,7 +17,7 @@
         app:srcCompat="@drawable/ic_both" />
 
     <TextView
-        android:id="@+id/tv"
+        android:id="@+id/tvInstructorNameMV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="72dp"
@@ -65,7 +65,7 @@
         android:layout_marginEnd="112dp"
         android:layout_marginBottom="8dp"
         android:text="You have a class this day"
-        app:layout_constraintBottom_toTopOf="@+id/tv"
+        app:layout_constraintBottom_toTopOf="@+id/tvInstructorNameMV"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
@@ -81,7 +81,7 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         app:layout_constraintStart_toStartOf="@+id/imageView3"
-        app:layout_constraintTop_toTopOf="@+id/tv"
+        app:layout_constraintTop_toTopOf="@+id/tvInstructorNameMV"
         app:srcCompat="@drawable/ic_teaching_note" />
 
     <ImageView

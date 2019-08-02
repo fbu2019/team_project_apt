@@ -127,8 +127,8 @@ public class MapFragment extends Fragment{
                         Marker marker = mMap.addMarker(new MarkerOptions()
                                 .position(point)
                                 .icon(defaultMarker)
-                                .title(workshopItem.getName())
-                                .snippet(getRelativeTimeAgo(workshopItem.getDate()))
+                                .title(workshopItem.getObjectId())
+                               // .snippet(getRelativeTimeAgo(workshopItem.getDate()))
                         );
 
                         marker.setTag(workshopItem);
@@ -175,7 +175,7 @@ public class MapFragment extends Fragment{
         return marker;
     }
 
-    public static String getRelativeTimeAgo(String rawJsonDate) {
+ /*   public static String getRelativeTimeAgo(String rawJsonDate) {
         String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
         SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
         sf.setLenient(true);
@@ -190,7 +190,7 @@ public class MapFragment extends Fragment{
         }
 
         return relativeDate;
-    }
+    }*/
 
 
 

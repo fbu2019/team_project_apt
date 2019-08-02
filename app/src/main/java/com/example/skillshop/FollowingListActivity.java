@@ -85,6 +85,7 @@ public class FollowingListActivity extends AppCompatActivity {
                 @Override
                 public void done(List<ParseUser> attendees, ParseException e) {
                     if (e == null) {
+
                         Log.i("FollowingListActivity", "Number of ParseUsers: " + attendees.size());
 
                         for (int i = 0; i < attendees.size(); i++) {
