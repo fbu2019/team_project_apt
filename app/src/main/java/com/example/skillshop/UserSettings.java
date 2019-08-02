@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -45,6 +47,7 @@ public class UserSettings extends AppCompatActivity {
     ImageView ivProfileImage;
     Button btnLogout;
     Button btnDelete;
+    Switch switchVisible;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +67,15 @@ public class UserSettings extends AppCompatActivity {
         double lng = markerGP.getLongitude();
         String strLat = String.valueOf((lat));
         String strLng = String.valueOf(lng);
-        tvCurrentLocationCoordinates.setText("Lat: "+strLat+" Lng: "+strLng);
+        tvCurrentLocationCoordinates.setText("Lat: " + strLat + " Lng: " + strLng);
 
         initRatingNumber(user);
         initPreferences(user);
         initProfileImage(user);
+
+        switchVisible = findViewById(R.id.visibilitySwitch);
+        retrieveVisibility();
+        checkCurrentVisibility();
 
         btnLogout = findViewById(R.id.logoutButton);
         btnLogout.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +114,7 @@ public class UserSettings extends AppCompatActivity {
     }
 
 
-    private void initPreferences(ParseUser user){
+    private void initPreferences(ParseUser user) {
 
         tvPreferencesMessage = findViewById(R.id.currentPreferencesMessage);
         tvCurrentPreferences = findViewById(R.id.currentPreferences);
@@ -117,7 +124,7 @@ public class UserSettings extends AppCompatActivity {
         if (preferences != null) {
             for (int i = 0; i < preferences.size(); i++) {
 
-                if(i==preferences.size()-1) {
+                if (i == preferences.size() - 1) {
                     preferenceString += preferences.get(i);
                 } else {
                     preferenceString += preferences.get(i) + " | ";
@@ -138,7 +145,7 @@ public class UserSettings extends AppCompatActivity {
 
     }
 
-    private void initProfileImage(ParseUser user){
+    private void initProfileImage(ParseUser user) {
 
         ivProfileImage = findViewById(R.id.ivUserProfileImage);
         String profilePhotoUrl = user.getString("profilePicUrl");
@@ -198,10 +205,52 @@ public class UserSettings extends AppCompatActivity {
                     tvCurrentLocation.setText(locationName);
                     String strLat = String.valueOf(latLng.latitude);
                     String strLng = String.valueOf(latLng.longitude);
-                    tvCurrentLocationCoordinates.setText("Lat: "+strLat+" Lng: "+strLng);
+                    tvCurrentLocationCoordinates.setText("Lat: " + strLat + " Lng: " + strLng);
                 }
             });
         }
     }
+
+    private void retrieveVisibility() {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (switchVisible.isChecked()) {
+            currentUser.put("visible", true);
+        } else {
+            currentUser.put("visible", false);
+        }
+    }
+
+    private void checkCurrentVisibility() {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        Boolean visible = currentUser.getBoolean("visible");
+        if (visible) {
+            switchVisible.setChecked(true);
+        } else {
+            switchVisible.setChecked(false);
+        }
+        currentUser.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    e.printStackTrace();
+                    return;
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+            Intent i = new Intent (UserSettings.this, LoginActivity.class);
+            startActivity(i);
+            // do something on back.
+             return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
+        }
 
 }
