@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -144,7 +145,7 @@ public class UserProfileFragment extends Fragment {
         rbUserRating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+
             }
         });
         tvSkillsAnalysis.setOnClickListener(new View.OnClickListener() {
@@ -228,14 +229,33 @@ public class UserProfileFragment extends Fragment {
                         Ratings userRating = objects.get(0);
 
                         if (userRating.getNumRatings() == 0) {
-                          //  tvRatingMessage.setText("You have not been rated as an instructor.");
+
+                            rbUserRating.setVisibility(View.INVISIBLE);
+
                         } else if (userRating.getNumRatings() == 1) {
-                           // tvRatingMessage.setText("You have been rated 1 time");
+
                             rbUserRating.setRating((int) userRating.getAverageRating());
                         } else {
-                           // tvRatingMessage.setText("You have been rated " + userRating.getAverageRating() + " times.");
+
                             rbUserRating.setRating((int) userRating.getAverageRating());
                         }
+
+                        rbUserRating.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if(userRating.getNumRatings() == 0) {
+
+                                    Toast.makeText(getContext(), "You have not been rated as an instructor", Toast.LENGTH_LONG).show();
+                                } else if (userRating.getNumRatings() == 1 ){
+
+                                    Toast.makeText(getContext(), "You have been rated 1 time", Toast.LENGTH_LONG).show();
+                                } else {
+
+                                    Toast.makeText(getContext(), "You have been rated "+userRating.getAverageRating()+" times.", Toast.LENGTH_LONG).show();
+                                }
+
+                            }
+                        });
 
                     }
 
