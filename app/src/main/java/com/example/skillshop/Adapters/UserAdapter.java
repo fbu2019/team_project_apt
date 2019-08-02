@@ -17,7 +17,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.skillshop.FollowingListActivity;
+import com.example.skillshop.InstructorDetailsActivity;
 import com.example.skillshop.Models.Ratings;
+import com.example.skillshop.Models.User;
 import com.example.skillshop.NavigationFragments.HomeFragment;
 import com.example.skillshop.NavigationFragments.UserProfileFragment;
 import com.example.skillshop.R;
@@ -33,6 +35,8 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.widget.Toast.LENGTH_LONG;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
@@ -134,8 +138,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 }
             });
 
-
-
         }
 
         private String getPreferences(JSONArray preferences, ParseUser user) {
@@ -204,7 +206,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 @Override
                 public void done(ParseException e) {
                     if (e == null) {
-                        Toast.makeText(context, "You are no longer following " + fellowAttendee.get("firstName"), Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "You are no longer following " + fellowAttendee.get("firstName"), LENGTH_LONG).show();
                         //todo - make invisible?
 
                     } else {
@@ -225,7 +227,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 @Override
                 public void done(ParseException e) {
                     if (e == null) {
-                        Toast.makeText(context, "You are now following " + fellowAttendee.get("firstName"), Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "You are now following " + fellowAttendee.get("firstName"), LENGTH_LONG).show();
                     } else {
                         e.printStackTrace();
                     }

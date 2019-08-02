@@ -218,5 +218,12 @@
     <color name="red_7">#ffa70311</color>
     <color name="red_8">#ff6e0008</color>
     <color name="light_gray">#F3F3F3</color>
+    <color name ="color_palette_yellow">#FFECB5</color>
+    <color name ="color_palette_light_blue1">#D2F0EA</color>
+    <color name ="color_palette_light_blue2">#CAEEF9</color>
+    <color name ="color_palette_green">#6BCEBB</color>
+    <color name ="color_palette_orange">#F7923B</color>
+    <color name ="color_palette_dark_grey">#444950</color>
+    <color name ="color_palette_light_grey">#8D949E</color>
 
 </resources>
