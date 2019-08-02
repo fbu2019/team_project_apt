@@ -79,27 +79,21 @@ public class CategoryDisplayFragment extends Fragment {
 
 
 
-//        spinSorters = view.findViewById(R.id.spinSorters);
-//        searchView = view.findViewById(R.id.searchView);
-//
-//        searchView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                searchView.onActionViewExpanded();
-//            }
-//        });
-//
-//        setupPreferenceFilterButton(view);
-//        setupFollowingListButton(view);
-//
-//        connectRecyclerView(view);
-//
-//        category = new ArrayList<String>();
-//
-//        category.add("Culinary");
-//
-//        updateToken();
-//        setSorters();
+        spinSorters = view.findViewById(R.id.spinSorters);
+        searchView = view.findViewById(R.id.searchView);
+
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchView.onActionViewExpanded();
+            }
+        });
+
+
+        connectRecyclerView(view);
+
+        updateToken();
+        setSorters();
         setUpNavBar(getView());
 
 
@@ -119,8 +113,8 @@ public class CategoryDisplayFragment extends Fragment {
                 topNavigationBar.inflateMenu(R.menu.menu_fitness);
                 break;
             case "Arts/Crafts":
+                topNavigationBar.inflateMenu(R.menu.menu_arts);
                 break;
-
 
         }
 

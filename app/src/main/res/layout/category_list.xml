@@ -18,6 +18,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
+            android:background="@color/light_gray"
             android:layout_height="match_parent">
 
             <TextView
@@ -49,6 +50,7 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/light_gray"
             >
 
             <TextView
@@ -82,6 +84,7 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
+            android:background="@color/light_gray"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -114,6 +117,7 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
+            android:background="@color/light_gray"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -147,6 +151,7 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
+            android:background="@color/light_gray"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -181,6 +186,7 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
+            android:background="@color/light_gray"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
