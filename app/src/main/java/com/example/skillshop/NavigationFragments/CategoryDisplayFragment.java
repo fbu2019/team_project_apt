@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.skillshop.Adapters.ClassAdapterCard;
 import com.example.skillshop.FollowingListActivity;
@@ -49,6 +50,8 @@ public class CategoryDisplayFragment extends Fragment {
     Button btnFollowing;
     private SwipeRefreshLayout swipeContainer;
 
+    TextView tvDisplay;
+
     private ArrayList<String> category;
 
     private String mainCategory;
@@ -69,6 +72,10 @@ public class CategoryDisplayFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         mainCategory  = bundle.getString("Category");
+
+        tvDisplay = view.findViewById(R.id.tvDisplay);
+
+        tvDisplay.setText(mainCategory);
 
 
 
@@ -109,7 +116,7 @@ public class CategoryDisplayFragment extends Fragment {
                 break;
             case "Fitness":
                 break;
-            case "Arts":
+            case "Arts/Crafts":
                 break;
 
 

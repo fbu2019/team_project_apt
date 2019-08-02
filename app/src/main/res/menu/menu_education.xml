@@ -4,40 +4,40 @@
 
 
     <item
-        android:id="@+id/culinary_category"
+        android:id="@+id/programming_category"
         android:enabled="true"
-        android:icon="@drawable/ic_culinary"
-        android:title="Culinary"
+        android:icon="@drawable/ic_programming"
+        android:title="Programming"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/education_category"
+        android:id="@+id/science_category"
         android:enabled="true"
-        android:icon="@drawable/ic_education"
-        android:title="Education"
+        android:icon="@drawable/ic_science"
+        android:title="Sciences"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/fitness_category"
+        android:id="@+id/humanities_category"
         android:enabled="true"
-        android:icon="@drawable/ic_sports"
-        android:title="Fitness"
+        android:icon="@drawable/ic_humanities"
+        android:title="Humanities"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/arts_fragment"
+        android:id="@+id/languages_fragment"
         android:enabled="true"
-        android:icon="@drawable/ic_arts"
-        android:title="Arts"
+        android:icon="@drawable/ic_languages"
+        android:title="Languages"
 
         app:showAsAction="ifRoom" />
 
 
     <item
-        android:id="@+id/other_fragment"
+        android:id="@+id/business_fragment"
         android:enabled="true"
-        android:icon="@drawable/ic_other"
-        android:title="Other"
+        android:icon="@drawable/ic_business"
+        android:title="Business"
         app:showAsAction="ifRoom" />
 
 </menu>

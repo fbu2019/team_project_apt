@@ -85,7 +85,7 @@ public class CategoryChooseFragment extends Fragment {
                 Fragment fragment = new CategoryDisplayFragment();
 
                 Bundle bundle = new Bundle();
-                bundle.putString("Category", "Arts");
+                bundle.putString("Category", "Arts/Crafts");
                 fragment.setArguments(bundle);
 
                 // transaction on current activity
