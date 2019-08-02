@@ -338,7 +338,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         btnDate = findViewById(R.id.btnDate);
         btLocation = findViewById(R.id.etLocation);
         etDescription = findViewById(R.id.etDescription);
-        spinCategory = findViewById(R.id.spinCategory);
+        spinCategory = findViewById(R.id.categoryPicker);
         etCost = findViewById(R.id.etCost);
         btSubmit = findViewById(R.id.btSubmit);
         ivClassImage = findViewById(R.id.ivClassImage);

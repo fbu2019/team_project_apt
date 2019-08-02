@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -73,13 +72,19 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
     String locationName;
     private File photoFile;
     NumberPicker categoryPicker;
+    NumberPicker subCategoryPicker;
     Uri photoUri;
 
     Date today;
 
     View v;
 
+  /*  HashMap<Integer, String> categories;
+    HashMap<Integer, String> subCategoriesArtsCrafts;
 
+    HashMap<Integer, String> subCategoriesCulinary;
+    HashMap<Integer, String> subCategoriesEducation;
+    HashMap<Integer, String> subCategoriesFitness;*/
     HashMap<String, Integer> dateMap;
 
     // PICK_PHOTO_CODE is a constant integer
@@ -103,6 +108,7 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+       // initializeHashMaps();
         List<Integer> skillsData = new ArrayList<Integer>(Collections.nCopies(10, 0));
         ParseUser curr = ParseUser.getCurrentUser();
         curr.put("skillsData", skillsData);
@@ -138,26 +144,77 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
 
         setTimeAndDateListeners();
 
-        setSpinner();
+    //    setSpinner();
 
 
 
 
         setCategoryPicker();
+        setSubCategoryPicker(0);
 
 
     }
 
+   /* private void initializeHashMaps() {
+        String[] catArray = getResources().getStringArray(R.array.categories);
+        for (int catArray.length
+
+    }*/
+
     private void setCategoryPicker() {
         // Create an ArrayAdapter using the string array and a default spinner layout
+        categoryPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+
+                setSubCategoryPicker(newVal);
+            }
+        });
         categoryArray = getResources().getStringArray(R.array.categories);
-        //new String.[]{"Culinary", "Education", "Fitness", "Arts/Crafts", "Other"};
+
         categoryPicker.setMinValue(0);
         categoryPicker.setMaxValue(categoryArray.length-1);
         categoryPicker.setDisplayedValues(categoryArray);
     }
 
-    public void setSpinner() {
+    private void setSubCategoryPicker(int i) {
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        String [] subCategoryArray;
+        switch(i){
+            case 0:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesArtsCrafts);
+                break;
+            }
+            case 1:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesCulinary);
+                break;
+            }
+            case 2:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesEducation);
+                break;
+            }
+            case 3:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesFitness);
+                break;
+            }
+            case 4:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesOther);
+                break;
+            }
+            default:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesArtsCrafts);
+                break;
+            }
+
+        }
+        subCategoryPicker.setDisplayedValues(null);
+        subCategoryPicker.setMinValue(0);
+        subCategoryPicker.setMaxValue(subCategoryArray.length-1);
+        subCategoryPicker.setDisplayedValues(subCategoryArray);
+    }
+
+
+  /*  public void setSpinner() {
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.categories, android.R.layout.simple_spinner_item);
@@ -165,7 +222,7 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinCategory.setAdapter(adapter);
-    }
+    }*/
 
     public void setOnPictureUploadButton() {
         // allow user to pick a picture from their gallery to set as image of the class
@@ -259,7 +316,9 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
     private void postWorkshop() {
         String category = spinCategory.getSelectedItem().toString();
 
-    //    String categorySelected = String.valueOf(categoryPicker.getValue());
+       Integer categorySelectedIndex = categoryPicker.getValue();
+       categoryArray = getResources().getStringArray(R.array.categories);
+       String categorySelected =  categoryArray[categorySelectedIndex];
         try {
 
             newClass.setDescription(etDescription.getText().toString());
@@ -277,7 +336,7 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
 
             newClass.setCost(Double.parseDouble(etCost.getText().toString()));
 
-            newClass.setCategory(category);
+            newClass.setCategory(categorySelected);
 
             newClass.setTeacher(ParseUser.getCurrentUser());
 
@@ -296,8 +355,6 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
                     if (e == null) {
                         Toast.makeText(getActivity(), "Class was made", Toast.LENGTH_SHORT).show();
                         getAndSetSkillsArray(category);
-
-
                         // create new fragment to use
                         Fragment home = new HomeFragment();
                         // transaction on current activity
@@ -306,11 +363,6 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
                         transaction.addToBackStack(null);
                         // Commit the transaction
                         transaction.commit();
-
-
-
-
-
                     } else {
 
                         Toast.makeText(getActivity(), "Class wasn't made", Toast.LENGTH_SHORT).show();
@@ -354,12 +406,13 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
         btnDate = v.findViewById(R.id.btnDate);
         etLocation = v.findViewById(R.id.etLocation);
         etDescription = v.findViewById(R.id.etDescription);
-        spinCategory = v.findViewById(R.id.spinCategory);
+      //  spinCategory = v.findViewById(R.id.categoryPicker);
         etCost = v.findViewById(R.id.etCost);
         btSubmit = v.findViewById(R.id.btSubmit);
         ivClassImage = v.findViewById(R.id.ivClassImage);
         btnTime = v.findViewById(R.id.btnTime);
         categoryPicker = (NumberPicker) v.findViewById(R.id.categoryPicker);
+        subCategoryPicker = (NumberPicker) v.findViewById(R.id.subCategoryPicker);
 
     }
 

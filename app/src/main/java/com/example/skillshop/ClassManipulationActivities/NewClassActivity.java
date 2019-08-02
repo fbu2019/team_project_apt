@@ -329,7 +329,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
         btnDate = findViewById(R.id.btnDate);
         btLocation = findViewById(R.id.etLocation);
         etDescription = findViewById(R.id.etDescription);
-        spinCategory = findViewById(R.id.spinCategory);
+        spinCategory = findViewById(R.id.categoryPicker);
         etCost = findViewById(R.id.etCost);
         btSubmit = findViewById(R.id.btSubmit);
         ivClassImage = findViewById(R.id.ivClassImage);

@@ -16,36 +16,49 @@
     <string name="profile_other">Other profile pic</string>
 
     <string-array name="categories">
+        <item>Arts/Crafts</item>
         <item>Culinary</item>
         <item>Education</item>
         <item>Fitness</item>
-        <item>Arts/Crafts</item>
         <item>Other</item>
     </string-array>
 
 
     <string-array name="subCategoriesCulinary">
-        <item>Baking</item>
-        <item>Cooking</item>
-        <item>Beverages</item>
-        <item>Grilling</item>
         <item>Advanced</item>
+        <item>Baking</item>
+        <item>Beverages</item>
+        <item>Cooking</item>
+        <item>Grilling</item>
     </string-array>
 
     <string-array name="subCategoriesFitness">
+        <item>Dance</item>
         <item>Outdoors</item>
         <item>Gym</item>
-        <item>Sports</item>
-        <item>Dance</item>
         <item>Martial Arts</item>
+        <item>Sports</item>
     </string-array>
 
     <string-array name="subCategoriesEducation">
-        <item>Programming</item>
-        <item>Sciences</item>
+        <item>Business</item>
         <item>Humanities</item>
         <item>Languages</item>
-        <item>Business</item>
+        <item>Programming</item>
+        <item>Sciences</item>
+    </string-array>
+
+    <string-array name="subCategoriesArtsCrafts">
+        <item>Craft Making</item>
+        <item>Graphic Design</item>
+        <item>Music</item>
+        <item>Paint</item>
+        <item>Sculpting</item>
+    </string-array>
+
+    <string-array name="subCategoriesOther">
+        <item>General</item>
+
     </string-array>
 
 

@@ -88,11 +88,12 @@
                 android:layout_width="343dp"
                 android:layout_height="51dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="44dp"
                 android:layout_marginEnd="8dp"
                 android:inputType="textPersonName"
                 android:text="Tap to enter a time"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.703"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnDate" />
 
@@ -110,14 +111,17 @@
                 android:inputType="textPersonName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spinCategory" />
+                app:layout_constraintTop_toBottomOf="@+id/categoryPicker" />
 
-            <Spinner
-                android:id="@+id/spinCategory"
-                android:layout_width="208dp"
-                android:layout_height="23dp"
+            <NumberPicker
+                android:id="@+id/categoryPicker"
+                android:layout_width="346dp"
+                android:layout_height="78dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:theme="@style/NumberPickerText"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCategory" />
 
@@ -155,17 +159,30 @@
                 app:layout_constraintTop_toBottomOf="@+id/etLocation" />
 
             <NumberPicker
-                android:id="@+id/categoryPicker"
-                android:layout_width="205dp"
-                android:layout_height="58dp"
+                android:id="@+id/categoryPicker4"
+                android:layout_width="131dp"
+                android:layout_height="56dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/btnTime"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etLocation"
+                app:layout_constraintVertical_bias="0.515" />
+
+            <NumberPicker
+                android:id="@+id/subCategoryPicker"
+                android:layout_width="131dp"
+                android:layout_height="56dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toTopOf="@+id/btnTime"
                 app:layout_constraintEnd_toStartOf="@+id/btnDate"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etLocation" />
+                app:layout_constraintStart_toEndOf="@+id/categoryPicker4"
+                app:layout_constraintTop_toBottomOf="@+id/etLocation"
+                app:layout_constraintVertical_bias="0.515" />
 
             <TextView
                 android:id="@+id/newClassTag"
