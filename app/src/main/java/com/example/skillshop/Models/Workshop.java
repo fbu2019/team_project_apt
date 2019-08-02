@@ -124,7 +124,7 @@ public class Workshop extends ParseObject {
         return getString(KEY_SUB_CATEGORY);
     }
     public void setSubCategory(String subCategory) {
-        put(KEY_CATEGORY,subCategory);
+        put(KEY_SUB_CATEGORY,subCategory);
     }
 
 }
