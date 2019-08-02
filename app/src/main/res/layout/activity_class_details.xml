@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
         android:text="$$"
         app:layout_constraintBottom_toTopOf="@+id/etLocation"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,10 +38,10 @@
         android:layout_width="91dp"
         android:layout_height="91dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="44dp"
         android:layout_marginEnd="8dp"
         android:src="@drawable/ic_profile_loading"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.078"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,8 +70,8 @@
         android:layout_width="0dp"
         android:layout_height="24dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
         android:text=" "
         app:layout_constraintBottom_toTopOf="@+id/etPrice"
         app:layout_constraintEnd_toEndOf="parent"
@@ -85,6 +86,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
         android:text="Soccer"
         app:layout_constraintBottom_toTopOf="@+id/etInstructor"
         app:layout_constraintEnd_toEndOf="parent"
@@ -97,6 +99,7 @@
         android:layout_width="0dp"
         android:layout_height="26dp"
         android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
         android:text="Sep 6 2019"
         app:layout_constraintBottom_toTopOf="@+id/btnClassOptions"
         app:layout_constraintEnd_toEndOf="parent"
@@ -116,7 +119,8 @@
         app:layout_constraintEnd_toStartOf="@+id/tvDate"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etDate" />
+        app:layout_constraintTop_toBottomOf="@+id/etDate"
+        app:layout_constraintVertical_bias="0.275" />
 
     <TextView
         android:id="@+id/tvLocation"
@@ -124,6 +128,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
         android:text="Menlo Park"
         app:layout_constraintBottom_toTopOf="@+id/etDate"
         app:layout_constraintEnd_toEndOf="parent"
@@ -137,7 +142,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="20dp"
         android:text="Instructor:"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/tvInstructor"
@@ -190,17 +194,17 @@
 
     <Button
         android:id="@+id/btnClassOptions"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_width="163dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="32dp"
         android:text="Add Class"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnChat"
         app:layout_constraintTop_toBottomOf="@+id/tvDate" />
 
     <Button
@@ -223,25 +227,27 @@
 
     <Button
         android:id="@+id/btnChat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_width="168dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="28dp"
         android:text="Chat"
-        android:visibility="gone"
+        android:textAllCaps="false"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnClassOptions"
-        app:layout_constraintHorizontal_bias="0.642"
-        app:layout_constraintStart_toEndOf="@+id/btnViewAttendees"
-        app:layout_constraintTop_toBottomOf="@+id/tvClassDescription"
-        app:layout_constraintVertical_bias="0.596" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTime"
+        app:layout_constraintVertical_bias="0.677" />
 
     <Button
         android:id="@+id/followInstructor"
-        android:layout_width="wrap_content"
-        android:layout_height="25dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="74dp"
+        android:layout_height="27dp"
+        android:layout_marginEnd="210dp"
         android:padding="0dp"
         android:paddingStart="0dp"
         android:paddingLeft="0dp"
@@ -251,10 +257,11 @@
         android:paddingBottom="0dp"
         android:text="Follow"
         android:textAllCaps="false"
-        android:textSize="6sp"
+        android:textSize="10sp"
         app:layout_constraintBottom_toTopOf="@+id/tvInstructor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/etInstructor"
-        app:layout_constraintTop_toBottomOf="@+id/tvClassDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/tvClassDescription"
+        app:layout_constraintVertical_bias="0.931" />
 
 </android.support.constraint.ConstraintLayout>

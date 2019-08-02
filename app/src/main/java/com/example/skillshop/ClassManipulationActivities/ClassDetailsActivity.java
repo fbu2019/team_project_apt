@@ -80,7 +80,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
         ivClassPicture = findViewById(R.id.ivClassPicture);
 
         populateFields(detailedWorkshop);
-      //  setUpInstructor(detailedWorkshop);
+        setUpInstructor(detailedWorkshop);
 
         setUpClassOptions();
         setUpViewAttendees();
