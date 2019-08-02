@@ -39,7 +39,7 @@ public class FragmentHandler extends AppCompatActivity {
                 // depending on which button is pressed launch the corresponding fragment
                 switch (item.getItemId()) {
                     case R.id.home_fragment:
-                        fragment = new CategoryFragment();
+                        fragment = new CategoryChooseFragment();
                         break;
                     case R.id.calendar_fragment:
                         fragment = new CalendarFragment();
@@ -70,10 +70,10 @@ public class FragmentHandler extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        if(!(getSupportFragmentManager().findFragmentById(R.id.flContainer) instanceof CategoryFragment))
+        if(!(getSupportFragmentManager().findFragmentById(R.id.flContainer) instanceof CategoryChooseFragment))
         {
             // create new fragment to use
-            Fragment home = new CategoryFragment();
+            Fragment home = new CategoryChooseFragment();
             // transaction on current activity
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 

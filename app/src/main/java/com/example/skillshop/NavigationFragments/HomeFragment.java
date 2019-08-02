@@ -124,11 +124,9 @@ public class HomeFragment extends Fragment {
                 switch (item.getItemId()) {
                     case R.id.culinary_category:
                         category.add("Culinary");
-
                         break;
                     case R.id.education_category:
                         category.add("Education");
-
                         break;
                     case R.id.fitness_category:
                         category.add("Fitness");
@@ -144,19 +142,11 @@ public class HomeFragment extends Fragment {
                         break;
                 }
                 filterFeed(category,0,false);
-
                 return true;
             }
         });
         topNavigationBar.setSelectedItemId(R.id.culinary_category);
-
     }
-
-
-
-
-
-
     private void setupFollowingListButton(View view) {
         btnFollowing = view.findViewById(R.id.btnFollowing);
         btnFollowing.setOnClickListener(new View.OnClickListener() {
