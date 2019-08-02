@@ -281,11 +281,40 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
     }
 
     private void postWorkshop() {
-        String category = spinCategory.getSelectedItem().toString();
 
        Integer categorySelectedIndex = categoryPicker.getValue();
        categoryArray = getResources().getStringArray(R.array.categories);
        String categorySelected =  categoryArray[categorySelectedIndex];
+
+        Integer subCategorySelectedIndex = categoryPicker.getValue();
+        String [] subCategoryArray;
+        switch(categorySelectedIndex){
+            case 0:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesArtsCrafts);
+                break;
+            }
+            case 1:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesCulinary);
+                break;
+            }
+            case 2:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesEducation);
+                break;
+            }
+            case 3:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesFitness);
+                break;
+            }
+            case 4:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesOther);
+                break;
+            }
+            default:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesArtsCrafts);
+                break;
+            }
+        }
+        String subCategorySelected =  subCategoryArray[subCategorySelectedIndex];
         try {
 
             newClass.setDescription(etDescription.getText().toString());
@@ -304,6 +333,7 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
             newClass.setCost(Double.parseDouble(etCost.getText().toString()));
 
             newClass.setCategory(categorySelected);
+            newClass.setSubCategory(subCategorySelected);
 
             newClass.setTeacher(ParseUser.getCurrentUser());
 
@@ -321,7 +351,7 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
                 public void done(ParseException e) {
                     if (e == null) {
                         Toast.makeText(getActivity(), "Class was made", Toast.LENGTH_SHORT).show();
-                        getAndSetSkillsArray(category);
+                        getAndSetSkillsArray(categorySelected);
                         // create new fragment to use
                         Fragment home = new HomeFragment();
                         // transaction on current activity
