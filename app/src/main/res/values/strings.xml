@@ -23,6 +23,33 @@
         <item>Other</item>
     </string-array>
 
+
+    <string-array name="subCategoriesCulinary">
+        <item>Baking</item>
+        <item>Cooking</item>
+        <item>Beverages</item>
+        <item>Grilling</item>
+        <item>Advanced</item>
+    </string-array>
+
+    <string-array name="subCategoriesFitness">
+        <item>Outdoors</item>
+        <item>Gym</item>
+        <item>Sports</item>
+        <item>Dance</item>
+        <item>Martial Arts</item>
+    </string-array>
+
+    <string-array name="subCategoriesEducation">
+        <item>Programming</item>
+        <item>Sciences</item>
+        <item>Humanities</item>
+        <item>Languages</item>
+        <item>Business</item>
+    </string-array>
+
+
+
     <string-array name="categoryFilters">
         <item>No filter</item>
         <item>Culinary</item>
