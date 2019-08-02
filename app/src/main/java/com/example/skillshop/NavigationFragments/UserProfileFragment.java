@@ -29,6 +29,7 @@ import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesInvolv
 import com.example.skillshop.R;
 import com.example.skillshop.SkillVisualizationActivity;
 import com.example.skillshop.UserFollowersActivity;
+import com.example.skillshop.UserSettings;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
@@ -59,6 +60,7 @@ public class UserProfileFragment extends Fragment {
     private TextView tvNumberFollowing;
     private TextView tvSkillsAnalysis;
     private ImageView ivProfilePic;
+    private ImageView ivUserSettings;
     private Button submitNewLocationButton;
     private Button addPreferencesButton;
     private Button logoutButton;
@@ -88,6 +90,7 @@ public class UserProfileFragment extends Fragment {
         tvNumberFollowing = view.findViewById(R.id.numberFollowing);
         setNumFollowing();
         ivProfilePic = view.findViewById(R.id.profilePicture);
+        ivUserSettings = view.findViewById(R.id.userSettings);
         rbUserRating = view.findViewById(R.id.instructorAverage);
         rbUserRating.setIsIndicator(true);
         rbUserRating.setNumStars(5);
@@ -166,6 +169,15 @@ public class UserProfileFragment extends Fragment {
             public void onClick(View v) {
                 Intent startMySkillsActivity = new Intent(getContext(), SkillVisualizationActivity.class);
                 startActivity(startMySkillsActivity);
+            }
+        });
+
+        ivUserSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(), UserSettings.class);
+                startActivity(i);
+
             }
         });
 

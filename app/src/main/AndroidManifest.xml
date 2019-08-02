@@ -34,6 +34,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".UserSettings"></activity>
         <activity android:name=".UserFollowersActivity" />
         <activity android:name=".NavigationFragments.CalendarActivities.DayFragmentHandler" />
         <activity android:name=".SkillVisualizationActivity" />
@@ -55,7 +56,6 @@
 
         </activity>
         <activity android:name=".AddUserPreferences" />
-        <activity android:name=".NavigationFragments.CalendarActivities.DaysEventsActivity" />
 
         <meta-data
             android:name="com.google.android.gms.wallet.api.enabled"
