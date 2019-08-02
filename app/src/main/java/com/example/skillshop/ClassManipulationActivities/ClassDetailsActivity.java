@@ -80,7 +80,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
         ivClassPicture = findViewById(R.id.ivClassPicture);
 
         populateFields(detailedWorkshop);
-        setUpInstructor(detailedWorkshop);
+      //  setUpInstructor(detailedWorkshop);
 
         setUpClassOptions();
         setUpViewAttendees();
@@ -316,7 +316,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
         Double cost = workshop.getCost();
         if (cost == 0) {
             tvCost.setText("Free");
-            tvCost.setBackground(new ColorDrawable(Color.parseColor("#00FF00")));
+       //     tvCost.setBackground(new ColorDrawable(Color.parseColor("#00FF00")));
         } else {
             tvCost.setText("$ " + cost);
         }
