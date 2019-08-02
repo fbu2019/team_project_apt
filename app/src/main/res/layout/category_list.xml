@@ -9,9 +9,8 @@
         android:id="@+id/cardView5"
         android:layout_width="170dp"
         android:layout_height="266dp"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/cardView4"
         app:layout_constraintTop_toBottomOf="@+id/cardView4" />
 
     <android.support.v7.widget.CardView
@@ -36,7 +35,6 @@
         android:id="@+id/cardView2"
         android:layout_width="170dp"
         android:layout_height="266dp"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -56,10 +54,9 @@
         android:id="@+id/cardView4"
         android:layout_width="170dp"
         android:layout_height="266dp"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView2" >
+        app:layout_constraintStart_toStartOf="@+id/cardView2"
+        app:layout_constraintTop_toBottomOf="@+id/cardView2">
 
     </android.support.v7.widget.CardView>
 
