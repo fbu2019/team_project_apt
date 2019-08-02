@@ -27,6 +27,7 @@ import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesInvolvedFragment;
 import com.example.skillshop.R;
 import com.example.skillshop.SkillVisualizationActivity;
+import com.example.skillshop.UserFollowersActivity;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
@@ -142,12 +143,30 @@ public class UserProfileFragment extends Fragment {
         });
         */
 
+        tvNumberOfFollowers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(), UserFollowersActivity.class);
+                startActivity(i);
+            }
+        });
+
+
+        tvNumberFollowing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //todo - continue to user following activity
+            }
+        });
+
         rbUserRating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
+
         tvSkillsAnalysis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -33,10 +33,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-
         android:usesCleartextTraffic="true">
-        <activity android:name=".NavigationFragments.CalendarActivities.DayFragmentHandler"></activity>
-        <activity android:name=".SkillVisualizationActivity"></activity>
+        <activity android:name=".UserFollowersActivity"></activity>
+        <activity android:name=".NavigationFragments.CalendarActivities.DayFragmentHandler" />
+        <activity android:name=".SkillVisualizationActivity" />
         <activity android:name=".DeleteAccountActivity" />
         <activity android:name=".UserProfileActivity" />
         <activity android:name=".ChatActivity" />
@@ -49,7 +49,6 @@
         <activity android:name=".MapActivity">
 
             <!-- added for maps -->
-
 
 
             <!-- added for maps -->
