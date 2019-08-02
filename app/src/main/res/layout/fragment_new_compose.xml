@@ -96,16 +96,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnDate" />
 
-            <Button
-                android:id="@+id/btLocation"
+            <EditText
+                android:id="@+id/etLocation"
+                android:focusable="false"
                 android:layout_width="343dp"
                 android:layout_height="51dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
+                android:background="@color/light_gray"
                 android:ems="10"
+                android:hint="Select workshop location..."
                 android:inputType="textPersonName"
-                android:text="Tap to select a location"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/spinCategory" />
@@ -143,17 +145,27 @@
 
             <Button
                 android:id="@+id/btnDate"
-                android:layout_width="343dp"
-                android:layout_height="51dp"
-                android:layout_marginStart="8dp"
+                android:layout_width="61dp"
+                android:layout_height="45dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:inputType="textPersonName"
                 android:text="Tap to select a date"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.511"
+                app:layout_constraintTop_toBottomOf="@+id/etLocation" />
+
+            <NumberPicker
+                android:id="@+id/categoryPicker"
+                android:layout_width="205dp"
+                android:layout_height="58dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/btnTime"
+                app:layout_constraintEnd_toStartOf="@+id/btnDate"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btLocation" />
+                app:layout_constraintTop_toBottomOf="@+id/etLocation" />
 
             <TextView
                 android:id="@+id/newClassTag"

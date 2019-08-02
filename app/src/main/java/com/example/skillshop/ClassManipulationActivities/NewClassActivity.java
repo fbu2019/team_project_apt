@@ -1,17 +1,13 @@
 package com.example.skillshop.ClassManipulationActivities;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Rating;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -24,37 +20,25 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.skillshop.InstructorDetailsActivity;
-import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.Models.Workshop;
 
-import com.example.skillshop.NavigationFragments.FragmentHandler;
 import com.example.skillshop.R;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
-import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.EmptyStackException;
 import java.util.HashMap;
@@ -343,7 +327,7 @@ public class NewClassActivity extends AppCompatActivity implements DatePickerDia
 
         etClassname = findViewById(R.id.etClassname);
         btnDate = findViewById(R.id.btnDate);
-        btLocation = findViewById(R.id.btLocation);
+        btLocation = findViewById(R.id.etLocation);
         etDescription = findViewById(R.id.etDescription);
         spinCategory = findViewById(R.id.spinCategory);
         etCost = findViewById(R.id.etCost);

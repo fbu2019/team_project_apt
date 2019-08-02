@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -23,7 +22,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.skillshop.LoginActivities.LoginActivity;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.NavigationFragments.FragmentHandler;
 import com.example.skillshop.NavigationFragments.HomeFragment;
@@ -50,7 +48,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -339,7 +336,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
 
         etClassname = findViewById(R.id.etClassname);
         btnDate = findViewById(R.id.btnDate);
-        btLocation = findViewById(R.id.btLocation);
+        btLocation = findViewById(R.id.etLocation);
         etDescription = findViewById(R.id.etDescription);
         spinCategory = findViewById(R.id.spinCategory);
         etCost = findViewById(R.id.etCost);

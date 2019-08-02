@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -59,18 +60,19 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
     TextView etClassname;
     Button btnDate;
     Button btnTime;
-    Button btLocation;
+    TextView etLocation;
     TextView etDescription;
     Spinner spinCategory;
     TextView etCost;
     ImageView ivClassImage;
     Button btSubmit;
     Workshop newClass;
-
+    String[] categoryArray;
 
     ParseGeoPoint location;
     String locationName;
     private File photoFile;
+    NumberPicker categoryPicker;
     Uri photoUri;
 
     Date today;
@@ -124,7 +126,7 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
         }
 
 
-        btLocation.setOnClickListener(new View.OnClickListener() {
+        etLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 launchIntent();
@@ -139,6 +141,20 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
         setSpinner();
 
 
+
+
+        setCategoryPicker();
+
+
+    }
+
+    private void setCategoryPicker() {
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        categoryArray = getResources().getStringArray(R.array.categories);
+        //new String.[]{"Culinary", "Education", "Fitness", "Arts/Crafts", "Other"};
+        categoryPicker.setMinValue(0);
+        categoryPicker.setMaxValue(categoryArray.length-1);
+        categoryPicker.setDisplayedValues(categoryArray);
     }
 
     public void setSpinner() {
@@ -243,6 +259,7 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
     private void postWorkshop() {
         String category = spinCategory.getSelectedItem().toString();
 
+    //    String categorySelected = String.valueOf(categoryPicker.getValue());
         try {
 
             newClass.setDescription(etDescription.getText().toString());
@@ -335,13 +352,14 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
 
         etClassname = v.findViewById(R.id.etClassname);
         btnDate = v.findViewById(R.id.btnDate);
-        btLocation = v.findViewById(R.id.btLocation);
+        etLocation = v.findViewById(R.id.etLocation);
         etDescription = v.findViewById(R.id.etDescription);
         spinCategory = v.findViewById(R.id.spinCategory);
         etCost = v.findViewById(R.id.etCost);
         btSubmit = v.findViewById(R.id.btSubmit);
         ivClassImage = v.findViewById(R.id.ivClassImage);
         btnTime = v.findViewById(R.id.btnTime);
+        categoryPicker = (NumberPicker) v.findViewById(R.id.categoryPicker);
 
     }
 
@@ -400,7 +418,7 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
 
             Place place = Autocomplete.getPlaceFromIntent(data);
             locationName = place.getName();
-            btLocation.setText(locationName);
+            etLocation.setText(locationName);
             LatLng latLng = place.getLatLng();
             location = new ParseGeoPoint(latLng.latitude, latLng.longitude);
         }
