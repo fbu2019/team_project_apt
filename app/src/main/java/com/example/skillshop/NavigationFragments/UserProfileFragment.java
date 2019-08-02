@@ -54,10 +54,10 @@ public class UserProfileFragment extends Fragment {
     private TextView tvRatingMessage;
     private TextView tvNumberOfFollowers;
     private TextView tvNumberFollowing;
+    private TextView tvSkillsAnalysis;
     private ImageView ivProfilePic;
     private Button submitNewLocationButton;
     private Button addPreferencesButton;
-    private Button mySkillsButton;
     private Button logoutButton;
     private Button deleteAccountButton;
     private RatingBar rbUserRating;
@@ -80,12 +80,12 @@ public class UserProfileFragment extends Fragment {
   //      tvRatingMessage = view.findViewById(R.id.ratingMessage);
 //        tvRatingMessage = view.findViewById(R.id.ratingMessage);
         tvNumberOfFollowers = view.findViewById(R.id.numberOfFollowers);
+        tvSkillsAnalysis = view.findViewById(R.id.tvSkillAnalysis);
         setNumFollowers(); //   sets view within method
         tvNumberFollowing = view.findViewById(R.id.numberFollowing);
         setNumFollowing();
         ivProfilePic = view.findViewById(R.id.profilePicture);
         rbUserRating = view.findViewById(R.id.instructorAverage);
-//        mySkillsButton = view.findViewById(R.id.btnMySkills);
         rbUserRating.setIsIndicator(true);
         rbUserRating.setNumStars(5);
 
@@ -141,16 +141,20 @@ public class UserProfileFragment extends Fragment {
         });
         */
 
-        /*
-        mySkillsButton.setOnClickListener(new View.OnClickListener() {
+        rbUserRating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                
+            }
+        });
+        tvSkillsAnalysis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
                 Intent startMySkillsActivity = new Intent(getContext(), SkillVisualizationActivity.class);
                 startActivity(startMySkillsActivity);
             }
         });
-
-        */
 
         setupFragments(view);
 
