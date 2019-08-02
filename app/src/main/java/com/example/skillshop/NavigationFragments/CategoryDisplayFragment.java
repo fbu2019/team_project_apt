@@ -110,11 +110,13 @@ public class CategoryDisplayFragment extends Fragment {
         BottomNavigationView topNavigationBar = v.findViewById(R.id.top_navigation);
         switch (mainCategory){
             case "Culinary":
+                topNavigationBar.inflateMenu(R.menu.menu_culinary);
                 break;
             case "Education":
                 topNavigationBar.inflateMenu(R.menu.menu_education);
                 break;
             case "Fitness":
+                topNavigationBar.inflateMenu(R.menu.menu_fitness);
                 break;
             case "Arts/Crafts":
                 break;

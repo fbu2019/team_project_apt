@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/Outdoors_category"
+        android:enabled="true"
+        android:icon="@drawable/ic_outdoors"
+        android:title="Outdoors"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/Gym_category"
+        android:enabled="true"
+        android:icon="@drawable/ic_gym"
+        android:title="Gym"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/Sports_category"
+        android:enabled="true"
+        android:icon="@drawable/ic_sports_cat"
+        android:title="Sports"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/Dance_fragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_dance"
+        android:title="Dance"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/Martial_fragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_martial"
+        android:title="Martial Arts"
+        app:showAsAction="ifRoom" />
+
+</menu>

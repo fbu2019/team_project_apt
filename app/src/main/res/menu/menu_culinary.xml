@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/baking_category"
+        android:enabled="true"
+        android:icon="@drawable/ic_baking"
+        android:title="Baking"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/cooking_category"
+        android:enabled="true"
+        android:icon="@drawable/ic_cooking"
+        android:title="Cooking"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/beverages_category"
+        android:enabled="true"
+        android:icon="@drawable/ic_beverages"
+        android:title="Beverages"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/grilling_fragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_grilling"
+        android:title="Grilling"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/advanced_fragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_advanced"
+        android:title="Advanced"
+        app:showAsAction="ifRoom" />
+
+</menu>

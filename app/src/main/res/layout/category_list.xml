@@ -18,8 +18,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/quantum_lightblue">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/tvFitness"
@@ -50,7 +49,6 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/red_3"
             >
 
             <TextView
@@ -85,8 +83,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/quantum_yellow">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/tvEducation"
@@ -118,8 +115,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/orange_2">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/tvAll"
@@ -152,8 +148,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/pink_2">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/tvArts"
@@ -187,8 +182,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/green_3">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/tvCulinary"
