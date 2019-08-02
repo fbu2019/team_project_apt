@@ -78,13 +78,6 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
     Date today;
 
     View v;
-
-  /*  HashMap<Integer, String> categories;
-    HashMap<Integer, String> subCategoriesArtsCrafts;
-
-    HashMap<Integer, String> subCategoriesCulinary;
-    HashMap<Integer, String> subCategoriesEducation;
-    HashMap<Integer, String> subCategoriesFitness;*/
     HashMap<String, Integer> dateMap;
 
     // PICK_PHOTO_CODE is a constant integer
@@ -101,14 +94,9 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
         return inflater.inflate((R.layout.fragment_new_compose), container, false);
     }
 
-
-
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-       // initializeHashMaps();
         List<Integer> skillsData = new ArrayList<Integer>(Collections.nCopies(10, 0));
         ParseUser curr = ParseUser.getCurrentUser();
         curr.put("skillsData", skillsData);
@@ -141,25 +129,12 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
 
 
         setOnPictureUploadButton();
-
         setTimeAndDateListeners();
-
-    //    setSpinner();
-
-
-
-
         setCategoryPicker();
         setSubCategoryPicker(0);
 
 
     }
-
-   /* private void initializeHashMaps() {
-        String[] catArray = getResources().getStringArray(R.array.categories);
-        for (int catArray.length
-
-    }*/
 
     private void setCategoryPicker() {
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -214,15 +189,7 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
     }
 
 
-  /*  public void setSpinner() {
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.categories, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinCategory.setAdapter(adapter);
-    }*/
+
 
     public void setOnPictureUploadButton() {
         // allow user to pick a picture from their gallery to set as image of the class
