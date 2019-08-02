@@ -46,7 +46,6 @@ public class HomeFragment extends Fragment {
 
 
     Spinner spinSorters;
-    Spinner spinFilters;
     SearchView searchView;
     Button btnPreferenceFilter;
     Button btnFollowing;
@@ -58,7 +57,7 @@ public class HomeFragment extends Fragment {
     @Override
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate((R.layout.fragment_home), container, false);
+        return inflater.inflate((R.layout.fragment_category_choose), container, false);
     }
 
 
@@ -68,49 +67,48 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
-        spinSorters = view.findViewById(R.id.spinSorters);
-        spinFilters = view.findViewById(R.id.spinFilters);
-        searchView = view.findViewById(R.id.searchView);
-
-        searchView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchView.onActionViewExpanded();
-            }
-        });
-
-        setupPreferenceFilterButton(view);
-        setupFollowingListButton(view);
-
-        connectRecyclerView(view);
-
-        category = new ArrayList<String>();
-
-        category.add("Culinary");
-
-        updateToken();
-        // Lookup the swipe container view
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
-        // Setup refresh listener which triggers new data loading
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // Your code to refresh the list here.
-                // Make sure you call swipeContainer.setRefreshing(false)
-                // once the network request has completed successfully.
-                filterFeed(category,0,false);
-
-                swipeContainer.setRefreshing(false);
-            }
-        });
-
-        // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
-
-        setUpNavBar(getView());
+//        spinSorters = view.findViewById(R.id.spinSorters);
+//        searchView = view.findViewById(R.id.searchView);
+//
+//        searchView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                searchView.onActionViewExpanded();
+//            }
+//        });
+//
+//        setupPreferenceFilterButton(view);
+//        setupFollowingListButton(view);
+//
+//        connectRecyclerView(view);
+//
+//        category = new ArrayList<String>();
+//
+//        category.add("Culinary");
+//
+//        updateToken();
+//        // Lookup the swipe container view
+//        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+//        // Setup refresh listener which triggers new data loading
+//        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                // Your code to refresh the list here.
+//                // Make sure you call swipeContainer.setRefreshing(false)
+//                // once the network request has completed successfully.
+//                filterFeed(category,0,false);
+//
+//                swipeContainer.setRefreshing(false);
+//            }
+//        });
+//        setSorters();
+//        // Configure the refreshing colors
+//        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+//                android.R.color.holo_green_light,
+//                android.R.color.holo_orange_light,
+//                android.R.color.holo_red_light);
+//
+//        setUpNavBar(getView());
 
 
     }
@@ -204,16 +202,7 @@ public class HomeFragment extends Fragment {
 
 
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        setSpinners();
-    }
 
-    public void  setSpinners()
-    {
-        setSorters();
-    }
 
     @Override
     public void onResume() {

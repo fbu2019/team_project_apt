@@ -58,9 +58,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="$USER_HOME$/Downloads/icons8-categorize-24.png" />
-                                      <entry key="outputName" value="ic_other" />
-                                      <entry key="theme" value="HOLO_DARK" />
+                                      <entry key="imageAsset" value="$USER_HOME$/Downloads/right-chevron.png" />
+                                      <entry key="outputName" value="ic_arrow" />
                                       <entry key="themeColor" value="ff594b" />
                                     </map>
                                   </option>
