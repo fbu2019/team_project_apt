@@ -57,8 +57,9 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="imageAsset" value="$USER_HOME$/Downloads/ok.png" />
-                                      <entry key="outputName" value="ic_explore" />
+                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="imageAsset" value="$USER_HOME$/Downloads/icons8-categorize-24.png" />
+                                      <entry key="outputName" value="ic_other" />
                                       <entry key="theme" value="HOLO_DARK" />
                                       <entry key="themeColor" value="ff594b" />
                                     </map>

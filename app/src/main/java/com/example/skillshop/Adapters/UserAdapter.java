@@ -10,16 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.skillshop.FollowingListActivity;
+import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.NavigationFragments.HomeFragment;
 import com.example.skillshop.NavigationFragments.UserProfileFragment;
 import com.example.skillshop.R;
 import com.example.skillshop.UserProfileActivity;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -77,6 +80,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         public TextView tvPreferences;
         public ImageView ivProfilePic;
         public Button btnFollow;
+        public RatingBar rbInstructorRating;
 
 
         // We also create a constructor that accepts the entire item row
@@ -89,6 +93,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             tvPreferences = itemView.findViewById(R.id.tvPreferences);
             ivProfilePic = (ImageView) itemView.findViewById(R.id.ivProfilePic);
             btnFollow = (Button) itemView.findViewById(R.id.btnFollow);
+            rbInstructorRating = (RatingBar) itemView.findViewById(R.id.rbInstructorRating);
             itemView.setOnClickListener(this);
         }
 
@@ -103,6 +108,34 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             String preferenceList = getPreferences(preferences, user);
             tvPreferences.setText(preferenceList);
             Glide.with(context).load(user.getString("profilePicUrl")).apply(new RequestOptions().circleCrop()).into(ivProfilePic);
+            setInstructorRating(user);
+        }
+
+        private void setInstructorRating(ParseUser user) {
+            rbInstructorRating.setIsIndicator(true);
+
+            Ratings.Query ratingParseQuery = new Ratings.Query();
+            ratingParseQuery.getAllRatings().whereEqualTo("user", user);
+
+            ratingParseQuery.findInBackground(new FindCallback<Ratings>() {
+
+                @Override
+                public void done(List<Ratings> objects, ParseException e) {
+                    if (e == null) {
+
+                        if(objects.size()>0) {
+                            Ratings currentRating = objects.get(0);
+                            rbInstructorRating.setRating(currentRating.getAverageRating());
+                        }
+
+                    } else {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+
+
         }
 
         private String getPreferences(JSONArray preferences, ParseUser user) {
@@ -110,7 +143,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             if (preferences != null) {
                 for (int i = 0; i < preferences.length(); i++) {
                     try {
-                        preferenceString += preferences.getString(i) + " | ";
+                        if(i==preferences.length()-1) {
+                            preferenceString += preferences.getString(i);
+                        } else {
+                            preferenceString += preferences.getString(i) + " | ";
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

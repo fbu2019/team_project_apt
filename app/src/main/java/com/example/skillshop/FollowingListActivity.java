@@ -7,6 +7,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.skillshop.Adapters.UserAdapter;
 import com.example.skillshop.LoginActivities.LoginActivity;
@@ -17,6 +18,7 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,9 @@ public class FollowingListActivity extends AppCompatActivity {
     private RecyclerView rvUsers;
     protected ArrayList<ParseUser> mUsers;
     protected UserAdapter userAdapter;
+    public int nullIndex;
+
+    //TODO IF A USER IS NULL REMOVE IT FROM ARRAYLIST
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +63,7 @@ public class FollowingListActivity extends AppCompatActivity {
             public void done(ParseUser user, ParseException e) {
                 if (e == null) {
                     Log.d("LoginActivity", "Login successful");
-                    ArrayList<String> following = (ArrayList<String>) ParseUser.getCurrentUser().get("friends"); // todo - user says has no friends?
-                    Log.i("FollowingList", "Number of friends: " + following.size());
+                    ArrayList<String> following = (ArrayList<String>) ParseUser.getCurrentUser().get("friends");
                     getStudentArray();
 
                 } else {
@@ -71,23 +75,29 @@ public class FollowingListActivity extends AppCompatActivity {
     }
 
     private void getStudentArray() {
-        ArrayList<String> following = (ArrayList<String>) ParseUser.getCurrentUser().get("friends"); // todo - user says has no friends?
+        ArrayList<String> following = (ArrayList<String>) ParseUser.getCurrentUser().get("friends");
+        ArrayList<String> validUserIDs = new ArrayList<>();
 
         for (int i = 0; i < following.size(); i++) {
+            nullIndex = i;
             final ParseQuery<ParseUser> userQuery = ParseUser.getQuery().whereMatches("objectId", following.get(i));
             userQuery.findInBackground(new FindCallback<ParseUser>() {
                 @Override
                 public void done(List<ParseUser> attendees, ParseException e) {
                     if (e == null) {
 
+                        Log.i("FollowingListActivity", "Number of ParseUsers: " + attendees.size());
 
                         for (int i = 0; i < attendees.size(); i++) {
                             ParseUser userItem = attendees.get(i);
-                            Log.i("FollowingList", String.valueOf(attendees.get(i).get("firstName")));
+
                             if (userItem != ParseUser.getCurrentUser() && userItem != null) {
                                 mUsers.add(userItem);
                                 userAdapter.notifyItemInserted(mUsers.size() - 1);
                             }
+
+                            validUserIDs.add(userItem.getObjectId());
+                            replaceUsersFollowing(validUserIDs);
                         }
                     } else {
 
@@ -95,7 +105,31 @@ public class FollowingListActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
+
             });
+
         }
+
+    }
+
+    private void replaceUsersFollowing(ArrayList <String> validUserIDs) {
+
+        for (int i = 0; i < validUserIDs.size(); i++) {
+            Log.i("FollowingList", validUserIDs.get(i));
+        }
+
+        ParseUser.getCurrentUser().put("friends", validUserIDs);
+        ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Log.e("FollowingList", "Deleted user(s) has been removed from following list");
+
+                } else {
+                    Log.e("FollowingList", "error saving");
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }

@@ -41,6 +41,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
     private TextView tvNumRatings;
     private TextView tvUserProvidedRating;
     private TextView tvNumberOfFollowers;
+    private TextView  tvNumberFollowing;
     private Button followInstructorButton;
     private RatingBar rbInstructorAverage;
     private RatingBar rbUserRating;
@@ -63,6 +64,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         tvInstructorName.setText(detailedWorkshop.getTeacher().getString("firstName") + " " + detailedWorkshop.getTeacher().getString("lastName"));
 
         setNumFollowers();
+        setNumFollowing();
         initFollowButton();
         loadProfilePicture();
         initRatingBar();
@@ -93,7 +95,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
             Boolean isFollowing = myFollowing.contains(detailedWorkshop.getTeacher().getObjectId());
 
             if (isFollowing) {
-                followInstructorButton.setText("UNFOLLOW USER");
+                followInstructorButton.setText("UNFOLLOW INSTRUCTOR");
             }
 
             followInstructorButton.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +116,6 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
                 }
             });
-
         }
     }
 
@@ -122,11 +123,6 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
         //Removes the attendee from the current user's following list and saves it to parse
         currentlyFollowing.remove(instructorId);
-
-        if (currentlyFollowing.size() > 0) {
-            Log.e("InstructorDetails", currentlyFollowing.get(0));
-        }
-
         ParseUser.getCurrentUser().put("friends", currentlyFollowing);
 
         login(ParseUser.getCurrentUser().getUsername(), ParseUser.getCurrentUser().getUsername());
@@ -142,20 +138,9 @@ public class InstructorDetailsActivity extends AppCompatActivity {
             }
         });
 
-        //Resets the following button
-        ArrayList<String> friends = (ArrayList<String>) ParseUser.getCurrentUser().get("friends");
-        int size = friends.size();
-
-        Log.e("InstructorDetails", "After saving arraylist size: " + size);
-
-        followInstructorButton.setText("FOLLOW USER");
+        followInstructorButton.setText("FOLLOW INSTRUCTOR");
         numberOfFollowers--;
-        if (numberOfFollowers == 1) {
-            tvNumberOfFollowers.setText("1 follower");
-
-        } else {
-            tvNumberOfFollowers.setText(numberOfFollowers + " followers");
-        }
+        tvNumberOfFollowers.setText(""+numberOfFollowers);
     }
 
     private void followInstructor(ArrayList<String> currentlyFollowing, String instructorId, ParseUser instructor, ParseUser currentUser) {
@@ -163,8 +148,6 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         //Adds the attendee to the current user's following list and saves it to parse
         currentlyFollowing.add(instructorId);
         ParseUser.getCurrentUser().put("friends", currentlyFollowing);
-
-        Log.e("InstructorDetails", "Currently logged in as " + ParseUser.getCurrentUser().getUsername());
 
         login(ParseUser.getCurrentUser().getUsername(), ParseUser.getCurrentUser().getUsername());
         ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
@@ -180,14 +163,9 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         });
 
         //Resets the following button
-        followInstructorButton.setText("UNFOLLOW USER");
+        followInstructorButton.setText("UNFOLLOW INSTRUCTOR");
         numberOfFollowers++;
-        if (numberOfFollowers == 1) {
-            tvNumberOfFollowers.setText("1 follower");
-
-        } else {
-            tvNumberOfFollowers.setText(numberOfFollowers + " followers");
-        }
+        tvNumberOfFollowers.setText(numberOfFollowers+"");
     }
 
     private void initRatingBar() {
@@ -302,11 +280,18 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
                         currentRating.setSumRatings(currentSumOfRatings - formerRating + (int) ratingValue);
 
-                        int avgRating = currentRating.getSumRatings() / currentRating.getNumRatings();
-                        currentRating.setAverageRating(avgRating);
-                        currentRatingAverage = (float) avgRating;
+                        if(currentRating.getNumRatings() == 0){
+                            int avgRating = 0;
+                            currentRating.setAverageRating(avgRating);
+                            currentRatingAverage = (float) avgRating;
+                            rbInstructorAverage.setRating(currentRatingAverage);
 
-                        rbInstructorAverage.setRating(currentRatingAverage);
+                        } else {
+                            int avgRating = currentRating.getSumRatings() / currentRating.getNumRatings();
+                            currentRating.setAverageRating(avgRating);
+                            currentRatingAverage = (float) avgRating;
+                            rbInstructorAverage.setRating(currentRatingAverage);
+                        }
 
                         if (currentNumberOfRatings == 1) {
 
@@ -364,13 +349,12 @@ public class InstructorDetailsActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
 
     private void setNumFollowers() {
 
-        tvNumberOfFollowers = findViewById(R.id.numberOfFollowers);
+        tvNumberOfFollowers = findViewById(R.id.numFollowers);
 
         ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
         userQuery.findInBackground(new FindCallback<ParseUser>() {
@@ -391,18 +375,24 @@ public class InstructorDetailsActivity extends AppCompatActivity {
                         }
                     }
 
-                    if (numberOfFollowers == 1) {
-                        tvNumberOfFollowers.setText("1 follower");
-
-                    } else {
-                        tvNumberOfFollowers.setText(numberOfFollowers + " followers");
-                    }
+                    tvNumberOfFollowers.setText(numberOfFollowers+"");
 
                 } else {
                     e.printStackTrace();
                 }
             }
         });
+
+    }
+
+
+    private void setNumFollowing(){
+
+        tvNumberFollowing = findViewById(R.id.numFollowing);
+        ArrayList<String> instructorFollowing = (ArrayList<String>) detailedWorkshop.getTeacher().get("friends");
+        int numFollowing = instructorFollowing.size();
+
+        tvNumberFollowing.setText(numFollowing+"");
 
     }
 
@@ -441,7 +431,6 @@ public class InstructorDetailsActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void login(String username, String password) {
 
