@@ -1,22 +1,79 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0A2196F3"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_info_window_title"
+    <!-- app:layout_constraintBottom_toTopOf="@+id/tvClassDate"-->
+
+    <RatingBar
+        android:id="@+id/rbInstructorAverage"
+        style="?android:attr/ratingBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:textColor="#ff669900"
-        android:textStyle="bold" />
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:isIndicator="true"
+        android:numStars="5"
+        android:stepSize="0.1"
+        app:layout_constraintBottom_toTopOf="@+id/tvClassNameMV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivClassImage" />
+
+    <ImageView
+        android:id="@+id/ivClassImage"
+        android:layout_width="89dp"
+        android:layout_height="88dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/rbInstructorAverage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/education" />
 
     <TextView
-        android:id="@+id/tv_info_window_description"
+        android:id="@+id/tvClassNameMV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hours"
-        android:textColor="#ff0099cc" />
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="My class"
+        android:textColor="#537a73"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tvInstructorNameMV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rbInstructorAverage" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/tvInstructorNameMV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Ruth-Ann Armstrong"
+        android:textColor="#a36f41"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tvClassDateMV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvClassNameMV" />
+
+    <TextView
+        android:id="@+id/tvClassDateMV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="November 18, 2019"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvInstructorNameMV" />
+
+</android.support.constraint.ConstraintLayout>
