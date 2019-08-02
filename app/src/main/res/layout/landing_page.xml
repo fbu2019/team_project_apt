@@ -17,7 +17,7 @@
         app:srcCompat="@drawable/ic_arrow" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/rvPopularClasses"
         android:layout_width="0dp"
         android:layout_height="117dp"
         android:layout_marginStart="8dp"
@@ -51,7 +51,7 @@
         android:textColor="#030303"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+        app:layout_constraintTop_toBottomOf="@+id/rvPopularClasses" />
 
     <ImageView
         android:id="@+id/btnNavAll"

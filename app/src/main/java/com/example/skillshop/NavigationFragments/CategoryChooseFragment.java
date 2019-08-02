@@ -22,6 +22,7 @@ import android.widget.SearchView;
 import android.widget.Spinner;
 
 import com.example.skillshop.Adapters.ClassAdapterCard;
+import com.example.skillshop.Adapters.ClassAdapterCardMini;
 import com.example.skillshop.FollowingListActivity;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Workshop;
@@ -47,6 +48,10 @@ public class CategoryChooseFragment extends Fragment {
     CardView cvArts;
     CardView cvOther;
     ImageView btnAll;
+
+    private RecyclerView rvPopularClasses;
+    protected ArrayList<Workshop> mWorkshops;
+    protected ClassAdapterCardMini classAdapter;
 
 
 
@@ -75,7 +80,54 @@ public class CategoryChooseFragment extends Fragment {
         setUpArtsCard(view);
         setUpOtherCard(view);
 
+        connectRecyclerView(view);
+        filterFeed();
+
     }
+
+    private void connectRecyclerView(View view) {
+        //find the RecyclerView
+        rvPopularClasses = view.findViewById(R.id.rvPopularClasses);
+        //init the arraylist (data source)
+        mWorkshops = new ArrayList<>();
+        //construct the adapter from this datasource
+        classAdapter = new ClassAdapterCardMini(mWorkshops,getContext());
+
+        final GridLayoutManager layout = new GridLayoutManager(getContext(), 1, GridLayoutManager.HORIZONTAL, false);
+
+        //RecyclerView setup (layout manager, use adapter)
+        rvPopularClasses.setLayoutManager(layout);
+        //set the adapter
+        rvPopularClasses.setAdapter(classAdapter);
+
+    }
+
+    private void filterFeed() {
+        mWorkshops.clear();
+        classAdapter.notifyDataSetChanged();
+        Query parseQuery = new Query();
+        // query add all classes with all data and sort by time of class and only show new classes
+        parseQuery.getAllClasses().withItems().getClassesNotTaking().setLimit(10).orderByDescending("students");
+
+
+        parseQuery.findInBackground(new FindCallback<Workshop>() {
+            @Override
+            public void done(List<Workshop> objects, ParseException e) {
+                //
+                if (e == null) {
+                    for (int i = 0; i < objects.size(); i++) {
+                        Workshop workshopItem = objects.get(i);
+                        mWorkshops.add(workshopItem);
+                        classAdapter.notifyItemInserted(mWorkshops.size() - 1);
+                    }
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+
 
     public void setUpOtherCard(View v)
     {
