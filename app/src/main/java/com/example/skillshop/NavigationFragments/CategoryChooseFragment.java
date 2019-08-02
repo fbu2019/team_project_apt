@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Spinner;
 
@@ -45,6 +46,7 @@ public class CategoryChooseFragment extends Fragment {
     CardView cvFitness;
     CardView cvArts;
     CardView cvOther;
+    ImageView btnAll;
 
 
 
@@ -71,8 +73,19 @@ public class CategoryChooseFragment extends Fragment {
         setUpCulinaryCard(view);
         setUpFitnessCard(view);
         setUpArtsCard(view);
-//        setUpOtherCard(view);
+        setUpOtherCard(view);
 
+    }
+
+    public void setUpOtherCard(View v)
+    {
+        cvOther = v.findViewById(R.id.cvOther);
+        cvOther.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                allCategoryTransition();
+            }
+        });
     }
     public void setUpArtsCard(View v)
     {
@@ -81,22 +94,7 @@ public class CategoryChooseFragment extends Fragment {
         cvArts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // create new fragment to use
-                Fragment fragment = new CategoryDisplayFragment();
-
-                Bundle bundle = new Bundle();
-                bundle.putString("Category", "Arts/Crafts");
-                fragment.setArguments(bundle);
-
-                // transaction on current activity
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.setCustomAnimations(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left);
-                transaction.replace(R.id.flContainer, fragment);
-
-                transaction.addToBackStack(null);
-                // Commit the transaction
-                transaction.commit();
-
+                categoryTransition("Arts");
 
             }
         });
@@ -108,26 +106,12 @@ public class CategoryChooseFragment extends Fragment {
         cvFitness.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // create new fragment to use
-                Fragment fragment = new CategoryDisplayFragment();
-
-                Bundle bundle = new Bundle();
-                bundle.putString("Category", "Fitness");
-                fragment.setArguments(bundle);
-
-                // transaction on current activity
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.setCustomAnimations(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left);
-                transaction.replace(R.id.flContainer, fragment);
-
-                transaction.addToBackStack(null);
-                // Commit the transaction
-                transaction.commit();
-
-
+                categoryTransition("Fitness");
             }
         });
     }
+
+
     public void setUpCulinaryCard(View v)
     {
         cvCulinary = v.findViewById(R.id.cvCulinary);
@@ -135,50 +119,12 @@ public class CategoryChooseFragment extends Fragment {
         cvCulinary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // create new fragment to use
-                Fragment fragment = new CategoryDisplayFragment();
-
-                Bundle bundle = new Bundle();
-                bundle.putString("Category", "Culinary");
-                fragment.setArguments(bundle);
-
-                // transaction on current activity
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.setCustomAnimations(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left);
-                transaction.replace(R.id.flContainer, fragment);
-
-                transaction.addToBackStack(null);
-                // Commit the transaction
-                transaction.commit();
-
+                categoryTransition("Culinary");
 
             }
         });
     }
 
-    public void setUpAllCard(View v)
-    {
-        cvAll = v.findViewById(R.id.cvAll);
-
-        cvAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // create new fragment to use
-                Fragment home = new HomeFragment();
-                // transaction on current activity
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-
-                transaction.setCustomAnimations(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left);
-
-                transaction.replace(R.id.flContainer, home);
-                transaction.addToBackStack(null);
-                // Commit the transaction
-                transaction.commit();
-
-
-            }
-        });
-    }
 
     public void setUpEducationCard(View v)
     {
@@ -187,25 +133,96 @@ public class CategoryChooseFragment extends Fragment {
         cvEducation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // create new fragment to use
-                Fragment fragment = new CategoryDisplayFragment();
-
-                Bundle bundle = new Bundle();
-                bundle.putString("Category", "Education");
-                fragment.setArguments(bundle);
-
-                // transaction on current activity
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.setCustomAnimations(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left);
-                transaction.replace(R.id.flContainer, fragment);
-
-                transaction.addToBackStack(null);
-                // Commit the transaction
-                transaction.commit();
-
+                categoryTransition("Education");
 
             }
         });
     }
+
+
+    public void setUpAllCard(View v)
+    {
+        cvAll = v.findViewById(R.id.cvAll);
+
+        cvAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                allCategoryTransition();
+            }
+        });
+
+        btnAll = v.findViewById(R.id.btnNavAll);
+        btnAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                allCategoryTransition();
+            }
+        });
+    }
+
+    public void allCategoryTransition()
+    {
+        // create new fragment to use
+        Fragment home = new HomeFragment();
+        // transaction on current activity
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+
+        transaction.setCustomAnimations(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left);
+
+        transaction.replace(R.id.flContainer, home);
+        transaction.addToBackStack(null);
+        // Commit the transaction
+        transaction.commit();
+
+    }
+
+    public void categoryTransition(String category)
+    {
+        if(category.equals("Other"))
+        {
+            ;
+
+        }
+        if(category.equals("Education"))
+        {
+            // create new fragment to use
+            Fragment fragment = new EducationDisplayFragment();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("Category", category);
+            fragment.setArguments(bundle);
+
+            // transaction on current activity
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left);
+            transaction.replace(R.id.flContainer, fragment);
+
+            transaction.addToBackStack(null);
+            // Commit the transaction
+            transaction.commit();
+        }
+        else
+        {
+            // create new fragment to use
+            Fragment fragment = new CategoryDisplayFragment();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("Category", category);
+            fragment.setArguments(bundle);
+
+            // transaction on current activity
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left);
+            transaction.replace(R.id.flContainer, fragment);
+
+            transaction.addToBackStack(null);
+            // Commit the transaction
+            transaction.commit();
+
+        }
+
+    }
+
+
 
 }

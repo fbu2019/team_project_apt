@@ -58,8 +58,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="$USER_HOME$/Downloads/icons8-soccer-ball-24.png" />
-                                      <entry key="outputName" value="ic_sports" />
+                                      <entry key="imageAsset" value="$USER_HOME$/Downloads/icons8-photo-editor-96.png" />
+                                      <entry key="outputName" value="ic_graphic" />
                                       <entry key="themeColor" value="ff594b" />
                                     </map>
                                   </option>
