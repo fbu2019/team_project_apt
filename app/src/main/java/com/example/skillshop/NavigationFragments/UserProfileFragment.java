@@ -82,8 +82,6 @@ public class UserProfileFragment extends Fragment {
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
 
         tvUserName = view.findViewById(R.id.nameView);
-  //      tvRatingMessage = view.findViewById(R.id.ratingMessage);
-//        tvRatingMessage = view.findViewById(R.id.ratingMessage);
         tvNumberOfFollowers = view.findViewById(R.id.numberOfFollowers);
         tvSkillsAnalysis = view.findViewById(R.id.tvSkillAnalysis);
         setNumFollowers(); //   sets view within method
@@ -177,7 +175,7 @@ public class UserProfileFragment extends Fragment {
             public void onClick(View v) {
                 Intent i = new Intent(getContext(), UserSettings.class);
                 startActivity(i);
-
+                getActivity().finish();
             }
         });
 
