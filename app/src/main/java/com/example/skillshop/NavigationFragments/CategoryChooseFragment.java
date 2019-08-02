@@ -178,48 +178,37 @@ public class CategoryChooseFragment extends Fragment {
 
     public void categoryTransition(String category)
     {
-        if(category.equals("Other"))
-        {
-            ;
+        Fragment fragment = new EducationDisplayFragment();
+        switch (category){
+            case "Education":
+                fragment = new EducationDisplayFragment();
+                break;
+            case "Culinary":
+                fragment = new CulinaryDisplayFragment();
+                break;
+            case "Fitness":
+                fragment = new FitnessDisplayFragment();
+                break;
+            case "Arts":
+                fragment = new CulinaryDisplayFragment();
+                break;
+
+
 
         }
-        if(category.equals("Education"))
-        {
-            // create new fragment to use
-            Fragment fragment = new EducationDisplayFragment();
 
-            Bundle bundle = new Bundle();
-            bundle.putString("Category", category);
-            fragment.setArguments(bundle);
+        Bundle bundle = new Bundle();
+        bundle.putString("Category", category);
+        fragment.setArguments(bundle);
 
-            // transaction on current activity
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left);
-            transaction.replace(R.id.flContainer, fragment);
+        // transaction on current activity
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left);
+        transaction.replace(R.id.flContainer, fragment);
 
-            transaction.addToBackStack(null);
-            // Commit the transaction
-            transaction.commit();
-        }
-        else
-        {
-            // create new fragment to use
-            Fragment fragment = new CategoryDisplayFragment();
-
-            Bundle bundle = new Bundle();
-            bundle.putString("Category", category);
-            fragment.setArguments(bundle);
-
-            // transaction on current activity
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left);
-            transaction.replace(R.id.flContainer, fragment);
-
-            transaction.addToBackStack(null);
-            // Commit the transaction
-            transaction.commit();
-
-        }
+        transaction.addToBackStack(null);
+        // Commit the transaction
+        transaction.commit();
 
     }
 

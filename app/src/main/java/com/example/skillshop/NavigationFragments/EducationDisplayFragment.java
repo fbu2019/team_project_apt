@@ -40,7 +40,6 @@ import java.util.List;
 public class EducationDisplayFragment extends Fragment {
 
 
-    private static final String CHANNEL_ID = "CHANNEL_ID";
     private RecyclerView rvClasses;
     protected ArrayList<Workshop> mWorkshops;
     protected ClassAdapterCard classAdapter;
@@ -134,19 +133,19 @@ public class EducationDisplayFragment extends Fragment {
 
                 switch (item.getItemId()) {
                     case R.id.programming_category:
-                        category.add("Culinary");
+                        category.add("Education");
                         break;
                     case R.id.science_category:
                         category.add("Education");
                         break;
                     case R.id.humanities_category:
-                        category.add("Fitness");
+                        category.add("Education");
                         break;
                     case R.id.languages_fragment:
-                        category.add("Arts/Crafts");
+                        category.add("Education");
                         break;
                     case R.id.business_fragment:
-                        category.add("Other");
+                        category.add("Education");
                         break;
                     default:
                         break;
