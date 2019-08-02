@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
@@ -69,10 +70,22 @@ public class FragmentHandler extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        // allows the back button to always take user to the home fragment
-        Fragment fragment = new HomeFragment();
-        fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
-        bottomNavigationView.setSelectedItemId(R.id.home_fragment);
+        if(!(getSupportFragmentManager().findFragmentById(R.id.flContainer) instanceof CategoryFragment))
+        {
+            // create new fragment to use
+            Fragment home = new CategoryFragment();
+            // transaction on current activity
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+            transaction.setCustomAnimations(R.anim.anim_slide_in_right,R.anim.anim_slide_out_right);
+
+            transaction.replace(R.id.flContainer, home);
+            transaction.addToBackStack(null);
+            // Commit the transaction
+            transaction.commit();
+        }
+
+
     }
 
 

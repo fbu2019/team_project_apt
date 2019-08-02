@@ -42,6 +42,7 @@ public class CategoryFragment extends Fragment {
     CardView cvAll;
 
 
+
     @Override
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
