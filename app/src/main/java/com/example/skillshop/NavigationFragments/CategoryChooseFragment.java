@@ -83,7 +83,7 @@ public class CategoryChooseFragment extends Fragment {
         cvOther.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                allCategoryTransition();
+                categoryTransition("Other");
             }
         });
     }
@@ -94,7 +94,7 @@ public class CategoryChooseFragment extends Fragment {
         cvArts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                categoryTransition("Arts");
+                categoryTransition("Arts/Crafts");
 
             }
         });
@@ -189,8 +189,11 @@ public class CategoryChooseFragment extends Fragment {
             case "Fitness":
                 fragment = new FitnessDisplayFragment();
                 break;
-            case "Arts":
-                fragment = new CulinaryDisplayFragment();
+            case "Arts/Crafts":
+                fragment = new ArtsDisplayFragment();
+                break;
+            case "Other":
+                fragment = new OtherDisplayFragment();
                 break;
 
 
