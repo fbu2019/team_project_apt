@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.skillshop.AddUserPreferences;
 import com.example.skillshop.DeleteAccountActivity;
+import com.example.skillshop.FollowingListActivity;
 import com.example.skillshop.LoginActivities.LoginActivity;
 import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesInvolvedFragment;
@@ -155,8 +156,16 @@ public class UserProfileFragment extends Fragment {
         tvNumberFollowing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent i = new Intent(getContext(), FollowingListActivity.class);
+                startActivity(i);
+            }
+        });
 
-                //todo - continue to user following activity
+        tvSkillsAnalysis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startMySkillsActivity = new Intent(getContext(), SkillVisualizationActivity.class);
+                startActivity(startMySkillsActivity);
             }
         });
 
@@ -164,15 +173,6 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-            }
-        });
-
-        tvSkillsAnalysis.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent startMySkillsActivity = new Intent(getContext(), SkillVisualizationActivity.class);
-                startActivity(startMySkillsActivity);
             }
         });
 

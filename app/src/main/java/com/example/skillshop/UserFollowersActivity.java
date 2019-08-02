@@ -17,8 +17,6 @@ import java.util.List;
 
 public class UserFollowersActivity extends AppCompatActivity {
 
-    ParseUser currrentUser;
-
     private RecyclerView rvUsers;
     protected ArrayList<ParseUser> mUsers;
     protected UserAdapter userAdapter;
@@ -37,7 +35,7 @@ public class UserFollowersActivity extends AppCompatActivity {
         userAdapter = new UserAdapter(mUsers, UserFollowersActivity.this);
         // RecyclerView setup (layout manager, user adapter)
         rvUsers.setLayoutManager(new LinearLayoutManager(UserFollowersActivity.this));
-        //ser the adapter
+        //set the adapter
         rvUsers.setAdapter(userAdapter);
         // add dividers to list of followers
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvUsers.getContext(),
