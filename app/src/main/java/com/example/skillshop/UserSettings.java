@@ -13,12 +13,26 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.skillshop.LoginActivities.LoginActivity;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class UserSettings extends AppCompatActivity {
+
+    public static final String TAG = "UserSettings";
+    public final static int AUTOCOMPLETE_REQUEST_CODE = 42;
+    private final String apiKey = "AIzaSyARv5bJ1b1bnym8eUwPZlGm_7HN__WsbFE";
+    private ParseGeoPoint location;
+    private String locationName;
 
     TextView tvLocationMessage;
     TextView tvCurrentLocation;
@@ -75,6 +89,21 @@ public class UserSettings extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        tvCurrentLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchIntent();
+            }
+        });
+
+        tvCurrentLocationCoordinates.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchIntent();
+            }
+        });
+
     }
 
 
@@ -99,6 +128,13 @@ public class UserSettings extends AppCompatActivity {
         }
 
         tvCurrentPreferences.setText(preferenceString);
+        tvCurrentPreferences.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(UserSettings.this, AddUserPreferences.class);
+                startActivity(i);
+            }
+        });
 
     }
 
@@ -122,6 +158,50 @@ public class UserSettings extends AppCompatActivity {
         tvCurrentNumberRatings = findViewById(R.id.currentNumberRatings);
         //  tvCurrentNumberRatings.setText(user.get); //todo - new parse query
 
+    }
+
+
+    private void launchIntent() {
+        Log.i(TAG, "placelookuplaunched");
+        // Specify the types of place data to return.
+        List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
+
+        // Start the autocomplete intent.
+        Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+                .build(UserSettings.this);
+        startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if ((data != null) && (requestCode == AUTOCOMPLETE_REQUEST_CODE) && (resultCode == RESULT_OK)) {
+
+            Place place = Autocomplete.getPlaceFromIntent(data);
+            locationName = place.getName();
+            LatLng latLng = place.getLatLng();
+            location = new ParseGeoPoint(latLng.latitude, latLng.longitude);
+
+            ParseUser user = ParseUser.getCurrentUser();
+            user.put("userLocation", location);
+            user.put("locationName", locationName);
+
+            user.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e != null) {
+                        Log.d(TAG, "ERROR WHILE SAVING");
+                        e.printStackTrace();
+                        return;
+                    }
+                    Log.e(TAG, "Successfully changed location");
+                    tvCurrentLocation.setText(locationName);
+                    String strLat = String.valueOf(latLng.latitude);
+                    String strLng = String.valueOf(latLng.longitude);
+                    tvCurrentLocationCoordinates.setText("Lat: "+strLat+" Lng: "+strLng);
+                }
+            });
+        }
     }
 
 }

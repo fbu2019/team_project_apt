@@ -124,16 +124,7 @@ public class UserProfileFragment extends Fragment {
         });
 
         */
-
-        /*
-        logoutButton = view.findViewById(R.id.logoutButton);
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logout();
-            }
-        });
-        */
+        
 
 //        deleteAccountButton = view.findViewById(R.id.deleteAccount);
         /*
