@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.ohoussein.playpauseview:playpauseview:1.0.2@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8f8177fb8f3b4a0c3820548ef05e4a7f/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8f8177fb8f3b4a0c3820548ef05e4a7f/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.ohoussein.playpauseview/playpauseview/1.0.2/8d5dc0e6fe53e8b15be62702175c91c5363dcc87/playpauseview-1.0.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
