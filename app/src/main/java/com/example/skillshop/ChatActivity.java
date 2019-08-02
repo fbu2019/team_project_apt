@@ -33,16 +33,12 @@ public class ChatActivity extends AppCompatActivity {
 
     EditText etMessage;
     Button btSend;
-
     RecyclerView rvChat;
     ArrayList<Message> mMessages;
     ChatAdapter mAdapter;
     // Keep track of initial load to scroll to the bottom of the ListView
     boolean mFirstLoad;
-
     Workshop detailedWorkshop;
-
-
     EndlessRecyclerViewScrollListener scrollListener;
 
     int maxMessages;
@@ -57,22 +53,13 @@ public class ChatActivity extends AppCompatActivity {
         detailedWorkshop = Parcels.unwrap(getIntent().getParcelableExtra(Workshop.class.getSimpleName()));
         setupMessagePosting();
         refreshMessages(true);
-
         maxMessages = 20;
-
-
         etMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 rvChat.scrollToPosition(mMessages.size()-1);
             }
         });
-
-        // add dividers on messages
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvChat.getContext(),
-                new LinearLayoutManager(this).getOrientation());
-        rvChat.addItemDecoration(dividerItemDecoration);
-
 
         refreshInBackground();
 

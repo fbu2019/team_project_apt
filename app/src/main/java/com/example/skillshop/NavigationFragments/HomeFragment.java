@@ -46,7 +46,6 @@ public class HomeFragment extends Fragment {
 
 
     Spinner spinSorters;
-    Spinner spinFilters;
     SearchView searchView;
     Button btnPreferenceFilter;
     Button btnFollowing;
@@ -62,14 +61,11 @@ public class HomeFragment extends Fragment {
     }
 
 
-
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
         spinSorters = view.findViewById(R.id.spinSorters);
-        spinFilters = view.findViewById(R.id.spinFilters);
         searchView = view.findViewById(R.id.searchView);
 
         searchView.setOnClickListener(new View.OnClickListener() {
@@ -104,7 +100,7 @@ public class HomeFragment extends Fragment {
                 swipeContainer.setRefreshing(false);
             }
         });
-
+        setSorters();
         // Configure the refreshing colors
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
@@ -129,11 +125,9 @@ public class HomeFragment extends Fragment {
                 switch (item.getItemId()) {
                     case R.id.culinary_category:
                         category.add("Culinary");
-
                         break;
                     case R.id.education_category:
                         category.add("Education");
-
                         break;
                     case R.id.fitness_category:
                         category.add("Fitness");
@@ -149,19 +143,11 @@ public class HomeFragment extends Fragment {
                         break;
                 }
                 filterFeed(category,0,false);
-
                 return true;
             }
         });
         topNavigationBar.setSelectedItemId(R.id.culinary_category);
-
     }
-
-
-
-
-
-
     private void setupFollowingListButton(View view) {
         btnFollowing = view.findViewById(R.id.btnFollowing);
         btnFollowing.setOnClickListener(new View.OnClickListener() {
@@ -205,16 +191,7 @@ public class HomeFragment extends Fragment {
 
 
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        setSpinners();
-    }
 
-    public void  setSpinners()
-    {
-        setSorters();
-    }
 
     @Override
     public void onResume() {

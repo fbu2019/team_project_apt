@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -136,7 +139,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
             Boolean isFollowing = myFollowing.contains(detailedWorkshop.getTeacher().getObjectId());
 
             if (isFollowing) {
-                btnFollowInstructor.setText("UNFOLLOW");
+                btnFollowInstructor.setText("Unfollow");
             }
 
             btnFollowInstructor.setOnClickListener(new View.OnClickListener() {
@@ -173,7 +176,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
                 if (e == null) {
                     Toast.makeText(ClassDetailsActivity.this, "You are no longer following " + instructor.get("firstName"), Toast.LENGTH_LONG).show();
                     Log.e("InstructorDetails", "User has unfollowed");
-                    btnFollowInstructor.setText("FOLLOW");
+                    btnFollowInstructor.setText("Follow");
                 } else {
                     Log.e("InstructorDetails", "error saving");
                     e.printStackTrace();
@@ -194,7 +197,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
             public void done(ParseException e) {
                 if (e == null) {
                     Toast.makeText(ClassDetailsActivity.this, "You are now following " + instructor.get("firstName"), Toast.LENGTH_LONG).show();
-                    btnFollowInstructor.setText("UNFOLLOW");
+                    btnFollowInstructor.setText("Unfollow");
                     Log.e("InstructorDetails", "User has followed");
                 } else {
                     Log.e("InstructorDetails", "error saving");
@@ -253,7 +256,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
             btnClassOptions.setText("Drop Class");
 
         } else {
-            btnClassOptions.setText("Sign Up");
+            btnClassOptions.setText("Add Class");
         }
 
         btnClassOptions.setOnClickListener(new View.OnClickListener() {
@@ -316,7 +319,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
         Double cost = workshop.getCost();
         if (cost == 0) {
             tvCost.setText("Free");
-            tvCost.setBackground(new ColorDrawable(Color.parseColor("#00FF00")));
+       //     tvCost.setBackground(new ColorDrawable(Color.parseColor("#00FF00")));
         } else {
             tvCost.setText("$ " + cost);
         }

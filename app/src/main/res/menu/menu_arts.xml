@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/music_category"
+        android:enabled="true"
+        android:icon="@drawable/ic_music"
+        android:title="Music"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/paint_category"
+        android:enabled="true"
+        android:icon="@drawable/ic_paint"
+        android:title="Paint"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/sculpting_category"
+        android:enabled="true"
+        android:icon="@drawable/ic_sculpting"
+        android:title="Sculpting"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/crafts_fragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_crafts"
+        android:title="Crafts"
+
+        app:showAsAction="ifRoom" />
+
+
+    <item
+        android:id="@+id/graphic_fragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_graphic"
+        android:title="Graphic Design"
+        app:showAsAction="ifRoom" />
+
+</menu>
