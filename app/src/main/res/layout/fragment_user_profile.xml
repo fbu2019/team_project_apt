@@ -8,166 +8,70 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/top_navigation"
+        android:layout_width="405dp"
+        android:layout_height="190dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
-
-        <Button
-            android:id="@+id/logoutButton"
-            android:layout_width="66dp"
-            android:layout_height="28dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="11dp"
-            android:text="@string/com_facebook_loginview_log_out_action"
-            android:textSize="6sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/deleteAccount"
-            app:layout_constraintTop_toBottomOf="@+id/ratingMessage" />
-
-        <Button
-            android:id="@+id/modifyLocationButton"
-            android:layout_width="91dp"
-            android:layout_height="28dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="2dp"
-            android:text="Modify Location"
-            android:textSize="6sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/addPreferences"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profilePicture"
-            app:layout_constraintVertical_bias="0.716" />
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/profilePicture"
-            android:layout_width="103dp"
-            android:layout_height="94dp"
-            android:layout_marginStart="36dp"
-            android:layout_marginTop="64dp"
+            android:layout_width="109dp"
+            android:layout_height="103dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/ratingMessage"
-            app:layout_constraintEnd_toStartOf="@+id/nameView"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/instructorAverage"
+            app:layout_constraintStart_toStartOf="@+id/instructorAverage"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.526"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/nameView"
-            android:layout_width="191dp"
-            android:layout_height="44dp"
-            android:layout_marginTop="64dp"
-            android:layout_marginEnd="32dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="5dp"
+            android:textAlignment="center"
+            android:textColor="@color/color_palette_dark_grey"
             android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/instructorAverage"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/profilePicture"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profilePicture"
+            app:layout_constraintVertical_bias="0.0" />
 
 
         <RatingBar
             android:id="@+id/instructorAverage"
-            style="@style/Widget.AppCompat.RatingBar"
-            android:layout_width="236dp"
-            android:layout_height="50dp"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="80dp"
+            android:layout_height="19dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
-            android:scaleX="0.5"
-            android:scaleY="0.4"
             android:backgroundTint="@color/color_palette_yellow"
+            android:numStars="5"
             android:progressTint="@color/color_palette_yellow"
             android:secondaryProgressTint="@android:color/transparent"
-            app:layout_constraintBottom_toTopOf="@+id/ratingMessage"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/profilePicture"
-            app:layout_constraintTop_toBottomOf="@+id/nameView" />
-
-        <TextView
-            android:id="@+id/ratingMessage"
-            android:layout_width="175dp"
-            android:layout_height="39dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/logoutButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/profilePicture"
-            app:layout_constraintTop_toBottomOf="@+id/instructorAverage" />
-
-        <Button
-            android:id="@+id/addPreferences"
-            android:layout_width="121dp"
-            android:layout_height="28dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="7dp"
-            android:layout_marginBottom="20dp"
-            android:text="Modify Preferences"
-            android:textSize="6sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/deleteAccount"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/modifyLocationButton"
-            app:layout_constraintTop_toBottomOf="@+id/ratingMessage" />
-
-        <Button
-            android:id="@+id/deleteAccount"
-            android:layout_width="96dp"
-            android:layout_height="28dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="20dp"
-            android:text="Delete Account"
-            android:textSize="6sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/logoutButton"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/addPreferences"
-            app:layout_constraintTop_toBottomOf="@+id/ratingMessage"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <Button
-            android:id="@+id/btnMySkills"
-            android:layout_width="93dp"
-            android:layout_height="29dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="My skills"
-            android:textSize="6sp"
-            app:layout_constraintBottom_toTopOf="@+id/addPreferences"
-            app:layout_constraintEnd_toStartOf="@+id/ratingMessage"
-            app:layout_constraintHorizontal_bias="0.506"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profilePicture" />
+            app:layout_constraintTop_toBottomOf="@+id/nameView" />
 
         <TextView
             android:id="@+id/numberOfFollowers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="156dp"
             android:layout_marginEnd="8dp"
             android:text=" "
+            android:textColor="@color/color_palette_dark_grey"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.146"
+            app:layout_constraintHorizontal_bias="0.093"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -176,25 +80,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="156dp"
+            android:textColor="@color/color_palette_dark_grey"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.557"
+            app:layout_constraintHorizontal_bias="0.255"
             app:layout_constraintStart_toEndOf="@+id/numberOfFollowers"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvSkillAnalysis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="156dp"
+            android:layout_marginEnd="8dp"
+            android:text="Skill Analysis"
+            android:textColor="@color/color_palette_dark_grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.719"
+            app:layout_constraintStart_toEndOf="@+id/numberFollowing"
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
 
     <FrameLayout
         android:id="@+id/classes_today"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="395dp"
+        android:layout_height="387dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/top_navigation"></FrameLayout>
 
@@ -203,9 +117,10 @@
         android:layout_width="360dp"
         android:layout_height="46dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        app:itemTextColor="@color/color_palette_green"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
         app:menu="@menu/menu_top_navigation" />

@@ -77,15 +77,15 @@ public class UserProfileFragment extends Fragment {
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
 
         tvUserName = view.findViewById(R.id.nameView);
-        tvRatingMessage = view.findViewById(R.id.ratingMessage);
-        tvRatingMessage = view.findViewById(R.id.ratingMessage);
+  //      tvRatingMessage = view.findViewById(R.id.ratingMessage);
+//        tvRatingMessage = view.findViewById(R.id.ratingMessage);
         tvNumberOfFollowers = view.findViewById(R.id.numberOfFollowers);
         setNumFollowers(); //   sets view within method
         tvNumberFollowing = view.findViewById(R.id.numberFollowing);
         setNumFollowing();
         ivProfilePic = view.findViewById(R.id.profilePicture);
         rbUserRating = view.findViewById(R.id.instructorAverage);
-        mySkillsButton = view.findViewById(R.id.btnMySkills);
+//        mySkillsButton = view.findViewById(R.id.btnMySkills);
         rbUserRating.setIsIndicator(true);
         rbUserRating.setNumStars(5);
 
@@ -102,6 +102,7 @@ public class UserProfileFragment extends Fragment {
             }
         }
 
+        /*
         submitNewLocationButton = view.findViewById(R.id.modifyLocationButton);
         submitNewLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,6 +119,9 @@ public class UserProfileFragment extends Fragment {
             }
         });
 
+        */
+
+        /*
         logoutButton = view.findViewById(R.id.logoutButton);
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,15 +129,19 @@ public class UserProfileFragment extends Fragment {
                 logout();
             }
         });
+        */
 
-        deleteAccountButton = view.findViewById(R.id.deleteAccount);
+//        deleteAccountButton = view.findViewById(R.id.deleteAccount);
+        /*
         deleteAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 deleteAccount();
             }
         });
+        */
 
+        /*
         mySkillsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,6 +149,8 @@ public class UserProfileFragment extends Fragment {
                 startActivity(startMySkillsActivity);
             }
         });
+
+        */
 
         setupFragments(view);
 
@@ -157,8 +167,6 @@ public class UserProfileFragment extends Fragment {
                 Fragment fragment = new HomeFragment();
                 // depending on which button the user presses the classes will be displayed
                 Bundle bundle = new Bundle();
-
-
 
                 switch (item.getItemId()) {
                     case R.id.taking:
@@ -191,7 +199,7 @@ public class UserProfileFragment extends Fragment {
 
         ParseUser user = ParseUser.getCurrentUser();
         if (locationName != null && user.getString("firstName") != null) {
-            tvUserName.setText("Hello " + user.getString("firstName") + ". You are currently located at " + locationName + ".");
+            tvUserName.setText(user.getString("firstName")+" "+user.getString("lastName"));
         }
 
         if (profilePhotoUrl != null) {
@@ -216,12 +224,12 @@ public class UserProfileFragment extends Fragment {
                         Ratings userRating = objects.get(0);
 
                         if (userRating.getNumRatings() == 0) {
-                            tvRatingMessage.setText("You have not been rated as an instructor.");
+                          //  tvRatingMessage.setText("You have not been rated as an instructor.");
                         } else if (userRating.getNumRatings() == 1) {
-                            tvRatingMessage.setText("You have been rated 1 time");
+                           // tvRatingMessage.setText("You have been rated 1 time");
                             rbUserRating.setRating((int) userRating.getAverageRating());
                         } else {
-                            tvRatingMessage.setText("You have been rated " + userRating.getAverageRating() + " times.");
+                           // tvRatingMessage.setText("You have been rated " + userRating.getAverageRating() + " times.");
                             rbUserRating.setRating((int) userRating.getAverageRating());
                         }
 
@@ -310,10 +318,10 @@ public class UserProfileFragment extends Fragment {
                     }
 
                     if (numberOfFollowers == 1) {
-                        tvNumberOfFollowers.setText("1 follower");
+                        tvNumberOfFollowers.setText("1 Follower");
 
                     } else {
-                        tvNumberOfFollowers.setText(numberOfFollowers + " followers");
+                        tvNumberOfFollowers.setText(numberOfFollowers + " Followers");
                     }
 
                 } else {
