@@ -44,6 +44,7 @@ public class UserSettings extends AppCompatActivity {
     TextView tvCurrentPreferences;
     TextView tvNumberRatingsMessage;
     TextView tvCurrentNumberRatings;
+    TextView tvUserFullName;
     ImageView ivProfileImage;
     Button btnLogout;
     Button btnDelete;
@@ -56,6 +57,8 @@ public class UserSettings extends AppCompatActivity {
 
         ParseUser user = ParseUser.getCurrentUser();
 
+        tvUserFullName = findViewById(R.id.userFullName);
+        tvUserFullName.setText(user.get("firstName")+" "+user.get("lastName"));
         tvLocationMessage = findViewById(R.id.currentLocationMessage);
         tvCurrentLocation = findViewById(R.id.currentLocation);
         tvCurrentLocation.setText(user.get("locationName").toString());
@@ -73,9 +76,6 @@ public class UserSettings extends AppCompatActivity {
         initPreferences(user);
         initProfileImage(user);
 
-        switchVisible = findViewById(R.id.visibilitySwitch);
-        retrieveVisibility();
-        checkCurrentVisibility();
 
         btnLogout = findViewById(R.id.logoutButton);
         btnLogout.setOnClickListener(new View.OnClickListener() {
@@ -140,6 +140,16 @@ public class UserSettings extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(UserSettings.this, AddUserPreferences.class);
                 startActivity(i);
+                initPreferences(user);
+            }
+        });
+
+        tvPreferencesMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(UserSettings.this, AddUserPreferences.class);
+                startActivity(i);
+                initPreferences(user);
             }
         });
 
@@ -211,34 +221,6 @@ public class UserSettings extends AppCompatActivity {
         }
     }
 
-    private void retrieveVisibility() {
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        if (switchVisible.isChecked()) {
-            currentUser.put("visible", true);
-        } else {
-            currentUser.put("visible", false);
-        }
-    }
-
-    private void checkCurrentVisibility() {
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        Boolean visible = currentUser.getBoolean("visible");
-        if (visible) {
-            switchVisible.setChecked(true);
-        } else {
-            switchVisible.setChecked(false);
-        }
-        currentUser.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    e.printStackTrace();
-                    return;
-                }
-            }
-        });
-
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -252,5 +234,4 @@ public class UserSettings extends AppCompatActivity {
 
         return super.onKeyDown(keyCode, event);
         }
-
 }
