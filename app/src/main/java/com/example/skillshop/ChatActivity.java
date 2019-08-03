@@ -60,10 +60,7 @@ public class ChatActivity extends AppCompatActivity {
                 rvChat.scrollToPosition(mMessages.size()-1);
             }
         });
-        // add dividers on messages
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvChat.getContext(),
-                new LinearLayoutManager(this).getOrientation());
-        rvChat.addItemDecoration(dividerItemDecoration);
+
         refreshInBackground();
 
     }
