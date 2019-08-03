@@ -13,7 +13,7 @@
         android:layout_marginEnd="52dp"
         android:layout_marginBottom="16dp"
         android:text="HH:MM"
-        app:layout_constraintBottom_toTopOf="@+id/btLocation"
+        app:layout_constraintBottom_toTopOf="@+id/etLocation"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
@@ -62,7 +62,7 @@
         android:layout_marginLeft="36dp"
         android:text="Category"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/spinCategory" />
+        app:layout_constraintTop_toTopOf="@+id/categoryPicker" />
 
     <TextView
         android:id="@+id/tvCost"
@@ -98,7 +98,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/btLocation"
+        android:id="@+id/etLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="52dp"
@@ -120,7 +120,7 @@
         android:hint="Cost"
         android:inputType="textPersonName"
         android:text="0"
-        app:layout_constraintBottom_toTopOf="@+id/spinCategory"
+        app:layout_constraintBottom_toTopOf="@+id/categoryPicker"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
@@ -150,7 +150,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Spinner
-        android:id="@+id/spinCategory"
+        android:id="@+id/categoryPicker"
         android:layout_width="208dp"
         android:layout_height="23dp"
         android:layout_marginEnd="56dp"
@@ -167,7 +167,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:text="MM/DD/YYYY"
-        app:layout_constraintBottom_toTopOf="@+id/btLocation"
+        app:layout_constraintBottom_toTopOf="@+id/etLocation"
         app:layout_constraintEnd_toStartOf="@+id/btnTime"
         app:layout_constraintStart_toStartOf="parent" />
 
