@@ -31,6 +31,7 @@ public class Workshop extends ParseObject {
     public static final String KEY_IMAGE = "image";
     public static final String KEY_INSTRUCTOR_RATING = "instructorRating";
     public static final String KEY_OBJECT_ID = "objectId";
+    public static final String KEY_SUB_CATEGORY = "subCategory";
 
     //  Name Methods
     public  String getName() {
@@ -51,6 +52,7 @@ public class Workshop extends ParseObject {
     public Date getJavaDate(){
         return getDate(KEY_DATE);
     }
+
 
     //  Location Methods
     public  String getLocationName() {
@@ -115,6 +117,14 @@ public class Workshop extends ParseObject {
     }
     public void setImage(ParseFile image) {
         put(KEY_IMAGE,image);
+    }
+
+    //  Subcategory Methods
+    public String getSubcategory() {
+        return getString(KEY_SUB_CATEGORY);
+    }
+    public void setSubCategory(String subCategory) {
+        put(KEY_SUB_CATEGORY,subCategory);
     }
 
 }
