@@ -20,3 +20,11 @@ When a user does something that should warrant a notification like any of the fo
 Whenever a user causes something that should warrant a notification like the ones above the user sends a request to our Heroku python script:
 
 ![send](images/d2.png)
+
+The python script is using flask to recognize post requests and communicated with another python script to collect data from the main parse database. We read the request of the user and collect information from the parse server. For example if a user edits a class the pythons script collects the uses it should notify form the database.
+
+![collect](images/d3.png)
+
+Once the python script has collected the users tokens and targets for notifications it sends multiple requests to firebase for it to send notifications to specific users with specialized messages for each one.
+
+![send](images/d4.png)
