@@ -8,13 +8,14 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.skillshop.LoginActivities.LoginActivity;
 import com.example.skillshop.Models.Query;
+import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.Models.Workshop;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.maps.model.LatLng;
@@ -70,14 +71,14 @@ public class UserSettings extends AppCompatActivity {
         tvCurrentLocation = findViewById(R.id.currentLocation);
         tvCurrentLocation.setText(user.get("locationName").toString());
 
-        tvLocationCoordinatesMessage = findViewById(R.id.currentLocationCoordinateMessage);
-        tvCurrentLocationCoordinates = findViewById(R.id.locationCoordinates);
+     //   tvLocationCoordinatesMessage = findViewById(R.id.currentLocationMessage);
+     //   tvCurrentLocationCoordinates = findViewById(R.id.locationCoordinates);
         ParseGeoPoint markerGP = (ParseGeoPoint) user.get("userLocation");
         double lat = markerGP.getLatitude();
         double lng = markerGP.getLongitude();
         String strLat = String.valueOf((lat));
         String strLng = String.valueOf(lng);
-        tvCurrentLocationCoordinates.setText("Lat: " + strLat + " Lng: " + strLng);
+     //   tvCurrentLocationCoordinates.setText("Lat: " + strLat + " Lng: " + strLng);
 
         initNumClassesTeaching();
         initNumClassesTaking();
@@ -107,13 +108,6 @@ public class UserSettings extends AppCompatActivity {
         });
 
         tvCurrentLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchIntent();
-            }
-        });
-
-        tvCurrentLocationCoordinates.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 launchIntent();
@@ -169,7 +163,7 @@ public class UserSettings extends AppCompatActivity {
 
         ArrayList<String> preferences = (ArrayList<String>) user.get("preferences");
         String preferenceString = "";
-        if (preferences != null) {
+        if (preferences != null && preferences.size()>0) {
             for (int i = 0; i < preferences.size(); i++) {
 
                 if (i == preferences.size() - 1) {
@@ -219,9 +213,46 @@ public class UserSettings extends AppCompatActivity {
 
     private void initRatingNumber(ParseUser user) {
 
+        //todo - number of ratings
+        // average rating
+        //
         tvNumberRatingsMessage = findViewById(R.id.usersWhoRatedMessage);
         tvCurrentNumberRatings = findViewById(R.id.currentNumberRatings);
         //  tvCurrentNumberRatings.setText(user.get); //todo - new parse query
+
+
+        Ratings.Query ratingParseQuery = new Ratings.Query();
+        ratingParseQuery.getAllRatings().whereEqualTo("user", ParseUser.getCurrentUser());
+
+        ratingParseQuery.findInBackground(new FindCallback<Ratings>() {
+            @Override
+            public void done(List<Ratings> objects, ParseException e) {
+
+                if (e == null) {
+
+                    if (objects != null && objects.size() > 0) {
+
+                        Ratings userRating = objects.get(0);
+
+                        if (userRating.getNumRatings() == 0) {
+
+                            tvCurrentNumberRatings.setText("You have not yet been rated as an instructor");
+
+                        } else if (userRating.getNumRatings() == 1) {
+
+                           tvCurrentNumberRatings.setText("Your current average rating is "+(float) userRating.getSumRatings()/userRating.getNumRatings()+". You have been rated by "+userRating.getNumRatings()+" user.");
+                        } else {
+
+                            tvCurrentNumberRatings.setText("Your current average rating is "+(float) userRating.getSumRatings()/userRating.getNumRatings()+". You have been rated by "+userRating.getNumRatings()+" users.");
+                        }
+
+                    }
+
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
 

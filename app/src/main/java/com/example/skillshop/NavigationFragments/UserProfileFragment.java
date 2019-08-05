@@ -61,10 +61,6 @@ public class UserProfileFragment extends Fragment {
     private TextView tvSkillsAnalysis;
     private ImageView ivProfilePic;
     private ImageView ivUserSettings;
-    private Button submitNewLocationButton;
-    private Button addPreferencesButton;
-    private Button logoutButton;
-    private Button deleteAccountButton;
     private RatingBar rbUserRating;
 
     private ParseGeoPoint location;
