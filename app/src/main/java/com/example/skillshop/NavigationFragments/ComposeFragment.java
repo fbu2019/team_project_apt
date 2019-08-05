@@ -4,12 +4,16 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +36,7 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -221,9 +226,30 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
         ivClassImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onPickPhoto(v);
+//                onPickPhoto(v);
+                onLaunchCamera(v);
             }
         });
+    }
+
+    public void onLaunchCamera(View view) {
+        // create Intent to take a picture and return control to the calling application
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Create a File reference to access to future access
+        photoFile = getPhotoFileUri(photoFileName);
+
+        // wrap File object into a content provider
+        // required for API >= 24
+        // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
+        Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", photoFile);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
+
+        // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
+        // So as long as the result is not null, it's safe to use the intent.
+        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+            // Start the image capture intent to take photo
+            startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+        }
     }
 
 
@@ -331,6 +357,9 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
 
             newClass.setLocation(location);
 
+            ParseFile file = new ParseFile(getPhotoFileUri(photoFileName));
+            newClass.setImage(file);
+
 
             ArrayList<String> students = new ArrayList<>();
             newClass.setStudents(students);
@@ -401,57 +430,22 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
 
     }
 
-    // Trigger gallery selection for a photo
-    public void onPickPhoto(View view) {
-        // Create intent for picking a photo from the gallery
-        Intent intent = new Intent(Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-        // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-        // So as long as the result is not null, it's safe to use the intent.
-        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-            // Bring up gallery to select a photo
-            startActivityForResult(intent, PICK_PHOTO_CODE);
-        }
-    }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if ((data != null) && (requestCode == PICK_PHOTO_CODE)) {
+
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                photoUri = data.getData();
-                //  photoFile = getPhotoFileUri(photoFileName);
-                // Do something with the photo based on Uri
 
-               /* Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                Uri fileProvider = FileProvider.getUriForFile(NewClassActivity.this, "com.codepath.fileprovider", photoFile);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
+                // rotate image and load into view
+                Bitmap rotated = rotateBitmapOrientation(photoFile.getAbsolutePath());
+                ivClassImage.setImageBitmap(rotated);
 
-                // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-                // So as long as the result is not null, it's safe to use the intent.
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    // Start the image capture intent to take photo
-                    startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-                }*/
+                Toast.makeText(getContext(), "Picture was taken!", Toast.LENGTH_SHORT).show();
 
-
-                Bitmap selectedImage = null;
-                try {
-                    selectedImage = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), photoUri);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                // Load the selected image into a preview
-                ImageView ivPreview = v.findViewById(R.id.ivClassImage);
-                ivPreview.setImageBitmap(selectedImage);
-            } else {
-                // Result was a failure
-                Toast.makeText(getActivity(), "No picture was selected.", Toast.LENGTH_SHORT).show();
             }
-
-
         }
+
         if ((data != null) && (requestCode == AUTOCOMPLETE_REQUEST_CODE) && (resultCode == RESULT_OK)) {
 
             Place place = Autocomplete.getPlaceFromIntent(data);
@@ -488,6 +482,34 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
     }
 
+    // rotates image right side up before uploading
+    public Bitmap rotateBitmapOrientation(String photoFilePath) {
+        // Create and configure BitmapFactory
+        BitmapFactory.Options bounds = new BitmapFactory.Options();
+        bounds.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(photoFilePath, bounds);
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        Bitmap bm = BitmapFactory.decodeFile(photoFilePath, opts);
+        // Read EXIF Data
+        ExifInterface exif = null;
+        try {
+            exif = new ExifInterface(photoFilePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String orientString = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
+        int orientation = orientString != null ? Integer.parseInt(orientString) : ExifInterface.ORIENTATION_NORMAL;
+        int rotationAngle = 0;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_90) rotationAngle = 90;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_180) rotationAngle = 180;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_270) rotationAngle = 270;
+        // Rotate Bitmap
+        Matrix matrix = new Matrix();
+        matrix.setRotate(rotationAngle, (float) bm.getWidth() / 2, (float) bm.getHeight() / 2);
+        Bitmap rotatedBitmap = Bitmap.createBitmap(bm, 0, 0, bounds.outWidth, bounds.outHeight, matrix, true);
+        // Return result
+        return rotatedBitmap;
+    }
 
     private ArrayList<Integer> updateSkillsArray(ArrayList<Integer> skillsData, String category) {
         switch (category){
