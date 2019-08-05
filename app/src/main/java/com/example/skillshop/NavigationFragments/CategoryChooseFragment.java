@@ -14,11 +14,6 @@ import android.widget.ImageView;
 import com.example.skillshop.Adapters.ClassAdapterCardMini;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Workshop;
-import com.example.skillshop.NavigationFragments.subCategories.ArtsDisplayFragment;
-import com.example.skillshop.NavigationFragments.subCategories.CulinaryDisplayFragment;
-import com.example.skillshop.NavigationFragments.subCategories.EducationDisplayFragment;
-import com.example.skillshop.NavigationFragments.subCategories.FitnessDisplayFragment;
-import com.example.skillshop.NavigationFragments.subCategories.OtherDisplayFragment;
 import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -218,28 +213,7 @@ public class CategoryChooseFragment extends Fragment {
 
     public void categoryTransition(String category)
     {
-        Fragment fragment = new EducationDisplayFragment();
-        switch (category){
-            case "Education":
-                fragment = new EducationDisplayFragment();
-                break;
-            case "Culinary":
-                fragment = new CulinaryDisplayFragment();
-                break;
-            case "Fitness":
-                fragment = new FitnessDisplayFragment();
-                break;
-            case "Arts/Crafts":
-                fragment = new ArtsDisplayFragment();
-                break;
-            case "Other":
-                fragment = new OtherDisplayFragment();
-                break;
-
-
-
-        }
-
+        Fragment fragment = new CategoryDisplayFragment();
         Bundle bundle = new Bundle();
         bundle.putString("Category", category);
         fragment.setArguments(bundle);
