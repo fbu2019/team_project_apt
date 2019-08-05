@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
@@ -57,8 +58,8 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
     public final String APP_TAG = "MyCustomApp";
 
     TextView etClassname;
-    Button btnDate;
-    Button btnTime;
+    ImageButton btnDate;
+    ImageButton btnTime;
     TextView etLocation;
     TextView etDescription;
     Spinner spinCategory;
@@ -67,7 +68,8 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
     Button btSubmit;
     Workshop newClass;
     String[] categoryArray;
-
+    TextView etDate;
+    TextView etTime;
     ParseGeoPoint location;
     String locationName;
     private File photoFile;
@@ -259,7 +261,7 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
         Date tempDate = new Date(year-YEAR_OFFSET,month,dayOfMonth);
 
 
-        btnDate.setText(dateString.format(tempDate));
+        etDate.setText(dateString.format(tempDate));
 
 
     }
@@ -274,7 +276,7 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
         SimpleDateFormat dateString = new SimpleDateFormat("HH:mm");
         Date tempDate = new Date(0,0,0,hourOfDay,minute);
 
-        btnTime.setText(dateString.format(tempDate));
+        etTime.setText(dateString.format(tempDate));
         ParseUser user = ParseUser.getCurrentUser();
 
 
@@ -403,8 +405,9 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
         btnDate = v.findViewById(R.id.btnDate);
         etLocation = v.findViewById(R.id.etLocation);
         etDescription = v.findViewById(R.id.etDescription);
-      //  spinCategory = v.findViewById(R.id.categoryPicker);
         etCost = v.findViewById(R.id.etCost);
+        etDate = v.findViewById(R.id.etDate);
+        etTime = v.findViewById(R.id.etTime);
         btSubmit = v.findViewById(R.id.btSubmit);
         ivClassImage = v.findViewById(R.id.ivClassImage);
         btnTime = v.findViewById(R.id.btnTime);
