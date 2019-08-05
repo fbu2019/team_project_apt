@@ -15,6 +15,7 @@ import static com.example.skillshop.Models.Workshop.KEY_CATEGORY;
 import static com.example.skillshop.Models.Workshop.KEY_DATE;
 import static com.example.skillshop.Models.Workshop.KEY_OBJECT_ID;
 import static com.example.skillshop.Models.Workshop.KEY_STUDENTS;
+import static com.example.skillshop.Models.Workshop.KEY_SUB_CATEGORY;
 import static com.example.skillshop.Models.Workshop.KEY_TEACHER;
 import static com.example.skillshop.Models.Workshop.KEY_COST;
 import static com.example.skillshop.Models.Workshop.KEY_LOCATION;
@@ -45,11 +46,10 @@ public class Query extends ParseQuery<Workshop> {
         whereContainedIn(KEY_CATEGORY, categories);
         return this;
     }
-
-
-
-
-
+    public Query bySubCategory(ArrayList<String> categories) {
+        whereContainedIn(KEY_SUB_CATEGORY, categories);
+        return this;
+    }
 
     public Query byTimeOfClass() {
         addAscendingOrder(KEY_DATE);
@@ -90,7 +90,7 @@ public class Query extends ParseQuery<Workshop> {
         List<String> list = Arrays.asList(ParseUser.getCurrentUser().getObjectId());
 
         whereNotContainedIn(KEY_STUDENTS,list);
-        whereNotEqualTo(KEY_TEACHER,ParseUser.getCurrentUser().getObjectId());
+//        whereNotEqualTo(KEY_TEACHER,ParseUser.getCurrentUser().getObjectId());
 
         return this;
     }

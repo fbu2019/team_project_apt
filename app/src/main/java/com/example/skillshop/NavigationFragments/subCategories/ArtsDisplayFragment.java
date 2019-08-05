@@ -1,4 +1,4 @@
-package com.example.skillshop.NavigationFragments;
+package com.example.skillshop.NavigationFragments.subCategories;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,7 +29,7 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OtherDisplayFragment extends Fragment {
+public class ArtsDisplayFragment extends Fragment {
 
 
     private RecyclerView rvClasses;
@@ -115,7 +115,7 @@ public class OtherDisplayFragment extends Fragment {
     public void setUpNavBar(View v)
     {
         BottomNavigationView topNavigationBar = v.findViewById(R.id.top_navigation);
-        topNavigationBar.inflateMenu(R.menu.menu_other);
+        topNavigationBar.inflateMenu(R.menu.menu_arts);
         topNavigationBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -124,8 +124,21 @@ public class OtherDisplayFragment extends Fragment {
                 category = new ArrayList<String>();
 
                 switch (item.getItemId()) {
-                    case R.id.other_category:
-                        category.add("Other");
+                    case R.id.music_category:
+                        category.add("Arts/Crafts");
+                        break;
+                    case R.id.paint_category:
+                        category.add("Arts/Crafts");
+                        break;
+                    case R.id.sculpting_category:
+                        category.add("Arts/Crafts");
+                        break;
+                    case R.id.crafts_fragment:
+                        category.add("Arts/Crafts");
+                        break;
+                    case R.id.graphic_fragment:
+                        category.add("Arts/Crafts");
+                        break;
                     default:
                         break;
                 }
@@ -133,7 +146,7 @@ public class OtherDisplayFragment extends Fragment {
                 return true;
             }
         });
-        topNavigationBar.setSelectedItemId(R.id.other_category);
+        topNavigationBar.setSelectedItemId(R.id.music_category);
     }
 
 

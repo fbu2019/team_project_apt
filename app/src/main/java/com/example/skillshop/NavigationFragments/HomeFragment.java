@@ -271,8 +271,6 @@ public class HomeFragment extends Fragment {
             parseQuery.byLocation(ParseUser.getCurrentUser().getParseGeoPoint("userLocation"));
         }
 
-
-
         parseQuery.findInBackground(new FindCallback<Workshop>() {
             @Override
             public void done(List<Workshop> objects, ParseException e) {
@@ -291,8 +289,6 @@ public class HomeFragment extends Fragment {
     }
 
 
-
-
     private void connectRecyclerView(View view) {
         //find the RecyclerView
         rvClasses = (RecyclerView) view.findViewById(R.id.rvClasses);
@@ -307,11 +303,7 @@ public class HomeFragment extends Fragment {
         //set the adapter
         rvClasses.setAdapter(classAdapter);
 
-
     }
-
-
-
 
 }
 

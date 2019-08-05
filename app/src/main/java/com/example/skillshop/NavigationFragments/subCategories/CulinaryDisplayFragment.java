@@ -1,4 +1,4 @@
-package com.example.skillshop.NavigationFragments;
+package com.example.skillshop.NavigationFragments.subCategories;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

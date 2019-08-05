@@ -1,4 +1,4 @@
-package com.example.skillshop.NavigationFragments;
+package com.example.skillshop.NavigationFragments.subCategories;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,7 +29,7 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArtsDisplayFragment extends Fragment {
+public class FitnessDisplayFragment extends Fragment {
 
 
     private RecyclerView rvClasses;
@@ -115,7 +115,7 @@ public class ArtsDisplayFragment extends Fragment {
     public void setUpNavBar(View v)
     {
         BottomNavigationView topNavigationBar = v.findViewById(R.id.top_navigation);
-        topNavigationBar.inflateMenu(R.menu.menu_arts);
+        topNavigationBar.inflateMenu(R.menu.menu_fitness);
         topNavigationBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -124,20 +124,20 @@ public class ArtsDisplayFragment extends Fragment {
                 category = new ArrayList<String>();
 
                 switch (item.getItemId()) {
-                    case R.id.music_category:
-                        category.add("Arts/Crafts");
+                    case R.id.Outdoors_category:
+                        category.add("Fitness");
                         break;
-                    case R.id.paint_category:
-                        category.add("Arts/Crafts");
+                    case R.id.Gym_category:
+                        category.add("Fitness");
                         break;
-                    case R.id.sculpting_category:
-                        category.add("Arts/Crafts");
+                    case R.id.Sports_category:
+                        category.add("Fitness");
                         break;
-                    case R.id.crafts_fragment:
-                        category.add("Arts/Crafts");
+                    case R.id.Dance_fragment:
+                        category.add("Fitness");
                         break;
-                    case R.id.graphic_fragment:
-                        category.add("Arts/Crafts");
+                    case R.id.Martial_fragment:
+                        category.add("Fitness");
                         break;
                     default:
                         break;
@@ -146,7 +146,7 @@ public class ArtsDisplayFragment extends Fragment {
                 return true;
             }
         });
-        topNavigationBar.setSelectedItemId(R.id.music_category);
+        topNavigationBar.setSelectedItemId(R.id.Outdoors_category);
     }
 
 

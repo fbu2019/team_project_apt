@@ -1,39 +1,27 @@
 package com.example.skillshop.NavigationFragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.SearchView;
-import android.widget.Spinner;
 
-import com.example.skillshop.Adapters.ClassAdapterCard;
 import com.example.skillshop.Adapters.ClassAdapterCardMini;
-import com.example.skillshop.FollowingListActivity;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Workshop;
+import com.example.skillshop.NavigationFragments.subCategories.ArtsDisplayFragment;
+import com.example.skillshop.NavigationFragments.subCategories.CulinaryDisplayFragment;
+import com.example.skillshop.NavigationFragments.subCategories.EducationDisplayFragment;
+import com.example.skillshop.NavigationFragments.subCategories.FitnessDisplayFragment;
+import com.example.skillshop.NavigationFragments.subCategories.OtherDisplayFragment;
 import com.example.skillshop.R;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseUser;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.skillshop.NavigationFragments;
+package com.example.skillshop.NavigationFragments.subCategories;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,7 +29,7 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FitnessDisplayFragment extends Fragment {
+public class OtherDisplayFragment extends Fragment {
 
 
     private RecyclerView rvClasses;
@@ -115,7 +115,7 @@ public class FitnessDisplayFragment extends Fragment {
     public void setUpNavBar(View v)
     {
         BottomNavigationView topNavigationBar = v.findViewById(R.id.top_navigation);
-        topNavigationBar.inflateMenu(R.menu.menu_fitness);
+        topNavigationBar.inflateMenu(R.menu.menu_other);
         topNavigationBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -124,21 +124,8 @@ public class FitnessDisplayFragment extends Fragment {
                 category = new ArrayList<String>();
 
                 switch (item.getItemId()) {
-                    case R.id.Outdoors_category:
-                        category.add("Fitness");
-                        break;
-                    case R.id.Gym_category:
-                        category.add("Fitness");
-                        break;
-                    case R.id.Sports_category:
-                        category.add("Fitness");
-                        break;
-                    case R.id.Dance_fragment:
-                        category.add("Fitness");
-                        break;
-                    case R.id.Martial_fragment:
-                        category.add("Fitness");
-                        break;
+                    case R.id.other_category:
+                        category.add("Other");
                     default:
                         break;
                 }
@@ -146,7 +133,7 @@ public class FitnessDisplayFragment extends Fragment {
                 return true;
             }
         });
-        topNavigationBar.setSelectedItemId(R.id.Outdoors_category);
+        topNavigationBar.setSelectedItemId(R.id.other_category);
     }
 
 
