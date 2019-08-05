@@ -110,7 +110,6 @@ public class UserProfileFragment extends Fragment {
             }
         });
 
-
         tvNumberFollowing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,11 +178,6 @@ public class UserProfileFragment extends Fragment {
         });
         // default fragment in home fragment
         topNavigationBar.setSelectedItemId(R.id.taking);
-    }
-
-    private void createPreferences() {
-        Intent i = new Intent(getContext(), AddUserPreferences.class);
-        startActivity(i);
     }
 
     private void displayUserInfo(View view, String locationName, String profilePhotoUrl) {
