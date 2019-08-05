@@ -6,21 +6,23 @@
     android:layout_height="match_parent">
 
     <ScrollView
-        android:layout_width="402dp"
-        android:layout_height="623dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:isScrollContainer="false"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.533"
-        android:scrollbars="none"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="1500dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
@@ -30,6 +32,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+
+            <EditText
+                android:id="@+id/etDate"
+                android:layout_width="343dp"
+                android:layout_height="51dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@color/light_gray"
+                android:ems="10"
+                android:focusable="false"
+                android:gravity="center"
+                android:hint="Select workshop date..."
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/subCategoryPicker" />
 
             <ImageView
                 android:id="@+id/ivClassImage"
@@ -83,36 +102,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCostTag" />
 
-            <Button
-                android:id="@+id/btnTime"
-                android:layout_width="0dp"
-                android:layout_height="51dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="44dp"
-                android:layout_marginEnd="32dp"
-                android:inputType="textPersonName"
-                android:text="Tap to enter a time"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.703"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnDate" />
-
             <EditText
                 android:id="@+id/etLocation"
                 android:layout_width="343dp"
                 android:layout_height="51dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:background="@color/light_gray"
                 android:ems="10"
                 android:focusable="false"
+                android:gravity="center"
                 android:hint="Select workshop location..."
                 android:inputType="textPersonName"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.481"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/subCategoryPicker" />
+                app:layout_constraintTop_toBottomOf="@+id/etDate" />
 
             <NumberPicker
                 android:id="@+id/categoryPicker"
@@ -153,22 +158,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:text="Cost:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnTime" />
-
-            <Button
-                android:id="@+id/btnDate"
-                android:layout_width="0dp"
-                android:layout_height="45dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="32dp"
-                android:inputType="textPersonName"
-                android:text="Tap to select a date"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etLocation" />
 
