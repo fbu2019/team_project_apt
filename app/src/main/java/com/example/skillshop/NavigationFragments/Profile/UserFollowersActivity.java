@@ -1,4 +1,4 @@
-package com.example.skillshop;
+package com.example.skillshop.NavigationFragments.Profile;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.skillshop.Adapters.UserAdapter;
+import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;

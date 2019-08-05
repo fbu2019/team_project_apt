@@ -1,4 +1,4 @@
-package com.example.skillshop;
+package com.example.skillshop.NavigationFragments.Profile.Settings;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.skillshop.LoginActivities.LoginActivity;
+import com.example.skillshop.R;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.model.Place;

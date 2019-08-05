@@ -1,4 +1,4 @@
-package com.example.skillshop;
+package com.example.skillshop.NavigationFragments.Profile.Settings;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +16,7 @@ import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.NavigationFragments.FragmentHandler;
+import com.example.skillshop.R;
 import com.facebook.login.LoginManager;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;

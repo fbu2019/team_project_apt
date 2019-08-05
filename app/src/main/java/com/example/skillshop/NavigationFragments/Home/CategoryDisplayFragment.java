@@ -1,4 +1,4 @@
-package com.example.skillshop.NavigationFragments;
+package com.example.skillshop.NavigationFragments.Home;
 
 import android.content.Intent;
 import android.os.Bundle;

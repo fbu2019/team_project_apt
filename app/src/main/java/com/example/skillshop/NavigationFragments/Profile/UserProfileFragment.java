@@ -1,4 +1,4 @@
-package com.example.skillshop.NavigationFragments;
+package com.example.skillshop.NavigationFragments.Profile;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,16 +20,16 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.skillshop.AddUserPreferences;
-import com.example.skillshop.DeleteAccountActivity;
+import com.example.skillshop.NavigationFragments.Profile.Settings.AddUserPreferences;
+import com.example.skillshop.NavigationFragments.Profile.Settings.DeleteAccountActivity;
 import com.example.skillshop.FollowingListActivity;
 import com.example.skillshop.LoginActivities.LoginActivity;
 import com.example.skillshop.Models.Ratings;
-import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesInvolvedFragment;
+import com.example.skillshop.NavigationFragments.Home.AllCategoryFragment;
+import com.example.skillshop.NavigationFragments.Profile.ClassesActivities.ClassesInvolvedFragment;
 import com.example.skillshop.R;
-import com.example.skillshop.SkillVisualizationActivity;
-import com.example.skillshop.UserFollowersActivity;
-import com.example.skillshop.UserSettings;
+import com.example.skillshop.NavigationFragments.Profile.ClassesActivities.SkillVisualizationActivity;
+import com.example.skillshop.NavigationFragments.Profile.Settings.UserSettings;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
@@ -189,7 +189,7 @@ public class UserProfileFragment extends Fragment {
         topNavigationBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment fragment = new HomeFragment();
+                Fragment fragment = new AllCategoryFragment();
                 // depending on which button the user presses the classes will be displayed
                 Bundle bundle = new Bundle();
 

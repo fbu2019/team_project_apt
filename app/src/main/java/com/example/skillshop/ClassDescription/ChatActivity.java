@@ -1,23 +1,20 @@
-package com.example.skillshop;
+package com.example.skillshop.ClassDescription;
 
-import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.skillshop.Adapters.ChatAdapter;
 import com.example.skillshop.Models.Message;
 import com.example.skillshop.Models.Workshop;
+import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -25,11 +22,8 @@ import com.parse.SaveCallback;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import static com.example.skillshop.Models.Message.WORKSHOP_KEY;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -41,7 +35,6 @@ public class ChatActivity extends AppCompatActivity {
     // Keep track of initial load to scroll to the bottom of the ListView
     boolean mFirstLoad;
     Workshop detailedWorkshop;
-    EndlessRecyclerViewScrollListener scrollListener;
 
     int maxMessages;
 

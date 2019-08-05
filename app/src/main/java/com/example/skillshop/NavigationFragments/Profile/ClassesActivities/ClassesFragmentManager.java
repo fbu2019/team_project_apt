@@ -1,4 +1,4 @@
-package com.example.skillshop.NavigationFragments.ClassesActivities;
+package com.example.skillshop.NavigationFragments.Profile.ClassesActivities;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import com.example.skillshop.NavigationFragments.HomeFragment;
+import com.example.skillshop.NavigationFragments.Home.AllCategoryFragment;
 import com.example.skillshop.R;
 
 
@@ -32,7 +32,7 @@ public class ClassesFragmentManager extends Fragment {
         topNavigationBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment fragment = new HomeFragment();
+                Fragment fragment = new AllCategoryFragment();
                 // depending on which button the user presses the classes will be displayed
                 Bundle bundle = new Bundle();
 

@@ -1,4 +1,4 @@
-package com.example.skillshop.NavigationFragments.CalendarActivities;
+package com.example.skillshop.NavigationFragments.Calendar;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.example.skillshop.NavigationFragments.HomeFragment;
 import com.example.skillshop.R;
 
 import java.text.SimpleDateFormat;

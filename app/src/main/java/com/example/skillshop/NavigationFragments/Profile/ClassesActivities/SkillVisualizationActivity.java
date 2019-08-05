@@ -1,4 +1,4 @@
-package com.example.skillshop;
+package com.example.skillshop.NavigationFragments.Profile.ClassesActivities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +20,7 @@ import com.anychart.scales.Linear;
 import com.anychart.scales.OrdinalColor;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Workshop;
+import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;

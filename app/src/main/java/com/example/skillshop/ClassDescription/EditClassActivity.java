@@ -1,4 +1,4 @@
-package com.example.skillshop.ClassManipulationActivities;
+package com.example.skillshop.ClassDescription;
 
 import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.NavigationFragments.FragmentHandler;
-import com.example.skillshop.NavigationFragments.HomeFragment;
+import com.example.skillshop.NavigationFragments.Home.AllCategoryFragment;
 import com.example.skillshop.R;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
@@ -323,7 +323,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     public void goToHomeFragment(){
 
         // create new fragment to use
-        Fragment home = new HomeFragment();
+        Fragment home = new AllCategoryFragment();
         // transaction on current activity
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.flContainer, home);

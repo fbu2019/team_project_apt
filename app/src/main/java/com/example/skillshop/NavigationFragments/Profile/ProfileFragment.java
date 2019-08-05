@@ -1,4 +1,4 @@
-package com.example.skillshop.NavigationFragments;
+package com.example.skillshop.NavigationFragments.Profile;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,8 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.skillshop.AddUserPreferences;
-import com.example.skillshop.DeleteAccountActivity;
+import com.example.skillshop.NavigationFragments.Profile.Settings.AddUserPreferences;
+import com.example.skillshop.NavigationFragments.Profile.Settings.DeleteAccountActivity;
 import com.example.skillshop.LoginActivities.LoginActivity;
 import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.R;

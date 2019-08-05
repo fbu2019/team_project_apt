@@ -1,8 +1,7 @@
-package com.example.skillshop;
+package com.example.skillshop.ClassDescription;
 
 import org.parceler.Parcels;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,14 +14,11 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.skillshop.LoginActivities.LoginActivity;
-import com.example.skillshop.LoginActivities.SignupActivity;
 import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.Models.Workshop;
-import com.example.skillshop.NavigationFragments.FragmentHandler;
+import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.LogInCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;

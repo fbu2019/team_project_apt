@@ -1,4 +1,4 @@
-package com.example.skillshop.NavigationFragments;
+package com.example.skillshop.NavigationFragments.Compose;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -29,6 +29,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.skillshop.Models.Workshop;
+import com.example.skillshop.NavigationFragments.Home.AllCategoryFragment;
 import com.example.skillshop.R;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
@@ -376,7 +377,7 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
                         Toast.makeText(getActivity(), "Class was made", Toast.LENGTH_SHORT).show();
                         getAndSetSkillsArray(categorySelected);
                         // create new fragment to use
-                        Fragment home = new HomeFragment();
+                        Fragment home = new AllCategoryFragment();
                         // transaction on current activity
                         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                         transaction.replace(R.id.flContainer, home);

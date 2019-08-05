@@ -1,4 +1,4 @@
-package com.example.skillshop.NavigationFragments;
+package com.example.skillshop.NavigationFragments.Home;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -198,7 +198,7 @@ public class CategoryChooseFragment extends Fragment {
     public void allCategoryTransition()
     {
         // create new fragment to use
-        Fragment home = new HomeFragment();
+        Fragment home = new AllCategoryFragment();
         // transaction on current activity
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 

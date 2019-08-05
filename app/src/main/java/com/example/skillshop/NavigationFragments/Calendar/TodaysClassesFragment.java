@@ -1,4 +1,4 @@
-package com.example.skillshop.NavigationFragments.CalendarActivities;
+package com.example.skillshop.NavigationFragments.Calendar;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

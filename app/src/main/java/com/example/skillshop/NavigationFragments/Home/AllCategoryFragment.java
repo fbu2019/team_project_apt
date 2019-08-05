@@ -1,4 +1,4 @@
-package com.example.skillshop.NavigationFragments;
+package com.example.skillshop.NavigationFragments.Home;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,7 +37,7 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class AllCategoryFragment extends Fragment {
 
 
     private static final String CHANNEL_ID = "CHANNEL_ID";

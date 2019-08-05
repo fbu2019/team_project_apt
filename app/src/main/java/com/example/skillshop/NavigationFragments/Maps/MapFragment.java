@@ -1,23 +1,19 @@
-package com.example.skillshop.NavigationFragments;
+package com.example.skillshop.NavigationFragments.Maps;
 
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.skillshop.Adapters.CustomWindowAdapter;
-import com.example.skillshop.ClassManipulationActivities.ClassDetailsActivity;
-import com.example.skillshop.MapActivity;
+import com.example.skillshop.ClassDescription.ClassDetailsActivity;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.R;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -34,10 +30,8 @@ import com.parse.ParseGeoPoint;
 
 import org.parceler.Parcels;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class MapFragment extends Fragment{
 

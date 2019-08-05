@@ -9,7 +9,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.example.skillshop.NavigationFragments.CalendarActivities.CalendarFragment;
+import com.example.skillshop.NavigationFragments.Calendar.CalendarFragment;
+import com.example.skillshop.NavigationFragments.Compose.ComposeFragment;
+import com.example.skillshop.NavigationFragments.Home.AllCategoryFragment;
+import com.example.skillshop.NavigationFragments.Home.CategoryChooseFragment;
+import com.example.skillshop.NavigationFragments.Maps.MapFragment;
+import com.example.skillshop.NavigationFragments.Profile.UserProfileFragment;
 import com.example.skillshop.R;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.parse.ParseException;
@@ -34,7 +39,7 @@ public class FragmentHandler extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment fragment = new HomeFragment();
+                Fragment fragment = new AllCategoryFragment();
 
                 // depending on which button is pressed launch the corresponding fragment
                 switch (item.getItemId()) {
