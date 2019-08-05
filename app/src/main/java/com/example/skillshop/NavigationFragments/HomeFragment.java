@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.skillshop.Adapters.ClassAdapterCard;
 import com.example.skillshop.FollowingListActivity;
@@ -46,6 +47,7 @@ public class HomeFragment extends Fragment {
 
 
     Spinner spinSorters;
+    TextView tvNote;
     SearchView searchView;
     Button btnPreferenceFilter;
     Button btnFollowing;
@@ -67,6 +69,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         spinSorters = view.findViewById(R.id.spinSorters);
         searchView = view.findViewById(R.id.searchView);
+        tvNote = view.findViewById(R.id.tvNote);
 
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -280,6 +283,14 @@ public class HomeFragment extends Fragment {
                         Workshop workshopItem = objects.get(i);
                         mWorkshops.add(workshopItem);
                         classAdapter.notifyItemInserted(mWorkshops.size() - 1);
+                    }
+                    if(objects.size()==0)
+                    {
+                        tvNote.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        tvNote.setVisibility(View.INVISIBLE);
                     }
                 } else {
                     e.printStackTrace();

@@ -43,22 +43,15 @@ public class EducationDisplayFragment extends Fragment {
     private RecyclerView rvClasses;
     protected ArrayList<Workshop> mWorkshops;
     protected ClassAdapterCard classAdapter;
-
-
     Spinner spinSorters;
     SearchView searchView;
     private SwipeRefreshLayout swipeContainer;
-
     private ArrayList<String> category;
-
     TextView tvDisplay;
-
-
     private String mainCategory;
-
     Boolean firstLoad = true;
+    TextView tvNote;
     @Override
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate((R.layout.fragment_category_display), container, false);
     }
@@ -70,6 +63,7 @@ public class EducationDisplayFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         spinSorters = view.findViewById(R.id.spinSorters);
         searchView = view.findViewById(R.id.searchView);
+        tvNote = view.findViewById(R.id.tvNote);
 
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,7 +117,28 @@ public class EducationDisplayFragment extends Fragment {
     public void setUpNavBar(View v)
     {
         BottomNavigationView topNavigationBar = v.findViewById(R.id.top_navigation);
-        topNavigationBar.inflateMenu(R.menu.menu_education);
+
+        switch (mainCategory) {
+            case "Culinary":
+                topNavigationBar.inflateMenu(R.menu.menu_culinary);
+                break;
+            case "Education":
+                topNavigationBar.inflateMenu(R.menu.menu_education);
+                break;
+            case "Fitness":
+                topNavigationBar.inflateMenu(R.menu.menu_fitness);
+                break;
+            case "Arts/Crafts":
+                topNavigationBar.inflateMenu(R.menu.menu_arts);
+                break;
+            case "Other":
+                topNavigationBar.inflateMenu(R.menu.menu_other);
+                break;
+            default:
+                topNavigationBar.inflateMenu(R.menu.menu_culinary);
+                break;
+        }
+
         topNavigationBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -131,25 +146,33 @@ public class EducationDisplayFragment extends Fragment {
 
                 category = new ArrayList<String>();
 
-                switch (item.getItemId()) {
-                    case R.id.programming_category:
-                        category.add("Education");
+                switch(mainCategory)
+                {
+                    case "Education":
+                        switch (item.getItemId()) {
+                            case R.id.programming_category:
+                                category.add("Programming");
+                                break;
+                            case R.id.science_category:
+                                category.add("Sciences");
+                                break;
+                            case R.id.humanities_category:
+                                category.add("Humanities");
+                                break;
+                            case R.id.languages_fragment:
+                                category.add("Languages");
+                                break;
+                            case R.id.business_fragment:
+                                category.add("Business");
+                                break;
+                            default:
+                                break;
+                        }
                         break;
-                    case R.id.science_category:
-                        category.add("Education");
-                        break;
-                    case R.id.humanities_category:
-                        category.add("Education");
-                        break;
-                    case R.id.languages_fragment:
-                        category.add("Education");
-                        break;
-                    case R.id.business_fragment:
-                        category.add("Education");
-                        break;
-                    default:
-                        break;
+
                 }
+
+
                 filterFeed(category,0,false);
                 return true;
             }
@@ -229,7 +252,7 @@ public class EducationDisplayFragment extends Fragment {
         classAdapter.notifyDataSetChanged();
         Query parseQuery = new Query();
         // query add all classes with all data and sort by time of class and only show new classes
-        parseQuery.getAllClasses().withItems().byCategory(categories).getClassesNotTaking();
+        parseQuery.getAllClasses().withItems().bySubCategory(categories).getClassesNotTaking();
 
         if(byCost == 1)
         {
@@ -256,6 +279,15 @@ public class EducationDisplayFragment extends Fragment {
                         Workshop workshopItem = objects.get(i);
                         mWorkshops.add(workshopItem);
                         classAdapter.notifyItemInserted(mWorkshops.size() - 1);
+
+                    }
+                    if(objects.size()==0)
+                    {
+                        tvNote.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        tvNote.setVisibility(View.INVISIBLE);
                     }
                 } else {
                     e.printStackTrace();
@@ -263,9 +295,6 @@ public class EducationDisplayFragment extends Fragment {
             }
         });
     }
-
-
-
 
     private void connectRecyclerView(View view) {
         //find the RecyclerView
