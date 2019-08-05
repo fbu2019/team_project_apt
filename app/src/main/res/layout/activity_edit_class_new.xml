@@ -31,90 +31,183 @@
             app:layout_constraintTop_toTopOf="parent">
 
 
+            <TextView
+                android:id="@+id/tvTitleTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="48dp"
+                android:layout_marginEnd="250dp"
+                android:text="Workshop Title:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/newClassTag" />
+
             <ImageView
                 android:id="@+id/ivClassImage"
                 android:layout_width="0dp"
                 android:layout_height="107dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
                 android:src="@drawable/add_image"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.909"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvImageTag" />
 
-            <Button
-                android:id="@+id/btSubmit"
-                android:layout_width="343dp"
-                android:layout_height="51dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="16dp"
-                android:inputType="textPersonName"
-                android:text="Submit"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivClassImage" />
-
             <TextView
                 android:id="@+id/tvDollar"
-                android:layout_width="11dp"
-                android:layout_height="25dp"
+                android:layout_width="19dp"
+                android:layout_height="27dp"
+                android:layout_marginStart="32dp"
                 android:text="$"
                 app:layout_constraintBottom_toBottomOf="@+id/etCost"
                 app:layout_constraintEnd_toStartOf="@+id/etCost"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/etCost" />
 
             <EditText
                 android:id="@+id/etCost"
-                android:layout_width="343dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_width="333dp"
+                android:layout_height="42dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="8dp"
                 android:ems="10"
                 android:hint="Cost"
+                android:textSize="14sp"
+                android:background="@drawable/rounded_edit_text"
                 android:inputType="textPersonName"
                 android:text="0"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCostTag" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/btnTime"
-                android:layout_width="343dp"
-                android:layout_height="51dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="32dp"
+                android:background="#FFFFFF"
+                android:foreground="@drawable/ic_time"
                 android:inputType="textPersonName"
                 android:text="Tap to enter a time"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTime" />
+
+
+            <TextView
+                android:id="@+id/tvLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="24dp"
+                android:text="Location:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/subCategoryPicker" />
+
+
+            <EditText
+                android:id="@+id/etLocation"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/rounded_edit_text"                android:ems="10"
+                android:focusable="false"
+                android:gravity="top"
+                android:hint="Select workshop location..."
+                android:inputType="textPersonName"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.296"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvLocation" />
+
+            <EditText
+                android:id="@+id/etDate"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/rounded_edit_text"                android:ems="10"
+                android:gravity="top"
+                android:hint="08/12/2019"
+                android:inputType="textPersonName"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/btnDate"
+                app:layout_constraintHorizontal_bias="0.296"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDate" />
+
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="24dp"
+                android:text="Date:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etLocation" />
+
+
+            <TextView
+                android:id="@+id/tvTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="24dp"
+                android:text="Time:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnDate" />
 
-            <Button
-                android:id="@+id/etLocation"
-                android:layout_width="343dp"
-                android:layout_height="51dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Tap to select a location"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/categoryPicker" />
-
-            <Spinner
-                android:id="@+id/categoryPicker"
-                android:layout_width="208dp"
-                android:layout_height="23dp"
+            <EditText
+                android:id="@+id/etTime"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/rounded_edit_text"                android:ems="10"
+                android:gravity="top"
+                android:hint="12:00"
+                android:inputType="textPersonName"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/btnDate"
+                app:layout_constraintHorizontal_bias="0.296"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTime" />
+
+            <NumberPicker
+                android:id="@+id/categoryPicker"
+                android:layout_width="0dp"
+                android:layout_height="66dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/rounded_edit_text"
+                android:theme="@style/NumberPickerText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.705"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCategory" />
 
@@ -123,92 +216,127 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:text="Category:"
+
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etDescription" />
+
+            <TextView
+                android:id="@+id/tvSubCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="24dp"
+                android:text="Sub Category:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/categoryPicker" />
 
             <TextView
                 android:id="@+id/tvCostTag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="316dp"
                 android:text="Cost:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnTime" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/btnDate"
-                android:layout_width="343dp"
-                android:layout_height="51dp"
-                android:layout_marginStart="8dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="32dp"
+                android:background="#FFFFFF"
+                android:foreground="@drawable/ic_date_light"
                 android:inputType="textPersonName"
                 android:text="Tap to select a date"
+                android:tint="#009688"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.511"
+                app:layout_constraintTop_toBottomOf="@+id/tvDate" />
+
+            <NumberPicker
+                android:id="@+id/subCategoryPicker"
+                android:layout_width="0dp"
+                android:layout_height="66dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="32dp"
+
+                android:theme="@style/NumberPickerText"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etLocation" />
+                app:layout_constraintTop_toBottomOf="@+id/tvSubCategory" />
 
             <TextView
                 android:id="@+id/newClassTag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="64dp"
+                android:layout_marginTop="48dp"
                 android:layout_marginEnd="8dp"
-                android:text="New Workshop"
+                android:text="Edit Workshop"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.101"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tvTitleTag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:text="Workshop Title:"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/newClassTag" />
-
             <EditText
                 android:id="@+id/etClassname"
-                android:layout_width="343dp"
+                android:layout_width="0dp"
                 android:layout_height="56dp"
-                android:layout_marginTop="8dp"
-                android:background="@color/light_gray"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="32dp"
                 android:ems="10"
+                android:gravity="top"
+                android:background="@drawable/rounded_edit_text"
                 android:hint="Enter class title..."
                 android:inputType="textPersonName"
-                app:layout_constraintStart_toStartOf="@+id/tvTitleTag"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitleTag" />
 
             <EditText
                 android:id="@+id/etDescription"
-                android:layout_width="344dp"
+                android:layout_width="0dp"
                 android:layout_height="114dp"
-                android:layout_marginTop="8dp"
-                android:background="@color/light_gray"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="32dp"
                 android:ems="10"
+                android:gravity="top"
+                android:background="@drawable/rounded_edit_text"
                 android:hint="Descibe your workshop in 50 words or less.."
                 android:inputType="textShortMessage|textMultiLine|textPersonName|textEmailAddress"
-                app:layout_constraintStart_toStartOf="@+id/tvDescriptiontag"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvDescriptiontag" />
 
             <TextView
                 android:id="@+id/tvDescriptiontag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:text="Workshop Description:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/etClassname"
                 app:layout_constraintTop_toBottomOf="@+id/etClassname" />
 
@@ -217,17 +345,36 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 android:text="Add an image of what your class is about:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etCost" />
 
+            <Button
+                android:id="@+id/btSubmit"
+                android:layout_width="0dp"
+                android:layout_height="51dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="48dp"
+                android:background="#6bcebb"
+                android:inputType="textPersonName"
+                android:text="Save"
+                android:textColor="@color/quantum_white_text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivClassImage" />
+
             <ImageView
                 android:id="@+id/ivTrash"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="64dp"
+                android:layout_marginTop="36dp"
                 android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
