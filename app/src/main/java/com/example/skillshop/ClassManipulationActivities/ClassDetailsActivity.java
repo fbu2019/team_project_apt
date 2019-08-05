@@ -100,7 +100,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
             setUpChat();
         } else {
 
-
             ArrayList<String> students = (ArrayList<String>) detailedWorkshop.getStudents();
 
             boolean enrolled = students.contains(ParseUser.getCurrentUser().getObjectId());
@@ -108,7 +107,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
             if (enrolled) {
                 setUpChat();
             }
-
         }
     }
 

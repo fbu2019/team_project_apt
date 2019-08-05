@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.example.skillshop.FollowingListActivity;
 import com.example.skillshop.InstructorDetailsActivity;
 import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.Models.User;
+import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.NavigationFragments.HomeFragment;
 import com.example.skillshop.NavigationFragments.UserProfileFragment;
 import com.example.skillshop.R;
@@ -257,6 +259,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 } else {
                     //create intent for the new activity
                     Intent openUserProfileIntent = new Intent(context, UserProfileActivity.class);
+                    Log.i("UserAdapter", "created intent");
+                    openUserProfileIntent.putExtra(User.class.getSimpleName(), Parcels.wrap(user));
                     //serialize the movie using parceler, uses the short name of the movie as a key
                     openUserProfileIntent.putExtra(ParseUser.class.getSimpleName(), Parcels.wrap(user));
                     context.startActivity(openUserProfileIntent);
