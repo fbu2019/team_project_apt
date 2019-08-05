@@ -2,6 +2,8 @@ These are the files used for communicating between firebase our app and our pars
 
 
 This is the typical layout for our application we have our Heroku parse database that remembers information about current classes and users
+
+
 ![Typical](images/d1.png)
 
 When a user does something that should warrant a notification like any of the following actions:
