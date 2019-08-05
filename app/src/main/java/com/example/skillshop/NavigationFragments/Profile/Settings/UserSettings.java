@@ -14,13 +14,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.skillshop.LoginActivities.LoginActivity;
-<<<<<<< HEAD:app/src/main/java/com/example/skillshop/NavigationFragments/Profile/Settings/UserSettings.java
 import com.example.skillshop.R;
-=======
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.Models.Workshop;
->>>>>>> 76feaaa35376421950d31405a973cf6cab5a1c75:app/src/main/java/com/example/skillshop/UserSettings.java
+
 import com.facebook.login.LoginManager;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.model.Place;

@@ -16,14 +16,10 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.skillshop.Models.Ratings;
-<<<<<<< HEAD
 import com.example.skillshop.NavigationFragments.Profile.UserProfileActivity;
-=======
+
 import com.example.skillshop.Models.User;
-import com.example.skillshop.Models.Workshop;
-import com.example.skillshop.NavigationFragments.HomeFragment;
-import com.example.skillshop.NavigationFragments.UserProfileFragment;
->>>>>>> 76feaaa35376421950d31405a973cf6cab5a1c75
+
 import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;

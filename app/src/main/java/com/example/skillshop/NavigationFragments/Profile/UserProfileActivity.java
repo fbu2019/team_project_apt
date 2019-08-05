@@ -9,26 +9,17 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-<<<<<<< HEAD:app/src/main/java/com/example/skillshop/NavigationFragments/Profile/UserProfileActivity.java
-=======
 import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
->>>>>>> 76feaaa35376421950d31405a973cf6cab5a1c75:app/src/main/java/com/example/skillshop/UserProfileActivity.java
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.skillshop.Adapters.ClassAdapter;
 import com.example.skillshop.Models.Query;
+import com.example.skillshop.Models.User;
 import com.example.skillshop.Models.Workshop;
-<<<<<<< HEAD:app/src/main/java/com/example/skillshop/NavigationFragments/Profile/UserProfileActivity.java
 import com.example.skillshop.R;
-=======
-import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesInvolvedFragment;
-import com.example.skillshop.NavigationFragments.HomeFragment;
->>>>>>> 76feaaa35376421950d31405a973cf6cab5a1c75:app/src/main/java/com/example/skillshop/UserProfileActivity.java
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
