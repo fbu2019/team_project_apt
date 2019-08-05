@@ -99,9 +99,7 @@ public class AddUserPreferences extends AppCompatActivity {
                     artsCraftsBox.setChecked(true);
                 }
             }
-
         }
-
     }
 
     private void retrievePreferences() {
