@@ -221,9 +221,6 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
             @Override
             public void onClick(View v) {
                 datePickerDialog.show();
-
-
-
             }
         });
 
@@ -252,18 +249,12 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
         // adds date values to map
-
         dateMap.put("year", year);
         dateMap.put("month", month);
         dateMap.put("dayOfMonth", dayOfMonth);
-
         SimpleDateFormat dateString = new SimpleDateFormat("MM/dd/YYYY");
         Date tempDate = new Date(year-YEAR_OFFSET,month,dayOfMonth);
-
-
         etDate.setText(dateString.format(tempDate));
-
-
     }
 
     @Override
@@ -272,14 +263,9 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
         // adds time values to map
         dateMap.put("hourOfDay", hourOfDay);
         dateMap.put("minute", minute);
-
         SimpleDateFormat dateString = new SimpleDateFormat("HH:mm");
         Date tempDate = new Date(0,0,0,hourOfDay,minute);
-
         etTime.setText(dateString.format(tempDate));
-        ParseUser user = ParseUser.getCurrentUser();
-
-
     }
 
     private void postWorkshop() {
@@ -323,8 +309,15 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
 
             newClass.setName(etClassname.getText().toString());
 
-            // creates new date instance with values form map to post
-            Date date = new Date(dateMap.get("year") - YEAR_OFFSET, dateMap.get("month"), dateMap.get("dayOfMonth"), dateMap.get("hourOfDay"), dateMap.get("minute"));
+            String dateTime = etDate.getText() + " " + etTime.getText();
+
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+            Date date = formatter.parse(dateTime);
+
+
+
+    // creates new date instance with values form map to post
+           // Date date = new Date(dateMap.get("year") - YEAR_OFFSET, dateMap.get("month"), dateMap.get("dayOfMonth"), dateMap.get("hourOfDay"), dateMap.get("minute"));
 
             if(date.compareTo(today) < 0)
             {
