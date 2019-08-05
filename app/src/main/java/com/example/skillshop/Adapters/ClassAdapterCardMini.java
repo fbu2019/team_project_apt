@@ -55,6 +55,7 @@ public class ClassAdapterCardMini extends RecyclerView.Adapter<ClassAdapterCardM
         //populate the views according to this data
         holder.bind(tWorkshop);
 
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,6 +70,7 @@ public class ClassAdapterCardMini extends RecyclerView.Adapter<ClassAdapterCardM
                     profileDetailsIntent.putExtra("IsTeacher", Parcels.wrap(false));
                 }
                 context.startActivity(profileDetailsIntent);
+
             }
         });
 
@@ -84,6 +86,7 @@ public class ClassAdapterCardMini extends RecyclerView.Adapter<ClassAdapterCardM
     class ViewHolder extends RecyclerView.ViewHolder{
 
         private TextView tvClassName;
+        private ImageView ivClassImage;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -93,12 +96,36 @@ public class ClassAdapterCardMini extends RecyclerView.Adapter<ClassAdapterCardM
 
         private void findAllViews() {
             tvClassName = itemView.findViewById(R.id.tvClassName);
+            ivClassImage = itemView.findViewById(R.id.ivClassImage);
         }
 
 
         public void bind(final Workshop tWorkshop) {
-
             setAllViews(tWorkshop);
+
+
+            switch (tWorkshop.getCategory()) {
+
+                case "Culinary":
+                    ivClassImage.setImageResource(R.drawable.cooking);
+                    break;
+
+                case "Education":
+                    ivClassImage.setImageResource(R.drawable.education);
+                    break;
+                case "Fitness":
+                    ivClassImage.setImageResource(R.drawable.fitness);
+                    break;
+                case "Arts/Crafts":
+                    ivClassImage.setImageResource(R.drawable.arts);
+                    break;
+                case "Other":
+                    ivClassImage.setImageResource(R.drawable.misc);
+                    break;
+
+                default:
+                    break;
+            }
         }
 
         private void setAllViews(Workshop tWorkshop) {

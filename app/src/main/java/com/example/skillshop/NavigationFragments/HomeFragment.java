@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.skillshop.Adapters.ClassAdapterCard;
 import com.example.skillshop.FollowingListActivity;
@@ -43,15 +44,17 @@ public class HomeFragment extends Fragment {
     private RecyclerView rvClasses;
     protected ArrayList<Workshop> mWorkshops;
     protected ClassAdapterCard classAdapter;
-
-
     Spinner spinSorters;
+    TextView tvNote;
     SearchView searchView;
     Button btnPreferenceFilter;
     Button btnFollowing;
     private SwipeRefreshLayout swipeContainer;
-
     private ArrayList<String> category;
+
+    public boolean byLocation;
+    public boolean byDate;
+    public int byCost;
 
     Boolean firstLoad = true;
     @Override
@@ -67,6 +70,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         spinSorters = view.findViewById(R.id.spinSorters);
         searchView = view.findViewById(R.id.searchView);
+        tvNote = view.findViewById(R.id.tvNote);
 
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,15 +79,15 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        byLocation = false;
+        byCost = 0;
+        byDate = true;
+
         setupPreferenceFilterButton(view);
         setupFollowingListButton(view);
-
         connectRecyclerView(view);
-
         category = new ArrayList<String>();
-
         category.add("Culinary");
-
         updateToken();
         // Lookup the swipe container view
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
@@ -95,7 +99,7 @@ public class HomeFragment extends Fragment {
                 // Your code to refresh the list here.
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
-                filterFeed(category,0,false);
+                filterFeed(category);
 
                 swipeContainer.setRefreshing(false);
             }
@@ -142,7 +146,7 @@ public class HomeFragment extends Fragment {
                         category.add("Culinary");
                         break;
                 }
-                filterFeed(category,0,false);
+                filterFeed(category);
                 return true;
             }
         });
@@ -169,11 +173,13 @@ public class HomeFragment extends Fragment {
     private void setupPreferenceFilterButton(View view) {
         btnPreferenceFilter = view.findViewById(R.id.btnPreferenceFilter);
 
+        // get all this users preferences
         btnPreferenceFilter.setOnClickListener(new View.OnClickListener() {
             ArrayList<String> preferenceList = new ArrayList<String>();
             @Override
             public void onClick(View v) {
                 JSONArray preferenceArray = ParseUser.getCurrentUser().getJSONArray("preferences");
+                // convert every json object to a string
                 for (int i = 0; i < preferenceArray.length(); i++){
                     try {
                         preferenceList.add(preferenceArray.get(i).toString());
@@ -182,15 +188,11 @@ public class HomeFragment extends Fragment {
                     }
 
                 }
-                filterFeed(preferenceList,0,false);
+                filterFeed(preferenceList);
 
             }
         });
     }
-
-
-
-
 
 
     @Override
@@ -216,8 +218,12 @@ public class HomeFragment extends Fragment {
                 switch(position){
 
                     case (0):{
+                        // Date
                         if(!firstLoad) {
-                            filterFeed(category, 0, false);
+                            byCost = 0;
+                            byLocation = false;
+                            byDate = true;
+                            filterFeed(category);
                         }
                         else{
                             firstLoad=!firstLoad;
@@ -225,17 +231,28 @@ public class HomeFragment extends Fragment {
                         break;
                     }
                     case (1):{
-                        filterFeed(category,2,false);
+                        // cost increasing
+                        byCost = 2;
+                        byLocation = false;
+                        byDate = false;
+                        filterFeed(category);
+
                         break;
                     }
                     case (2):{
-                        filterFeed(category,1,false);
+                        // cost decreasing
+                        byCost = 1;
+                        byLocation = false;
+                        byDate = false;
+                        filterFeed(category);
                         break;
                     }
                     case(3):{
-                        filterFeed(category,0,true);
-
-
+                        // location
+                        byCost = 0;
+                        byLocation = true;
+                        byDate = false;
+                        filterFeed(category);
                     }
                     default:
                         break;
@@ -250,14 +267,18 @@ public class HomeFragment extends Fragment {
     }
 
 
-    private void filterFeed(ArrayList<String> categories, int byCost, boolean byLocation) {
+    private void filterFeed(ArrayList<String> categories) {
         mWorkshops.clear();
         classAdapter.notifyDataSetChanged();
         Query parseQuery = new Query();
         // query add all classes with all data and sort by time of class and only show new classes
-        parseQuery.getAllClasses().withItems().byCategory(categories).getClassesNotTaking();
+        parseQuery.getAllClasses().withItems().byCategory(categories);
 
-        if(byCost == 1)
+        if(byDate)
+        {
+            parseQuery.byTimeOfClass();
+        }
+        else if(byCost == 1)
         {
             parseQuery.byCostDescending();
         }
@@ -265,13 +286,11 @@ public class HomeFragment extends Fragment {
         {
             parseQuery.byCostAscending();
         }
-        if(byLocation)
+        else if(byLocation)
         {
 
             parseQuery.byLocation(ParseUser.getCurrentUser().getParseGeoPoint("userLocation"));
         }
-
-
 
         parseQuery.findInBackground(new FindCallback<Workshop>() {
             @Override
@@ -283,14 +302,22 @@ public class HomeFragment extends Fragment {
                         mWorkshops.add(workshopItem);
                         classAdapter.notifyItemInserted(mWorkshops.size() - 1);
                     }
+                    // if there are no objects give the user an indication that there aren't any more class to discover
+
+                    if(objects.size()==0)
+                    {
+                        tvNote.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        tvNote.setVisibility(View.INVISIBLE);
+                    }
                 } else {
                     e.printStackTrace();
                 }
             }
         });
     }
-
-
 
 
     private void connectRecyclerView(View view) {
@@ -307,11 +334,7 @@ public class HomeFragment extends Fragment {
         //set the adapter
         rvClasses.setAdapter(classAdapter);
 
-
     }
-
-
-
 
 }
 

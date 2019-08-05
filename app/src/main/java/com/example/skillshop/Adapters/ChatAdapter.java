@@ -1,6 +1,7 @@
 package com.example.skillshop.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v7.widget.CardView;
@@ -55,6 +56,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         if (isMe) {
 
             holder.imageMe.setVisibility(View.VISIBLE);
+            holder.ivTeacherMe.setVisibility(View.VISIBLE);
+            holder.cvMessageMe.setVisibility(View.VISIBLE);
 
 
             if(message.getTeacher().equals(ParseUser.getCurrentUser().getObjectId()))
@@ -75,6 +78,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
         } else {
             holder.imageOther.setVisibility(View.VISIBLE);
+            holder.imageOther.setVisibility(View.VISIBLE);
+            holder.ivTeacherOther.setVisibility(View.VISIBLE);
+            holder.cvMessageOther.setVisibility(View.VISIBLE);
 
             if(message.getTeacher().equals(message.getUserId()))
             {
@@ -89,6 +95,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             holder.imageMe.setVisibility(View.GONE);
             holder.ivTeacherMe.setVisibility(View.GONE);
             holder.cvMessageMe.setVisibility(View.GONE);
+            holder.cvMessageMe.setBackgroundColor(Color.WHITE);
         }
 
         final ImageView profileView = isMe ? holder.imageMe : holder.imageOther;

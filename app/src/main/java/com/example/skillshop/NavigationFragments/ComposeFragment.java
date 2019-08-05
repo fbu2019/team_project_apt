@@ -4,20 +4,25 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -31,6 +36,7 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -57,27 +63,28 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
     public final String APP_TAG = "MyCustomApp";
 
     TextView etClassname;
-    Button btnDate;
-    Button btnTime;
-    Button btLocation;
+    ImageButton btnDate;
+    ImageButton btnTime;
+    TextView etLocation;
     TextView etDescription;
     Spinner spinCategory;
     TextView etCost;
     ImageView ivClassImage;
     Button btSubmit;
     Workshop newClass;
-
-
+    String[] categoryArray;
+    TextView etDate;
+    TextView etTime;
     ParseGeoPoint location;
     String locationName;
     private File photoFile;
+    NumberPicker categoryPicker;
+    NumberPicker subCategoryPicker;
     Uri photoUri;
 
     Date today;
 
     View v;
-
-
     HashMap<String, Integer> dateMap;
 
     // PICK_PHOTO_CODE is a constant integer
@@ -94,13 +101,9 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
         return inflater.inflate((R.layout.fragment_new_compose), container, false);
     }
 
-
-
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         List<Integer> skillsData = new ArrayList<Integer>(Collections.nCopies(10, 0));
         ParseUser curr = ParseUser.getCurrentUser();
         curr.put("skillsData", skillsData);
@@ -124,7 +127,7 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
         }
 
 
-        btLocation.setOnClickListener(new View.OnClickListener() {
+        etLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 launchIntent();
@@ -133,32 +136,98 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
 
 
         setOnPictureUploadButton();
-
         setTimeAndDateListeners();
-
-        setSpinner();
+        setCategoryPicker();
+        setSubCategoryPicker(0);
 
 
     }
 
-    public void setSpinner() {
+    private void setCategoryPicker() {
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.categories, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinCategory.setAdapter(adapter);
+        categoryPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+
+                setSubCategoryPicker(newVal);
+            }
+        });
+        categoryArray = getResources().getStringArray(R.array.categories);
+
+        categoryPicker.setMinValue(0);
+        categoryPicker.setMaxValue(categoryArray.length-1);
+        categoryPicker.setDisplayedValues(categoryArray);
     }
+
+    private void setSubCategoryPicker(int i) {
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        String [] subCategoryArray;
+        switch(i){
+            case 0:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesArtsCrafts);
+                break;
+            }
+            case 1:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesCulinary);
+                break;
+            }
+            case 2:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesEducation);
+                break;
+            }
+            case 3:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesFitness);
+                break;
+            }
+            case 4:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesOther);
+                break;
+            }
+            default:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesArtsCrafts);
+                break;
+            }
+
+        }
+        subCategoryPicker.setDisplayedValues(null);
+        subCategoryPicker.setMinValue(0);
+        subCategoryPicker.setMaxValue(subCategoryArray.length-1);
+        subCategoryPicker.setDisplayedValues(subCategoryArray);
+    }
+
+
+
 
     public void setOnPictureUploadButton() {
         // allow user to pick a picture from their gallery to set as image of the class
         ivClassImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onPickPhoto(v);
+//                onPickPhoto(v);
+                onLaunchCamera(v);
             }
         });
+    }
+
+
+    public void onLaunchCamera(View view) {
+        // create Intent to take a picture and return control to the calling application
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Create a File reference to access to future access
+        photoFile = getPhotoFileUri(photoFileName);
+
+        // wrap File object into a content provider
+        // required for API >= 24
+        // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
+        Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", photoFile);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
+
+        // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
+        // So as long as the result is not null, it's safe to use the intent.
+        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+            // Start the image capture intent to take photo
+            startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+        }
     }
 
     public void setTimeAndDateListeners() {
@@ -179,12 +248,8 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
             @Override
             public void onClick(View v) {
                 datePickerDialog.show();
-
-
-
             }
         });
-
 
         // time text box when clicked launches time dialog
         btnTime.setOnClickListener(new View.OnClickListener() {
@@ -210,18 +275,12 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
         // adds date values to map
-
         dateMap.put("year", year);
         dateMap.put("month", month);
         dateMap.put("dayOfMonth", dayOfMonth);
-
         SimpleDateFormat dateString = new SimpleDateFormat("MM/dd/YYYY");
         Date tempDate = new Date(year-YEAR_OFFSET,month,dayOfMonth);
-
-
-        btnDate.setText(dateString.format(tempDate));
-
-
+        etDate.setText(dateString.format(tempDate));
     }
 
     @Override
@@ -230,27 +289,60 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
         // adds time values to map
         dateMap.put("hourOfDay", hourOfDay);
         dateMap.put("minute", minute);
-
         SimpleDateFormat dateString = new SimpleDateFormat("HH:mm");
         Date tempDate = new Date(0,0,0,hourOfDay,minute);
-
-        btnTime.setText(dateString.format(tempDate));
-        ParseUser user = ParseUser.getCurrentUser();
-
-
+        etTime.setText(dateString.format(tempDate));
     }
 
     private void postWorkshop() {
-        String category = spinCategory.getSelectedItem().toString();
 
+       Integer categorySelectedIndex = categoryPicker.getValue();
+       categoryArray = getResources().getStringArray(R.array.categories);
+       String categorySelected =  categoryArray[categorySelectedIndex];
+
+        Integer subCategorySelectedIndex = categoryPicker.getValue();
+        String [] subCategoryArray;
+        switch(categorySelectedIndex){
+            case 0:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesArtsCrafts);
+                break;
+            }
+            case 1:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesCulinary);
+                break;
+            }
+            case 2:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesEducation);
+                break;
+            }
+            case 3:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesFitness);
+                break;
+            }
+            case 4:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesOther);
+                break;
+            }
+            default:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesArtsCrafts);
+                break;
+            }
+        }
+        String subCategorySelected =  subCategoryArray[subCategorySelectedIndex];
         try {
 
             newClass.setDescription(etDescription.getText().toString());
 
             newClass.setName(etClassname.getText().toString());
 
-            // creates new date instance with values form map to post
-            Date date = new Date(dateMap.get("year") - YEAR_OFFSET, dateMap.get("month"), dateMap.get("dayOfMonth"), dateMap.get("hourOfDay"), dateMap.get("minute"));
+            String dateTime = etDate.getText() + " " + etTime.getText();
+
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+            Date date = formatter.parse(dateTime);
+
+
+
+           // creates new date instance with values form map to post
 
             if(date.compareTo(today) < 0)
             {
@@ -260,13 +352,17 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
 
             newClass.setCost(Double.parseDouble(etCost.getText().toString()));
 
-            newClass.setCategory(category);
+            newClass.setCategory(categorySelected);
+            newClass.setSubCategory(subCategorySelected);
 
             newClass.setTeacher(ParseUser.getCurrentUser());
 
             newClass.setLocationName(locationName);
 
             newClass.setLocation(location);
+
+            ParseFile file = new ParseFile(getPhotoFileUri(photoFileName));
+            newClass.setImage(file);
 
 
             ArrayList<String> students = new ArrayList<>();
@@ -278,9 +374,7 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
                 public void done(ParseException e) {
                     if (e == null) {
                         Toast.makeText(getActivity(), "Class was made", Toast.LENGTH_SHORT).show();
-                        getAndSetSkillsArray(category);
-
-
+                        getAndSetSkillsArray(categorySelected);
                         // create new fragment to use
                         Fragment home = new HomeFragment();
                         // transaction on current activity
@@ -289,11 +383,6 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
                         transaction.addToBackStack(null);
                         // Commit the transaction
                         transaction.commit();
-
-
-
-
-
                     } else {
 
                         Toast.makeText(getActivity(), "Class wasn't made", Toast.LENGTH_SHORT).show();
@@ -335,72 +424,40 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
 
         etClassname = v.findViewById(R.id.etClassname);
         btnDate = v.findViewById(R.id.btnDate);
-        btLocation = v.findViewById(R.id.btLocation);
+        etLocation = v.findViewById(R.id.etLocation);
         etDescription = v.findViewById(R.id.etDescription);
-        spinCategory = v.findViewById(R.id.spinCategory);
         etCost = v.findViewById(R.id.etCost);
+        etDate = v.findViewById(R.id.etDate);
+        etTime = v.findViewById(R.id.etTime);
         btSubmit = v.findViewById(R.id.btSubmit);
         ivClassImage = v.findViewById(R.id.ivClassImage);
         btnTime = v.findViewById(R.id.btnTime);
+        categoryPicker = (NumberPicker) v.findViewById(R.id.categoryPicker);
+        subCategoryPicker = (NumberPicker) v.findViewById(R.id.subCategoryPicker);
 
-    }
-
-    // Trigger gallery selection for a photo
-    public void onPickPhoto(View view) {
-        // Create intent for picking a photo from the gallery
-        Intent intent = new Intent(Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-        // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-        // So as long as the result is not null, it's safe to use the intent.
-        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-            // Bring up gallery to select a photo
-            startActivityForResult(intent, PICK_PHOTO_CODE);
-        }
     }
 
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if ((data != null) && (requestCode == PICK_PHOTO_CODE)) {
+
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                photoUri = data.getData();
-                //  photoFile = getPhotoFileUri(photoFileName);
-                // Do something with the photo based on Uri
 
-               /* Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                Uri fileProvider = FileProvider.getUriForFile(NewClassActivity.this, "com.codepath.fileprovider", photoFile);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
+                // rotate image and load into view
+                Bitmap rotated = rotateBitmapOrientation(photoFile.getAbsolutePath());
+                ivClassImage.setImageBitmap(rotated);
 
-                // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-                // So as long as the result is not null, it's safe to use the intent.
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    // Start the image capture intent to take photo
-                    startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-                }*/
+                Toast.makeText(getContext(), "Picture was taken!", Toast.LENGTH_SHORT).show();
 
-
-                Bitmap selectedImage = null;
-                try {
-                    selectedImage = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), photoUri);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                // Load the selected image into a preview
-                ImageView ivPreview = v.findViewById(R.id.ivClassImage);
-                ivPreview.setImageBitmap(selectedImage);
-            } else {
-                // Result was a failure
-                Toast.makeText(getActivity(), "No picture was selected.", Toast.LENGTH_SHORT).show();
             }
-
-
         }
+
         if ((data != null) && (requestCode == AUTOCOMPLETE_REQUEST_CODE) && (resultCode == RESULT_OK)) {
 
             Place place = Autocomplete.getPlaceFromIntent(data);
             locationName = place.getName();
-            btLocation.setText(locationName);
+            etLocation.setText(locationName);
             LatLng latLng = place.getLatLng();
             location = new ParseGeoPoint(latLng.latitude, latLng.longitude);
         }
@@ -432,6 +489,34 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
     }
 
+    // rotates image right side up before uploading
+    public Bitmap rotateBitmapOrientation(String photoFilePath) {
+        // Create and configure BitmapFactory
+        BitmapFactory.Options bounds = new BitmapFactory.Options();
+        bounds.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(photoFilePath, bounds);
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        Bitmap bm = BitmapFactory.decodeFile(photoFilePath, opts);
+        // Read EXIF Data
+        ExifInterface exif = null;
+        try {
+            exif = new ExifInterface(photoFilePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String orientString = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
+        int orientation = orientString != null ? Integer.parseInt(orientString) : ExifInterface.ORIENTATION_NORMAL;
+        int rotationAngle = 0;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_90) rotationAngle = 90;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_180) rotationAngle = 180;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_270) rotationAngle = 270;
+        // Rotate Bitmap
+        Matrix matrix = new Matrix();
+        matrix.setRotate(rotationAngle, (float) bm.getWidth() / 2, (float) bm.getHeight() / 2);
+        Bitmap rotatedBitmap = Bitmap.createBitmap(bm, 0, 0, bounds.outWidth, bounds.outHeight, matrix, true);
+        // Return result
+        return rotatedBitmap;
+    }
 
     private ArrayList<Integer> updateSkillsArray(ArrayList<Integer> skillsData, String category) {
         switch (category){

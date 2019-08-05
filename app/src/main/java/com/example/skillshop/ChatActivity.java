@@ -25,6 +25,8 @@ import com.parse.SaveCallback;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static com.example.skillshop.Models.Message.WORKSHOP_KEY;
@@ -42,6 +44,8 @@ public class ChatActivity extends AppCompatActivity {
     EndlessRecyclerViewScrollListener scrollListener;
 
     int maxMessages;
+
+    Long lastRefresh;
 
 
 
@@ -61,7 +65,8 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        refreshInBackground();
+//        refreshInBackground();
+//        lastRefresh = Calendar.getInstance().getTimeInMillis();
 
     }
 
@@ -162,6 +167,17 @@ public class ChatActivity extends AppCompatActivity {
         query.orderByDescending("createdAt");
 
         query.whereEqualTo("workshop",detailedWorkshop.getObjectId());
+
+        if(!mFirstLoad) {
+            Date lastRefreshDate = new Date(lastRefresh);
+            query.whereGreaterThanOrEqualTo("createdAt",lastRefreshDate);
+        }
+        else
+        {
+            mFirstLoad = true;
+        }
+
+
 
 
         // This is equivalent to a SELECT query with SQL

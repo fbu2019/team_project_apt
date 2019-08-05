@@ -42,23 +42,20 @@ public class CategoryDisplayFragment extends Fragment {
     private RecyclerView rvClasses;
     protected ArrayList<Workshop> mWorkshops;
     protected ClassAdapterCard classAdapter;
-
-
     Spinner spinSorters;
     SearchView searchView;
-    Button btnPreferenceFilter;
-    Button btnFollowing;
     private SwipeRefreshLayout swipeContainer;
-
-    TextView tvDisplay;
-
     private ArrayList<String> category;
-
+    TextView tvDisplay;
     private String mainCategory;
-
     Boolean firstLoad = true;
-    @Override
+    TextView tvNote;
 
+    public boolean byLocation;
+    public boolean byDate;
+    public int byCost;
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate((R.layout.fragment_category_display), container, false);
     }
@@ -68,19 +65,11 @@ public class CategoryDisplayFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
-
-
-        Bundle bundle = this.getArguments();
-        mainCategory  = bundle.getString("Category");
-
-        tvDisplay = view.findViewById(R.id.tvDisplay);
-
-        tvDisplay.setText(mainCategory);
-
-
-
         spinSorters = view.findViewById(R.id.spinSorters);
         searchView = view.findViewById(R.id.searchView);
+        tvNote = view.findViewById(R.id.tvNote);
+        tvDisplay = view.findViewById(R.id.tvDisplay);
+
 
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,10 +79,41 @@ public class CategoryDisplayFragment extends Fragment {
         });
 
 
+        // establish the category for this class
+        Bundle bundle = this.getArguments();
+        mainCategory  = bundle.getString("Category");
+        tvDisplay.setText(mainCategory);
+
+
         connectRecyclerView(view);
 
+        byLocation = false;
+        byCost = 0;
+        byDate = true;
+
+
         updateToken();
+
+        // Lookup the swipe container view
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                filterFeed(category);
+                swipeContainer.setRefreshing(false);
+            }
+        });
         setSorters();
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
         setUpNavBar(getView());
 
 
@@ -102,7 +122,8 @@ public class CategoryDisplayFragment extends Fragment {
     public void setUpNavBar(View v)
     {
         BottomNavigationView topNavigationBar = v.findViewById(R.id.top_navigation);
-        switch (mainCategory){
+
+        switch (mainCategory) {
             case "Culinary":
                 topNavigationBar.inflateMenu(R.menu.menu_culinary);
                 break;
@@ -115,52 +136,146 @@ public class CategoryDisplayFragment extends Fragment {
             case "Arts/Crafts":
                 topNavigationBar.inflateMenu(R.menu.menu_arts);
                 break;
+            case "Other":
+                topNavigationBar.inflateMenu(R.menu.menu_other);
+                break;
+            default:
+                topNavigationBar.inflateMenu(R.menu.menu_culinary);
+                break;
+        }
+
+        topNavigationBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+
+                category = new ArrayList<String>();
+
+                switch(mainCategory)
+                {
+                    case "Education":
+                        switch (item.getItemId()) {
+                            case R.id.programming_category:
+                                category.add("Programming");
+                                break;
+                            case R.id.science_category:
+                                category.add("Sciences");
+                                break;
+                            case R.id.humanities_category:
+                                category.add("Humanities");
+                                break;
+                            case R.id.languages_fragment:
+                                category.add("Languages");
+                                break;
+                            case R.id.business_fragment:
+                                category.add("Business");
+                                break;
+                            default:
+                                category.add("Programming");
+                                break;
+                        }
+                        break;
+                    case "Arts/Crafts":
+                        switch (item.getItemId()) {
+                            case R.id.music_category:
+                                category.add("Music");
+                                break;
+                            case R.id.paint_category:
+                                category.add("Paint");
+                                break;
+                            case R.id.sculpting_category:
+                                category.add("Sculpting");
+                                break;
+                            case R.id.crafts_fragment:
+                                category.add("Craft Making");
+                                break;
+                            case R.id.graphic_fragment:
+                                category.add("Graphic Design");
+                                break;
+                            default:
+                                category.add("Music");
+                                break;
+                        }
+                        break;
+
+                    case "Culinary":
+                        switch (item.getItemId()) {
+                            case R.id.baking_category:
+                                category.add("Baking");
+                                break;
+                            case R.id.cooking_category:
+                                category.add("Cooking");
+                                break;
+                            case R.id.beverages_category:
+                                category.add("Beverages");
+                                break;
+                            case R.id.grilling_fragment:
+                                category.add("Grilling");
+                                break;
+                            case R.id.advanced_fragment:
+                                category.add("Advanced");
+                                break;
+                            default:
+                                category.add("Baking");
+                                break;
+                        }
+                        break;
+                    case "Fitness":
+                        switch (item.getItemId()) {
+                            case R.id.Outdoors_category:
+                                category.add("Outdoors");
+                                break;
+                            case R.id.Gym_category:
+                                category.add("Gym");
+                                break;
+                            case R.id.Sports_category:
+                                category.add("Sports");
+                                break;
+                            case R.id.Dance_fragment:
+                                category.add("Dance");
+                                break;
+                            case R.id.Martial_fragment:
+                                category.add("Martial Arts");
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case "Other":
+                        category.add("General");
+                        break;
+                }
+
+                filterFeed(category);
+                return true;
+            }
+        });
+
+        switch (mainCategory)
+        {
+            case "Education":
+                topNavigationBar.setSelectedItemId(R.id.programming_category);
+                break;
+            case "Fitness":
+                topNavigationBar.setSelectedItemId(R.id.Outdoors_category);
+                break;
+            case "Arts/Crafts":
+                topNavigationBar.setSelectedItemId(R.id.music_category);
+                break;
+            case "Culinary":
+                topNavigationBar.setSelectedItemId(R.id.baking_category);
+                break;
+            case "Other":
+                topNavigationBar.setSelectedItemId(R.id.other_category);
+                break;
 
         }
 
-//        topNavigationBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//
-//
-//                category = new ArrayList<String>();
-//
-//                switch (item.getItemId()) {
-//                    case R.id.culinary_category:
-//                        category.add("Culinary");
-//                        break;
-//                    case R.id.education_category:
-//                        category.add("Education");
-//                        break;
-//                    case R.id.fitness_category:
-//                        category.add("Fitness");
-//                        break;
-//                    case R.id.arts_fragment:
-//                        category.add("Arts/Crafts");
-//                        break;
-//                    case R.id.other_fragment:
-//                        category.add("Other");
-//                        break;
-//                    default:
-//                        category.add("Culinary");
-//                        break;
-//                }
-//                filterFeed(category,0,false);
-//                return true;
-//            }
-//        });
-//        topNavigationBar.setSelectedItemId(R.id.culinary_category);
+
+
+
     }
-    private void setupFollowingListButton(View view) {
-        btnFollowing = view.findViewById(R.id.btnFollowing);
-        btnFollowing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent openFollowerListActivity = new Intent (getContext(), FollowingListActivity.class);
-                startActivity(openFollowerListActivity);
-            }
-        });
-    }
+
 
     public void updateToken()
     {
@@ -168,31 +283,6 @@ public class CategoryDisplayFragment extends Fragment {
         currentUser.put("firebaseToken", FirebaseInstanceId.getInstance().getToken());
         currentUser.saveInBackground();
     }
-
-    private void setupPreferenceFilterButton(View view) {
-        btnPreferenceFilter = view.findViewById(R.id.btnPreferenceFilter);
-
-        btnPreferenceFilter.setOnClickListener(new View.OnClickListener() {
-            ArrayList<String> preferenceList = new ArrayList<String>();
-            @Override
-            public void onClick(View v) {
-                JSONArray preferenceArray = ParseUser.getCurrentUser().getJSONArray("preferences");
-                for (int i = 0; i < preferenceArray.length(); i++){
-                    try {
-                        preferenceList.add(preferenceArray.get(i).toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-                filterFeed(preferenceList,0,false);
-
-            }
-        });
-    }
-
-
-
 
 
 
@@ -219,8 +309,12 @@ public class CategoryDisplayFragment extends Fragment {
                 switch(position){
 
                     case (0):{
+                        // Date
                         if(!firstLoad) {
-                            filterFeed(category, 0, false);
+                            byCost = 0;
+                            byLocation = false;
+                            byDate = true;
+                            filterFeed(category);
                         }
                         else{
                             firstLoad=!firstLoad;
@@ -228,17 +322,28 @@ public class CategoryDisplayFragment extends Fragment {
                         break;
                     }
                     case (1):{
-                        filterFeed(category,2,false);
+                        // cost increasing
+                        byCost = 2;
+                        byLocation = false;
+                        byDate = false;
+                        filterFeed(category);
+
                         break;
                     }
                     case (2):{
-                        filterFeed(category,1,false);
+                        // cost decreasing
+                        byCost = 1;
+                        byLocation = false;
+                        byDate = false;
+                        filterFeed(category);
                         break;
                     }
                     case(3):{
-                        filterFeed(category,0,true);
-
-
+                        // location
+                        byCost = 0;
+                        byLocation = true;
+                        byDate = false;
+                        filterFeed(category);
                     }
                     default:
                         break;
@@ -253,14 +358,18 @@ public class CategoryDisplayFragment extends Fragment {
     }
 
 
-    private void filterFeed(ArrayList<String> categories, int byCost, boolean byLocation) {
+    private void filterFeed(ArrayList<String> categories) {
         mWorkshops.clear();
         classAdapter.notifyDataSetChanged();
         Query parseQuery = new Query();
         // query add all classes with all data and sort by time of class and only show new classes
-        parseQuery.getAllClasses().withItems().byCategory(categories).getClassesNotTaking();
+        parseQuery.getAllClasses().withItems().bySubCategory(categories);
 
-        if(byCost == 1)
+        if(byDate)
+        {
+            parseQuery.byTimeOfClass();
+        }
+        else if(byCost == 1)
         {
             parseQuery.byCostDescending();
         }
@@ -268,13 +377,11 @@ public class CategoryDisplayFragment extends Fragment {
         {
             parseQuery.byCostAscending();
         }
-        if(byLocation)
+        else if(byLocation)
         {
 
             parseQuery.byLocation(ParseUser.getCurrentUser().getParseGeoPoint("userLocation"));
         }
-
-
 
         parseQuery.findInBackground(new FindCallback<Workshop>() {
             @Override
@@ -286,14 +393,22 @@ public class CategoryDisplayFragment extends Fragment {
                         mWorkshops.add(workshopItem);
                         classAdapter.notifyItemInserted(mWorkshops.size() - 1);
                     }
+                    // if there are no objects give the user an indication that there aren't any more class to discover
+
+                    if(objects.size()==0)
+                    {
+                        tvNote.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        tvNote.setVisibility(View.INVISIBLE);
+                    }
                 } else {
                     e.printStackTrace();
                 }
             }
         });
     }
-
-
 
 
     private void connectRecyclerView(View view) {

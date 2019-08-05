@@ -304,11 +304,9 @@ public class ClassDetailsActivity extends AppCompatActivity {
             case "Arts/Crafts":
                 ivClassPicture.setImageResource(R.drawable.arts);
                 break;
-
             case "Other":
                 ivClassPicture.setImageResource(R.drawable.misc);
                 break;
-
             default:
                 break;
         }
@@ -317,7 +315,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
         Double cost = workshop.getCost();
         if (cost == 0) {
             tvCost.setText("Free");
-       //     tvCost.setBackground(new ColorDrawable(Color.parseColor("#00FF00")));
         } else {
             tvCost.setText("$ " + cost);
         }
