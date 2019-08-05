@@ -106,36 +106,6 @@ public class UserProfileFragment extends Fragment {
             }
         }
 
-        /*
-        submitNewLocationButton = view.findViewById(R.id.modifyLocationButton);
-        submitNewLocationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchIntent();
-            }
-        });
-
-        addPreferencesButton = view.findViewById(R.id.addPreferences);
-        addPreferencesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createPreferences();
-            }
-        });
-
-        */
-        
-
-//        deleteAccountButton = view.findViewById(R.id.deleteAccount);
-        /*
-        deleteAccountButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteAccount();
-            }
-        });
-        */
-
         tvNumberOfFollowers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -286,24 +256,6 @@ public class UserProfileFragment extends Fragment {
         });
     }
 
-    private void logout() {
-        ParseUser.logOut(); //  logs out ParseUser
-        LoginManager.getInstance().logOut();    //  logs out Facebook user
-        Intent i = new Intent(getContext(), LoginActivity.class);
-        startActivity(i);
-    }
-
-    private void launchIntent() {
-        Log.i(TAG, "placelookuplaunched");
-        // Specify the types of place data to return.
-        List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
-
-        // Start the autocomplete intent.
-        Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
-                .build(getContext());
-        startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -331,13 +283,6 @@ public class UserProfileFragment extends Fragment {
                 }
             });
         }
-    }
-
-    private void deleteAccount() {
-
-        Intent i = new Intent(getContext(), DeleteAccountActivity.class);
-        startActivity(i);
-        getActivity().finish();
     }
 
     private void setNumFollowers() {

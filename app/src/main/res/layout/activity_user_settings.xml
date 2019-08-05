@@ -179,7 +179,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/currentNumberClasses3"
+        android:id="@+id/classesTakingMessage"
         android:layout_width="119dp"
         android:layout_height="24dp"
         android:layout_marginStart="40dp"
@@ -191,11 +191,11 @@
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.97"
-        app:layout_constraintStart_toEndOf="@+id/currentNumberClasses2"
+        app:layout_constraintStart_toEndOf="@+id/classesTeachingMessage"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/currentNumberClasses2"
+        android:id="@+id/classesTeachingMessage"
         android:layout_width="117dp"
         android:layout_height="24dp"
         android:layout_marginStart="28dp"
@@ -208,7 +208,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/currenNumberTeaching"
+        android:id="@+id/currentNumberTeaching"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -216,7 +216,7 @@
         android:text="5"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/currentNumberClasses2"
+        app:layout_constraintBottom_toTopOf="@+id/classesTeachingMessage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.542"
         app:layout_constraintStart_toStartOf="parent"
@@ -234,10 +234,10 @@
         android:text="16"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/currentNumberClasses3"
+        app:layout_constraintBottom_toTopOf="@+id/classesTakingMessage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@id/currenNumberTeaching"
+        app:layout_constraintStart_toEndOf="@id/currentNumberTeaching"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.932" />
 

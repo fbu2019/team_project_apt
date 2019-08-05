@@ -14,11 +14,14 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.skillshop.LoginActivities.LoginActivity;
+import com.example.skillshop.Models.Query;
+import com.example.skillshop.Models.Workshop;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
@@ -45,10 +48,14 @@ public class UserSettings extends AppCompatActivity {
     TextView tvNumberRatingsMessage;
     TextView tvCurrentNumberRatings;
     TextView tvUserFullName;
+    TextView tvClassesTakingMessage;
+    TextView tvCurrentNumberTaking;
+    TextView tvClassesTeachingMessage;
+    TextView tvCurrentNumberTeaching;
     ImageView ivProfileImage;
     Button btnLogout;
     Button btnDelete;
-    Switch switchVisible;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +65,7 @@ public class UserSettings extends AppCompatActivity {
         ParseUser user = ParseUser.getCurrentUser();
 
         tvUserFullName = findViewById(R.id.userFullName);
-        tvUserFullName.setText(user.get("firstName")+" "+user.get("lastName"));
+        tvUserFullName.setText(user.get("firstName") + " " + user.get("lastName"));
         tvLocationMessage = findViewById(R.id.currentLocationMessage);
         tvCurrentLocation = findViewById(R.id.currentLocation);
         tvCurrentLocation.setText(user.get("locationName").toString());
@@ -72,6 +79,8 @@ public class UserSettings extends AppCompatActivity {
         String strLng = String.valueOf(lng);
         tvCurrentLocationCoordinates.setText("Lat: " + strLat + " Lng: " + strLng);
 
+        initNumClassesTeaching();
+        initNumClassesTaking();
         initRatingNumber(user);
         initPreferences(user);
         initProfileImage(user);
@@ -113,6 +122,45 @@ public class UserSettings extends AppCompatActivity {
 
     }
 
+    private void initNumClassesTeaching() {
+
+        tvCurrentNumberTeaching = findViewById(R.id.currentNumberTeaching);
+        Query parseQuery = new Query();
+        parseQuery.getAllClasses().getClassesTeaching().withItems().byTimeOfClass();
+        parseQuery.findInBackground(new FindCallback<Workshop>() {
+            @Override
+            public void done(List<Workshop> objects, ParseException e) {
+                if (e == null) {
+
+                    tvCurrentNumberTeaching.setText("" + objects.size());
+
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+    private void initNumClassesTaking() {
+
+        tvCurrentNumberTaking = findViewById(R.id.currentNumberTaking);
+        Query parseQuery = new Query();
+        parseQuery.getAllClasses().getClassesTaking().withItems().byTimeOfClass();
+        parseQuery.findInBackground(new FindCallback<Workshop>() {
+            @Override
+            public void done(List<Workshop> objects, ParseException e) {
+                if (e == null) {
+
+                    tvCurrentNumberTaking.setText("" + objects.size());
+
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
 
     private void initPreferences(ParseUser user) {
 
@@ -226,12 +274,12 @@ public class UserSettings extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
 
-            Intent i = new Intent (UserSettings.this, LoginActivity.class);
+            Intent i = new Intent(UserSettings.this, LoginActivity.class);
             startActivity(i);
             // do something on back.
-             return true;
+            return true;
         }
 
         return super.onKeyDown(keyCode, event);
-        }
+    }
 }
