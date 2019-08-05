@@ -16,3 +16,7 @@ When a user does something that should warrant a notification like any of the fo
 
 - A user follows another user
   - The target user should get a notification that someone has followed them
+
+Whenever a user causes something that should warrant a notification like the ones above the user sends a request to our Heroku python script:
+
+![send](images/d2.png)
