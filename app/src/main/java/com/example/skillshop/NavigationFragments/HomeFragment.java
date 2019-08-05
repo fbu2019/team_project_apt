@@ -85,13 +85,9 @@ public class HomeFragment extends Fragment {
 
         setupPreferenceFilterButton(view);
         setupFollowingListButton(view);
-
         connectRecyclerView(view);
-
         category = new ArrayList<String>();
-
         category.add("Culinary");
-
         updateToken();
         // Lookup the swipe container view
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);

@@ -50,6 +50,11 @@ public class CategoryDisplayFragment extends Fragment {
     private String mainCategory;
     Boolean firstLoad = true;
     TextView tvNote;
+
+    public boolean byLocation;
+    public boolean byDate;
+    public int byCost;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate((R.layout.fragment_category_display), container, false);
@@ -63,6 +68,8 @@ public class CategoryDisplayFragment extends Fragment {
         spinSorters = view.findViewById(R.id.spinSorters);
         searchView = view.findViewById(R.id.searchView);
         tvNote = view.findViewById(R.id.tvNote);
+        tvDisplay = view.findViewById(R.id.tvDisplay);
+
 
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,17 +78,22 @@ public class CategoryDisplayFragment extends Fragment {
             }
         });
 
+
+        // establish the category for this class
         Bundle bundle = this.getArguments();
         mainCategory  = bundle.getString("Category");
-        tvDisplay = view.findViewById(R.id.tvDisplay);
         tvDisplay.setText(mainCategory);
+
+
         connectRecyclerView(view);
 
-
-
+        byLocation = false;
+        byCost = 0;
+        byDate = true;
 
 
         updateToken();
+
         // Lookup the swipe container view
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
@@ -91,7 +103,7 @@ public class CategoryDisplayFragment extends Fragment {
                 // Your code to refresh the list here.
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
-                filterFeed(category,0,false);
+                filterFeed(category);
                 swipeContainer.setRefreshing(false);
             }
         });
@@ -234,7 +246,7 @@ public class CategoryDisplayFragment extends Fragment {
                         break;
                 }
 
-                filterFeed(category,0,false);
+                filterFeed(category);
                 return true;
             }
         });
@@ -297,8 +309,12 @@ public class CategoryDisplayFragment extends Fragment {
                 switch(position){
 
                     case (0):{
+                        // Date
                         if(!firstLoad) {
-                            filterFeed(category, 0, false);
+                            byCost = 0;
+                            byLocation = false;
+                            byDate = true;
+                            filterFeed(category);
                         }
                         else{
                             firstLoad=!firstLoad;
@@ -306,17 +322,28 @@ public class CategoryDisplayFragment extends Fragment {
                         break;
                     }
                     case (1):{
-                        filterFeed(category,2,false);
+                        // cost increasing
+                        byCost = 2;
+                        byLocation = false;
+                        byDate = false;
+                        filterFeed(category);
+
                         break;
                     }
                     case (2):{
-                        filterFeed(category,1,false);
+                        // cost decreasing
+                        byCost = 1;
+                        byLocation = false;
+                        byDate = false;
+                        filterFeed(category);
                         break;
                     }
                     case(3):{
-                        filterFeed(category,0,true);
-
-
+                        // location
+                        byCost = 0;
+                        byLocation = true;
+                        byDate = false;
+                        filterFeed(category);
                     }
                     default:
                         break;
@@ -331,14 +358,18 @@ public class CategoryDisplayFragment extends Fragment {
     }
 
 
-    private void filterFeed(ArrayList<String> categories, int byCost, boolean byLocation) {
+    private void filterFeed(ArrayList<String> categories) {
         mWorkshops.clear();
         classAdapter.notifyDataSetChanged();
         Query parseQuery = new Query();
         // query add all classes with all data and sort by time of class and only show new classes
-        parseQuery.getAllClasses().withItems().bySubCategory(categories).byTimeOfClass();
+        parseQuery.getAllClasses().withItems().bySubCategory(categories);
 
-        if(byCost == 1)
+        if(byDate)
+        {
+            parseQuery.byTimeOfClass();
+        }
+        else if(byCost == 1)
         {
             parseQuery.byCostDescending();
         }
@@ -346,13 +377,11 @@ public class CategoryDisplayFragment extends Fragment {
         {
             parseQuery.byCostAscending();
         }
-        if(byLocation)
+        else if(byLocation)
         {
 
             parseQuery.byLocation(ParseUser.getCurrentUser().getParseGeoPoint("userLocation"));
         }
-
-
 
         parseQuery.findInBackground(new FindCallback<Workshop>() {
             @Override
@@ -363,8 +392,9 @@ public class CategoryDisplayFragment extends Fragment {
                         Workshop workshopItem = objects.get(i);
                         mWorkshops.add(workshopItem);
                         classAdapter.notifyItemInserted(mWorkshops.size() - 1);
-
                     }
+                    // if there are no objects give the user an indication that there aren't any more class to discover
+
                     if(objects.size()==0)
                     {
                         tvNote.setVisibility(View.VISIBLE);
@@ -379,6 +409,7 @@ public class CategoryDisplayFragment extends Fragment {
             }
         });
     }
+
 
     private void connectRecyclerView(View view) {
         //find the RecyclerView
