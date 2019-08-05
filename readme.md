@@ -32,9 +32,9 @@ The following **stretch** features are implemented:
 - [ ] Recommendations for classes based on past classes
 - [x] Notifications for user when a class they are involved with changes
 - [ ] Friends graph vizualization
-- [ ] In class messaging system
-- [ ] Rating system
-- [ ] Users past hurtory in teaching and class taking
+- [x] In class messaging system
+- [x] Rating system
+- [ ] Users past history in teaching and class taking
 - [ ] User Profile animation
 
 
