@@ -16,7 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+<<<<<<< HEAD
+import android.widget.ImageButton;
+=======
 import android.widget.EditText;
+>>>>>>> 47394c205d035293fc1d6b3f48e0154ee1602882
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
@@ -59,6 +63,11 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
     public final String APP_TAG = "MyCustomApp";
 
     TextView etClassname;
+<<<<<<< HEAD
+    ImageButton btnDate;
+    ImageButton btnTime;
+=======
+>>>>>>> 47394c205d035293fc1d6b3f48e0154ee1602882
     TextView etLocation;
     TextView etDescription;
     EditText etDate;
@@ -67,7 +76,8 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
     Button btSubmit;
     Workshop newClass;
     String[] categoryArray;
-
+    TextView etDate;
+    TextView etTime;
     ParseGeoPoint location;
     String locationName;
     private File photoFile;
@@ -226,8 +236,42 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
         });
     }
 
+<<<<<<< HEAD
+    public void setTimeAndDateListeners() {
 
 
+
+
+        // initializes date picker with today's date
+        final DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),ComposeFragment.this,today.getYear() + YEAR_OFFSET, today.getMonth(), today.getDay());
+
+        // initializes date picker with the current time
+        final TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), ComposeFragment.this, today.getHours(), today.getMinutes(), true);
+
+        // initialize map to remember date values for class
+        dateMap = new HashMap<>();
+        // date text box when clicked launches date dialog
+        btnDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePickerDialog.show();
+            }
+        });
+
+
+        // time text box when clicked launches time dialog
+        btnTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timePickerDialog.show();
+            }
+        });
+    }
+
+=======
+
+
+>>>>>>> 47394c205d035293fc1d6b3f48e0154ee1602882
 
     private void setSubmitListener() {
 
@@ -243,15 +287,20 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
         // adds date values to map
-
         dateMap.put("year", year);
         dateMap.put("month", month);
         dateMap.put("dayOfMonth", dayOfMonth);
+<<<<<<< HEAD
+        SimpleDateFormat dateString = new SimpleDateFormat("MM/dd/YYYY");
+        Date tempDate = new Date(year-YEAR_OFFSET,month,dayOfMonth);
+        etDate.setText(dateString.format(tempDate));
+=======
 
 
         timePickerDialog.show();
 
 
+>>>>>>> 47394c205d035293fc1d6b3f48e0154ee1602882
     }
 
     @Override
@@ -260,6 +309,11 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
         // adds time values to map
         dateMap.put("hourOfDay", hourOfDay);
         dateMap.put("minute", minute);
+<<<<<<< HEAD
+        SimpleDateFormat dateString = new SimpleDateFormat("HH:mm");
+        Date tempDate = new Date(0,0,0,hourOfDay,minute);
+        etTime.setText(dateString.format(tempDate));
+=======
 
         Date tempDate = new Date(dateMap.get("year")-YEAR_OFFSET,dateMap.get("month"),dateMap.get("dayOfMonth"),hourOfDay,minute);
 
@@ -268,6 +322,7 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
 
         etDate.setText(date.format(tempDate)+" @ "+time.format(tempDate));
 
+>>>>>>> 47394c205d035293fc1d6b3f48e0154ee1602882
     }
 
     private void postWorkshop() {
@@ -311,8 +366,15 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
 
             newClass.setName(etClassname.getText().toString());
 
-            // creates new date instance with values form map to post
-            Date date = new Date(dateMap.get("year") - YEAR_OFFSET, dateMap.get("month"), dateMap.get("dayOfMonth"), dateMap.get("hourOfDay"), dateMap.get("minute"));
+            String dateTime = etDate.getText() + " " + etTime.getText();
+
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+            Date date = formatter.parse(dateTime);
+
+
+
+    // creates new date instance with values form map to post
+           // Date date = new Date(dateMap.get("year") - YEAR_OFFSET, dateMap.get("month"), dateMap.get("dayOfMonth"), dateMap.get("hourOfDay"), dateMap.get("minute"));
 
             if(date.compareTo(today) < 0)
             {
@@ -392,8 +454,13 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
         etClassname = v.findViewById(R.id.etClassname);
         etLocation = v.findViewById(R.id.etLocation);
         etDescription = v.findViewById(R.id.etDescription);
+<<<<<<< HEAD
+=======
         etDate = v.findViewById(R.id.etDate);
+>>>>>>> 47394c205d035293fc1d6b3f48e0154ee1602882
         etCost = v.findViewById(R.id.etCost);
+        etDate = v.findViewById(R.id.etDate);
+        etTime = v.findViewById(R.id.etTime);
         btSubmit = v.findViewById(R.id.btSubmit);
         ivClassImage = v.findViewById(R.id.ivClassImage);
         categoryPicker = (NumberPicker) v.findViewById(R.id.categoryPicker);
