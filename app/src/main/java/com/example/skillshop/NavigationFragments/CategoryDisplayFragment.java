@@ -71,21 +71,15 @@ public class CategoryDisplayFragment extends Fragment {
             }
         });
 
-
         Bundle bundle = this.getArguments();
         mainCategory  = bundle.getString("Category");
-
         tvDisplay = view.findViewById(R.id.tvDisplay);
-
         tvDisplay.setText(mainCategory);
-
-
-
         connectRecyclerView(view);
 
-        category = new ArrayList<String>();
 
-        category.add("Culinary");
+
+
 
         updateToken();
         // Lookup the swipe container view
@@ -244,7 +238,30 @@ public class CategoryDisplayFragment extends Fragment {
                 return true;
             }
         });
-        topNavigationBar.setSelectedItemId(R.id.programming_category);
+
+        switch (mainCategory)
+        {
+            case "Education":
+                topNavigationBar.setSelectedItemId(R.id.programming_category);
+                break;
+            case "Fitness":
+                topNavigationBar.setSelectedItemId(R.id.Outdoors_category);
+                break;
+            case "Arts/Crafts":
+                topNavigationBar.setSelectedItemId(R.id.music_category);
+                break;
+            case "Culinary":
+                topNavigationBar.setSelectedItemId(R.id.baking_category);
+                break;
+            case "Other":
+                topNavigationBar.setSelectedItemId(R.id.other_category);
+                break;
+
+        }
+
+
+
+
     }
 
 
@@ -319,7 +336,7 @@ public class CategoryDisplayFragment extends Fragment {
         classAdapter.notifyDataSetChanged();
         Query parseQuery = new Query();
         // query add all classes with all data and sort by time of class and only show new classes
-        parseQuery.getAllClasses().withItems().bySubCategory(categories);
+        parseQuery.getAllClasses().withItems().bySubCategory(categories).byTimeOfClass();
 
         if(byCost == 1)
         {
