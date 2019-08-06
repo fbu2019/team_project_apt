@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.skillshop.ClassDescription.ClassDetailsActivity;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.R;
@@ -97,27 +98,39 @@ public class ClassAdapterCardMini extends RecyclerView.Adapter<ClassAdapterCardM
             setAllViews(tWorkshop);
 
 
-            switch (tWorkshop.getCategory()) {
+            if(tWorkshop.getImage() != null)
+            {
 
-                case "Culinary":
-                    ivClassImage.setImageResource(R.drawable.cooking);
-                    break;
+                // load in profile image to holder
+                Glide.with(context)
+                        .load(tWorkshop.getImage().getUrl())
+                        .centerCrop()
+                        .into(ivClassImage);
+            }
+            else {
 
-                case "Education":
-                    ivClassImage.setImageResource(R.drawable.education);
-                    break;
-                case "Fitness":
-                    ivClassImage.setImageResource(R.drawable.fitness);
-                    break;
-                case "Arts/Crafts":
-                    ivClassImage.setImageResource(R.drawable.artsandcrafts);
-                    break;
-                case "Other":
-                    ivClassImage.setImageResource(R.drawable.misc);
-                    break;
+                switch (tWorkshop.getCategory()) {
 
-                default:
-                    break;
+                    case "Culinary":
+                        ivClassImage.setImageResource(R.drawable.cooking);
+                        break;
+
+                    case "Education":
+                        ivClassImage.setImageResource(R.drawable.education);
+                        break;
+                    case "Fitness":
+                        ivClassImage.setImageResource(R.drawable.fitness);
+                        break;
+                    case "Arts/Crafts":
+                        ivClassImage.setImageResource(R.drawable.arts);
+                        break;
+                    case "Other":
+                        ivClassImage.setImageResource(R.drawable.misc);
+                        break;
+
+                    default:
+                        break;
+                }
             }
         }
 

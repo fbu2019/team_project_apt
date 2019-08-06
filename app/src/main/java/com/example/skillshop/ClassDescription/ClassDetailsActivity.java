@@ -1,7 +1,12 @@
 package com.example.skillshop.ClassDescription;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.skillshop.Adapters.ClassAdapterCard;
 import com.example.skillshop.Models.Workshop;
+import com.example.skillshop.NavigationFragments.Compose.ComposeFragment;
 import com.example.skillshop.NavigationFragments.FragmentHandler;
 import com.example.skillshop.R;
 import com.parse.ParseException;
@@ -72,6 +78,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
         setUpClassOptions();
         setUpViewAttendees();
         initFollowButton();
+        imageSetup(detailedWorkshop);
     }
 
     private void setUpClassOptions() {
@@ -273,29 +280,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
         btnClassOptions = findViewById(R.id.btnClassOptions);
 
 
-        switch (workshop.getCategory()) {
-
-            case "Culinary":
-                ivClassPicture.setImageResource(R.drawable.cooking);
-                break;
-
-            case "Education":
-                ivClassPicture.setImageResource(R.drawable.education);
-                break;
-            case "Fitness":
-                ivClassPicture.setImageResource(R.drawable.fitness);
-                break;
-            case "Arts/Crafts":
-                ivClassPicture.setImageResource(R.drawable.artsandcrafts);
-                break;
-            case "Other":
-                ivClassPicture.setImageResource(R.drawable.misc);
-                break;
-            default:
-                break;
-        }
-
-
         Double cost = workshop.getCost();
         if (cost == 0) {
             tvCost.setText("Free");
@@ -304,6 +288,72 @@ public class ClassDetailsActivity extends AppCompatActivity {
         }
 
     }
+
+
+    public void imageSetup(Workshop workshop)
+    {
+        if(workshop.getImage() != null)
+        {
+
+            // load in profile image to holder
+            Glide.with(this)
+                    .load(workshop.getImage().getUrl())
+                    .centerCrop()
+                    .into(ivClassPicture);
+        }
+        else {
+
+            switch (workshop.getCategory()) {
+
+                case "Culinary":
+                    ivClassPicture.setImageResource(R.drawable.cooking);
+                    break;
+
+                case "Education":
+                    ivClassPicture.setImageResource(R.drawable.education);
+                    break;
+                case "Fitness":
+                    ivClassPicture.setImageResource(R.drawable.fitness);
+                    break;
+                case "Arts/Crafts":
+                    ivClassPicture.setImageResource(R.drawable.arts);
+                    break;
+                case "Other":
+                    ivClassPicture.setImageResource(R.drawable.misc);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        ivClassPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageZoom();
+
+
+            }
+        });
+    }
+
+    private void imageZoom() {
+
+        final ImageViewFragment imageZoom  = new ImageViewFragment();
+        Bundle bundle = new Bundle();
+
+        if(detailedWorkshop.getImage() != null)
+        {
+            bundle.putString("photo",detailedWorkshop.getImage().getUrl());
+        }
+        else {
+            bundle.putString("photo",detailedWorkshop.getCategory());
+        }
+
+        imageZoom.setArguments(bundle);
+
+        imageZoom.show(getSupportFragmentManager(),"ok");
+    }
+
 
     private void setUpInstructor(Workshop workshop) {
         String profilePhotoUrl = workshop.getTeacher().getString("profilePicUrl");

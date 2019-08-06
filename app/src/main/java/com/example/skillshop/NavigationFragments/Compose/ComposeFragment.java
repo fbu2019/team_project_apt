@@ -312,6 +312,7 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
 
         Integer subCategorySelectedIndex = subCategoryPicker.getValue();
         String [] subCategoryArray;
+
         switch(categorySelectedIndex){
             case 0:{
                 subCategoryArray = getResources().getStringArray(R.array.subCategoriesArtsCrafts);
