@@ -210,10 +210,7 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
                         break;
                 }
 
-
-                Glide.with(context).asBitmap().load(res).centerCrop().into(ivClassIcon);
-
-
+                
             }
             ibDirections.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.CardView
         android:id="@+id/cvFitness"
@@ -11,15 +11,28 @@
         android:layout_height="266dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="@+id/cvCulinary"
-        app:layout_constraintTop_toBottomOf="@+id/cvCulinary"
-        >
-        <android.support.constraint.ConstraintLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        app:layout_constraintTop_toBottomOf="@+id/cvCulinary">
+
+        <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:background="@color/light_gray"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/color_palette_light_blue2">
+
+            <ImageView
+                android:id="@+id/fitnessImage"
+                android:layout_width="93dp"
+                android:layout_height="73dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="44dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.837"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/weight" />
+
 
             <TextView
                 android:id="@+id/tvFitness"
@@ -34,7 +47,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.74" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
@@ -46,12 +60,26 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toEndOf="@+id/cvCulinary"
-        app:layout_constraintTop_toBottomOf="@+id/cvCulinary" >
+        app:layout_constraintTop_toBottomOf="@+id/cvCulinary">
+
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/light_gray"
-            >
+            android:background="@color/color_palette_light_blue1">
+
+            <ImageView
+                android:id="@+id/otherImage"
+                android:layout_width="102dp"
+                android:layout_height="82dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="44dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.928"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/other" />
+
 
             <TextView
                 android:id="@+id/tvOther"
@@ -66,7 +94,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.74" />
 
 
         </android.support.constraint.ConstraintLayout>
@@ -79,27 +108,37 @@
         android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/cvAll"
         app:layout_constraintStart_toEndOf="@+id/cvAll"
-        app:layout_constraintTop_toTopOf="@+id/cvAll"  >
-        <android.support.constraint.ConstraintLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        app:layout_constraintTop_toTopOf="@+id/cvAll">
+
+        <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
-            android:background="@color/light_gray"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/color_palette_light_blue2">
+
+            <ImageView
+                android:id="@+id/educationIcon"
+                android:layout_width="93dp"
+                android:layout_height="72dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="44dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.837"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/graduationcap" />
 
             <TextView
                 android:id="@+id/tvEducation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="164dp"
                 android:text="Education"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.507"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -112,14 +151,27 @@
         android:layout_height="266dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"  >
-        <android.support.constraint.ConstraintLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
-            android:background="@color/light_gray"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/color_palette_yellow">
+
+            <ImageView
+                android:id="@+id/allImage"
+                android:layout_width="81dp"
+                android:layout_height="56dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="68dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.837"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/filleddot" />
 
             <TextView
                 android:id="@+id/tvAll"
@@ -134,7 +186,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.713" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
@@ -146,14 +199,27 @@
         android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/cvCulinary"
         app:layout_constraintStart_toEndOf="@+id/cvCulinary"
-        app:layout_constraintTop_toTopOf="@+id/cvCulinary" >
-        <android.support.constraint.ConstraintLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        app:layout_constraintTop_toTopOf="@+id/cvCulinary">
+
+        <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
-            android:background="@color/light_gray"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/color_palette_light_blue2">
+
+            <ImageView
+                android:id="@+id/art"
+                android:layout_width="93dp"
+                android:layout_height="73dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="44dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.837"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/notebookbrush" />
 
             <TextView
                 android:id="@+id/tvArts"
@@ -167,12 +233,13 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.511"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.74" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
-
 
 
     <android.support.v7.widget.CardView
@@ -181,14 +248,28 @@
         android:layout_height="266dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="@+id/cvAll"
-        app:layout_constraintTop_toBottomOf="@+id/cvAll" >
-        <android.support.constraint.ConstraintLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        app:layout_constraintTop_toBottomOf="@+id/cvAll">
+
+        <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
-            android:background="@color/light_gray"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/color_palette_light_blue2">
+
+            <ImageView
+                android:id="@+id/culinaryImage"
+                android:layout_width="93dp"
+                android:layout_height="73dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="44dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.837"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/culinary" />
+
 
             <TextView
                 android:id="@+id/tvCulinary"
@@ -202,8 +283,10 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.506"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.74" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
