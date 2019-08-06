@@ -36,7 +36,7 @@
         android:usesCleartextTraffic="true">
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.codepath.fileprovider"
+            android:authorities="com.codepath.fileproviderphoto"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -44,16 +44,15 @@
                 android:resource="@xml/fileprovider" />
         </provider>
 
-        <activity android:name=".UserSettings"></activity>
-        <activity android:name=".UserFollowersActivity" />
-        <activity android:name=".NavigationFragments.CalendarActivities.DayFragmentHandler" />
-        <activity android:name=".SkillVisualizationActivity" />
-        <activity android:name=".DeleteAccountActivity" />
-        <activity android:name=".UserProfileActivity" />
-        <activity android:name=".ChatActivity" />
+        <activity android:name=".NavigationFragments.Profile.Settings.UserSettings"></activity>
+        <activity android:name=".NavigationFragments.Profile.UserFollowersActivity" />
+        <activity android:name=".NavigationFragments.Profile.ClassesActivities.SkillVisualizationActivity" />
+        <activity android:name=".NavigationFragments.Profile.Settings.DeleteAccountActivity" />
+        <activity android:name=".NavigationFragments.Profile.UserProfileActivity" />
+        <activity android:name=".ClassDescription.ChatActivity" />
         <activity android:name=".FollowingListActivity" />
-        <activity android:name=".ClassAttendeesActivity" />
-        <activity android:name=".InstructorDetailsActivity" /> <!-- added for maps -->
+        <activity android:name=".ClassDescription.ClassAttendeesActivity" />
+        <activity android:name=".ClassDescription.InstructorDetailsActivity" /> <!-- added for maps -->
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" /> <!-- added for maps -->
@@ -65,7 +64,7 @@
             <!-- added for maps -->
 
         </activity>
-        <activity android:name=".AddUserPreferences" />
+        <activity android:name=".NavigationFragments.Profile.Settings.AddUserPreferences" />
 
         <meta-data
             android:name="com.google.android.gms.wallet.api.enabled"
@@ -87,9 +86,9 @@
         -->
         <!-- added for maps -->
         <activity android:name=".LoginActivities.SignupActivity" />
-        <activity android:name=".ClassManipulationActivities.EditClassActivity" />
+        <activity android:name=".ClassDescription.EditClassActivity" />
         <activity
-            android:name=".ClassManipulationActivities.ClassDetailsActivity"
+            android:name=".ClassDescription.ClassDetailsActivity"
             android:parentActivityName=".NavigationFragments.FragmentHandler">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />

@@ -1,7 +1,6 @@
 package com.example.skillshop.LoginActivities;
 
 import android.content.Intent;
-import android.media.Rating;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -10,7 +9,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.skillshop.InstructorDetailsActivity;
 import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.NavigationFragments.FragmentHandler;
 import com.example.skillshop.R;
@@ -25,12 +23,10 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
