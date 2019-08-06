@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -23,8 +24,11 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.skillshop.ClassManipulationActivities.ClassDetailsActivity;
 import com.example.skillshop.ClassManipulationActivities.EditClassActivity;
+import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.R;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
@@ -98,6 +102,7 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
         private TextView tvTime;
         private TextView tvCost;
         private ImageView ivTeacherBadge;
+        private RatingBar rbInstructorRating;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -110,9 +115,10 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
             tvClassName = itemView.findViewById(R.id.tvClassName);
             tvDescription = itemView.findViewById(R.id.tvDescription);
             tvDate = itemView.findViewById(R.id.tvDate);
-            tvTime =itemView.findViewById(R.id.tvTime);
+            tvTime = itemView.findViewById(R.id.tvTime);
             tvCost =  itemView.findViewById(R.id.tvCost);
             ivTeacherBadge = itemView.findViewById(R.id.ivTeacherBadge);
+            rbInstructorRating = itemView.findViewById(R.id.ratingBar);
         }
 
 
@@ -151,6 +157,7 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
             DateFormat timeFormat = new SimpleDateFormat("HH:mm");
             tvDate.setText(dateFormat.format(date));
             tvTime.setText(timeFormat.format(date));
+            setRating(tWorkshop.getTeacher());
 
             Double cost = tWorkshop.getCost();
 
@@ -162,8 +169,6 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
             {
                 tvCost.setText("$ "+cost+" / hr");
             }
-
-
 
 
             int res = 0 ;
@@ -194,11 +199,42 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
 
             Glide.with(context).asBitmap().load(res).centerCrop().into(ivClassIcon);
 
+        }
+
+
+        private void setRating(ParseUser instructor){
+
+            Ratings.Query ratingParseQuery = new Ratings.Query();
+            ratingParseQuery.getAllRatings().whereEqualTo("user", instructor);
+
+            ratingParseQuery.findInBackground(new FindCallback<Ratings>() {
+
+                @Override
+                public void done(List<Ratings> objects, ParseException e) {
+                    if (e == null) {
+
+                        if (objects.size() > 0) {
+                            Ratings currentRating = objects.get(0);
+                            float currentRatingAverage = currentRating.getAverageRating();
+                            if(currentRatingAverage==0){
+                                rbInstructorRating.setEnabled(false);
+                            } else {
+                                rbInstructorRating.setRating(currentRatingAverage);
+                            }
+
+                        } else {
+                            rbInstructorRating.setEnabled(false);
+                        }
+
+                    } else {
+                        e.printStackTrace();
+                    }
+                }
+            });
 
         }
 
 
     }
-
 
 }
