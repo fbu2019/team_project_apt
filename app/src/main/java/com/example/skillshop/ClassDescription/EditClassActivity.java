@@ -436,18 +436,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
                 Toast.makeText(EditClassActivity.this, responseString, Toast.LENGTH_SHORT).show();
             }
         });
-    }
 
-    public void goToHomeFragment(){
-
-        // create new fragment to use
-        Fragment home = new AllCategoryFragment();
-        // transaction on current activity
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.flContainer, home);
-        transaction.addToBackStack(null);
-        // Commit the transaction
-        transaction.commit();
     }
 
     private void findAllViews() {
