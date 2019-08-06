@@ -111,7 +111,7 @@
 
         <TextView
             android:id="@+id/tvTime"
-            android:layout_width="0dp"
+            android:layout_width="56dp"
             android:layout_height="24dp"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="8dp"
@@ -122,7 +122,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etDate"
-            app:layout_constraintVertical_bias="0.275" />
+            app:layout_constraintVertical_bias="0.321" />
 
         <TextView
             android:id="@+id/tvLocation"
@@ -197,11 +197,11 @@
         <Button
             android:id="@+id/btnClassOptions"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="40dp"
             android:background="#6bcebb"
             android:text="Add Class"
             android:textAllCaps="false"
@@ -234,11 +234,11 @@
         <Button
             android:id="@+id/btnChat"
             android:layout_width="0dp"
-            android:layout_height="49dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginBottom="28dp"
+            android:layout_marginBottom="32dp"
             android:background="#6bcebb"
             android:text="Chat"
             android:textAllCaps="false"
