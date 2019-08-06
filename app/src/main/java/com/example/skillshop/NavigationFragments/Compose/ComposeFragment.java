@@ -28,7 +28,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.skillshop.LoginActivities.LoginActivity;
+import com.example.skillshop.LoginActivities.SignupActivity;
 import com.example.skillshop.Models.Workshop;
+import com.example.skillshop.NavigationFragments.FragmentHandler;
 import com.example.skillshop.NavigationFragments.Home.AllCategoryFragment;
 import com.example.skillshop.R;
 import com.google.android.gms.maps.model.LatLng;
@@ -36,9 +40,13 @@ import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.parse.FindCallback;
+import com.parse.LogInCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -297,12 +305,12 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
     }
 
     private void postWorkshop() {
-
+     //   login(ParseUser.getCurrentUser().getUsername(), ParseUser.getCurrentUser().getUsername());
        Integer categorySelectedIndex = categoryPicker.getValue();
        categoryArray = getResources().getStringArray(R.array.categories);
        String categorySelected =  categoryArray[categorySelectedIndex];
 
-        Integer subCategorySelectedIndex = categoryPicker.getValue();
+        Integer subCategorySelectedIndex = subCategoryPicker.getValue();
         String [] subCategoryArray;
         switch(categorySelectedIndex){
             case 0:{
@@ -364,8 +372,8 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
 
             newClass.setLocation(location);
 
-            ParseFile file = new ParseFile(getPhotoFileUri(photoFileName));
-            newClass.setImage(file);
+           // ParseFile file = new ParseFile(getPhotoFileUri(photoFileName));
+           // newClass.setImage(file);
 
 
             ArrayList<String> students = new ArrayList<>();
@@ -403,23 +411,67 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
         }
 
     }
+    private void login(String username, String password) {
 
-    private void getAndSetSkillsArray(String category) {
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        ArrayList<Integer> skillsData = (ArrayList<Integer>) currentUser.get("skillsData");
-        skillsData = updateSkillsArray(skillsData, category);
-
-        currentUser.put("skillsData", skillsData);
-        currentUser.saveInBackground(new SaveCallback() {
+        Log.i("LoginActivity", "Reached login method");
+        ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
-            public void done(ParseException e) {
-                if (e == null){
-                    Log.i("NewClassActivity", "SkillsData array successfully saved");
-                }else{
+            public void done(ParseUser user, ParseException e) {
+                if (e == null) {
+                    Log.d("LoginActivity", "Login successful");
+                  //  final Intent intent = new Intent(getContext(), FragmentHandler.class);
+                  //  Log.i("LoginActivity", "Reached login success");
+                 //  startActivity(intent);
+                   //finish();
+                } else {
+                    Log.e("LoginActivity", "Login failure");
                     e.printStackTrace();
+
+                    //  continues to sign up activity if does not recognize facebook user
+                 //   Intent main = new Intent(LoginActivity.this, SignupActivity.class);
+                 //   startActivity(main);
+                //    finish();
                 }
             }
         });
+    }
+
+    private void getAndSetSkillsArray(String category) {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+
+        ArrayList<Integer> skillsData;
+    //    skillsData = (ArrayList<Integer>) currentUser.get("skillsData");
+    //    skillsData = updateSkillsArray(skillsData, category);
+
+
+        //runs a query on the currently logged in user
+        final ParseQuery<ParseUser> userQuery = new ParseQuery<ParseUser>(ParseUser.class);
+        userQuery.whereEqualTo("objectId", ParseUser.getCurrentUser().getObjectId());
+
+        //gets the query information on a background thread
+        userQuery.findInBackground(new FindCallback<ParseUser>() {
+
+            @Override
+            public void done(List<ParseUser> singletonUserList, com.parse.ParseException e) {
+                ArrayList<Integer> skillsData= (ArrayList<Integer>) singletonUserList.get(0).get("skillsData");
+                skillsData = updateSkillsArray(skillsData, category);
+                currentUser.put("skillsData", skillsData);
+                currentUser.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null){
+                            Log.i("NewClassActivity", "SkillsData array successfully saved");
+                        }else{
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+            }
+        });
+
+
+
     }
 
 
