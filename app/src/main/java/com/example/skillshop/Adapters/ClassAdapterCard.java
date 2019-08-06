@@ -157,33 +157,48 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
 
 
 
-            int res = 0 ;
+            if(tWorkshop.getImage() != null)
+            {
 
-            switch (tWorkshop.getCategory()) {
+                // load in profile image to holder
+                Glide.with(context)
+                        .load(tWorkshop.getImage().getUrl())
+                        .centerCrop()
+                        .into(ivClassIcon);
+            }
+            else {
 
-                case "Culinary":
-                    res = R.drawable.cooking;
-                    break;
+                int res = 0;
 
-                case "Education":
-                    res = R.drawable.education;
-                    break;
-                case "Fitness":
-                    res = R.drawable.fitness;
-                    break;
-                case "Arts/Crafts":
-                    res = R.drawable.arts;
-                    break;
+                switch (tWorkshop.getCategory()) {
 
-                case "Other":
-                    res = R.drawable.misc;
-                    break;
+                    case "Culinary":
+                        res = R.drawable.cooking;
+                        break;
 
-                default: break;
+                    case "Education":
+                        res = R.drawable.education;
+                        break;
+                    case "Fitness":
+                        res = R.drawable.fitness;
+                        break;
+                    case "Arts/Crafts":
+                        res = R.drawable.arts;
+                        break;
+
+                    case "Other":
+                        res = R.drawable.misc;
+                        break;
+
+                    default:
+                        break;
+                }
+
+
+                Glide.with(context).asBitmap().load(res).centerCrop().into(ivClassIcon);
+
             }
 
-
-            Glide.with(context).asBitmap().load(res).centerCrop().into(ivClassIcon);
 
 
         }
