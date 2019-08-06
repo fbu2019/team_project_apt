@@ -391,7 +391,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         categoryArray = getResources().getStringArray(R.array.categories);
         String categorySelected =  categoryArray[categorySelectedIndex];
 
-        Integer subCategorySelectedIndex = categoryPicker.getValue();
+        Integer subCategorySelectedIndex = subCategoryPicker.getValue();
         String [] subCategoryArray;
         switch(categorySelectedIndex){
             case 0:{
