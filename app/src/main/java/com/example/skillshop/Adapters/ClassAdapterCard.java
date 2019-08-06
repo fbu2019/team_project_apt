@@ -124,6 +124,7 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
             tvClassName.setText(tWorkshop.getName());
             Log.e("ERROR MESSAGE HERE", tWorkshop.getName());
 
+
             ParseUser teacher = tWorkshop.getTeacher();
             if(teacher.getString("firstName")!=null && teacher.getString("lastName")!=null){
                 tvDescription.setText(tWorkshop.getDescription());
