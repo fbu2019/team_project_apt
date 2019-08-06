@@ -76,7 +76,6 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
     ImageButton btnTime;
     TextView etLocation;
     TextView etDescription;
-    Spinner spinCategory;
     TextView etCost;
     ImageView ivClassImage;
     Button btSubmit;
@@ -89,22 +88,18 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
     private File photoFile;
     NumberPicker categoryPicker;
     NumberPicker subCategoryPicker;
-    Uri photoUri;
 
     Date today;
 
     View v;
     HashMap<String, Integer> dateMap;
-
-    // PICK_PHOTO_CODE is a constant integer
-    public final static int PICK_PHOTO_CODE = 1046;
     public final static int AUTOCOMPLETE_REQUEST_CODE = 42;
     public final static int YEAR_OFFSET = 1900;
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
-
-
     public String photoFileName = "photo.jpg";
     private String apiKey;
+
+    private boolean imageSet;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate((R.layout.fragment_new_compose), container, false);
@@ -120,6 +115,8 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
         apiKey = this.getResources().getString(R.string.places_api_key);
         findAllViews(view);
         setSubmitListener();
+
+        imageSet = false;
 
         v = view;
 
@@ -373,11 +370,10 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
 
             newClass.setLocation(location);
 
-            ParseFile file = new ParseFile(getPhotoFileUri(photoFileName));
-
-            newClass.setImage(file);
-
-
+            if(imageSet) {
+                ParseFile file = new ParseFile(getPhotoFileUri(photoFileName));
+                newClass.setImage(file);
+            }
 
 
             ArrayList<String> students = new ArrayList<>();
@@ -508,6 +504,7 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
                 ivClassImage.setImageBitmap(rotated);
 
                 Toast.makeText(getContext(), "Picture was taken!", Toast.LENGTH_SHORT).show();
+                imageSet = true;
 
             }
         }
