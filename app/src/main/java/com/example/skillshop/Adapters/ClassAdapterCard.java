@@ -209,7 +209,7 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
                         break;
                 }
 
-                
+
             }
             ibDirections.setOnClickListener(new View.OnClickListener() {
                 @Override
