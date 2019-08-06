@@ -37,7 +37,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
     private TextView tvNumRatings;
     private TextView tvUserProvidedRating;
     private TextView tvNumberOfFollowers;
-    private TextView  tvNumberFollowing;
+    private TextView tvNumberFollowing;
     private Button followInstructorButton;
     private RatingBar rbInstructorAverage;
     private RatingBar rbUserRating;
@@ -136,7 +136,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
         followInstructorButton.setText("FOLLOW INSTRUCTOR");
         numberOfFollowers--;
-        tvNumberOfFollowers.setText(""+numberOfFollowers);
+        tvNumberOfFollowers.setText("" + numberOfFollowers);
     }
 
     private void followInstructor(ArrayList<String> currentlyFollowing, String instructorId, ParseUser instructor, ParseUser currentUser) {
@@ -161,7 +161,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         //Resets the following button
         followInstructorButton.setText("UNFOLLOW INSTRUCTOR");
         numberOfFollowers++;
-        tvNumberOfFollowers.setText(numberOfFollowers+"");
+        tvNumberOfFollowers.setText(numberOfFollowers + "");
     }
 
     private void initRatingBar() {
@@ -212,34 +212,44 @@ public class InstructorDetailsActivity extends AppCompatActivity {
             public void done(List<Ratings> objects, ParseException e) {
                 if (e == null) {
 
-                    Ratings currentRating = objects.get(0);
+                    if (objects.size() > 0) {
+                        Ratings currentRating = objects.get(0);
 
-                    float avgRating = 0;
-                    if (currentRating.getNumRatings() > 0) {
-                        avgRating = currentRating.getSumRatings() / currentRating.getNumRatings();
-                    }
+                        float avgRating = 0;
+                        if (currentRating.getNumRatings() > 0) {
+                            avgRating = currentRating.getSumRatings() / currentRating.getNumRatings();
+                        }
 
-                    currentRating.setAverageRating((int) avgRating);
-                    currentRatingAverage = (float) avgRating;
+                        currentRating.setAverageRating((int) avgRating);
+                        currentRatingAverage = (float) avgRating;
 
-                    int currentNumberOfRatings = currentRating.getNumRatings();
+                        int currentNumberOfRatings = currentRating.getNumRatings();
 
-                    if (currentNumberOfRatings == 0) {
+                        if (currentNumberOfRatings == 0) {
+
+                            rbInstructorAverage.setEnabled(false);
+                            tvNotYetRated = findViewById(R.id.notRated);
+                            tvNotYetRated.setText("This instructor has not been rated.");
+
+                        } else if (currentNumberOfRatings == 1) {
+
+                            rbInstructorAverage.setRating(currentRatingAverage);
+                            tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated by one user.");
+
+                        } else if (currentNumberOfRatings > 1) {
+
+                            rbInstructorAverage.setRating(currentRatingAverage);
+                            tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated by " + currentNumberOfRatings + " users.");
+                        }
+                    } else {
+
 
                         rbInstructorAverage.setEnabled(false);
                         tvNotYetRated = findViewById(R.id.notRated);
                         tvNotYetRated.setText("This instructor has not been rated.");
 
-                    } else if (currentNumberOfRatings == 1) {
-
-                        rbInstructorAverage.setRating(currentRatingAverage);
-                        tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated by one user.");
-
-                    } else if (currentNumberOfRatings > 1) {
-
-                        rbInstructorAverage.setRating(currentRatingAverage);
-                        tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated by " + currentNumberOfRatings + " users.");
                     }
+
 
                 } else {
                     e.printStackTrace();
@@ -259,43 +269,44 @@ public class InstructorDetailsActivity extends AppCompatActivity {
             public void done(List<Ratings> objects, ParseException e) {
                 if (e == null) {
 
-                    Ratings currentRating = objects.get(0);
-                    int currentNumberOfRatings = currentRating.getNumRatings();
-                    int currentSumOfRatings = currentRating.getSumRatings();
+                    if (objects.size() > 0) {
+                        Ratings currentRating = objects.get(0);
+                        int currentNumberOfRatings = currentRating.getNumRatings();
+                        int currentSumOfRatings = currentRating.getSumRatings();
 
-                    HashMap<String, Integer> usersWhoRated = (HashMap<String, Integer>) currentRating.get("userRatings");
+                        HashMap<String, Integer> usersWhoRated = (HashMap<String, Integer>) currentRating.get("userRatings");
 
-                    if (userRatedBefore) {
+                        if (userRatedBefore) {
 
-                        Log.e("InstructorDetails", "Hash map is this big: " + String.valueOf(usersWhoRated.size()));
-                        Log.e("InstructorDetails", "Current user id is: " + ParseUser.getCurrentUser().getUsername());
+                            Log.e("InstructorDetails", "Hash map is this big: " + String.valueOf(usersWhoRated.size()));
+                            Log.e("InstructorDetails", "Current user id is: " + ParseUser.getCurrentUser().getUsername());
 
-                        int formerRating = usersWhoRated.get(ParseUser.getCurrentUser().getUsername());
-                        usersWhoRated.put(ParseUser.getCurrentUser().getUsername(), (int) ratingValue);
-                        currentRating.put("userRatings", usersWhoRated);
+                            int formerRating = usersWhoRated.get(ParseUser.getCurrentUser().getUsername());
+                            usersWhoRated.put(ParseUser.getCurrentUser().getUsername(), (int) ratingValue);
+                            currentRating.put("userRatings", usersWhoRated);
 
-                        currentRating.setSumRatings(currentSumOfRatings - formerRating + (int) ratingValue);
+                            currentRating.setSumRatings(currentSumOfRatings - formerRating + (int) ratingValue);
 
-                        if(currentRating.getNumRatings() == 0){
-                            int avgRating = 0;
-                            currentRating.setAverageRating(avgRating);
-                            currentRatingAverage = (float) avgRating;
-                            rbInstructorAverage.setRating(currentRatingAverage);
+                            if (currentRating.getNumRatings() == 0) {
+                                int avgRating = 0;
+                                currentRating.setAverageRating(avgRating);
+                                currentRatingAverage = (float) avgRating;
+                                rbInstructorAverage.setRating(currentRatingAverage);
 
-                        } else {
-                            int avgRating = currentRating.getSumRatings() / currentRating.getNumRatings();
-                            currentRating.setAverageRating(avgRating);
-                            currentRatingAverage = (float) avgRating;
-                            rbInstructorAverage.setRating(currentRatingAverage);
-                        }
+                            } else {
+                                int avgRating = currentRating.getSumRatings() / currentRating.getNumRatings();
+                                currentRating.setAverageRating(avgRating);
+                                currentRatingAverage = (float) avgRating;
+                                rbInstructorAverage.setRating(currentRatingAverage);
+                            }
 
-                        if (currentNumberOfRatings == 1) {
+                            if (currentNumberOfRatings == 1) {
 
-                            tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated by one user.");
+                                tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated by one user.");
 
-                        } else {
-                            tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated by " + currentNumberOfRatings + " users.");
-                        }
+                            } else {
+                                tvNumRatings.setText(detailedWorkshop.getTeacher().get("firstName") + " has been rated by " + currentNumberOfRatings + " users.");
+                            }
 
                     } else {
 
@@ -341,10 +352,16 @@ public class InstructorDetailsActivity extends AppCompatActivity {
                         }
                     });
                 } else {
+                      Log.e("InstructorDetails", "Error with rating in database");
+                    }
+                } else {
                     e.printStackTrace();
+
                 }
+
             }
         });
+
     }
 
 
@@ -371,7 +388,7 @@ public class InstructorDetailsActivity extends AppCompatActivity {
                         }
                     }
 
-                    tvNumberOfFollowers.setText(numberOfFollowers+"");
+                    tvNumberOfFollowers.setText(numberOfFollowers + "");
 
                 } else {
                     e.printStackTrace();
@@ -382,13 +399,13 @@ public class InstructorDetailsActivity extends AppCompatActivity {
     }
 
 
-    private void setNumFollowing(){
+    private void setNumFollowing() {
 
         tvNumberFollowing = findViewById(R.id.numFollowing);
         ArrayList<String> instructorFollowing = (ArrayList<String>) detailedWorkshop.getTeacher().get("friends");
         int numFollowing = instructorFollowing.size();
 
-        tvNumberFollowing.setText(numFollowing+"");
+        tvNumberFollowing.setText(numFollowing + "");
 
     }
 

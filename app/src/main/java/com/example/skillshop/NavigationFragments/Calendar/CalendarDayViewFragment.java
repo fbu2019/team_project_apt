@@ -77,6 +77,7 @@ public class CalendarDayViewFragment extends Fragment implements WeekView.EventC
             map.put(w.getName(),w);
         }
 
+        mWeekView.setNumberOfVisibleDays(2);
 
     }
 
@@ -144,9 +145,7 @@ public class CalendarDayViewFragment extends Fragment implements WeekView.EventC
         return events;
     }
 
-    protected String getEventTitle(Calendar time) {
-        return String.format("Event of %02d:%02d %s/%d", time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.MINUTE), time.get(Calendar.MONTH)+1, time.get(Calendar.DAY_OF_MONTH));
-    }
+
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
@@ -178,10 +177,6 @@ public class CalendarDayViewFragment extends Fragment implements WeekView.EventC
 
     @Override
     public void onEmptyViewLongPress(Calendar time) {
-    }
-
-    public WeekView getWeekView() {
-        return mWeekView;
     }
 
 

@@ -12,15 +12,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+
+import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.ClassDescription.ClassDetailsActivity;
 import com.example.skillshop.ClassDescription.EditClassActivity;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.parse.ParseGeoPoint;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
@@ -95,6 +100,7 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
         private TextView tvCost;
         private ImageView ivTeacherBadge;
         private ImageButton ibDirections;
+        private RatingBar rbInstructorRating;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -107,10 +113,11 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
             tvClassName = itemView.findViewById(R.id.tvClassName);
             tvDescription = itemView.findViewById(R.id.tvDescription);
             tvDate = itemView.findViewById(R.id.tvDate);
-            tvTime =itemView.findViewById(R.id.tvTime);
+            tvTime = itemView.findViewById(R.id.tvTime);
             tvCost =  itemView.findViewById(R.id.tvCost);
             ivTeacherBadge = itemView.findViewById(R.id.ivTeacherBadge);
             ibDirections = itemView.findViewById(R.id.ibDirections);
+            rbInstructorRating = itemView.findViewById(R.id.ratingBar);
         }
 
 
@@ -149,6 +156,7 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
             DateFormat timeFormat = new SimpleDateFormat("HH:mm");
             tvDate.setText(dateFormat.format(date));
             tvTime.setText(timeFormat.format(date));
+            setRating(tWorkshop.getTeacher());
 
             Double cost = tWorkshop.getCost();
 
@@ -163,43 +171,56 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
 
 
 
+            if(tWorkshop.getImage() != null)
+            {
 
-            int res = 0 ;
 
-            switch (tWorkshop.getCategory()) {
-
-                case "Culinary":
-                    res = R.drawable.cooking;
-                    break;
-
-                case "Education":
-                    res = R.drawable.education;
-                    break;
-                case "Fitness":
-                    res = R.drawable.fitness;
-                    break;
-                case "Arts/Crafts":
-                    res = R.drawable.arts;
-                    break;
-
-                case "Other":
-                    res = R.drawable.misc;
-                    break;
-
-                default: break;
+                // load in profile image to holder
+                Glide.with(context)
+                        .load(tWorkshop.getImage().getUrl())
+                        .centerCrop()
+                        .into(ivClassIcon);
             }
+            else {
+
+                int res = 0;
+
+                switch (tWorkshop.getCategory()) {
+
+                    case "Culinary":
+                        res = R.drawable.cooking;
+                        break;
+
+                    case "Education":
+                        res = R.drawable.education;
+                        break;
+                    case "Fitness":
+                        res = R.drawable.fitness;
+                        break;
+                    case "Arts/Crafts":
+                        res = R.drawable.arts;
+                        break;
+
+                    case "Other":
+                        res = R.drawable.misc;
+                        break;
+
+                    default:
+                        break;
+                }
 
 
-            Glide.with(context).asBitmap().load(res).centerCrop().into(ivClassIcon);
+                Glide.with(context).asBitmap().load(res).centerCrop().into(ivClassIcon);
 
 
+            }
             ibDirections.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ParseGeoPoint userLocation = ParseUser.getCurrentUser().getParseGeoPoint("userLocation");
 
                     String locationRequest = "http://maps.google.com/maps?saddr=" + userLocation.getLatitude() + "," + userLocation.getLongitude() +
-                    "&daddr=" + tWorkshop.getLocation().getLatitude() + "," + tWorkshop.getLocation().getLongitude();
+                            "&daddr=" + tWorkshop.getLocation().getLatitude() + "," + tWorkshop.getLocation().getLongitude();
 
                     Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
                             Uri.parse(locationRequest));
@@ -211,7 +232,42 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
         }
 
 
-    }
+        private void setRating(ParseUser instructor){
 
+            Ratings.Query ratingParseQuery = new Ratings.Query();
+            ratingParseQuery.getAllRatings().whereEqualTo("user", instructor);
+
+            ratingParseQuery.findInBackground(new FindCallback<Ratings>() {
+
+                @Override
+                public void done(List<Ratings> objects, ParseException e) {
+                    if (e == null) {
+
+                        if (objects.size() > 0) {
+                            Ratings currentRating = objects.get(0);
+                            float currentRatingAverage = currentRating.getAverageRating();
+                            if(currentRatingAverage==0){
+                                rbInstructorRating.setEnabled(false);
+                            } else {
+                                rbInstructorRating.setRating(currentRatingAverage);
+                            }
+
+                        } else {
+                            rbInstructorRating.setEnabled(false);
+                        }
+
+                    } else {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+
+
+
+        }
+
+
+    }
 
 }
