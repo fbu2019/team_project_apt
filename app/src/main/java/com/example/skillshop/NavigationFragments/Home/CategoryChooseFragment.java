@@ -64,7 +64,7 @@ public class CategoryChooseFragment extends Fragment {
         setUpOtherCard(view);
 
         connectRecyclerView(view);
-        filterFeed();
+//        filterFeed();
 
     }
 

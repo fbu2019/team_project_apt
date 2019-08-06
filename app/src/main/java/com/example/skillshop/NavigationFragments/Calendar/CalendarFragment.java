@@ -48,7 +48,7 @@ public class CalendarFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         calendarView = null;
-        return inflater.inflate((R.layout.fragment_calendar),container,false);
+        return inflater.inflate((R.layout.activity_calendar_fragment_handler),container,false);
     }
 
 
@@ -58,82 +58,53 @@ public class CalendarFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-//        calendarView = view.findViewById(R.id.calendarView);
-//
-//        taking = new ArrayList<>();
-//
-//
-//
-//        populateAllClasses();
-//
-//
-//
-//        calendarView.setOnDayClickListener(new OnDayClickListener() {
-//            @Override
-//            public void onDayClick(EventDay eventDay) {
-//
-//
-//                if(eventDay.getImageDrawable() != null) {
-//                    Intent eventsToday = new Intent(getContext(), DayFragmentHandler.class);
-//                    Long time = eventDay.getCalendar().getTimeInMillis();
-//                    eventsToday.putExtra("Date", time);
-//                    startActivity(eventsToday);
-//                }
-//
-//
-//            }
-//        });
-
-
-
-
-        // Get a reference for the week view in the layout.
-        mWeekView = view.findViewById(R.id.weekView);
-
-        // Set an action when any event is clicked.
-        mWeekView.setOnEventClickListener(new WeekView.EventClickListener() {
+        calendarView = view.findViewById(R.id.calendarView);
+        taking = new ArrayList<>();
+        populateAllClasses();
+        calendarView.setOnDayClickListener(new OnDayClickListener() {
             @Override
-            public void onEventClick(WeekViewEvent event, RectF eventRect) {
-                Log.d("OK","OK");
+            public void onDayClick(EventDay eventDay) {
+
+
+                if(eventDay.getImageDrawable() != null) {
+
+                    populateClassesTaking();
+                }
+
 
             }
         });
 
-        // The week view has infinite scrolling horizontally. We have to provide the events of a
-        // month every time the month changes on the week view.
-        mWeekView.setMonthChangeListener(new MonthLoader.MonthChangeListener() {
-            @Override
-            public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-                List<WeekViewEvent> events = new ArrayList<>();
-                Calendar startTime = Calendar.getInstance();
-                startTime.set(Calendar.HOUR_OF_DAY, 5);
-                startTime.set(Calendar.MINUTE, 0);
-                startTime.set(Calendar.MONTH, newMonth - 1);
-                startTime.set(Calendar.YEAR, newYear);
-                Calendar endTime = (Calendar) startTime.clone();
-                endTime.add(Calendar.HOUR, 1);
-                endTime.set(Calendar.MONTH, newMonth - 1);
-                WeekViewEvent event = new WeekViewEvent(1, "ok", startTime, endTime);
-                event.setColor(getResources().getColor(R.color.color_palette_green));
-                events.add(event);
+    }
 
-                return events;
+    public void populateClassesTaking() {
+
+
+        Query parseQuery = new Query();
+        // query add all classes with all data and sort by time of class and only show new classes
+        parseQuery.getAllClasses().withItems().byTimeOfClass();
+
+        parseQuery.findInBackground(new FindCallback<Workshop>() {
+            @Override
+            public void done(List<Workshop> objects, ParseException e) {
+                if (e == null) {
+                    startDay((ArrayList<Workshop>) objects);
+                } else {
+                    e.printStackTrace();
+                }
             }
         });
-
-        // Set long press listener for events.
-        mWeekView.setEventLongPressListener(new WeekView.EventLongPressListener() {
-            @Override
-            public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
-
-            }
-        });
-
-
-
 
 
     }
+
+    public void startDay(ArrayList<Workshop> workshops)
+    {
+        Intent eventsToday = new Intent(getContext(), DayFragmentHandler.class);
+        eventsToday.putExtra("workshops", workshops);
+        startActivity(eventsToday);
+    }
+
 
 
     public List<WeekViewEvent> populateAllClasses()

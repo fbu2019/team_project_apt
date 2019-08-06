@@ -5,48 +5,69 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tvDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="8dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!--<TextView-->
+        <!--android:id="@+id/tvDate"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="8dp"-->
+        <!--android:layout_marginTop="36dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:text="TextView"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent" />-->
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/top_navigation"
+    <!--<android.support.design.widget.BottomNavigationView-->
+        <!--android:id="@+id/top_navigation"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="8dp"-->
+        <!--android:layout_marginTop="80dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintHorizontal_bias="0.0"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--app:menu="@menu/menu_calendar_navigation" />-->
+
+    <!--<FrameLayout-->
+        <!--android:id="@+id/classes_today"-->
+        <!--android:layout_width="388dp"-->
+        <!--android:layout_height="496dp"-->
+        <!--android:layout_above="@id/top_navigation"-->
+        <!--android:layout_marginStart="8dp"-->
+        <!--android:layout_marginLeft="8dp"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:layout_marginRight="8dp"-->
+        <!--android:layout_marginBottom="32dp"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintHorizontal_bias="1.0"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/top_navigation"-->
+        <!--app:layout_constraintVertical_bias="0.322"></FrameLayout>-->
+
+
+    <com.alamkanak.weekview.WeekView
+        android:id="@+id/weekView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/menu_calendar_navigation" />
+        android:layout_height="match_parent"
+        app:eventTextColor="@android:color/white"
+        app:textSize="12sp"
+        app:hourHeight="60dp"
+        app:headerColumnPadding="8dp"
+        app:headerColumnTextColor="#8f000000"
+        app:headerRowPadding="12dp"
+        app:columnGap="8dp"
+        app:noOfVisibleDays="3"
+        app:headerRowBackgroundColor="#ffefefef"
+        app:dayBackgroundColor="#05000000"
+        app:todayBackgroundColor="#1848adff"
+        app:headerColumnBackground="#ffffffff"/>
 
-    <FrameLayout
-        android:id="@+id/classes_today"
-        android:layout_width="388dp"
-        android:layout_height="496dp"
-        android:layout_above="@id/top_navigation"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_navigation"
-        app:layout_constraintVertical_bias="0.322"></FrameLayout>
+
+
 
 
 </android.support.constraint.ConstraintLayout>
