@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -33,6 +34,7 @@ public class CalendarDayViewFragment extends Fragment implements WeekView.EventC
 
     WeekView mWeekView;
     ArrayList<Workshop> workshops;
+    HashMap<String,Workshop> map;
 
 
 
@@ -68,6 +70,14 @@ public class CalendarDayViewFragment extends Fragment implements WeekView.EventC
 
         // Set long press listener for events.
         mWeekView.setEventLongPressListener(this);
+
+        map = new HashMap<>();
+        for(Workshop w : workshops)
+        {
+            map.put(w.getName(),w);
+        }
+
+
     }
 
 
@@ -98,14 +108,13 @@ public class CalendarDayViewFragment extends Fragment implements WeekView.EventC
             endTime.add(Calendar.HOUR, 1);
             endTime.set(Calendar.MONTH, newMonth - 1);
 
-            SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-            String display = String.format("%s\n%s\n%s",w.getName(),w.getCategory(),format.format(d));
+            SimpleDateFormat format = new SimpleDateFormat("h:mm a");
+            String display = String.format("\t%s\n\t%s",w.getName(),format.format(d));
 
 
 
             event = new WeekViewEvent(new Random().nextLong(), display, startTime, endTime);
 
-            event.setLocation(w.getObjectId());
             switch(w.getCategory())
             {
                 case "Culinary":
@@ -137,33 +146,24 @@ public class CalendarDayViewFragment extends Fragment implements WeekView.EventC
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
-        Toast.makeText(getContext(), "Clicked " + event.getName(), Toast.LENGTH_SHORT).show();
 
+        String display = event.getName();
+
+        String name = display.substring(1,display.indexOf("\n"));
+
+        Workshop target = map.get(name);
+        final Intent editClassIntent = new Intent(getContext(), ClassDetailsActivity.class);
+        //pass in class that was selected
+        editClassIntent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(target));
+        getActivity().startActivity(editClassIntent);
     }
 
     @Override
     public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
-        Toast.makeText(getContext(), "Long pressed event: " + event.getName(), Toast.LENGTH_SHORT).show();
-
-
-        for(Workshop w : workshops)
-        {
-            if(w.getObjectId().equals(event.getLocation()))
-            {
-                final Intent editClassIntent = new Intent(getContext(), ClassDetailsActivity.class);
-                //pass in class that was selected
-                editClassIntent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(w));
-                getActivity().startActivity(editClassIntent);
-            }
-        }
-
-
-
     }
 
     @Override
     public void onEmptyViewLongPress(Calendar time) {
-        Toast.makeText(getContext(), "Empty view long pressed: " + getEventTitle(time), Toast.LENGTH_SHORT).show();
     }
 
     public WeekView getWeekView() {
