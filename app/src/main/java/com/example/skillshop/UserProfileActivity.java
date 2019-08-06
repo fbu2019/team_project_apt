@@ -46,6 +46,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private TextView tvNameView;
     private TextView tvNumberFollowers;
     private TextView tvNumberFollowing;
+    private TextView tvPreferences;
     private ImageView ivProfileImage;
 
     @Override
@@ -66,6 +67,24 @@ public class UserProfileActivity extends AppCompatActivity {
         tvNumberFollowing = findViewById(R.id.numberFollowing);
         ArrayList<String> friends = (ArrayList<String>)currentUser.get("friends");
         tvNumberFollowing.setText(friends.size()+"");
+
+
+        tvPreferences = findViewById(R.id.userPreferences);
+        ArrayList<String> preferences = (ArrayList<String>) currentUser.get("preferences");
+        String preferenceString = "";
+        if (preferences != null && preferences.size()>0) {
+            for (int i = 0; i < preferences.size(); i++) {
+
+                if (i == preferences.size() - 1) {
+                    preferenceString += preferences.get(i);
+                } else {
+                    preferenceString += preferences.get(i) + " | ";
+                }
+            }
+        } else {
+            preferenceString += "No current preferences.";
+        }
+        tvPreferences.setText(preferenceString);
 
         connectRecyclerView();
         populateHomeFeed();
@@ -90,7 +109,6 @@ public class UserProfileActivity extends AppCompatActivity {
 
     }
 
-
     private void loadProfilePicture() {
 
         Log.i("UserProfileACTIVITY", profilePhotoUrl);
@@ -102,8 +120,6 @@ public class UserProfileActivity extends AppCompatActivity {
             Log.i("Instructor Details", "No profile image");
         }
     }
-
-
 
     private void connectRecyclerView() {
 

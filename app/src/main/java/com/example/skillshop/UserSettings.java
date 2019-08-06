@@ -153,7 +153,6 @@ public class UserSettings extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     private void initPreferences(ParseUser user) {
@@ -208,7 +207,6 @@ public class UserSettings extends AppCompatActivity {
             ivProfileImage.setImageBitmap(null);
             Log.i("Profile Frag", "No profile image");
         }
-
     }
 
     private void initRatingNumber(ParseUser user) {
