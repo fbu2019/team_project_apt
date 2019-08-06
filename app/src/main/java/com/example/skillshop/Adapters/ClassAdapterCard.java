@@ -3,11 +3,14 @@ package com.example.skillshop.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +19,7 @@ import com.example.skillshop.ClassDescription.ClassDetailsActivity;
 import com.example.skillshop.ClassDescription.EditClassActivity;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.R;
+import com.google.android.gms.maps.GoogleMap;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
@@ -89,6 +93,7 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
         private TextView tvTime;
         private TextView tvCost;
         private ImageView ivTeacherBadge;
+        private ImageButton ibDirections;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -104,6 +109,7 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
             tvTime =itemView.findViewById(R.id.tvTime);
             tvCost =  itemView.findViewById(R.id.tvCost);
             ivTeacherBadge = itemView.findViewById(R.id.ivTeacherBadge);
+            ibDirections = itemView.findViewById(R.id.ibDirections);
         }
 
 
@@ -184,6 +190,17 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
 
 
             Glide.with(context).asBitmap().load(res).centerCrop().into(ivClassIcon);
+
+
+            ibDirections.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    
+                    Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                            Uri.parse("http://maps.google.com/maps?saddr=20.344,34.34&daddr=20.5666,45.345"));
+                    context.startActivity(intent);
+                }
+            });
 
 
         }
