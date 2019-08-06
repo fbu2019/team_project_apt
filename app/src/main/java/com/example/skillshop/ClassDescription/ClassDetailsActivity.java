@@ -280,9 +280,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
         btnClassOptions = findViewById(R.id.btnClassOptions);
 
 
-
-
-
         Double cost = workshop.getCost();
         if (cost == 0) {
             tvCost.setText("Free");

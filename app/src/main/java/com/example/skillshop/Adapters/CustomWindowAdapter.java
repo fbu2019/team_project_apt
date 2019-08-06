@@ -13,9 +13,7 @@ import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
-import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.text.SimpleDateFormat;
@@ -96,7 +94,7 @@ public class CustomWindowAdapter implements GoogleMap.InfoWindowAdapter {
                 ivClassImage.setImageResource(R.drawable.fitness);
                 break;
             case "Arts/Crafts":
-                ivClassImage.setImageResource(R.drawable.arts);
+                ivClassImage.setImageResource(R.drawable.artsandcrafts);
                 break;
 
             case "Other":
