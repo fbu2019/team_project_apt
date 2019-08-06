@@ -330,6 +330,7 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
             }
         }
         String subCategorySelected =  subCategoryArray[subCategorySelectedIndex];
+        
         try {
 
             newClass.setDescription(etDescription.getText().toString());
