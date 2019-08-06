@@ -71,8 +71,6 @@ public class UserSettings extends AppCompatActivity {
         tvCurrentLocation = findViewById(R.id.currentLocation);
         tvCurrentLocation.setText(user.get("locationName").toString());
 
-     //   tvLocationCoordinatesMessage = findViewById(R.id.currentLocationMessage);
-     //   tvCurrentLocationCoordinates = findViewById(R.id.locationCoordinates);
         ParseGeoPoint markerGP = (ParseGeoPoint) user.get("userLocation");
         double lat = markerGP.getLatitude();
         double lng = markerGP.getLongitude();
