@@ -178,7 +178,7 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
                     res = R.drawable.fitness;
                     break;
                 case "Arts/Crafts":
-                    res = R.drawable.arts;
+                    res = R.drawable.artsandcrafts;
                     break;
 
                 case "Other":

@@ -286,7 +286,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
                 ivClassPicture.setImageResource(R.drawable.fitness);
                 break;
             case "Arts/Crafts":
-                ivClassPicture.setImageResource(R.drawable.arts);
+                ivClassPicture.setImageResource(R.drawable.artsandcrafts);
                 break;
             case "Other":
                 ivClassPicture.setImageResource(R.drawable.misc);

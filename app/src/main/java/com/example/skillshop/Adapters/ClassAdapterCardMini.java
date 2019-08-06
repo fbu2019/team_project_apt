@@ -110,7 +110,7 @@ public class ClassAdapterCardMini extends RecyclerView.Adapter<ClassAdapterCardM
                     ivClassImage.setImageResource(R.drawable.fitness);
                     break;
                 case "Arts/Crafts":
-                    ivClassImage.setImageResource(R.drawable.arts);
+                    ivClassImage.setImageResource(R.drawable.artsandcrafts);
                     break;
                 case "Other":
                     ivClassImage.setImageResource(R.drawable.misc);
