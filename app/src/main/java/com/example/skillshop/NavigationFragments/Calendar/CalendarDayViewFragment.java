@@ -112,7 +112,7 @@ public class CalendarDayViewFragment extends Fragment implements WeekView.EventC
 
             Date end = new Date(w.getDate());
             end.setHours(end.getHours()+1);
-            String display = String.format("\n\t%s\n",w.getName(),format.format(d),format.format(end));
+            String display = String.format("\t%s\n",w.getName(),format.format(d),format.format(end));
 
             event = new WeekViewEvent(new Random().nextLong(), display, startTime, endTime);
 
