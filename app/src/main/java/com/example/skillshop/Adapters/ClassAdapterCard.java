@@ -131,6 +131,7 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
             tvClassName.setText(tWorkshop.getName());
             Log.e("ERROR MESSAGE HERE", tWorkshop.getName());
 
+
             ParseUser teacher = tWorkshop.getTeacher();
             if(teacher.getString("firstName")!=null && teacher.getString("lastName")!=null){
                 tvDescription.setText(tWorkshop.getDescription());
@@ -210,10 +211,14 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
                 }
 
 
-                Glide.with(context).asBitmap().load(res).centerCrop().into(ivClassIcon);
-
+                // load in profile image to holder
+                Glide.with(context)
+                        .load(res)
+                        .centerCrop()
+                        .into(ivClassIcon);
 
             }
+
             ibDirections.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
