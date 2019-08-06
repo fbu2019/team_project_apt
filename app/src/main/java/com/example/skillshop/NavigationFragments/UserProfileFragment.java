@@ -25,6 +25,7 @@ import com.example.skillshop.DeleteAccountActivity;
 import com.example.skillshop.FollowingListActivity;
 import com.example.skillshop.LoginActivities.LoginActivity;
 import com.example.skillshop.Models.Ratings;
+import com.example.skillshop.Models.User;
 import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesInvolvedFragment;
 import com.example.skillshop.R;
 import com.example.skillshop.SkillVisualizationActivity;
@@ -42,6 +43,8 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,8 +68,7 @@ public class UserProfileFragment extends Fragment {
 
     private ParseGeoPoint location;
     private String locationName;
-
-    public int numberOfFollowers = 0;
+    private int numberOfFollowers = 0;
 
     @Nullable
     @Override
@@ -106,6 +108,7 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getContext(), UserFollowersActivity.class);
+                i.putExtra(User.class.getSimpleName(), Parcels.wrap(ParseUser.getCurrentUser()));
                 startActivity(i);
             }
         });
@@ -114,6 +117,7 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getContext(), FollowingListActivity.class);
+                i.putExtra(User.class.getSimpleName(), Parcels.wrap(ParseUser.getCurrentUser()));
                 startActivity(i);
             }
         });
@@ -285,7 +289,7 @@ public class UserProfileFragment extends Fragment {
                     for (int i = 0; i < allUsers.size(); i++) {
                         ParseUser userItem = allUsers.get(i);
 
-                        if (userItem != ParseUser.getCurrentUser()) {
+                        if (!(userItem.getUsername().equals(ParseUser.getCurrentUser().getUsername()))) {
 
                             ArrayList<String> usersFollowing = (ArrayList<String>) userItem.get("friends");
                             for (int j = 0; j < usersFollowing.size(); j++) {
@@ -314,6 +318,11 @@ public class UserProfileFragment extends Fragment {
 
         ParseUser user = ParseUser.getCurrentUser();
         ArrayList <String> following = (ArrayList<String>) user.get("friends");
+        for(int i = 0; i<following.size(); i++){
+            if(following.get(i).equals(ParseUser.getCurrentUser().getObjectId())){
+                following.remove(i);
+            }
+        }
         int numberFollowing = following.size();
         tvNumberFollowing.setText("Following "+numberFollowing);
 

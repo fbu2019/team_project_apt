@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.example.skillshop.Adapters.UserAdapter;
 import com.example.skillshop.LoginActivities.LoginActivity;
 import com.example.skillshop.LoginActivities.SignupActivity;
+import com.example.skillshop.Models.User;
 import com.example.skillshop.NavigationFragments.FragmentHandler;
 import com.parse.FindCallback;
 import com.parse.LogInCallback;
@@ -19,6 +20,8 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,16 +32,19 @@ public class FollowingListActivity extends AppCompatActivity {
     protected ArrayList<ParseUser> mUsers;
     protected UserAdapter userAdapter;
     public int nullIndex;
+    ParseUser currentUser;
 
-    //TODO IF A USER IS NULL REMOVE IT FROM ARRAYLIST
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_following_list);
 
-        loginAndRefresh(ParseUser.getCurrentUser().getUsername(), ParseUser.getCurrentUser().getUsername());
+     //   loginAndRefresh(ParseUser.getCurrentUser().getUsername(), ParseUser.getCurrentUser().getUsername());
 
+
+        currentUser = Parcels.unwrap(getIntent().getParcelableExtra(User.class.getSimpleName()));
+        getStudentArray(currentUser);
         //find the RecyclerView
         rvUsers = (RecyclerView) findViewById(R.id.rvUsers);
         //init the arraylist (data source)
@@ -64,7 +70,7 @@ public class FollowingListActivity extends AppCompatActivity {
                 if (e == null) {
                     Log.d("LoginActivity", "Login successful");
                     ArrayList<String> following = (ArrayList<String>) ParseUser.getCurrentUser().get("friends");
-                    getStudentArray();
+                    getStudentArray(currentUser);
 
                 } else {
                     Log.e("LoginActivity", "Login failure");
@@ -74,8 +80,10 @@ public class FollowingListActivity extends AppCompatActivity {
         });
     }
 
-    private void getStudentArray() {
-        ArrayList<String> following = (ArrayList<String>) ParseUser.getCurrentUser().get("friends");
+    private void getStudentArray(ParseUser currentUser) {
+
+       // ArrayList<String> following = (ArrayList<String>) ParseUser.getCurrentUser().get("friends");
+        ArrayList<String> following = (ArrayList<String>) currentUser.get("friends");
         ArrayList<String> validUserIDs = new ArrayList<>();
 
         for (int i = 0; i < following.size(); i++) {
@@ -91,13 +99,13 @@ public class FollowingListActivity extends AppCompatActivity {
                         for (int i = 0; i < attendees.size(); i++) {
                             ParseUser userItem = attendees.get(i);
 
-                            if (userItem != ParseUser.getCurrentUser() && userItem != null) {
+                            if (!userItem.equals(currentUser) && userItem != null) {
                                 mUsers.add(userItem);
                                 userAdapter.notifyItemInserted(mUsers.size() - 1);
                             }
 
                             validUserIDs.add(userItem.getObjectId());
-                            replaceUsersFollowing(validUserIDs);
+                            //replaceUsersFollowing(validUserIDs);
                         }
                     } else {
 
@@ -118,8 +126,11 @@ public class FollowingListActivity extends AppCompatActivity {
             Log.i("FollowingList", validUserIDs.get(i));
         }
 
+        /*
         ParseUser.getCurrentUser().put("friends", validUserIDs);
-        ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
+        */
+        currentUser.put("friends", validUserIDs);
+        currentUser.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {

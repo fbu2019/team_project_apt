@@ -1,5 +1,6 @@
 package com.example.skillshop;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,7 @@ import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesInvolv
 import com.example.skillshop.NavigationFragments.HomeFragment;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
@@ -38,9 +40,12 @@ public class UserProfileActivity extends AppCompatActivity {
     protected ArrayList<Workshop> mWorkshops;
     protected ClassAdapter classAdapter;
 
+    private int numberOfFollowers = 0;
     private  ParseUser currentUser;
     private String profilePhotoUrl;
     private TextView tvNameView;
+    private TextView tvNumberFollowers;
+    private TextView tvNumberFollowing;
     private ImageView ivProfileImage;
 
     @Override
@@ -56,8 +61,32 @@ public class UserProfileActivity extends AppCompatActivity {
         ivProfileImage = findViewById(R.id.profileImage);
         loadProfilePicture();
 
+        tvNumberFollowers = findViewById(R.id.numberOfFollowers);
+        setTvNumberFollowers();
+        tvNumberFollowing = findViewById(R.id.numberFollowing);
+        ArrayList<String> friends = (ArrayList<String>)currentUser.get("friends");
+        tvNumberFollowing.setText(friends.size()+"");
+
         connectRecyclerView();
         populateHomeFeed();
+
+        tvNumberFollowers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(UserProfileActivity.this, UserFollowersActivity.class);
+                i.putExtra(User.class.getSimpleName(), Parcels.wrap(currentUser));
+                startActivity(i);
+            }
+        });
+
+        tvNumberFollowing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(UserProfileActivity.this, FollowingListActivity.class);
+                i.putExtra(User.class.getSimpleName(), Parcels.wrap(currentUser));
+                startActivity(i);
+            }
+        });
 
     }
 
@@ -122,6 +151,43 @@ public class UserProfileActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void setTvNumberFollowers(){
+
+        Log.e("UserProfileActivity", "REACHED HERE");
+
+        ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+        userQuery.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> allUsers, ParseException e) {
+                if (e == null) {
+                    for (int i = 0; i < allUsers.size(); i++) {
+                        ParseUser userItem = allUsers.get(i);
+
+                        if (!(userItem.getUsername().equals(currentUser.getUsername()))) {
+
+                            Log.i("UserProfileActivity", "reached another user ");
+                            ArrayList<String> usersFollowing = (ArrayList<String>) userItem.get("friends");
+                            for (int j = 0; j < usersFollowing.size(); j++) {
+                                if (usersFollowing.get(j).equals(currentUser.getObjectId())) {
+                                    Log.i("UserProfileActivity", "num followers "+numberOfFollowers);
+                                    numberOfFollowers++;
+                                }
+                            }
+                        }
+                    }
+
+                        tvNumberFollowers.setText(numberOfFollowers+"");
+                    Log.i("UserProfileActivity", "num followers "+numberOfFollowers);
+
+                } else {
+                    e.printStackTrace();
+                    Log.e("UserProfileActivity", "ERROR ");
+                }
+            }
+        });
+
     }
 
 

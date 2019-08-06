@@ -255,7 +255,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 //if user clicks on themselves, continues to UserProfileFragment
                 if (user.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
 
-                    //TODO - switch to userprofilefragment - find out how...
+
                 } else {
                     //create intent for the new activity
                     Intent openUserProfileIntent = new Intent(context, UserProfileActivity.class);
