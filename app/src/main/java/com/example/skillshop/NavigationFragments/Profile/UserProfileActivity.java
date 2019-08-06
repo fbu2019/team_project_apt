@@ -11,12 +11,14 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.skillshop.Adapters.ClassAdapter;
+import com.example.skillshop.FollowingListActivity;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.User;
 import com.example.skillshop.Models.Workshop;

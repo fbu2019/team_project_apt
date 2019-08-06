@@ -7,11 +7,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.skillshop.Adapters.UserAdapter;
-<<<<<<< HEAD:app/src/main/java/com/example/skillshop/UserFollowersActivity.java
 import com.example.skillshop.Models.User;
-=======
 import com.example.skillshop.R;
->>>>>>> 16fb0e258b9bb10d7ade37d5947fa82b8f72760b:app/src/main/java/com/example/skillshop/NavigationFragments/Profile/UserFollowersActivity.java
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;

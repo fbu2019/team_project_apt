@@ -373,11 +373,10 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
             newClass.setLocation(location);
 
            // ParseFile file = new ParseFile(getPhotoFileUri(photoFileName));
-<<<<<<< HEAD:app/src/main/java/com/example/skillshop/NavigationFragments/ComposeFragment.java
+
             // newClass.setImage(file);
-=======
+
            // newClass.setImage(file);
->>>>>>> 16fb0e258b9bb10d7ade37d5947fa82b8f72760b:app/src/main/java/com/example/skillshop/NavigationFragments/Compose/ComposeFragment.java
 
 
             ArrayList<String> students = new ArrayList<>();

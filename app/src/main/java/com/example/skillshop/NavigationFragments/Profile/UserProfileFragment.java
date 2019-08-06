@@ -25,13 +25,9 @@ import com.example.skillshop.NavigationFragments.Profile.Settings.DeleteAccountA
 import com.example.skillshop.FollowingListActivity;
 import com.example.skillshop.LoginActivities.LoginActivity;
 import com.example.skillshop.Models.Ratings;
-<<<<<<< HEAD:app/src/main/java/com/example/skillshop/NavigationFragments/UserProfileFragment.java
 import com.example.skillshop.Models.User;
-import com.example.skillshop.NavigationFragments.ClassesActivities.ClassesInvolvedFragment;
-=======
 import com.example.skillshop.NavigationFragments.Home.AllCategoryFragment;
 import com.example.skillshop.NavigationFragments.Profile.ClassesActivities.ClassesInvolvedFragment;
->>>>>>> 16fb0e258b9bb10d7ade37d5947fa82b8f72760b:app/src/main/java/com/example/skillshop/NavigationFragments/Profile/UserProfileFragment.java
 import com.example.skillshop.R;
 import com.example.skillshop.NavigationFragments.Profile.ClassesActivities.SkillVisualizationActivity;
 import com.example.skillshop.NavigationFragments.Profile.Settings.UserSettings;
