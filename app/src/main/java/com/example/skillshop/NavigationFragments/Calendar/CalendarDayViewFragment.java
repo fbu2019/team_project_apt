@@ -109,11 +109,15 @@ public class CalendarDayViewFragment extends Fragment implements WeekView.EventC
             endTime.set(Calendar.MONTH, newMonth - 1);
 
             SimpleDateFormat format = new SimpleDateFormat("h:mm a");
-            String display = String.format("\t%s\n\t%s",w.getName(),format.format(d));
 
-
+            Date end = new Date(w.getDate());
+            end.setHours(end.getHours()+1);
+            String display = String.format("\n\t%s\n",w.getName(),format.format(d),format.format(end));
 
             event = new WeekViewEvent(new Random().nextLong(), display, startTime, endTime);
+
+            String lower = String.format("\t%s - %s",format.format(d),format.format(end));
+            event.setLocation(lower);
 
             switch(w.getCategory())
             {
@@ -160,6 +164,16 @@ public class CalendarDayViewFragment extends Fragment implements WeekView.EventC
 
     @Override
     public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
+
+        String display = event.getName();
+
+        String name = display.substring(1,display.indexOf("\n"));
+
+        Workshop target = map.get(name);
+        final Intent editClassIntent = new Intent(getContext(), ClassDetailsActivity.class);
+        //pass in class that was selected
+        editClassIntent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(target));
+        getActivity().startActivity(editClassIntent);
     }
 
     @Override
