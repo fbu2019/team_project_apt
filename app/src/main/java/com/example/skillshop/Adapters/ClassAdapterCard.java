@@ -20,6 +20,7 @@ import com.example.skillshop.ClassDescription.EditClassActivity;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.R;
 import com.google.android.gms.maps.GoogleMap;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 
 import org.parceler.Parcels;
@@ -195,9 +196,13 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
             ibDirections.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    
+                    ParseGeoPoint userLocation = ParseUser.getCurrentUser().getParseGeoPoint("userLocation");
+
+                    String locationRequest = "http://maps.google.com/maps?saddr=" + userLocation.getLatitude() + "," + userLocation.getLongitude() +
+                    "&daddr=" + tWorkshop.getLocation().getLatitude() + "," + tWorkshop.getLocation().getLongitude();
+
                     Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                            Uri.parse("http://maps.google.com/maps?saddr=20.344,34.34&daddr=20.5666,45.345"));
+                            Uri.parse(locationRequest));
                     context.startActivity(intent);
                 }
             });
