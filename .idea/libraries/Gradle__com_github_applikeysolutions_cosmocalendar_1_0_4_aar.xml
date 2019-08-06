@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.applikeysolutions:cosmocalendar:1.0.4@aar">
     <ANNOTATIONS>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/344917f813742b4d342d9cfb96b0aa6f/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f5ee15d557ba3cd9246686f5b1ae5058/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/344917f813742b4d342d9cfb96b0aa6f/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/344917f813742b4d342d9cfb96b0aa6f/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f5ee15d557ba3cd9246686f5b1ae5058/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f5ee15d557ba3cd9246686f5b1ae5058/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
