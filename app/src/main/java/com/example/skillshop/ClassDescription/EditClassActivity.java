@@ -16,7 +16,10 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -26,6 +29,7 @@ import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.NavigationFragments.FragmentHandler;
 import com.example.skillshop.NavigationFragments.Home.AllCategoryFragment;
 import com.example.skillshop.R;
+import com.google.android.gms.common.util.ArrayUtils;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -48,7 +52,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -60,16 +66,22 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     public static final String TAG = "EditClassActivity";
 
     TextView etClassname;
-    Button btnDate;
-    Button btnTime;
-    Button btLocation;
+    EditText btLocation;
+    ImageButton btnDate;
+    ImageButton btnTime;
     TextView etDescription;
-    Spinner spinCategory;
+    String[] categoryArray;
+    String [] subCategoryArray;
+    NumberPicker categoryPicker;
+    NumberPicker subCategoryPicker;
     TextView etCost;
+    TextView etDate;
+    TextView etTime;
     ImageView ivClassImage;
     Button btSubmit;
     Workshop currentWorkshop;
     ImageView ivTrash;
+    Date today;
     Date currentDate;
 
 
@@ -96,9 +108,74 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         findAllViews();
         setupPlacesApi();
         setupDatePicker();
+        setCategoryPicker();
+        Integer categoryIndex = Arrays.asList(categoryArray).indexOf(currentWorkshop.getCategory());
+        setSubCategoryPicker(categoryIndex);
         setCurrentDetails();
         setSubmitListener();
         setTrashListener();
+        setTodaysDate();
+
+    }
+
+
+
+    private void setCategoryPicker() {
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        categoryPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+
+                setSubCategoryPicker(newVal);
+            }
+        });
+        categoryArray = getResources().getStringArray(R.array.categories);
+
+        categoryPicker.setMinValue(0);
+        categoryPicker.setMaxValue(categoryArray.length-1);
+        categoryPicker.setDisplayedValues(categoryArray);
+    }
+
+    private void setSubCategoryPicker(int i) {
+        // Create an ArrayAdapter using the string array and a default spinner layout
+
+        switch(i){
+            case 0:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesArtsCrafts);
+                break;
+            }
+            case 1:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesCulinary);
+                break;
+            }
+            case 2:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesEducation);
+                break;
+            }
+            case 3:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesFitness);
+                break;
+            }
+            case 4:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesOther);
+                break;
+            }
+            default:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesArtsCrafts);
+                break;
+            }
+
+        }
+        subCategoryPicker.setDisplayedValues(null);
+        subCategoryPicker.setMinValue(0);
+        subCategoryPicker.setMaxValue(subCategoryArray.length-1);
+        subCategoryPicker.setDisplayedValues(subCategoryArray);
+    }
+
+    private void setTodaysDate() {
+        // dates todays date
+        Calendar cal = Calendar.getInstance();
+        today = cal.getTime();
     }
 
     private void refreshDetailsPage(Workshop editedWorkshop) {
@@ -139,16 +216,6 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
                 timePickerDialog.show();
             }
         });
-
-
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        adapter = ArrayAdapter.createFromResource(this,
-                R.array.categories, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinCategory.setAdapter(adapter);
-
     }
 
 
@@ -159,9 +226,10 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         etDescription.setText(currentWorkshop.getDescription());
         btLocation.setText(currentWorkshop.getLocationName());
         etCost.setText(currentWorkshop.getCost().toString());
-        Integer categoryPosition = adapter.getPosition(currentWorkshop.getCategory());
-        spinCategory.setSelection(categoryPosition);
-
+        Integer categoryIndex = Arrays.asList(categoryArray).indexOf(currentWorkshop.getCategory());
+        categoryPicker.setValue(categoryIndex);
+        Integer subCategoryIndex = Arrays.asList(subCategoryArray).indexOf(currentWorkshop.getSubcategory());
+        subCategoryPicker.setValue(subCategoryIndex);
 
         LocalDateTime localDateTime = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
         //TODO figure out year offset
@@ -173,7 +241,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
 
         SimpleDateFormat dateString = new SimpleDateFormat("MM/dd/YYYY");
 
-        btnDate.setText(dateString.format(currentDate));
+        etDate.setText(dateString.format(currentDate));
 
 
         dateMap.put("year",year);
@@ -181,7 +249,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         dateMap.put("dayOfMonth",day);
 
         SimpleDateFormat timeString = new SimpleDateFormat("HH:mm");
-        btnTime.setText(timeString.format(currentDate));
+        etTime.setText(timeString.format(currentDate));
 
         dateMap.put("hourOfDay",hour);
         dateMap.put("minute",minute);
@@ -241,7 +309,9 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         dateMap.put("year",year);
         dateMap.put("month",month);
         dateMap.put("dayOfMonth",dayOfMonth);
-        btnDate.setText(String.format("%d/%d/%d",month,dayOfMonth,year));
+        SimpleDateFormat dateString = new SimpleDateFormat("MM/dd/YYYY");
+        Date tempDate = new Date(year-YEAR_OFFSET,month,dayOfMonth);
+        etDate.setText(dateString.format(tempDate));
 
     }
 
@@ -249,19 +319,67 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         dateMap.put("hourOfDay",hourOfDay);
         dateMap.put("minute",minute);
-        btnTime.setText(String.format("%d:%d",hourOfDay,minute));
-
+        SimpleDateFormat dateString = new SimpleDateFormat("HH:mm");
+        Date tempDate = new Date(0,0,0,hourOfDay,minute);
+        etTime.setText(dateString.format(tempDate));
 
     }
 
     private void postWorkshop() {
+        Integer categorySelectedIndex = categoryPicker.getValue();
+        categoryArray = getResources().getStringArray(R.array.categories);
+        String categorySelected =  categoryArray[categorySelectedIndex];
+
+        Integer subCategorySelectedIndex = categoryPicker.getValue();
+        String [] subCategoryArray;
+        switch(categorySelectedIndex){
+            case 0:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesArtsCrafts);
+                break;
+            }
+            case 1:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesCulinary);
+                break;
+            }
+            case 2:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesEducation);
+                break;
+            }
+            case 3:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesFitness);
+                break;
+            }
+            case 4:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesOther);
+                break;
+            }
+            default:{
+                subCategoryArray = getResources().getStringArray(R.array.subCategoriesArtsCrafts);
+                break;
+            }
+        }
+        String subCategorySelected =  subCategoryArray[subCategorySelectedIndex];
         currentWorkshop.setName(etClassname.getText().toString());
         currentWorkshop.setDescription( etDescription.getText().toString());
         currentWorkshop.setLocation(location);
         currentWorkshop.setLocationName(locationName);
         currentWorkshop.setCost(Double.parseDouble(etCost.getText().toString()));
-        currentWorkshop.setCategory(spinCategory.getSelectedItem().toString());
-        Date date = new Date(dateMap.get("year") - YEAR_OFFSET ,dateMap.get("month"),dateMap.get("dayOfMonth"),dateMap.get("hourOfDay") ,dateMap.get("minute"));
+        currentWorkshop.setCategory(categorySelected);
+        currentWorkshop.setSubCategory(subCategorySelected);
+        String dateTime = etDate.getText() + " " + etTime.getText();
+
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+        Date date = null;
+        try {
+            date = formatter.parse(dateTime);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+        // creates new date instance with values form map to post
+        if(date.compareTo(today) < 0)
+        {
+            throw new EmptyStackException();
+        }
         currentWorkshop.setDate(date);
 
         currentWorkshop.saveInBackground(new SaveCallback() {
@@ -338,12 +456,16 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         btnDate = findViewById(R.id.btnDate);
         btLocation = findViewById(R.id.etLocation);
         etDescription = findViewById(R.id.etDescription);
-        spinCategory = findViewById(R.id.categoryPicker);
+   //     spinCategory = findViewById(R.id.categoryPicker);
         etCost = findViewById(R.id.etCost);
+        etDate = findViewById(R.id.etDate);
+        etTime = findViewById(R.id.etTime);
         btSubmit = findViewById(R.id.btSubmit);
         ivClassImage = findViewById(R.id.ivClassImage);
         btnTime = findViewById(R.id.btnTime);
         ivTrash =findViewById(R.id.ivTrash);
+        categoryPicker = (NumberPicker) findViewById(R.id.categoryPicker);
+        subCategoryPicker = (NumberPicker) findViewById(R.id.subCategoryPicker);
 
     }
 
