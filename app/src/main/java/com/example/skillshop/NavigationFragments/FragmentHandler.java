@@ -13,8 +13,6 @@ import android.view.MenuItem;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.NavigationFragments.Calendar.CalendarDayViewFragment;
-import com.example.skillshop.NavigationFragments.Calendar.CalendarFragment;
-import com.example.skillshop.NavigationFragments.Calendar.DayFragmentHandler;
 import com.example.skillshop.NavigationFragments.Compose.ComposeFragment;
 import com.example.skillshop.NavigationFragments.Home.AllCategoryFragment;
 import com.example.skillshop.NavigationFragments.Home.CategoryChooseFragment;
@@ -123,7 +121,7 @@ public class FragmentHandler extends AppCompatActivity {
 
     public void startDay(ArrayList<Workshop> workshops)
     {
-        Intent eventsToday = new Intent(this, DayFragmentHandler.class);
+        Intent eventsToday = new Intent(this,FragmentHandler.class);
         eventsToday.putExtra("workshops", workshops);
 
         Bundle bundle = eventsToday.getExtras();

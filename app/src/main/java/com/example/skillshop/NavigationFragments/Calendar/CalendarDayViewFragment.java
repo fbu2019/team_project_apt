@@ -1,5 +1,6 @@
 package com.example.skillshop.NavigationFragments.Calendar;
 
+import android.content.Intent;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,9 +14,14 @@ import android.widget.Toast;
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
+import com.example.skillshop.ClassDescription.ClassDetailsActivity;
+import com.example.skillshop.ClassDescription.EditClassActivity;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.R;
 
+import org.parceler.Parcels;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -34,7 +40,7 @@ public class CalendarDayViewFragment extends Fragment implements WeekView.EventC
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        return inflater.inflate((R.layout.activity_calendar_fragment_handler),container,false);
+        return inflater.inflate((R.layout.fragment_calendar_day_view),container,false);
 
 
     }
@@ -91,8 +97,15 @@ public class CalendarDayViewFragment extends Fragment implements WeekView.EventC
             endTime = (Calendar) startTime.clone();
             endTime.add(Calendar.HOUR, 1);
             endTime.set(Calendar.MONTH, newMonth - 1);
-            event = new WeekViewEvent(new Random().nextLong(), w.getName(), startTime, endTime);
 
+            SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+            String display = String.format("%s\n%s\n%s",w.getName(),w.getCategory(),format.format(d));
+
+
+
+            event = new WeekViewEvent(new Random().nextLong(), display, startTime, endTime);
+
+            event.setLocation(w.getObjectId());
             switch(w.getCategory())
             {
                 case "Culinary":
@@ -125,11 +138,27 @@ public class CalendarDayViewFragment extends Fragment implements WeekView.EventC
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
         Toast.makeText(getContext(), "Clicked " + event.getName(), Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
     public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
         Toast.makeText(getContext(), "Long pressed event: " + event.getName(), Toast.LENGTH_SHORT).show();
+
+
+        for(Workshop w : workshops)
+        {
+            if(w.getObjectId().equals(event.getLocation()))
+            {
+                final Intent editClassIntent = new Intent(getContext(), ClassDetailsActivity.class);
+                //pass in class that was selected
+                editClassIntent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(w));
+                getActivity().startActivity(editClassIntent);
+            }
+        }
+
+
+
     }
 
     @Override
