@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SkillVisualizationActivity">
+    tools:context=".NavigationFragments.Profile.ClassesActivities.SkillVisualizationActivity">
 
     <com.anychart.AnyChartView
         android:id="@+id/any_chart_view"

@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.skillshop.ClassManipulationActivities.ClassDetailsActivity;
-import com.example.skillshop.ClassManipulationActivities.EditClassActivity;
+import com.example.skillshop.ClassDescription.ClassDetailsActivity;
+import com.example.skillshop.ClassDescription.EditClassActivity;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.R;
 import com.parse.ParseUser;

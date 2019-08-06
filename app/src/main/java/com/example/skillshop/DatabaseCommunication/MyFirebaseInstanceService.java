@@ -8,15 +8,11 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
 
-import com.example.skillshop.ClassManipulationActivities.ClassDetailsActivity;
 import com.example.skillshop.LoginActivities.LoginActivity;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Workshop;
-import com.example.skillshop.NavigationFragments.FragmentHandler;
-import com.example.skillshop.NavigationFragments.HomeFragment;
 import com.example.skillshop.R;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -25,9 +21,6 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
-import org.parceler.Parcels;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class MyFirebaseInstanceService extends FirebaseMessagingService {

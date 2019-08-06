@@ -2,12 +2,8 @@ package com.example.skillshop.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +15,12 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.skillshop.FollowingListActivity;
-import com.example.skillshop.InstructorDetailsActivity;
 import com.example.skillshop.Models.Ratings;
+import com.example.skillshop.NavigationFragments.Profile.UserProfileActivity;
+
 import com.example.skillshop.Models.User;
-import com.example.skillshop.NavigationFragments.HomeFragment;
-import com.example.skillshop.NavigationFragments.UserProfileFragment;
+
 import com.example.skillshop.R;
-import com.example.skillshop.UserProfileActivity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -257,6 +251,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 } else {
                     //create intent for the new activity
                     Intent openUserProfileIntent = new Intent(context, UserProfileActivity.class);
+                    Log.i("UserAdapter", "created intent");
+                    openUserProfileIntent.putExtra(User.class.getSimpleName(), Parcels.wrap(user));
                     //serialize the movie using parceler, uses the short name of the movie as a key
                     openUserProfileIntent.putExtra(ParseUser.class.getSimpleName(), Parcels.wrap(user));
                     context.startActivity(openUserProfileIntent);

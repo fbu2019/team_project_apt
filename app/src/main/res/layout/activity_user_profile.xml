@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserProfileActivity">
+    tools:context=".NavigationFragments.Profile.UserProfileActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvClasses"
-        android:layout_width="398dp"
-        android:layout_height="564dp"
+        android:layout_width="208dp"
+        android:layout_height="204dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
