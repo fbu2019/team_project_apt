@@ -373,11 +373,11 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
 
             newClass.setLocation(location);
 
-           // ParseFile file = new ParseFile(getPhotoFileUri(photoFileName));
+            ParseFile file = new ParseFile(getPhotoFileUri(photoFileName));
 
-            // newClass.setImage(file);
+            newClass.setImage(file);
 
-           // newClass.setImage(file);
+
 
 
             ArrayList<String> students = new ArrayList<>();
