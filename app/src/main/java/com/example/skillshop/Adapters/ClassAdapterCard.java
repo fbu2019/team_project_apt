@@ -3,11 +3,14 @@ package com.example.skillshop.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -19,6 +22,8 @@ import com.example.skillshop.ClassDescription.ClassDetailsActivity;
 import com.example.skillshop.ClassDescription.EditClassActivity;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.R;
+import com.google.android.gms.maps.GoogleMap;
+import com.parse.ParseGeoPoint;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -94,6 +99,7 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
         private TextView tvTime;
         private TextView tvCost;
         private ImageView ivTeacherBadge;
+        private ImageButton ibDirections;
         private RatingBar rbInstructorRating;
 
         public ViewHolder(View itemView) {
@@ -110,6 +116,7 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
             tvTime = itemView.findViewById(R.id.tvTime);
             tvCost =  itemView.findViewById(R.id.tvCost);
             ivTeacherBadge = itemView.findViewById(R.id.ivTeacherBadge);
+            ibDirections = itemView.findViewById(R.id.ibDirections);
             rbInstructorRating = itemView.findViewById(R.id.ratingBar);
         }
 
@@ -205,7 +212,21 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
 
                 Glide.with(context).asBitmap().load(res).centerCrop().into(ivClassIcon);
 
+
             }
+            ibDirections.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ParseGeoPoint userLocation = ParseUser.getCurrentUser().getParseGeoPoint("userLocation");
+
+                    String locationRequest = "http://maps.google.com/maps?saddr=" + userLocation.getLatitude() + "," + userLocation.getLongitude() +
+                            "&daddr=" + tWorkshop.getLocation().getLatitude() + "," + tWorkshop.getLocation().getLongitude();
+
+                    Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                            Uri.parse(locationRequest));
+                    context.startActivity(intent);
+                }
+            });
 
 
         }
@@ -240,6 +261,9 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
                     }
                 }
             });
+
+
+
 
         }
 
