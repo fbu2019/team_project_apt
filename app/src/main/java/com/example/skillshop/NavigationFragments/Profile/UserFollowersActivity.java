@@ -7,11 +7,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.skillshop.Adapters.UserAdapter;
+import com.example.skillshop.Models.User;
 import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +24,15 @@ public class UserFollowersActivity extends AppCompatActivity {
     private RecyclerView rvUsers;
     protected ArrayList<ParseUser> mUsers;
     protected UserAdapter userAdapter;
+    ParseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_followers);
 
-        getFollowersArray();
+        currentUser = Parcels.unwrap(getIntent().getParcelableExtra(User.class.getSimpleName()));
+        getFollowersArray(currentUser);
 
         rvUsers = (RecyclerView) findViewById(R.id.rvFollowers);
         //init data source
@@ -45,7 +50,7 @@ public class UserFollowersActivity extends AppCompatActivity {
 
     }
 
-    private void getFollowersArray() {
+    private void getFollowersArray(ParseUser currentUser) {
 
         ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
         userQuery.findInBackground(new FindCallback<ParseUser>() {
@@ -55,11 +60,11 @@ public class UserFollowersActivity extends AppCompatActivity {
                     for (int i = 0; i < allUsers.size(); i++) {
                         ParseUser userItem = allUsers.get(i);
 
-                        if (userItem != ParseUser.getCurrentUser()) {
+                        if (!userItem.equals(currentUser)) {
 
                             ArrayList<String> usersFollowing = (ArrayList<String>) userItem.get("friends");
                             for (int j = 0; j < usersFollowing.size(); j++) {
-                                if (usersFollowing.get(j).equals(ParseUser.getCurrentUser().getObjectId())) {
+                                if (usersFollowing.get(j).equals(currentUser.getObjectId())) {
 
                                     mUsers.add(userItem);
                                     userAdapter.notifyItemInserted(mUsers.size() - 1);

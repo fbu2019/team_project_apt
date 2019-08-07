@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/ivProfilePic"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="70dp"
+        android:layout_height="66dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
@@ -19,38 +19,27 @@
 
     <TextView
         android:id="@+id/tvName"
-        android:layout_width="207dp"
-        android:layout_height="35dp"
+        android:layout_width="143dp"
+        android:layout_height="22dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:text="an example name"
+        android:textSize="12sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.126"
         app:layout_constraintStart_toEndOf="@+id/ivProfilePic"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvPreferences"
-        android:layout_width="207dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.12"
-        app:layout_constraintStart_toEndOf="@+id/ivProfilePic"
-        app:layout_constraintTop_toBottomOf="@+id/tvName"
-        app:layout_constraintVertical_bias="0.0" />
-
     <Button
         android:id="@+id/btnFollow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="34dp"
         android:layout_marginEnd="16dp"
-        android:text="FOLLOW USER"
+        android:background="@color/color_palette_green"
+        android:text="Follow"
+        android:textAllCaps="false"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvPreferences" />
+        app:layout_constraintTop_toTopOf="@+id/tvName" />
 
     <RatingBar
         android:id="@+id/rbInstructorRating"
@@ -60,12 +49,7 @@
         android:backgroundTint="@color/color_palette_yellow"
         android:progressTint="@color/color_palette_yellow"
         android:secondaryProgressTint="@android:color/transparent"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.037"
-        app:layout_constraintStart_toEndOf="@+id/ivProfilePic"
-        app:layout_constraintTop_toBottomOf="@+id/tvPreferences" />
+        app:layout_constraintStart_toStartOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
 </android.support.constraint.ConstraintLayout>

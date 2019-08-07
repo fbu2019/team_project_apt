@@ -28,7 +28,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.skillshop.LoginActivities.LoginActivity;
+import com.example.skillshop.LoginActivities.SignupActivity;
 import com.example.skillshop.Models.Workshop;
+import com.example.skillshop.NavigationFragments.FragmentHandler;
 import com.example.skillshop.NavigationFragments.Home.AllCategoryFragment;
 import com.example.skillshop.R;
 import com.google.android.gms.maps.model.LatLng;
@@ -36,9 +40,13 @@ import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.parse.FindCallback;
+import com.parse.LogInCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -68,7 +76,6 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
     ImageButton btnTime;
     TextView etLocation;
     TextView etDescription;
-    Spinner spinCategory;
     TextView etCost;
     ImageView ivClassImage;
     Button btSubmit;
@@ -81,22 +88,18 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
     private File photoFile;
     NumberPicker categoryPicker;
     NumberPicker subCategoryPicker;
-    Uri photoUri;
 
     Date today;
 
     View v;
     HashMap<String, Integer> dateMap;
-
-    // PICK_PHOTO_CODE is a constant integer
-    public final static int PICK_PHOTO_CODE = 1046;
     public final static int AUTOCOMPLETE_REQUEST_CODE = 42;
     public final static int YEAR_OFFSET = 1900;
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
-
-
     public String photoFileName = "photo.jpg";
     private String apiKey;
+
+    private boolean imageSet;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate((R.layout.fragment_new_compose), container, false);
@@ -112,6 +115,8 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
         apiKey = this.getResources().getString(R.string.places_api_key);
         findAllViews(view);
         setSubmitListener();
+
+        imageSet = false;
 
         v = view;
 
@@ -220,7 +225,7 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
         // wrap File object into a content provider
         // required for API >= 24
         // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
-        Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", photoFile);
+        Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileproviderphoto", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
         // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
@@ -229,6 +234,7 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
             // Start the image capture intent to take photo
             startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
         }
+
     }
 
     public void setTimeAndDateListeners() {
@@ -296,13 +302,14 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
     }
 
     private void postWorkshop() {
-
+     //   login(ParseUser.getCurrentUser().getUsername(), ParseUser.getCurrentUser().getUsername());
        Integer categorySelectedIndex = categoryPicker.getValue();
        categoryArray = getResources().getStringArray(R.array.categories);
        String categorySelected =  categoryArray[categorySelectedIndex];
 
-        Integer subCategorySelectedIndex = categoryPicker.getValue();
+        Integer subCategorySelectedIndex = subCategoryPicker.getValue();
         String [] subCategoryArray;
+
         switch(categorySelectedIndex){
             case 0:{
                 subCategoryArray = getResources().getStringArray(R.array.subCategoriesArtsCrafts);
@@ -330,6 +337,7 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
             }
         }
         String subCategorySelected =  subCategoryArray[subCategorySelectedIndex];
+        
         try {
 
             newClass.setDescription(etDescription.getText().toString());
@@ -362,8 +370,10 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
 
             newClass.setLocation(location);
 
-            ParseFile file = new ParseFile(getPhotoFileUri(photoFileName));
-            newClass.setImage(file);
+            if(imageSet) {
+                ParseFile file = new ParseFile(getPhotoFileUri(photoFileName));
+                newClass.setImage(file);
+            }
 
 
             ArrayList<String> students = new ArrayList<>();
@@ -401,23 +411,67 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
         }
 
     }
+    private void login(String username, String password) {
 
-    private void getAndSetSkillsArray(String category) {
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        ArrayList<Integer> skillsData = (ArrayList<Integer>) currentUser.get("skillsData");
-        skillsData = updateSkillsArray(skillsData, category);
-
-        currentUser.put("skillsData", skillsData);
-        currentUser.saveInBackground(new SaveCallback() {
+        Log.i("LoginActivity", "Reached login method");
+        ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
-            public void done(ParseException e) {
-                if (e == null){
-                    Log.i("NewClassActivity", "SkillsData array successfully saved");
-                }else{
+            public void done(ParseUser user, ParseException e) {
+                if (e == null) {
+                    Log.d("LoginActivity", "Login successful");
+                  //  final Intent intent = new Intent(getContext(), FragmentHandler.class);
+                  //  Log.i("LoginActivity", "Reached login success");
+                 //  startActivity(intent);
+                   //finish();
+                } else {
+                    Log.e("LoginActivity", "Login failure");
                     e.printStackTrace();
+
+                    //  continues to sign up activity if does not recognize facebook user
+                 //   Intent main = new Intent(LoginActivity.this, SignupActivity.class);
+                 //   startActivity(main);
+                //    finish();
                 }
             }
         });
+    }
+
+    private void getAndSetSkillsArray(String category) {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+
+        ArrayList<Integer> skillsData;
+    //    skillsData = (ArrayList<Integer>) currentUser.get("skillsData");
+    //    skillsData = updateSkillsArray(skillsData, category);
+
+
+        //runs a query on the currently logged in user
+        final ParseQuery<ParseUser> userQuery = new ParseQuery<ParseUser>(ParseUser.class);
+        userQuery.whereEqualTo("objectId", ParseUser.getCurrentUser().getObjectId());
+
+        //gets the query information on a background thread
+        userQuery.findInBackground(new FindCallback<ParseUser>() {
+
+            @Override
+            public void done(List<ParseUser> singletonUserList, com.parse.ParseException e) {
+                ArrayList<Integer> skillsData= (ArrayList<Integer>) singletonUserList.get(0).get("skillsData");
+                skillsData = updateSkillsArray(skillsData, category);
+                currentUser.put("skillsData", skillsData);
+                currentUser.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null){
+                            Log.i("NewClassActivity", "SkillsData array successfully saved");
+                        }else{
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+            }
+        });
+
+
+
     }
 
 
@@ -450,6 +504,7 @@ public class ComposeFragment extends Fragment implements DatePickerDialog.OnDate
                 ivClassImage.setImageBitmap(rotated);
 
                 Toast.makeText(getContext(), "Picture was taken!", Toast.LENGTH_SHORT).show();
+                imageSet = true;
 
             }
         }

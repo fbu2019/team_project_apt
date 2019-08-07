@@ -30,14 +30,16 @@
 
         <TextView
             android:id="@+id/nameView"
-            android:layout_width="80dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="4dp"
             android:textAlignment="center"
             android:textColor="@color/color_palette_dark_grey"
             android:textSize="14sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/instructorAverage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.569"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,10 +49,9 @@
         <RatingBar
             android:id="@+id/instructorAverage"
             style="@style/Widget.AppCompat.RatingBar.Small"
-            android:layout_width="80dp"
-            android:layout_height="19dp"
+            android:layout_width="82dp"
+            android:layout_height="17dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:backgroundTint="@color/color_palette_yellow"
             android:numStars="5"
@@ -59,7 +60,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.569"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/nameView" />
+            app:layout_constraintTop_toBottomOf="@+id/nameView" />
 
         <TextView
             android:id="@+id/numberOfFollowers"
@@ -132,6 +133,7 @@
         android:layout_marginEnd="8dp"
         app:itemTextColor="@color/color_palette_green"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.485"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
         app:menu="@menu/menu_top_navigation" />

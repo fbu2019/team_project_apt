@@ -73,8 +73,6 @@ public class UserSettings extends AppCompatActivity {
         tvCurrentLocation = findViewById(R.id.currentLocation);
         tvCurrentLocation.setText(user.get("locationName").toString());
 
-     //   tvLocationCoordinatesMessage = findViewById(R.id.currentLocationMessage);
-     //   tvCurrentLocationCoordinates = findViewById(R.id.locationCoordinates);
         ParseGeoPoint markerGP = (ParseGeoPoint) user.get("userLocation");
         double lat = markerGP.getLatitude();
         double lng = markerGP.getLongitude();
@@ -155,7 +153,6 @@ public class UserSettings extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     private void initPreferences(ParseUser user) {
@@ -210,7 +207,6 @@ public class UserSettings extends AppCompatActivity {
             ivProfileImage.setImageBitmap(null);
             Log.i("Profile Frag", "No profile image");
         }
-
     }
 
     private void initRatingNumber(ParseUser user) {

@@ -36,7 +36,7 @@
         android:usesCleartextTraffic="true">
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.codepath.fileprovider"
+            android:authorities="com.codepath.fileproviderphoto"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -46,7 +46,6 @@
 
         <activity android:name=".NavigationFragments.Profile.Settings.UserSettings"></activity>
         <activity android:name=".NavigationFragments.Profile.UserFollowersActivity" />
-        <activity android:name=".NavigationFragments.Calendar.DayFragmentHandler" />
         <activity android:name=".NavigationFragments.Profile.ClassesActivities.SkillVisualizationActivity" />
         <activity android:name=".NavigationFragments.Profile.Settings.DeleteAccountActivity" />
         <activity android:name=".NavigationFragments.Profile.UserProfileActivity" />

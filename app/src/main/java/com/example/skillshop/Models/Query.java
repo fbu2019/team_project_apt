@@ -8,6 +8,7 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +29,8 @@ public class Query extends ParseQuery<Workshop> {
     }
 
     public Query getAllClasses() {
+        Date date = new Date();
+        whereGreaterThanOrEqualTo(KEY_DATE,date);
         return this;
     }
 

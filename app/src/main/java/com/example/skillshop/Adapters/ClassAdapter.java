@@ -173,7 +173,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
                     ivClassIcon.setImageResource(R.drawable.fitness);
                     break;
                 case "Arts/Crafts":
-                    ivClassIcon.setImageResource(R.drawable.arts);
+                    ivClassIcon.setImageResource(R.drawable.artsandcrafts);
                     break;
 
                 case "Other":

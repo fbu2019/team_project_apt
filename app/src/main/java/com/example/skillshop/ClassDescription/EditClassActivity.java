@@ -5,14 +5,20 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -27,6 +33,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.skillshop.ClassManipulationActivities.DeleteClassDialogFragment;
+import com.bumptech.glide.Glide;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.NavigationFragments.FragmentHandler;
 import com.example.skillshop.NavigationFragments.Home.AllCategoryFragment;
@@ -42,12 +49,14 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -61,6 +70,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+
+import static com.example.skillshop.NavigationFragments.Compose.ComposeFragment.CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE;
 
 
 public class EditClassActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener{
@@ -87,13 +98,16 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
     Date currentDate;
 
 
+
     ParseGeoPoint location;
     String locationName;
-    ArrayAdapter<CharSequence> adapter;
+    private File photoFile;
+
+    boolean setImage;
+
+    public String photoFileName = "photo.jpg";
     HashMap<String, Integer> dateMap;
 
-    // PICK_PHOTO_CODE is a constant integer
-    public final static int PICK_PHOTO_CODE = 1046;
     public final static int AUTOCOMPLETE_REQUEST_CODE = 42;
     public final static int YEAR_OFFSET = 1900;
     public final static int HOUR_OFFSET = 1;
@@ -106,6 +120,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         setContentView(R.layout.activity_edit_class_new);
         currentWorkshop = Parcels.unwrap(getIntent().getParcelableExtra(Workshop.class.getSimpleName()));
         currentDate = currentWorkshop.getJavaDate();
+        setImage = false;
 
         findAllViews();
         setupPlacesApi();
@@ -132,7 +147,6 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
             }
         });
         categoryArray = getResources().getStringArray(R.array.categories);
-
         categoryPicker.setMinValue(0);
         categoryPicker.setMaxValue(categoryArray.length-1);
         categoryPicker.setDisplayedValues(categoryArray);
@@ -200,7 +214,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         ivClassImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onPickPhoto(v);
+                onLaunchCamera(v);
             }
         });
 
@@ -234,7 +248,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         subCategoryPicker.setValue(subCategoryIndex);
 
         LocalDateTime localDateTime = currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-        //TODO figure out year offset
+
         int year  = localDateTime.getYear();
         int month = localDateTime.getMonthValue();
         int day   = localDateTime.getDayOfMonth();
@@ -258,6 +272,53 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
 
         location = currentWorkshop.getLocation();
         locationName = currentWorkshop.getLocationName();
+
+        if(currentWorkshop.getImage() != null)
+        {
+
+
+            // load in profile image to holder
+            Glide.with(this)
+                    .load(currentWorkshop.getImage().getUrl())
+                    .centerCrop()
+                    .into(ivClassImage);
+        }
+        else {
+
+            int res = 0;
+
+            switch (currentWorkshop.getCategory()) {
+
+                case "Culinary":
+                    res = R.drawable.cooking;
+                    break;
+
+                case "Education":
+                    res = R.drawable.education;
+                    break;
+                case "Fitness":
+                    res = R.drawable.fitness;
+                    break;
+                case "Arts/Crafts":
+                    res = R.drawable.arts;
+                    break;
+
+                case "Other":
+                    res = R.drawable.misc;
+                    break;
+
+                default:
+                    break;
+            }
+
+            // load in profile image to holder
+            Glide.with(this)
+                    .load(res)
+                    .centerCrop()
+                    .into(ivClassImage);
+        }
+
+
 
     }
 
@@ -297,7 +358,6 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
             @Override
             public void onClick(View v) {
                     showDeleteDialog();
-                    //removeWorkshop();
             }
         });
     }
@@ -376,6 +436,13 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         currentWorkshop.setSubCategory(subCategorySelected);
         String dateTime = etDate.getText() + " " + etTime.getText();
 
+
+        if(setImage) {
+            ParseFile file = new ParseFile(getPhotoFileUri(photoFileName));
+            currentWorkshop.setImage(file);
+        }
+
+
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
         Date date = null;
         try {
@@ -408,6 +475,8 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
                 }
             }
         });
+
+
 
 
     }
@@ -445,18 +514,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
                 Toast.makeText(EditClassActivity.this, responseString, Toast.LENGTH_SHORT).show();
             }
         });
-    }
 
-    public void goToHomeFragment(){
-
-        // create new fragment to use
-        Fragment home = new AllCategoryFragment();
-        // transaction on current activity
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.flContainer, home);
-        transaction.addToBackStack(null);
-        // Commit the transaction
-        transaction.commit();
     }
 
     private void findAllViews() {
@@ -465,7 +523,6 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         btnDate = findViewById(R.id.btnDate);
         btLocation = findViewById(R.id.etLocation);
         etDescription = findViewById(R.id.etDescription);
-   //     spinCategory = findViewById(R.id.categoryPicker);
         etCost = findViewById(R.id.etCost);
         etDate = findViewById(R.id.etDate);
         etTime = findViewById(R.id.etTime);
@@ -477,37 +534,56 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         subCategoryPicker = (NumberPicker) findViewById(R.id.subCategoryPicker);
 
     }
+    private File getPhotoFileUri(String photoFileName) {
+        // Get safe storage directory for photos
+        // Use `getExternalFilesDir` on Context to access package-specific directories.
+        // This way, we don't need to request external read/write runtime permissions.
+        File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
 
-    // Trigger gallery selection for a photo
-    public void onPickPhoto(View view) {
-        // Create intent for picking a photo from the gallery
-        Intent intent = new Intent(Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
+            Log.d(TAG, "failed to create directory");
+        }
+
+        // Return the file target for the photo based on filename
+        File file = new File(mediaStorageDir.getPath() + File.separator + photoFileName);
+        return file;
+    }
+
+    public void onLaunchCamera(View view) {
+        // create Intent to take a picture and return control to the calling application
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Create a File reference to access to future access
+        photoFile = getPhotoFileUri(photoFileName);
+
+        // wrap File object into a content provider
+        // required for API >= 24
+        // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
+        Uri fileProvider = FileProvider.getUriForFile(this, "com.codepath.fileproviderphoto", photoFile);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
         // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
         // So as long as the result is not null, it's safe to use the intent.
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            // Bring up gallery to select a photo
-            startActivityForResult(intent, PICK_PHOTO_CODE);
+        if (intent.resolveActivity(this.getPackageManager()) != null) {
+            // Start the image capture intent to take photo
+            startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
         }
+
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if ((data != null) && (requestCode == PICK_PHOTO_CODE)){
-            Uri photoUri = data.getData();
-            // Do something with the photo based on Uri
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
 
-            Bitmap selectedImage = null;
-            try {
-                selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
-            } catch (IOException e) {
-                e.printStackTrace();
+                // rotate image and load into view
+                Bitmap rotated = rotateBitmapOrientation(photoFile.getAbsolutePath());
+                ivClassImage.setImageBitmap(rotated);
+
+                Toast.makeText(this, "Picture was taken!", Toast.LENGTH_SHORT).show();
+
+                setImage = true;
             }
-
-            // Load the selected image into a preview
-            ImageView ivPreview = findViewById(R.id.ivClassImage);
-            ivPreview.setImageBitmap(selectedImage);
         }
         if ((data != null) && (requestCode == AUTOCOMPLETE_REQUEST_CODE)  && (resultCode == RESULT_OK)){
             Place place = Autocomplete.getPlaceFromIntent(data);
@@ -531,6 +607,34 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
     }
 
+    // rotates image right side up before uploading
+    public Bitmap rotateBitmapOrientation(String photoFilePath) {
+        // Create and configure BitmapFactory
+        BitmapFactory.Options bounds = new BitmapFactory.Options();
+        bounds.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(photoFilePath, bounds);
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        Bitmap bm = BitmapFactory.decodeFile(photoFilePath, opts);
+        // Read EXIF Data
+        ExifInterface exif = null;
+        try {
+            exif = new ExifInterface(photoFilePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String orientString = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
+        int orientation = orientString != null ? Integer.parseInt(orientString) : ExifInterface.ORIENTATION_NORMAL;
+        int rotationAngle = 0;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_90) rotationAngle = 90;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_180) rotationAngle = 180;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_270) rotationAngle = 270;
+        // Rotate Bitmap
+        Matrix matrix = new Matrix();
+        matrix.setRotate(rotationAngle, (float) bm.getWidth() / 2, (float) bm.getHeight() / 2);
+        Bitmap rotatedBitmap = Bitmap.createBitmap(bm, 0, 0, bounds.outWidth, bounds.outHeight, matrix, true);
+        // Return result
+        return rotatedBitmap;
+    }
 
 
 
