@@ -174,13 +174,9 @@ public class FragmentHandler extends AppCompatActivity {
 
         Fragment fragment = new CalendarDayViewFragment();
         fragment.setArguments(bundle);
-//
-//        // transaction on current activity
-//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        transaction.replace(R.id.flContainer, fragment);
 
 
-        if(currentItem == R.id.home_fragment || currentItem == R.id.maps_fragment)
+        if(currentItem == R.id.home_fragment || currentItem == R.id.maps_fragment || currentItem == R.id.compose_fragment)
         {
             fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).replace(R.id.flContainer, fragment).commit();
         }
@@ -188,10 +184,6 @@ public class FragmentHandler extends AppCompatActivity {
         {
             fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_right,R.anim.anim_slide_out_right).replace(R.id.flContainer, fragment).commit();
         }
-//
-//        transaction.addToBackStack(null);
-//        // Commit the transaction
-//        transaction.commit();
 
 
 
