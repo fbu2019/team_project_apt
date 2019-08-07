@@ -32,12 +32,14 @@ import java.util.List;
 public class FragmentHandler extends AppCompatActivity {
     FragmentManager fragmentManager;
     BottomNavigationView bottomNavigationView;
+    int currentItem;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment_handler);
+        currentItem = 0;
 
         fragmentManager = getSupportFragmentManager();
 
@@ -51,26 +53,70 @@ public class FragmentHandler extends AppCompatActivity {
                 // depending on which button is pressed launch the corresponding fragment
                 switch (item.getItemId()) {
                     case R.id.home_fragment:
+                        if(R.id.home_fragment == currentItem)
+                        {
+                            break;
+                        }
                         fragment = new CategoryChooseFragment();
+                        // from home fragment to another fragment do this transition
+                        fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_right,R.anim.anim_slide_out_right).replace(R.id.flContainer, fragment).commit();
+                        currentItem = R.id.home_fragment;
                         break;
                     case R.id.calendar_fragment:
-                        fragment = new Fragment();
-                        populateClassesTaking();
+                        if(R.id.calendar_fragment == currentItem)
+                        {
+                            break;
+                        }
+                        populateClassesTaking(currentItem);
+                        currentItem = R.id.calendar_fragment;
                         break;
                     case R.id.compose_fragment:
+                        if(R.id.compose_fragment == currentItem)
+                        {
+                            break;
+                        }
                         fragment = new ComposeFragment();
+                        // if coming form a fragment that is left do this otherwise the other transition
+                        if(currentItem == R.id.home_fragment || currentItem == R.id.maps_fragment)
+                        {
+                            fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).replace(R.id.flContainer, fragment).commit();
+                        }
+                        else
+                        {
+                            fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_right,R.anim.anim_slide_out_right).replace(R.id.flContainer, fragment).commit();
+                        }
+                        currentItem = R.id.compose_fragment;
                         break;
                     case R.id.maps_fragment:
+                        if(R.id.maps_fragment == currentItem)
+                        {
+                            break;
+                        }
                         fragment = new MapFragment();
+                        // if coming form a fragment that is left do this otherwise the other transition
+                        if(currentItem == R.id.home_fragment)
+                        {
+                            fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).replace(R.id.flContainer, fragment).commit();
+                        }
+                        else
+                        {
+                            fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_right,R.anim.anim_slide_out_right).replace(R.id.flContainer, fragment).commit();
+                        }
+                        currentItem = R.id.maps_fragment;
                         break;
                     case R.id.user_profile_fragment:
+                        if(R.id.user_profile_fragment == currentItem)
+                        {
+                            break;
+                        }
                         fragment = new UserProfileFragment();
-
+                        // always transition like this
+                        fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).replace(R.id.flContainer, fragment).commit();
+                        currentItem = R.id.user_profile_fragment;
                         break;
                     default: break;
                 }
-                // switch to selected fragment
-                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+
                 return true;
             }
         });
@@ -102,7 +148,7 @@ public class FragmentHandler extends AppCompatActivity {
     }
 
 
-    public void populateClassesTaking() {
+    public void populateClassesTaking(int currentItem) {
         Query parseQuery = new Query();
         // query add all classes with all data and sort by time of class and only show new classes
         parseQuery.getAllClasses().withItems().byTimeOfClass();
@@ -111,7 +157,7 @@ public class FragmentHandler extends AppCompatActivity {
             @Override
             public void done(List<Workshop> objects, ParseException e) {
                 if (e == null) {
-                    startDay((ArrayList<Workshop>) objects);
+                    startDay((ArrayList<Workshop>) objects, currentItem);
                 } else {
                     e.printStackTrace();
                 }
@@ -119,7 +165,7 @@ public class FragmentHandler extends AppCompatActivity {
         });
     }
 
-    public void startDay(ArrayList<Workshop> workshops)
+    public void startDay(ArrayList<Workshop> workshops, int currentItem)
     {
         Intent eventsToday = new Intent(this,FragmentHandler.class);
         eventsToday.putExtra("workshops", workshops);
@@ -128,14 +174,24 @@ public class FragmentHandler extends AppCompatActivity {
 
         Fragment fragment = new CalendarDayViewFragment();
         fragment.setArguments(bundle);
+//
+//        // transaction on current activity
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        transaction.replace(R.id.flContainer, fragment);
 
-        // transaction on current activity
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.flContainer, fragment);
 
-        transaction.addToBackStack(null);
-        // Commit the transaction
-        transaction.commit();
+        if(currentItem == R.id.home_fragment || currentItem == R.id.maps_fragment)
+        {
+            fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).replace(R.id.flContainer, fragment).commit();
+        }
+        else
+        {
+            fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_right,R.anim.anim_slide_out_right).replace(R.id.flContainer, fragment).commit();
+        }
+//
+//        transaction.addToBackStack(null);
+//        // Commit the transaction
+//        transaction.commit();
 
 
 
