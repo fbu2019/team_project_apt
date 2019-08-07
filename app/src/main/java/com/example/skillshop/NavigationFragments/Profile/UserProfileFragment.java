@@ -5,9 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -70,6 +73,9 @@ public class UserProfileFragment extends Fragment {
     private String locationName;
     private int numberOfFollowers = 0;
     public boolean firstLoad;
+    public DrawerLayout drawer;
+
+    public NavigationView nvSettings;
 
     @Nullable
     @Override
@@ -86,6 +92,7 @@ public class UserProfileFragment extends Fragment {
         setNumFollowers(); //   sets view within method
         tvNumberFollowing = view.findViewById(R.id.numberFollowing);
         setNumFollowing();
+        drawer = view.findViewById(R.id.drawer);
         ivProfilePic = view.findViewById(R.id.profilePicture);
         ivUserSettings = view.findViewById(R.id.userSettings);
         rbUserRating = view.findViewById(R.id.instructorAverage);
@@ -93,6 +100,9 @@ public class UserProfileFragment extends Fragment {
         rbUserRating.setNumStars(5);
 
         firstLoad = true;
+
+
+        setUpDrawer(view);
 
         ParseUser user = ParseUser.getCurrentUser();
 
@@ -136,9 +146,8 @@ public class UserProfileFragment extends Fragment {
         ivUserSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getContext(), UserSettings.class);
-                startActivity(i);
-                getActivity().finish();
+                drawer.openDrawer(Gravity.RIGHT);
+
             }
         });
 
@@ -151,7 +160,49 @@ public class UserProfileFragment extends Fragment {
 
         setupFragments(view);
 
+
+
+
     }
+
+
+    public void setUpDrawer(View view)
+    {
+
+        nvSettings = view.findViewById(R.id.nvSettings);
+
+        nvSettings.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+
+                switch (menuItem.getItemId())
+                {
+                    case R.id.general:
+                        Intent settings = new Intent(getContext(), UserSettings.class);
+                        startActivity(settings);
+                        getActivity().finish();
+                        break;
+
+                    case R.id.logout:
+                        ParseUser.logOut(); //  logs out ParseUser
+                        LoginManager.getInstance().logOut();    //  logs out Facebook user
+                        Intent logout = new Intent(getContext(), LoginActivity.class);
+                        startActivity(logout);
+                        break;
+
+                    default:break;
+                }
+
+
+
+                return true;
+            }
+        });
+
+
+    }
+
 
     private void setupFragments(View view) {
         // define manager to decide which fragment to display
@@ -338,7 +389,7 @@ public class UserProfileFragment extends Fragment {
             }
         }
         int numberFollowing = following.size();
-        tvNumberFollowing.setText("Following "+numberFollowing);
+        tvNumberFollowing.setText(numberFollowing+" Following");
 
     }
 }

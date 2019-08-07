@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.skillshop.ClassDescription.ImageViewFragment;
 import com.example.skillshop.LoginActivities.LoginActivity;
 import com.example.skillshop.R;
 import com.example.skillshop.Models.Query;
@@ -44,16 +45,13 @@ public class UserSettings extends AppCompatActivity {
 
     TextView tvLocationMessage;
     TextView tvCurrentLocation;
-    TextView tvLocationCoordinatesMessage;
     TextView tvCurrentLocationCoordinates;
     TextView tvPreferencesMessage;
     TextView tvCurrentPreferences;
     TextView tvNumberRatingsMessage;
     TextView tvCurrentNumberRatings;
     TextView tvUserFullName;
-    TextView tvClassesTakingMessage;
     TextView tvCurrentNumberTaking;
-    TextView tvClassesTeachingMessage;
     TextView tvCurrentNumberTeaching;
     ImageView ivProfileImage;
     Button btnLogout;
@@ -87,23 +85,13 @@ public class UserSettings extends AppCompatActivity {
         initProfileImage(user);
 
 
-        btnLogout = findViewById(R.id.logoutButton);
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParseUser.logOut(); //  logs out ParseUser
-                LoginManager.getInstance().logOut();    //  logs out Facebook user
-                Intent i = new Intent(UserSettings.this, LoginActivity.class);
-                startActivity(i);
-            }
-        });
+
 
         btnDelete = findViewById(R.id.deleteAccountButton);
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(UserSettings.this, DeleteAccountActivity.class);
-                startActivity(i);
+                deleteAccount();
             }
         });
 
@@ -114,6 +102,12 @@ public class UserSettings extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void deleteAccount() {
+
+        final DeleteFragment delete  = new DeleteFragment();
+        delete.show(getSupportFragmentManager(),"ok");
     }
 
     private void initNumClassesTeaching() {
