@@ -296,12 +296,8 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         ivTrash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             //   try {
                     showDeleteDialog();
                     //removeWorkshop();
-               //// } catch (ParseException e) {
-                //    e.printStackTrace();
-              //  }
             }
         });
     }
@@ -311,6 +307,8 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         DeleteClassDialogFragment deleteClassDialogFragment = DeleteClassDialogFragment.newInstance("Skillshop");
         deleteClassDialogFragment.show(fm, "fragment_dialog_delete");
     }
+
+
 
 
     @Override
@@ -418,6 +416,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         List<Workshop> objects = new ArrayList<>();
         objects.add(currentWorkshop);
         ParseObject.deleteAll(objects);
+        Toast.makeText(this, "Workshop deleted", Toast.LENGTH_LONG).show();
         Intent i = new Intent(this, FragmentHandler.class);
         startActivity(i);
     }
