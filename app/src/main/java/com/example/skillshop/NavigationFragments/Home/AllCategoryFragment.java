@@ -84,7 +84,6 @@ public class AllCategoryFragment extends Fragment {
         byDate = true;
 
         setupPreferenceFilterButton(view);
-        setupFollowingListButton(view);
         connectRecyclerView(view);
         category = new ArrayList<String>();
         category.add("Culinary");
@@ -152,16 +151,7 @@ public class AllCategoryFragment extends Fragment {
         });
         topNavigationBar.setSelectedItemId(R.id.culinary_category);
     }
-    private void setupFollowingListButton(View view) {
-        btnFollowing = view.findViewById(R.id.btnFollowing);
-        btnFollowing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent openFollowerListActivity = new Intent (getContext(), FollowingListActivity.class);
-                startActivity(openFollowerListActivity);
-            }
-        });
-    }
+
 
     public void updateToken()
     {
