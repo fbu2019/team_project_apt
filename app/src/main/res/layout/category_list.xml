@@ -19,7 +19,7 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/background_fitness">
+            android:background="@drawable/background_education">
 
             <ImageView
                 android:id="@+id/fitnessImage"
@@ -124,7 +124,7 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/background_education">
+            android:background="@drawable/background_culinary">
 
             <ImageView
                 android:id="@+id/educationIcon"
@@ -276,7 +276,7 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/background_culinary">
+            android:background="@drawable/background_fitness">
 
             <ImageView
                 android:id="@+id/culinaryImage"
