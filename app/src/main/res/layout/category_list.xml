@@ -11,7 +11,8 @@
         android:layout_height="266dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="@+id/cvCulinary"
-        app:layout_constraintTop_toBottomOf="@+id/cvCulinary">
+        app:layout_constraintTop_toBottomOf="@+id/cvCulinary"
+        app:cardCornerRadius="10dp">
 
         <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -58,6 +59,8 @@
         android:layout_width="170dp"
         android:layout_height="266dp"
         android:layout_marginStart="16dp"
+
+        app:cardCornerRadius="10dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toEndOf="@+id/cvCulinary"
         app:layout_constraintTop_toBottomOf="@+id/cvCulinary">
@@ -106,6 +109,8 @@
         android:layout_width="170dp"
         android:layout_height="266dp"
         android:layout_marginStart="16dp"
+
+        app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/cvAll"
         app:layout_constraintStart_toEndOf="@+id/cvAll"
         app:layout_constraintTop_toTopOf="@+id/cvAll">
@@ -149,6 +154,8 @@
         android:id="@+id/cvAll"
         android:layout_width="170dp"
         android:layout_height="266dp"
+
+        app:cardCornerRadius="10dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -196,6 +203,8 @@
         android:id="@+id/cvArts"
         android:layout_width="170dp"
         android:layout_height="266dp"
+
+        app:cardCornerRadius="10dp"
         android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/cvCulinary"
         app:layout_constraintStart_toEndOf="@+id/cvCulinary"
@@ -247,6 +256,8 @@
         android:layout_width="170dp"
         android:layout_height="266dp"
         android:layout_marginTop="8dp"
+
+        app:cardCornerRadius="10dp"
         app:layout_constraintStart_toStartOf="@+id/cvAll"
         app:layout_constraintTop_toBottomOf="@+id/cvAll">
 
