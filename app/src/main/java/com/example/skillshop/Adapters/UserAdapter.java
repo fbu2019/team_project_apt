@@ -15,7 +15,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.skillshop.ClassDescription.ClassDetailsActivity;
 import com.example.skillshop.Models.Ratings;
+import com.example.skillshop.NavigationFragments.FragmentHandler;
 import com.example.skillshop.NavigationFragments.Profile.UserProfileActivity;
 
 import com.example.skillshop.Models.User;
@@ -246,6 +248,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 //if user clicks on themselves, continues to UserProfileFragment
                 if (user.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
 
+                    Intent i = new Intent(context, FragmentHandler.class);
+                    i.putExtra("InstructorProfile", true);
+                    context.startActivity(i);
 
                 } else {
                     //create intent for the new activity

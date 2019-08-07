@@ -299,18 +299,15 @@ public class ClassDetailsActivity extends AppCompatActivity {
     }
 
 
-    public void imageSetup(Workshop workshop)
-    {
-        if(workshop.getImage() != null)
-        {
+    public void imageSetup(Workshop workshop) {
+        if (workshop.getImage() != null) {
 
             // load in profile image to holder
             Glide.with(this)
                     .load(workshop.getImage().getUrl())
                     .centerCrop()
                     .into(ivClassPicture);
-        }
-        else {
+        } else {
 
             switch (workshop.getCategory()) {
 
@@ -347,20 +344,18 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
     private void imageZoom() {
 
-        final ImageViewFragment imageZoom  = new ImageViewFragment();
+        final ImageViewFragment imageZoom = new ImageViewFragment();
         Bundle bundle = new Bundle();
 
-        if(detailedWorkshop.getImage() != null)
-        {
-            bundle.putString("photo",detailedWorkshop.getImage().getUrl());
-        }
-        else {
-            bundle.putString("photo",detailedWorkshop.getCategory());
+        if (detailedWorkshop.getImage() != null) {
+            bundle.putString("photo", detailedWorkshop.getImage().getUrl());
+        } else {
+            bundle.putString("photo", detailedWorkshop.getCategory());
         }
 
         imageZoom.setArguments(bundle);
 
-        imageZoom.show(getSupportFragmentManager(),"ok");
+        imageZoom.show(getSupportFragmentManager(), "ok");
     }
 
 
@@ -386,20 +381,11 @@ public class ClassDetailsActivity extends AppCompatActivity {
         ivInstructorProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ParseUser.getCurrentUser().getUsername().equals(detailedWorkshop.getTeacher().getUsername())){
+                if (ParseUser.getCurrentUser().getUsername().equals(detailedWorkshop.getTeacher().getUsername())) {
 
-                            Intent i = new Intent(ClassDetailsActivity.this, FragmentHandler.class);
-                            i.putExtra("InstructorProfile", true);
-                            startActivity(i);
-//                            finish();
-//
-//                            /*
-//                            Fragment fragment = new UserProfileFragment();
-//                            FragmentManager fragmentManager = getSupportFragmentManager();
-//                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                            fragmentTransaction.replace(R.id.flContainer, fragment).addToBackStack(null);
-//                            fragmentTransaction.commit();
-//                            */
+                    Intent i = new Intent(ClassDetailsActivity.this, FragmentHandler.class);
+                    i.putExtra("InstructorProfile", true);
+                    startActivity(i);
 
                 } else {
                     Intent i = new Intent(ClassDetailsActivity.this, InstructorDetailsActivity.class);
@@ -525,7 +511,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
     }
 
 
-    private void continueToUserProf(){
+    private void continueToUserProf() {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
