@@ -142,6 +142,8 @@ public class FragmentHandler extends AppCompatActivity {
             transaction.addToBackStack(null);
             // Commit the transaction
             transaction.commit();
+            currentItem = R.id.home_fragment;
+            bottomNavigationView.setSelectedItemId(R.id.home_fragment);
         }
 
 
