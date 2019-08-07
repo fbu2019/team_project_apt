@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +32,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.skillshop.ClassManipulationActivities.DeleteClassDialogFragment;
 import com.bumptech.glide.Glide;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.NavigationFragments.FragmentHandler;
@@ -355,14 +357,19 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         ivTrash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    removeWorkshop();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                    showDeleteDialog();
             }
         });
     }
+
+    private void showDeleteDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        DeleteClassDialogFragment deleteClassDialogFragment = DeleteClassDialogFragment.newInstance("Skillshop");
+        deleteClassDialogFragment.show(fm, "fragment_dialog_delete");
+    }
+
+
+
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -478,6 +485,7 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         List<Workshop> objects = new ArrayList<>();
         objects.add(currentWorkshop);
         ParseObject.deleteAll(objects);
+        Toast.makeText(this, "Workshop deleted", Toast.LENGTH_LONG).show();
         Intent i = new Intent(this, FragmentHandler.class);
         startActivity(i);
     }
@@ -515,7 +523,6 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         btnDate = findViewById(R.id.btnDate);
         btLocation = findViewById(R.id.etLocation);
         etDescription = findViewById(R.id.etDescription);
-   //     spinCategory = findViewById(R.id.categoryPicker);
         etCost = findViewById(R.id.etCost);
         etDate = findViewById(R.id.etDate);
         etTime = findViewById(R.id.etTime);
