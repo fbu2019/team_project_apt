@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.skillshop.ClassManipulationActivities.DeleteClassDialogFragment;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.NavigationFragments.FragmentHandler;
 import com.example.skillshop.NavigationFragments.Home.AllCategoryFragment;
@@ -294,14 +296,22 @@ public class EditClassActivity extends AppCompatActivity implements DatePickerDi
         ivTrash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    removeWorkshop();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+             //   try {
+                    showDeleteDialog();
+                    //removeWorkshop();
+               //// } catch (ParseException e) {
+                //    e.printStackTrace();
+              //  }
             }
         });
     }
+
+    private void showDeleteDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        DeleteClassDialogFragment deleteClassDialogFragment = DeleteClassDialogFragment.newInstance("Skillshop");
+        deleteClassDialogFragment.show(fm, "fragment_dialog_delete");
+    }
+
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
