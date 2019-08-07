@@ -10,6 +10,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -386,14 +387,20 @@ public class ClassDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(ParseUser.getCurrentUser().getUsername().equals(detailedWorkshop.getTeacher().getUsername())){
-                    /*
-                    Log.e("ClassDetails", "User is the instructor");
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    Fragment fragment = new UserProfileFragment();
-                    fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
-                    //continueToUserProf();
-                    finish();
-                    */
+
+                            Intent i = new Intent(ClassDetailsActivity.this, FragmentHandler.class);
+                            i.putExtra("InstructorProfile", true);
+                            startActivity(i);
+//                            finish();
+//
+//                            /*
+//                            Fragment fragment = new UserProfileFragment();
+//                            FragmentManager fragmentManager = getSupportFragmentManager();
+//                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                            fragmentTransaction.replace(R.id.flContainer, fragment).addToBackStack(null);
+//                            fragmentTransaction.commit();
+//                            */
+
                 } else {
                     Intent i = new Intent(ClassDetailsActivity.this, InstructorDetailsActivity.class);
                     i.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(workshop));
@@ -525,6 +532,5 @@ public class ClassDetailsActivity extends AppCompatActivity {
         UserProfileFragment fragment = new UserProfileFragment();
         fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
 
-      //  bottomNavigationView.setSelectedItemId(R.id.home_fragment);
     }
 }

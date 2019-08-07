@@ -41,6 +41,7 @@ public class FragmentHandler extends AppCompatActivity {
         setContentView(R.layout.activity_fragment_handler);
         currentItem = 0;
 
+
         fragmentManager = getSupportFragmentManager();
 
         // define manager to decide which fragment to display
@@ -120,8 +121,15 @@ public class FragmentHandler extends AppCompatActivity {
                 return true;
             }
         });
-        // default fragment in home fragment
-        bottomNavigationView.setSelectedItemId(R.id.home_fragment);
+
+        if(getIntent().getExtras()!=null){
+
+            bottomNavigationView.setSelectedItemId(R.id.user_profile_fragment);
+
+        } else {
+            // default fragment in home fragment
+            bottomNavigationView.setSelectedItemId(R.id.home_fragment);
+        }
 
 
     }
