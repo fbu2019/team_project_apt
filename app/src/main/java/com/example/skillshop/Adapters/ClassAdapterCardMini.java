@@ -3,6 +3,8 @@ package com.example.skillshop.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,6 +83,7 @@ public class ClassAdapterCardMini extends RecyclerView.Adapter<ClassAdapterCardM
 
         private TextView tvClassName;
         private ImageView ivClassImage;
+        private ConstraintLayout clLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -91,6 +94,7 @@ public class ClassAdapterCardMini extends RecyclerView.Adapter<ClassAdapterCardM
         private void findAllViews() {
             tvClassName = itemView.findViewById(R.id.tvClassName);
             ivClassImage = itemView.findViewById(R.id.ivClassImage);
+
         }
 
 
@@ -132,6 +136,29 @@ public class ClassAdapterCardMini extends RecyclerView.Adapter<ClassAdapterCardM
                         break;
                 }
             }
+            switch (tWorkshop.getCategory()) {
+
+                case "Culinary":
+                    ivClassImage.setColorFilter(Color.argb(100, 255, 87, 255));
+                    break;
+
+                case "Education":
+                    ivClassImage.setColorFilter(Color.argb(100, 247, 146, 59));
+                    break;
+                case "Fitness":
+                    ivClassImage.setColorFilter(Color.argb(100, 213, 204, 238));
+                    break;
+                case "Arts/Crafts":
+                    ivClassImage.setColorFilter(Color.argb(100, 255, 236, 181));
+                    break;
+                case "Other":
+                    ivClassImage.setColorFilter(Color.argb(100, 107, 206, 187));
+                    break;
+
+                default:
+                    break;
+            }
+
         }
 
         private void setAllViews(Workshop tWorkshop) {
