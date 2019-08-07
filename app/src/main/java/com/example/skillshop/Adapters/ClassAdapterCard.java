@@ -210,7 +210,6 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
                         break;
                 }
 
-
                 // load in profile image to holder
                 Glide.with(context)
                         .load(res)
