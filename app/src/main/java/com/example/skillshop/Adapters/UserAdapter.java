@@ -78,7 +78,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
         public TextView tvName;
-        public TextView tvPreferences;
         public ImageView ivProfilePic;
         public Button btnFollow;
         public RatingBar rbInstructorRating;
@@ -91,7 +90,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             // to access the context from any ViewHolder instance.
             super(itemView);
             tvName = itemView.findViewById(R.id.tvName);
-            tvPreferences = itemView.findViewById(R.id.tvPreferences);
             ivProfilePic = (ImageView) itemView.findViewById(R.id.ivProfilePic);
             btnFollow = (Button) itemView.findViewById(R.id.btnFollow);
             rbInstructorRating = (RatingBar) itemView.findViewById(R.id.rbInstructorRating);
@@ -105,9 +103,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         private void setAllViews(ParseUser user) {
             tvName.setText(user.get("firstName").toString() + " " + user.get("lastName").toString());
-            JSONArray preferences = user.getJSONArray("preferences");
-            String preferenceList = getPreferences(preferences, user);
-            tvPreferences.setText(preferenceList);
             Glide.with(context).load(user.getString("profilePicUrl")).apply(new RequestOptions().circleCrop()).into(ivProfilePic);
             setInstructorRating(user);
         }
@@ -171,7 +166,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 ArrayList<String> myFollowing = (ArrayList<String>) currentUser.get("friends");
                 Boolean isFollowing = myFollowing.contains(fellowAttendeeId);
                 if (isFollowing) {
-                    btnFollow.setText("UNFOLLOW USER");
+                    btnFollow.setText("Following");
+                    btnFollow.setBackgroundColor(255);
+
                 }
 
                 btnFollow.setOnClickListener(new View.OnClickListener() {
@@ -212,7 +209,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 }
             });
             //Resets the following button
-            btnFollow.setText("FOLLOW USER");
+            btnFollow.setText("Follow");
+            btnFollow.setBackgroundColor(context.getResources().getColor(R.color.color_palette_green));
         }
 
         private void followAttendee(ArrayList<String> currentlyFollowing, String fellowAttendeeId, ParseUser fellowAttendee, ParseUser currentUser) {
@@ -231,7 +229,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 }
             });
             //Resets the following button
-            btnFollow.setText("UNFOLLOW USER");
+            btnFollow.setText("Following");
+            btnFollow.setBackgroundColor(255);
         }
 
         @Override
