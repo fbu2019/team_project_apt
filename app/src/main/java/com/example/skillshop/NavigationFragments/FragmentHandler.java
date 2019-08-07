@@ -54,75 +54,65 @@ public class FragmentHandler extends AppCompatActivity {
                 // depending on which button is pressed launch the corresponding fragment
                 switch (item.getItemId()) {
                     case R.id.home_fragment:
-                        if(R.id.home_fragment == currentItem)
-                        {
+                        if (R.id.home_fragment == currentItem) {
                             break;
                         }
                         fragment = new CategoryChooseFragment();
                         // from home fragment to another fragment do this transition
-                        fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_right,R.anim.anim_slide_out_right).replace(R.id.flContainer, fragment).commit();
+                        fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_right, R.anim.anim_slide_out_right).replace(R.id.flContainer, fragment).commit();
                         currentItem = R.id.home_fragment;
                         break;
                     case R.id.calendar_fragment:
-                        if(R.id.calendar_fragment == currentItem)
-                        {
+                        if (R.id.calendar_fragment == currentItem) {
                             break;
                         }
                         populateClassesTaking(currentItem);
                         currentItem = R.id.calendar_fragment;
                         break;
                     case R.id.compose_fragment:
-                        if(R.id.compose_fragment == currentItem)
-                        {
+                        if (R.id.compose_fragment == currentItem) {
                             break;
                         }
                         fragment = new ComposeFragment();
                         // if coming form a fragment that is left do this otherwise the other transition
-                        if(currentItem == R.id.home_fragment || currentItem == R.id.maps_fragment)
-                        {
-                            fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).replace(R.id.flContainer, fragment).commit();
-                        }
-                        else
-                        {
-                            fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_right,R.anim.anim_slide_out_right).replace(R.id.flContainer, fragment).commit();
+                        if (currentItem == R.id.home_fragment || currentItem == R.id.maps_fragment) {
+                            fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).replace(R.id.flContainer, fragment).commit();
+                        } else {
+                            fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_right, R.anim.anim_slide_out_right).replace(R.id.flContainer, fragment).commit();
                         }
                         currentItem = R.id.compose_fragment;
                         break;
                     case R.id.maps_fragment:
-                        if(R.id.maps_fragment == currentItem)
-                        {
+                        if (R.id.maps_fragment == currentItem) {
                             break;
                         }
                         fragment = new MapFragment();
                         // if coming form a fragment that is left do this otherwise the other transition
-                        if(currentItem == R.id.home_fragment)
-                        {
-                            fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).replace(R.id.flContainer, fragment).commit();
-                        }
-                        else
-                        {
-                            fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_right,R.anim.anim_slide_out_right).replace(R.id.flContainer, fragment).commit();
+                        if (currentItem == R.id.home_fragment) {
+                            fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).replace(R.id.flContainer, fragment).commit();
+                        } else {
+                            fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_right, R.anim.anim_slide_out_right).replace(R.id.flContainer, fragment).commit();
                         }
                         currentItem = R.id.maps_fragment;
                         break;
                     case R.id.user_profile_fragment:
-                        if(R.id.user_profile_fragment == currentItem)
-                        {
+                        if (R.id.user_profile_fragment == currentItem) {
                             break;
                         }
                         fragment = new UserProfileFragment();
                         // always transition like this
-                        fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).replace(R.id.flContainer, fragment).commit();
+                        fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).replace(R.id.flContainer, fragment).commit();
                         currentItem = R.id.user_profile_fragment;
                         break;
-                    default: break;
+                    default:
+                        break;
                 }
 
                 return true;
             }
         });
 
-        if(getIntent().getExtras()!=null){
+        if (getIntent().getExtras() != null) {
 
             bottomNavigationView.setSelectedItemId(R.id.user_profile_fragment);
 
@@ -137,14 +127,13 @@ public class FragmentHandler extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        if(!(getSupportFragmentManager().findFragmentById(R.id.flContainer) instanceof CategoryChooseFragment))
-        {
+        if (!(getSupportFragmentManager().findFragmentById(R.id.flContainer) instanceof CategoryChooseFragment)) {
             // create new fragment to use
             Fragment home = new CategoryChooseFragment();
             // transaction on current activity
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-            transaction.setCustomAnimations(R.anim.anim_slide_in_right,R.anim.anim_slide_out_right);
+            transaction.setCustomAnimations(R.anim.anim_slide_in_right, R.anim.anim_slide_out_right);
 
             transaction.replace(R.id.flContainer, home);
             transaction.addToBackStack(null);
@@ -153,7 +142,6 @@ public class FragmentHandler extends AppCompatActivity {
             currentItem = R.id.home_fragment;
             bottomNavigationView.setSelectedItemId(R.id.home_fragment);
         }
-
 
     }
 
@@ -175,9 +163,8 @@ public class FragmentHandler extends AppCompatActivity {
         });
     }
 
-    public void startDay(ArrayList<Workshop> workshops, int currentItem)
-    {
-        Intent eventsToday = new Intent(this,FragmentHandler.class);
+    public void startDay(ArrayList<Workshop> workshops, int currentItem) {
+        Intent eventsToday = new Intent(this, FragmentHandler.class);
         eventsToday.putExtra("workshops", workshops);
 
         Bundle bundle = eventsToday.getExtras();
@@ -186,15 +173,11 @@ public class FragmentHandler extends AppCompatActivity {
         fragment.setArguments(bundle);
 
 
-        if(currentItem == R.id.home_fragment || currentItem == R.id.maps_fragment || currentItem == R.id.compose_fragment)
-        {
-            fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).replace(R.id.flContainer, fragment).commit();
+        if (currentItem == R.id.home_fragment || currentItem == R.id.maps_fragment || currentItem == R.id.compose_fragment) {
+            fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).replace(R.id.flContainer, fragment).commit();
+        } else {
+            fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_right, R.anim.anim_slide_out_right).replace(R.id.flContainer, fragment).commit();
         }
-        else
-        {
-            fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_right,R.anim.anim_slide_out_right).replace(R.id.flContainer, fragment).commit();
-        }
-
 
 
     }

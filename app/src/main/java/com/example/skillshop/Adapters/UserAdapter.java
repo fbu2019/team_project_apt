@@ -121,7 +121,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 public void done(List<Ratings> objects, ParseException e) {
                     if (e == null) {
 
-                        if(objects.size()>0) {
+                        if (objects.size() > 0) {
                             Ratings currentRating = objects.get(0);
                             rbInstructorRating.setRating(currentRating.getAverageRating());
                         }
@@ -139,7 +139,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             if (preferences != null) {
                 for (int i = 0; i < preferences.length(); i++) {
                     try {
-                        if(i==preferences.length()-1) {
+                        if (i == preferences.length() - 1) {
                             preferenceString += preferences.getString(i);
                         } else {
                             preferenceString += preferences.getString(i) + " | ";

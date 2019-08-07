@@ -40,7 +40,7 @@ public class UserProfileActivity extends AppCompatActivity {
     protected ClassAdapter classAdapter;
 
     private int numberOfFollowers = 0;
-    private  ParseUser currentUser;
+    private ParseUser currentUser;
     private String profilePhotoUrl;
     private TextView tvNameView;
     private TextView tvNumberFollowers;
@@ -57,21 +57,21 @@ public class UserProfileActivity extends AppCompatActivity {
         profilePhotoUrl = currentUser.getString("profilePicUrl");
 
         tvNameView = findViewById(R.id.nameView);
-        tvNameView.setText(currentUser.get("firstName")+" "+currentUser.get("lastName"));
+        tvNameView.setText(currentUser.get("firstName") + " " + currentUser.get("lastName"));
         ivProfileImage = findViewById(R.id.profileImage);
         loadProfilePicture();
 
         tvNumberFollowers = findViewById(R.id.numberOfFollowers);
         setTvNumberFollowers();
         tvNumberFollowing = findViewById(R.id.numberFollowing);
-        ArrayList<String> friends = (ArrayList<String>)currentUser.get("friends");
-        tvNumberFollowing.setText(friends.size()+"");
+        ArrayList<String> friends = (ArrayList<String>) currentUser.get("friends");
+        tvNumberFollowing.setText(friends.size() + "");
 
 
         tvPreferences = findViewById(R.id.userPreferences);
         ArrayList<String> preferences = (ArrayList<String>) currentUser.get("preferences");
         String preferenceString = "";
-        if (preferences != null && preferences.size()>0) {
+        if (preferences != null && preferences.size() > 0) {
             for (int i = 0; i < preferences.size(); i++) {
 
                 if (i == preferences.size() - 1) {
@@ -156,7 +156,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 if (e == null) {
                     for (int i = 0; i < objects.size(); i++) {
                         Workshop workshopItem = objects.get(i);
-                        if(workshopItem.getTeacher().getUsername().equals(currentUser.getUsername())) {
+                        if (workshopItem.getTeacher().getUsername().equals(currentUser.getUsername())) {
                             mWorkshops.add(workshopItem);
                             classAdapter.notifyItemInserted(mWorkshops.size() - 1);
                         }
@@ -168,7 +168,7 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
-    private void setTvNumberFollowers(){
+    private void setTvNumberFollowers() {
 
         Log.e("UserProfileActivity", "REACHED HERE");
 
@@ -186,15 +186,15 @@ public class UserProfileActivity extends AppCompatActivity {
                             ArrayList<String> usersFollowing = (ArrayList<String>) userItem.get("friends");
                             for (int j = 0; j < usersFollowing.size(); j++) {
                                 if (usersFollowing.get(j).equals(currentUser.getObjectId())) {
-                                    Log.i("UserProfileActivity", "num followers "+numberOfFollowers);
+                                    Log.i("UserProfileActivity", "num followers " + numberOfFollowers);
                                     numberOfFollowers++;
                                 }
                             }
                         }
                     }
 
-                        tvNumberFollowers.setText(numberOfFollowers+"");
-                    Log.i("UserProfileActivity", "num followers "+numberOfFollowers);
+                    tvNumberFollowers.setText(numberOfFollowers + "");
+                    Log.i("UserProfileActivity", "num followers " + numberOfFollowers);
 
                 } else {
                     e.printStackTrace();
@@ -202,8 +202,6 @@ public class UserProfileActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
-
 
 }

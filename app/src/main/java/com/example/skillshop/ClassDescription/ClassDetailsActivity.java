@@ -402,7 +402,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
         ArrayList<String> students = (ArrayList<String>) detailedWorkshop.getStudents();
 
-
         String objectId = ParseUser.getCurrentUser().getObjectId();
 
         if (enroll) {
@@ -508,15 +507,5 @@ public class ClassDetailsActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-
-    private void continueToUserProf() {
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        UserProfileFragment fragment = new UserProfileFragment();
-        fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
-
     }
 }

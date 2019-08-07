@@ -157,11 +157,11 @@ public class MapActivity extends AppCompatActivity implements
     private BitmapDescriptor setMarkerColor(BitmapDescriptor marker, String category) {
         switch (category) {
             case ("Culinary"): {
-                marker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+                marker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
                 break;
             }
             case ("Education"): {
-                marker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
+                marker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
                 break;
             }
             case ("Fitness"): {
@@ -169,7 +169,7 @@ public class MapActivity extends AppCompatActivity implements
                 break;
             }
             case ("Arts/Crafts"): {
-                marker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+                marker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
                 break;
             }
             case ("Other"): {
