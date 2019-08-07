@@ -166,17 +166,22 @@ public class UserProfileFragment extends Fragment {
                     case R.id.taking:
                         fragment = new ClassesInvolvedFragment();
                         bundle.putBoolean("taking", true);
+                        fragment.setArguments(bundle);
+                        // switch to selected fragment
+                        fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_right,R.anim.anim_slide_out_right).replace(R.id.classes_today, fragment).commit();
                         break;
 
                     case R.id.teaching:
                         fragment = new ClassesInvolvedFragment();
                         bundle.putBoolean("taking", false);
+                        fragment.setArguments(bundle);
+                        // switch to selected fragment
+                        fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).replace(R.id.classes_today, fragment).commit();
                         break;
                     default: break;
                 }
-                fragment.setArguments(bundle);
-                // switch to selected fragment
-                fragmentManager.beginTransaction().replace(R.id.classes_today, fragment).commit();
+
+
                 return true;
             }
         });
