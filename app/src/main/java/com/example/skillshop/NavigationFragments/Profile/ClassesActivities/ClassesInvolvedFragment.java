@@ -83,14 +83,6 @@ public class ClassesInvolvedFragment extends Fragment {
         //set the adapter
         rvClasses.setAdapter(classAdapter);
 
-
-        // add dividers on posts
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvClasses.getContext(),
-                new LinearLayoutManager(getContext()).getOrientation());
-        rvClasses.addItemDecoration(dividerItemDecoration);
-
-
-
     }
 
 

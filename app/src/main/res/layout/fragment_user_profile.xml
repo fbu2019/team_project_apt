@@ -8,111 +8,95 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout2"
-        android:layout_width="398dp"
-        android:layout_height="197dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="415dp"
+        android:layout_height="163dp"
+        android:layout_marginTop="8dp"
+        android:background="#ededed"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6">
 
         <ImageView
             android:id="@+id/profilePicture"
-            android:layout_width="109dp"
-            android:layout_height="103dp"
+            android:layout_width="54dp"
+            android:layout_height="50dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.575"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/avatars" />
-
-        <TextView
-            android:id="@+id/nameView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="4dp"
-            android:textAlignment="center"
-            android:textColor="@color/color_palette_dark_grey"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/instructorAverage"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.569"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profilePicture" />
-
 
         <RatingBar
             android:id="@+id/instructorAverage"
             style="@style/Widget.AppCompat.RatingBar.Small"
             android:layout_width="82dp"
             android:layout_height="17dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
             android:backgroundTint="@color/color_palette_yellow"
             android:numStars="5"
             android:progressTint="@color/color_palette_yellow"
             android:secondaryProgressTint="@android:color/transparent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.569"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/nameView"
+            app:layout_constraintStart_toStartOf="@+id/nameView"
             app:layout_constraintTop_toBottomOf="@+id/nameView" />
-
-        <TextView
-            android:id="@+id/numberOfFollowers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="156dp"
-            android:text=" "
-            android:textColor="@color/color_palette_dark_grey"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.155"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/numberFollowing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="156dp"
+            android:layout_marginTop="8dp"
+            android:text="100 Following"
             android:textColor="@color/color_palette_dark_grey"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.28"
-            app:layout_constraintStart_toEndOf="@+id/numberOfFollowers"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="@+id/instructorAverage"
+            app:layout_constraintHorizontal_bias="0.428"
+            app:layout_constraintStart_toStartOf="@+id/instructorAverage"
+            app:layout_constraintTop_toBottomOf="@+id/instructorAverage" />
+
+        <TextView
+            android:id="@+id/nameView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name Name"
+            android:textAlignment="center"
+            android:textColor="@color/color_palette_dark_grey"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/profilePicture"
+            app:layout_constraintStart_toStartOf="@+id/profilePicture"
+            app:layout_constraintTop_toBottomOf="@+id/profilePicture" />
+
+        <TextView
+            android:id="@+id/numberOfFollowers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text=" 100 Followers"
+            android:textColor="@color/color_palette_dark_grey"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/numberFollowing" />
 
         <TextView
             android:id="@+id/tvSkillAnalysis"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="156dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="32dp"
             android:text="Skill Analysis"
             android:textColor="@color/color_palette_dark_grey"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.864"
-            app:layout_constraintStart_toEndOf="@+id/numberFollowing"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/userSettings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.925"
-            app:layout_constraintStart_toEndOf="@+id/profilePicture"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_teacher" />
+            app:layout_constraintTop_toTopOf="@+id/numberFollowing" />
     </android.support.constraint.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/userSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_settings" />
 
 
     <FrameLayout
@@ -130,14 +114,30 @@
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/top_navigation"
-        android:layout_width="360dp"
+        android:layout_width="0dp"
         android:layout_height="46dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
-        app:menu="@menu/menu_top_navigation" />
+        app:menu="@menu/menu_top_navigation">
+
+    </android.support.design.widget.BottomNavigationView>
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="Me"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintEnd_toEndOf="@+id/constraintLayout2"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
