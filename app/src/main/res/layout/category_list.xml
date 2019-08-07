@@ -19,7 +19,7 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/color_palette_light_blue2">
+            android:background="@drawable/background_fitness">
 
             <ImageView
                 android:id="@+id/fitnessImage"
@@ -68,7 +68,7 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/color_palette_light_blue1">
+            android:background="@drawable/background_all">
 
             <ImageView
                 android:id="@+id/otherImage"
@@ -120,7 +120,7 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/color_palette_light_blue2">
+            android:background="@drawable/background_education">
 
             <ImageView
                 android:id="@+id/educationIcon"
@@ -165,7 +165,7 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/color_palette_yellow">
+            android:background="@drawable/background_all">
 
             <ImageView
                 android:id="@+id/allImage"
@@ -215,7 +215,7 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/color_palette_light_blue2">
+            android:background="@drawable/background_arts">
 
             <ImageView
                 android:id="@+id/art"
@@ -266,7 +266,7 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/color_palette_light_blue2">
+            android:background="@drawable/background_culinary">
 
             <ImageView
                 android:id="@+id/culinaryImage"
