@@ -5,11 +5,15 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,6 +26,10 @@ import com.example.skillshop.Adapters.ClassAdapterCard;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.NavigationFragments.Compose.ComposeFragment;
 import com.example.skillshop.NavigationFragments.FragmentHandler;
+import com.example.skillshop.NavigationFragments.Home.AllCategoryFragment;
+import com.example.skillshop.NavigationFragments.Home.CategoryChooseFragment;
+import com.example.skillshop.NavigationFragments.Maps.MapFragment;
+import com.example.skillshop.NavigationFragments.Profile.UserProfileFragment;
 import com.example.skillshop.R;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -377,10 +385,21 @@ public class ClassDetailsActivity extends AppCompatActivity {
         ivInstructorProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(ClassDetailsActivity.this, InstructorDetailsActivity.class);
-                i.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(workshop));
-                startActivity(i);
-                Log.e("ClassDetails", "Starting Activity");
+                if(ParseUser.getCurrentUser().getUsername().equals(detailedWorkshop.getTeacher().getUsername())){
+                    /*
+                    Log.e("ClassDetails", "User is the instructor");
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    Fragment fragment = new UserProfileFragment();
+                    fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                    //continueToUserProf();
+                    finish();
+                    */
+                } else {
+                    Intent i = new Intent(ClassDetailsActivity.this, InstructorDetailsActivity.class);
+                    i.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(workshop));
+                    startActivity(i);
+                    Log.e("ClassDetails", "Starting Activity");
+                }
             }
         });
     }
@@ -498,4 +517,14 @@ public class ClassDetailsActivity extends AppCompatActivity {
         });
     }
 
+
+    private void continueToUserProf(){
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        UserProfileFragment fragment = new UserProfileFragment();
+        fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+
+      //  bottomNavigationView.setSelectedItemId(R.id.home_fragment);
+    }
 }
