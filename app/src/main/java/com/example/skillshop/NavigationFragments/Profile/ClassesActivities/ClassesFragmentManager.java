@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,21 +37,35 @@ public class ClassesFragmentManager extends Fragment {
                 // depending on which button the user presses the classes will be displayed
                 Bundle bundle = new Bundle();
 
+                // create new fragment to use
+                Fragment home = new AllCategoryFragment();
+                // transaction on current activity
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 
+                transaction.setCustomAnimations(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left);
+
+                transaction.replace(R.id.flContainer, home);
+                transaction.addToBackStack(null);
+                // Commit the transaction
+                transaction.commit();
 
                 switch (item.getItemId()) {
                     case R.id.taking:
                         fragment = new ClassesInvolvedFragment();
+                        fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left);
                         bundle.putBoolean("taking", true);
                         break;
 
                     case R.id.teaching:
                         fragment = new ClassesInvolvedFragment();
+                        fragmentManager.beginTransaction().setCustomAnimations(R.anim.anim_slide_in_left,R.anim.anim_slide_out_left);
                         bundle.putBoolean("taking", false);
                         break;
                     default: break;
                 }
                 fragment.setArguments(bundle);
+
+
                 // switch to selected fragment
                 fragmentManager.beginTransaction().replace(R.id.classes_today, fragment).commit();
                 return true;
