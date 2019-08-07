@@ -13,4 +13,7 @@
         <item name= "android:lineSpacingMultiplier">1.2</item>
     </style>
 
+    <style name="DefaultNumberPickerTheme" parent="AppTheme">
+        <item name="colorControlNormal">@color/black_5_transparent</item>
+    </style>
 </resources>

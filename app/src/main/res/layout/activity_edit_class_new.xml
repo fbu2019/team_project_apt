@@ -27,6 +27,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
+            android:background="#F9F9F9"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +44,6 @@
                 android:text="Workshop Title:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="16sp"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -82,6 +82,8 @@
                 android:ems="10"
                 android:hint="Cost"
                 android:inputType="textPersonName"
+                android:paddingStart="8dp"
+                android:paddingTop="8dp"
                 android:text="0"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -114,7 +116,6 @@
                 android:text="Location:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="16sp"
-                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/subCategoryPicker" />
 
@@ -132,6 +133,8 @@
                 android:gravity="top"
                 android:hint="Select workshop location..."
                 android:inputType="textPersonName"
+                android:paddingStart="8dp"
+                android:paddingTop="8dp"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.296"
@@ -150,6 +153,8 @@
                 android:gravity="top"
                 android:hint="08/12/2019"
                 android:inputType="textPersonName"
+                android:paddingStart="8dp"
+                android:paddingTop="8dp"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toStartOf="@+id/btnDate"
                 app:layout_constraintHorizontal_bias="0.296"
@@ -166,7 +171,6 @@
                 android:text="Date:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="16sp"
-                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etLocation" />
 
@@ -180,7 +184,6 @@
                 android:text="Time:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="16sp"
-                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnDate" />
 
@@ -196,6 +199,8 @@
                 android:gravity="top"
                 android:hint="12:00"
                 android:inputType="textPersonName"
+                android:paddingStart="8dp"
+                android:paddingTop="8dp"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toStartOf="@+id/btnDate"
                 app:layout_constraintHorizontal_bias="0.296"
@@ -210,7 +215,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="32dp"
                 android:background="@drawable/rounded_edit_text"
-                android:theme="@style/NumberPickerText"
+                android:theme="@style/DefaultNumberPickerTheme"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.705"
                 app:layout_constraintStart_toStartOf="parent"
@@ -226,7 +231,6 @@
 
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="16sp"
-                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etDescription" />
 
@@ -239,7 +243,6 @@
                 android:text="Sub Category:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="16sp"
-                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/categoryPicker" />
 
@@ -253,7 +256,6 @@
                 android:text="Cost:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="16sp"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnTime" />
@@ -279,8 +281,8 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="32dp"
-
-                android:theme="@style/NumberPickerText"
+                android:background="@drawable/rounded_edit_text"
+                android:theme="@style/DefaultNumberPickerTheme"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSubCategory" />
@@ -311,6 +313,8 @@
                 android:gravity="top"
                 android:hint="Enter class title..."
                 android:inputType="textPersonName"
+                android:paddingStart="8dp"
+                android:paddingTop="8dp"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -328,6 +332,9 @@
                 android:gravity="top"
                 android:hint="Descibe your workshop in 50 words or less.."
                 android:inputType="textShortMessage|textMultiLine|textPersonName|textEmailAddress"
+                android:paddingStart="8dp"
+                android:paddingLeft="8dp"
+                android:paddingTop="8dp"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -341,7 +348,6 @@
                 android:text="Workshop Description:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="16sp"
-                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/etClassname"
                 app:layout_constraintTop_toBottomOf="@+id/etClassname" />
 
@@ -354,7 +360,6 @@
                 android:text="Add an image of what your class is about:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="16sp"
-                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etCost" />
 
@@ -366,7 +371,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="48dp"
-                android:background="#6bcebb"
+                android:background="@drawable/rounded_button"
                 android:inputType="textPersonName"
                 android:text="Save"
                 android:textColor="@color/quantum_white_text"
