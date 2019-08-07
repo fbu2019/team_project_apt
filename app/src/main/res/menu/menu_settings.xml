@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+    android:id="@+id/Security"
+    android:enabled="true"
+    android:title="     Account Security"
+    app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/Notifications"
+        android:enabled="true"
+        android:title="     Message Notifications"
+        app:showAsAction="ifRoom" />
+    <item
+    android:id="@+id/Privacy"
+    android:enabled="true"
+    android:title="     Privacy"
+    app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/general"
+        android:enabled="true"
+        android:title="     General"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/help"
+        android:enabled="true"
+        android:title="     Help"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/about"
+        android:enabled="true"
+        android:title="     About"
+        app:showAsAction="ifRoom" />
+
+
+    <item
+        android:id="@+id/a"
+        android:enabled="false"
+        android:title=""
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/b"
+        android:enabled="false"
+        android:title=""
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/c"
+        android:enabled="false"
+        android:title=""
+        app:showAsAction="ifRoom" />
+
+
+    <item
+        android:id="@+id/logout"
+        android:enabled="true"
+        android:title="     Logout"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/teacher"
+        android:enabled="true"
+        android:title="     I'm a Teacher"
+        app:showAsAction="ifRoom" />
+
+
+
+
+
+
+</menu>
