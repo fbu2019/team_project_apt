@@ -151,29 +151,35 @@ public class ChatActivity extends AppCompatActivity {
 
     void getNewMessages()
     {
-//        // Construct query to execute
-//        ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
-//        // get the latest messages, order will show up newest to oldest of this group
-//        query.orderByDescending("createdAt");
-//        query.whereEqualTo("workshop",detailedWorkshop.getObjectId());
-//        query.whereNotEqualTo("userId",ParseUser.getCurrentUser().getObjectId());
-//        // This is equivalent to a SELECT query with SQL
-//        query.findInBackground(new FindCallback<Message>() {
-//            public void done(List<Message> messages, ParseException e) {
-//                if (e == null) {
-//
-//                    for(Message m: messages)
-//                    {
-//
-//                    }
-//
-//                } else {
-//                    Log.e("message", "Error Loading Messages" + e);
-//                }
-//            }
-//        });
+        // Construct query to execute
+        ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
+        // get the latest messages, order will show up newest to oldest of this group
+        query.orderByDescending("createdAt");
+        query.whereEqualTo("workshop",detailedWorkshop.getObjectId());
+        // This is equivalent to a SELECT query with SQL
 
-        refreshMessages(false);
+        query.findInBackground(new FindCallback<Message>() {
+            public void done(List<Message> messages, ParseException e) {
+                if (e == null) {
+
+                    mMessages.clear();
+
+                    for(Message m : messages)
+                    {
+                        if(!mMessages.contains(m)) {
+                            mMessages.add(0, m);
+                            mAdapter.notifyItemChanged(mMessages.size() - 1);
+                        }
+
+                    }
+                    rvChat.scrollToPosition(mMessages.size() - 1);
+
+
+                } else {
+                    Log.e("message", "Error Loading Messages" + e);
+                }
+            }
+        });
     }
 
 
