@@ -10,6 +10,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -298,18 +299,15 @@ public class ClassDetailsActivity extends AppCompatActivity {
     }
 
 
-    public void imageSetup(Workshop workshop)
-    {
-        if(workshop.getImage() != null)
-        {
+    public void imageSetup(Workshop workshop) {
+        if (workshop.getImage() != null) {
 
             // load in profile image to holder
             Glide.with(this)
                     .load(workshop.getImage().getUrl())
                     .centerCrop()
                     .into(ivClassPicture);
-        }
-        else {
+        } else {
 
             switch (workshop.getCategory()) {
 
@@ -346,20 +344,18 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
     private void imageZoom() {
 
-        final ImageViewFragment imageZoom  = new ImageViewFragment();
+        final ImageViewFragment imageZoom = new ImageViewFragment();
         Bundle bundle = new Bundle();
 
-        if(detailedWorkshop.getImage() != null)
-        {
-            bundle.putString("photo",detailedWorkshop.getImage().getUrl());
-        }
-        else {
-            bundle.putString("photo",detailedWorkshop.getCategory());
+        if (detailedWorkshop.getImage() != null) {
+            bundle.putString("photo", detailedWorkshop.getImage().getUrl());
+        } else {
+            bundle.putString("photo", detailedWorkshop.getCategory());
         }
 
         imageZoom.setArguments(bundle);
 
-        imageZoom.show(getSupportFragmentManager(),"ok");
+        imageZoom.show(getSupportFragmentManager(), "ok");
     }
 
 
@@ -385,15 +381,12 @@ public class ClassDetailsActivity extends AppCompatActivity {
         ivInstructorProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ParseUser.getCurrentUser().getUsername().equals(detailedWorkshop.getTeacher().getUsername())){
-                    /*
-                    Log.e("ClassDetails", "User is the instructor");
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    Fragment fragment = new UserProfileFragment();
-                    fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
-                    //continueToUserProf();
-                    finish();
-                    */
+                if (ParseUser.getCurrentUser().getUsername().equals(detailedWorkshop.getTeacher().getUsername())) {
+
+                    Intent i = new Intent(ClassDetailsActivity.this, FragmentHandler.class);
+                    i.putExtra("InstructorProfile", true);
+                    startActivity(i);
+
                 } else {
                     Intent i = new Intent(ClassDetailsActivity.this, InstructorDetailsActivity.class);
                     i.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(workshop));
@@ -408,7 +401,6 @@ public class ClassDetailsActivity extends AppCompatActivity {
 
 
         ArrayList<String> students = (ArrayList<String>) detailedWorkshop.getStudents();
-
 
         String objectId = ParseUser.getCurrentUser().getObjectId();
 
@@ -515,16 +507,5 @@ public class ClassDetailsActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-
-    private void continueToUserProf(){
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        UserProfileFragment fragment = new UserProfileFragment();
-        fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
-
-      //  bottomNavigationView.setSelectedItemId(R.id.home_fragment);
     }
 }
