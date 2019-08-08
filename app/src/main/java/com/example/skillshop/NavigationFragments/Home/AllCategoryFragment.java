@@ -81,7 +81,7 @@ public class AllCategoryFragment extends Fragment {
         byCost = 0;
         byDate = true;
 
-        setupPreferenceFilterButton(view);
+//        setupPreferenceFilterButton(view);
         connectRecyclerView(view);
         category = new ArrayList<String>();
         category.add("Culinary");

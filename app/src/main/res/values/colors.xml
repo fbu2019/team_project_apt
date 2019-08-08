@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#81FFEA</color>
-    <color name="colorPrimaryDark">#0DFFD7</color>
+    <color name="colorPrimary">#8d949e</color>
+    <color name="colorPrimaryDark">#fff</color>
     <color name="colorAccent">#F7923B</color>
     <color name="black_10_transparent">#1a000000</color>
     <color name="black_15_transparent">#26000000</color>
@@ -225,5 +225,10 @@
     <color name ="color_palette_orange">#F7923B</color>
     <color name ="color_palette_dark_grey">#444950</color>
     <color name ="color_palette_light_grey">#8D949E</color>
+    <color name ="calendar_education">#51F7923B</color>
+    <color name ="calendar_arts">#FFFFECB5</color>
+    <color name ="calendar_culinary">#FFCAEEF9</color>
+    <color name ="calendar_fitness">#BAD5CCEE</color>
+    <color name ="calendar_other">#756BCEBB</color>
 
 </resources>
