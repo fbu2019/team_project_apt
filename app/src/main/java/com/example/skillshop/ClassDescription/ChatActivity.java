@@ -38,6 +38,7 @@ public class ChatActivity extends AppCompatActivity {
     Workshop detailedWorkshop;
     int maxMessages;
     Long lastRefresh;
+    Message lastMessage;
 
 
 
@@ -79,13 +80,13 @@ public class ChatActivity extends AppCompatActivity {
         @Override
         public void run() {
             while(true) {
-                getNewMessages();
 
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                getNewMessages();
             }
 
         }
@@ -162,19 +163,26 @@ public class ChatActivity extends AppCompatActivity {
             public void done(List<Message> messages, ParseException e) {
                 if (e == null) {
 
-                    mMessages.clear();
 
                     for(Message m : messages)
                     {
-                        if(!mMessages.contains(m)) {
-                            mMessages.add(0, m);
+                        boolean in = false;
+                        for(Message curr : mMessages)
+                        {
+                            if(curr.getObjectId().equals(m.getObjectId()))
+                            {
+                                in = true;
+                            }
+                        }
+                        if(!in)
+                        {
+                            mMessages.add(m);
                             mAdapter.notifyItemChanged(mMessages.size() - 1);
+                            rvChat.scrollToPosition(mMessages.size() - 1);
                         }
 
+
                     }
-                    rvChat.scrollToPosition(mMessages.size() - 1);
-
-
                 } else {
                     Log.e("message", "Error Loading Messages" + e);
                 }
@@ -194,11 +202,15 @@ public class ChatActivity extends AppCompatActivity {
         query.findInBackground(new FindCallback<Message>() {
             public void done(List<Message> messages, ParseException e) {
                 if (e == null) {
+                    lastMessage = new Message();
+                    lastMessage.setObjectId("last");
+
                     mMessages.clear();
                     for(int i = 0 ; i < messages.size();i++)
                     {
                         mMessages.add(0,messages.get(i));
                         mAdapter.notifyItemChanged(mMessages.size()-1);
+                        lastMessage = messages.get(i);
                     }
 
                     if(scroll) {

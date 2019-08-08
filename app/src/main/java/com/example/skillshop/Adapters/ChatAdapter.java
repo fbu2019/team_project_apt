@@ -73,7 +73,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             holder.ivTeacherOther.setVisibility(View.GONE);
             holder.cvMessageMe.setBackgroundColor(mContext.getResources().getColor(R.color.color_palette_green));
             holder.cvMessageOther.setVisibility(View.GONE);
-            holder.tvBodyMe.setText(message.getBody());
+
+            String body = message.getBody();
+
+            holder.tvBodyMe.setText(body);
+
+
+
+
 
 
         } else {
@@ -90,7 +97,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             {
                 holder.ivTeacherOther.setVisibility(View.GONE);
             }
-            holder.tvBodyOther.setText(message.getBody());
+            String body = message.getBody();
+            holder.tvBodyOther.setText(body);
+
 
             holder.imageMe.setVisibility(View.GONE);
             holder.ivTeacherMe.setVisibility(View.GONE);

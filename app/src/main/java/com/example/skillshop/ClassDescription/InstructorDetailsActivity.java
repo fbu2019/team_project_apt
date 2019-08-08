@@ -2,6 +2,8 @@ package com.example.skillshop.ClassDescription;
 
 import org.parceler.Parcels;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,11 +16,16 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.skillshop.FollowingListActivity;
 import com.example.skillshop.Models.Ratings;
+import com.example.skillshop.Models.User;
 import com.example.skillshop.Models.Workshop;
+import com.example.skillshop.NavigationFragments.Profile.UserFollowersActivity;
+import com.example.skillshop.NavigationFragments.Profile.UserProfileActivity;
 import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.LogInCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -37,7 +44,9 @@ public class InstructorDetailsActivity extends AppCompatActivity {
     private TextView tvNumRatings;
     private TextView tvUserProvidedRating;
     private TextView tvNumberOfFollowers;
+    private TextView tvNumberOfFollowersMessage;
     private TextView tvNumberFollowing;
+    private TextView tvNumberFollowingMessage;
     private Button followInstructorButton;
     private RatingBar rbInstructorAverage;
     private RatingBar rbUserRating;
@@ -47,9 +56,6 @@ public class InstructorDetailsActivity extends AppCompatActivity {
     private int numberOfFollowers = 0;
     boolean hasRatedBefore = false;
 
-
-    //TODO - make sure user's rating only impacts once
-    //TODO - makes sure follow/unfollow correctly stores to database
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -278,9 +284,6 @@ public class InstructorDetailsActivity extends AppCompatActivity {
 
                         if (userRatedBefore) {
 
-                            Log.e("InstructorDetails", "Hash map is this big: " + String.valueOf(usersWhoRated.size()));
-                            Log.e("InstructorDetails", "Current user id is: " + ParseUser.getCurrentUser().getUsername());
-
                             int formerRating = usersWhoRated.get(ParseUser.getCurrentUser().getUsername());
                             usersWhoRated.put(ParseUser.getCurrentUser().getUsername(), (int) ratingValue);
                             currentRating.put("userRatings", usersWhoRated);
@@ -358,7 +361,6 @@ public class InstructorDetailsActivity extends AppCompatActivity {
                     e.printStackTrace();
 
                 }
-
             }
         });
 
@@ -396,6 +398,24 @@ public class InstructorDetailsActivity extends AppCompatActivity {
             }
         });
 
+        tvNumberOfFollowers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(InstructorDetailsActivity.this, UserFollowersActivity.class);
+                i.putExtra(User.class.getSimpleName(), Parcels.wrap(ParseUser.getCurrentUser()));
+                startActivity(i);
+            }
+        });
+
+        tvNumberOfFollowersMessage = findViewById(R.id.numberOfFollowers);
+        tvNumberOfFollowersMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(InstructorDetailsActivity.this, UserFollowersActivity.class);
+                i.putExtra(User.class.getSimpleName(), Parcels.wrap(ParseUser.getCurrentUser()));
+                startActivity(i);
+            }
+        });
     }
 
 
@@ -404,8 +424,27 @@ public class InstructorDetailsActivity extends AppCompatActivity {
         tvNumberFollowing = findViewById(R.id.numFollowing);
         ArrayList<String> instructorFollowing = (ArrayList<String>) detailedWorkshop.getTeacher().get("friends");
         int numFollowing = instructorFollowing.size();
-
         tvNumberFollowing.setText(numFollowing + "");
+
+        tvNumberFollowing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(InstructorDetailsActivity.this, FollowingListActivity.class);
+                i.putExtra(User.class.getSimpleName(), Parcels.wrap(ParseUser.getCurrentUser()));
+                startActivity(i);
+            }
+        });
+
+        tvNumberFollowingMessage = findViewById(R.id.numberFollowing);
+        tvNumberFollowingMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(InstructorDetailsActivity.this, FollowingListActivity.class);
+                i.putExtra(User.class.getSimpleName(), Parcels.wrap(ParseUser.getCurrentUser()));
+                startActivity(i);
+            }
+        });
+
 
     }
 
