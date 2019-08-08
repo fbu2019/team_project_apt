@@ -93,8 +93,7 @@ public class Query extends ParseQuery<Workshop> {
         List<String> list = Arrays.asList(ParseUser.getCurrentUser().getObjectId());
 
         whereNotContainedIn(KEY_STUDENTS,list);
-//        whereNotEqualTo(KEY_TEACHER,ParseUser.getCurrentUser().getObjectId());
-
+        whereNotEqualTo(KEY_TEACHER,ParseUser.getCurrentUser().getObjectId());
         return this;
     }
 

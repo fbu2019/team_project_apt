@@ -65,7 +65,7 @@ public class MapFragment extends Fragment{
                         .build();
 
                 mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 2000, null);
-                mMap.setInfoWindowAdapter(new CustomWindowAdapter(getLayoutInflater()));
+                mMap.setInfoWindowAdapter(new CustomWindowAdapter(getLayoutInflater(), getContext()));
                 mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                     @Override
                     public void onInfoWindowClick(Marker marker) {

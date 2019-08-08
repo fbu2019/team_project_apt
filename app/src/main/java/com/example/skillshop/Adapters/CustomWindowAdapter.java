@@ -1,5 +1,6 @@
 package com.example.skillshop.Adapters;
 
+import android.content.Context;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.Models.Workshop;
@@ -27,11 +29,14 @@ public class CustomWindowAdapter implements GoogleMap.InfoWindowAdapter {
     TextView tvInstructorName;
     RatingBar rbInstructorAverage;
     TextView tvClassDate;
+    Context mContext;
 
     LayoutInflater mInflater;
 
-    public CustomWindowAdapter(LayoutInflater i){
+    public CustomWindowAdapter(LayoutInflater i, Context context){
         mInflater = i;
+        mContext = context;
+
     }
 
     // This defines the contents within the info window based on the marker
@@ -74,36 +79,52 @@ public class CustomWindowAdapter implements GoogleMap.InfoWindowAdapter {
             List<Ratings> ratingsList = ratingParseQuery.find();
             Ratings userRating = ratingsList.get(0);
             rbInstructorAverage.setRating((int) userRating.getAverageRating());
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         if(teacher != null && teacher.getString("firstName")!=null && teacher.getString("lastName")!=null){
              tvInstructorName.setText(teacher.getString("firstName")+" "+teacher.getString("lastName"));
         }
 
-        switch (workshop.getCategory()) {
 
-            case "Culinary":
-                ivClassImage.setImageResource(R.drawable.cooking);
-                break;
-
-            case "Education":
-                ivClassImage.setImageResource(R.drawable.education);
-                break;
-            case "Fitness":
-                ivClassImage.setImageResource(R.drawable.fitness);
-                break;
-            case "Arts/Crafts":
-                ivClassImage.setImageResource(R.drawable.artsandcrafts);
-                break;
-
-            case "Other":
-                ivClassImage.setImageResource(R.drawable.misc);
-                break;
-
-            default:
-                break;
+        if(workshop.getImage() != null)
+        {
+            // load in profile image to holder
+            Glide.with(mContext)
+                    .load(workshop.getImage().getUrl())
+                    .placeholder(R.drawable.ic_loading_class)
+                    .centerCrop()
+                    .into(ivClassImage);
         }
+        else {
+
+
+            switch (workshop.getCategory()) {
+
+                case "Culinary":
+                    ivClassImage.setImageResource(R.drawable.cooking);
+                    break;
+
+                case "Education":
+                    ivClassImage.setImageResource(R.drawable.education);
+                    break;
+                case "Fitness":
+                    ivClassImage.setImageResource(R.drawable.fitness);
+                    break;
+                case "Arts/Crafts":
+                    ivClassImage.setImageResource(R.drawable.artsandcrafts);
+                    break;
+
+                case "Other":
+                    ivClassImage.setImageResource(R.drawable.misc);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+
         tvClassDate.setText(getRelativeTimeAgo(workshop.getDate()));
 
 

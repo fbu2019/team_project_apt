@@ -1,6 +1,6 @@
 package com.example.skillshop.NavigationFragments.Home;
 
-import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -20,15 +20,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.skillshop.Adapters.ClassAdapterCard;
-import com.example.skillshop.FollowingListActivity;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.R;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseGeoPoint;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.json.JSONArray;
@@ -48,7 +45,6 @@ public class AllCategoryFragment extends Fragment {
     TextView tvNote;
     SearchView searchView;
     Button btnPreferenceFilter;
-    Button btnFollowing;
     private SwipeRefreshLayout swipeContainer;
     private ArrayList<String> category;
 
@@ -66,6 +62,8 @@ public class AllCategoryFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+
+
 
         super.onViewCreated(view, savedInstanceState);
         spinSorters = view.findViewById(R.id.spinSorters);
@@ -262,7 +260,7 @@ public class AllCategoryFragment extends Fragment {
         classAdapter.notifyDataSetChanged();
         Query parseQuery = new Query();
         // query add all classes with all data and sort by time of class and only show new classes
-        parseQuery.getAllClasses().withItems().byCategory(categories);
+        parseQuery.getAllClasses().withItems().byCategory(categories).getClassesNotTaking();
 
         if(byDate)
         {
