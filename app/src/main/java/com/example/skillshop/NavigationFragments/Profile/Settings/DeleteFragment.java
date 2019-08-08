@@ -34,12 +34,13 @@ public class DeleteFragment extends DialogFragment {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), DeleteAccountActivity.class);
-                startActivity(i);
+
             }
         });
 
     }
+
+
 
 
 }
