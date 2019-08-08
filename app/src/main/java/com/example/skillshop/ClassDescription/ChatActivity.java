@@ -22,6 +22,7 @@ import com.parse.SaveCallback;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -35,10 +36,9 @@ public class ChatActivity extends AppCompatActivity {
     // Keep track of initial load to scroll to the bottom of the ListView
     boolean mFirstLoad;
     Workshop detailedWorkshop;
-
     int maxMessages;
-
     Long lastRefresh;
+    Message lastMessage;
 
 
 
@@ -58,8 +58,8 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-//        refreshInBackground();
-//        lastRefresh = Calendar.getInstance().getTimeInMillis();
+        refreshInBackground();
+        lastRefresh = Calendar.getInstance().getTimeInMillis();
 
     }
 
@@ -80,13 +80,13 @@ public class ChatActivity extends AppCompatActivity {
         @Override
         public void run() {
             while(true) {
-                refreshMessages(false);
 
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                getNewMessages();
             }
 
         }
@@ -150,39 +150,68 @@ public class ChatActivity extends AppCompatActivity {
     }
 
 
+    void getNewMessages()
+    {
+        // Construct query to execute
+        ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
+        // get the latest messages, order will show up newest to oldest of this group
+        query.orderByDescending("createdAt");
+        query.whereEqualTo("workshop",detailedWorkshop.getObjectId());
+        // This is equivalent to a SELECT query with SQL
+
+        query.findInBackground(new FindCallback<Message>() {
+            public void done(List<Message> messages, ParseException e) {
+                if (e == null) {
+
+
+                    for(Message m : messages)
+                    {
+                        boolean in = false;
+                        for(Message curr : mMessages)
+                        {
+                            if(curr.getObjectId().equals(m.getObjectId()))
+                            {
+                                in = true;
+                            }
+                        }
+                        if(!in)
+                        {
+                            mMessages.add(m);
+                            mAdapter.notifyItemChanged(mMessages.size() - 1);
+                            rvChat.scrollToPosition(mMessages.size() - 1);
+                        }
+
+
+                    }
+                } else {
+                    Log.e("message", "Error Loading Messages" + e);
+                }
+            }
+        });
+    }
+
+
     // Query messages from Parse so we can load them into the chat adapter
     void refreshMessages(boolean scroll) {
         // Construct query to execute
         ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
-
-
         // get the latest messages, order will show up newest to oldest of this group
         query.orderByDescending("createdAt");
-
         query.whereEqualTo("workshop",detailedWorkshop.getObjectId());
-
-        if(!mFirstLoad) {
-            Date lastRefreshDate = new Date(lastRefresh);
-            query.whereGreaterThanOrEqualTo("createdAt",lastRefreshDate);
-        }
-        else
-        {
-            mFirstLoad = true;
-        }
-
-
-
-
         // This is equivalent to a SELECT query with SQL
         query.findInBackground(new FindCallback<Message>() {
             public void done(List<Message> messages, ParseException e) {
                 if (e == null) {
+                    lastMessage = new Message();
+                    lastMessage.setObjectId("last");
+
                     mMessages.clear();
                     for(int i = 0 ; i < messages.size();i++)
                     {
                         mMessages.add(0,messages.get(i));
+                        mAdapter.notifyItemChanged(mMessages.size()-1);
+                        lastMessage = messages.get(i);
                     }
-                    mAdapter.notifyDataSetChanged(); // update adapter
 
                     if(scroll) {
                         rvChat.scrollToPosition(mMessages.size() - 1);

@@ -31,10 +31,6 @@ import java.util.List;
 
 public class DeleteAccountActivity extends AppCompatActivity {
 
-    private TextView tvWarning;
-    private Button continueButton;
-
-    FragmentManager fragmentManager;
     private ParseUser currentUser;
     private String fbID;
 
@@ -43,25 +39,10 @@ public class DeleteAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_account);
 
-        tvWarning = findViewById(R.id.warningMessage);
-        continueButton = findViewById(R.id.continueTODELETE);
-
-
-        fragmentManager = getSupportFragmentManager();
-
         currentUser = ParseUser.getCurrentUser();
         fbID = currentUser.getUsername();
 
-        continueButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                fragmentManager.beginTransaction().addToBackStack(null).commit();
-
-                removeRatings();
-
-            }
-        });
+        removeRatings();
 
     }
 
