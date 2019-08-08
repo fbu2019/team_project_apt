@@ -38,6 +38,7 @@ public class ChatActivity extends AppCompatActivity {
     Workshop detailedWorkshop;
     int maxMessages;
     Long lastRefresh;
+    Message lastMessage;
 
 
 
@@ -79,13 +80,13 @@ public class ChatActivity extends AppCompatActivity {
         @Override
         public void run() {
             while(true) {
-                getNewMessages();
 
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                getNewMessages();
             }
 
         }
@@ -151,29 +152,42 @@ public class ChatActivity extends AppCompatActivity {
 
     void getNewMessages()
     {
-//        // Construct query to execute
-//        ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
-//        // get the latest messages, order will show up newest to oldest of this group
-//        query.orderByDescending("createdAt");
-//        query.whereEqualTo("workshop",detailedWorkshop.getObjectId());
-//        query.whereNotEqualTo("userId",ParseUser.getCurrentUser().getObjectId());
-//        // This is equivalent to a SELECT query with SQL
-//        query.findInBackground(new FindCallback<Message>() {
-//            public void done(List<Message> messages, ParseException e) {
-//                if (e == null) {
-//
-//                    for(Message m: messages)
-//                    {
-//
-//                    }
-//
-//                } else {
-//                    Log.e("message", "Error Loading Messages" + e);
-//                }
-//            }
-//        });
+        // Construct query to execute
+        ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
+        // get the latest messages, order will show up newest to oldest of this group
+        query.orderByDescending("createdAt");
+        query.whereEqualTo("workshop",detailedWorkshop.getObjectId());
+        // This is equivalent to a SELECT query with SQL
 
-        refreshMessages(false);
+        query.findInBackground(new FindCallback<Message>() {
+            public void done(List<Message> messages, ParseException e) {
+                if (e == null) {
+
+
+                    for(Message m : messages)
+                    {
+                        boolean in = false;
+                        for(Message curr : mMessages)
+                        {
+                            if(curr.getObjectId().equals(m.getObjectId()))
+                            {
+                                in = true;
+                            }
+                        }
+                        if(!in)
+                        {
+                            mMessages.add(m);
+                            mAdapter.notifyItemChanged(mMessages.size() - 1);
+                            rvChat.scrollToPosition(mMessages.size() - 1);
+                        }
+
+
+                    }
+                } else {
+                    Log.e("message", "Error Loading Messages" + e);
+                }
+            }
+        });
     }
 
 
@@ -188,11 +202,15 @@ public class ChatActivity extends AppCompatActivity {
         query.findInBackground(new FindCallback<Message>() {
             public void done(List<Message> messages, ParseException e) {
                 if (e == null) {
+                    lastMessage = new Message();
+                    lastMessage.setObjectId("last");
+
                     mMessages.clear();
                     for(int i = 0 ; i < messages.size();i++)
                     {
                         mMessages.add(0,messages.get(i));
                         mAdapter.notifyItemChanged(mMessages.size()-1);
+                        lastMessage = messages.get(i);
                     }
 
                     if(scroll) {

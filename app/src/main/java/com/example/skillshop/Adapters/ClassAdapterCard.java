@@ -151,6 +151,11 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
                     }
                 });
             }
+            else
+            {
+                ivTeacherBadge.setVisibility(View.INVISIBLE);
+                ivTeacherBadge.setEnabled(false);
+            }
 
             Date date = new Date(tWorkshop.getDate());
             DateFormat dateFormat = new SimpleDateFormat("E MMM dd");
