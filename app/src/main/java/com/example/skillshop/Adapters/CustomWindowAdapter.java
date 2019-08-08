@@ -74,7 +74,7 @@ public class CustomWindowAdapter implements GoogleMap.InfoWindowAdapter {
             List<Ratings> ratingsList = ratingParseQuery.find();
             Ratings userRating = ratingsList.get(0);
             rbInstructorAverage.setRating((int) userRating.getAverageRating());
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         if(teacher != null && teacher.getString("firstName")!=null && teacher.getString("lastName")!=null){
