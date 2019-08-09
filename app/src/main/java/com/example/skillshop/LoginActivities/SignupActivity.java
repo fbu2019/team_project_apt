@@ -147,8 +147,15 @@ public class SignupActivity extends AppCompatActivity {
             user.put("visible", true);
             List<Integer> skillsData = new ArrayList<Integer>(Collections.nCopies(10, 0));
             user.put("skillsData", skillsData);
-            String image_url = "https://graph.facebook.com/" + fbID + "/picture?type=large";
-            user.put("profilePicUrl", image_url);
+
+            if(!user.getUsername().equals("1265388793642632")||!user.getUsername().equals("2445593605460939")||!user.getUsername().equals("2138031849639722")) {
+                String image_url = "https://graph.facebook.com/" + fbID + "/picture?type=large";
+                user.put("profilePicUrl", image_url);
+            } else {
+                String image_url =" https://picsum.photos/200";
+                user.put("profilePicUrl", image_url);
+            }
+
 
             login(fbID, fbID);
 
@@ -196,7 +203,6 @@ public class SignupActivity extends AppCompatActivity {
 
     private void linkUserRating(ParseUser user, Ratings userRating) {
 
-        //TODO - determine why not linking
         user.put("rating", userRating);
 
         user.saveInBackground(new SaveCallback() {

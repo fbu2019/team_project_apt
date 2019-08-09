@@ -41,6 +41,7 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
@@ -160,9 +161,6 @@ public class UserProfileFragment extends Fragment {
 
         setupFragments(view);
 
-
-
-
     }
 
 
@@ -257,6 +255,7 @@ public class UserProfileFragment extends Fragment {
         }
 
         if (profilePhotoUrl != null) {
+            profilePhotoUrl= (String) ParseUser.getCurrentUser().get("profilePicUrl");
             Glide.with(getContext()).load(profilePhotoUrl).apply(new RequestOptions().circleCrop()).into(ivProfilePic);
             Log.i("ProfileFragment", profilePhotoUrl);
         } else {
