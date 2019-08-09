@@ -1,8 +1,7 @@
-package com.example.skillshop.ClassDescription;
+package com.example.skillshop.NavigationFragments.Profile;
 
 import org.parceler.Parcels;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,12 +19,9 @@ import com.example.skillshop.FollowingListActivity;
 import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.Models.User;
 import com.example.skillshop.Models.Workshop;
-import com.example.skillshop.NavigationFragments.Profile.UserFollowersActivity;
-import com.example.skillshop.NavigationFragments.Profile.UserProfileActivity;
 import com.example.skillshop.R;
 import com.parse.FindCallback;
 import com.parse.LogInCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;

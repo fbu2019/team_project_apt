@@ -108,9 +108,15 @@ public class MyFirebaseInstanceService extends FirebaseMessagingService {
     public void onNewToken(String s) {
         super.onNewToken(s);
 
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        currentUser.put("firebaseToken",FirebaseInstanceId.getInstance().getToken());
-        currentUser.saveInBackground();
+        try {
+            ParseUser currentUser = ParseUser.getCurrentUser();
+            currentUser.put("firebaseToken", FirebaseInstanceId.getInstance().getToken());
+            currentUser.saveInBackground();
+        }
+        catch(Exception e)
+        {
+
+        }
     }
 
 

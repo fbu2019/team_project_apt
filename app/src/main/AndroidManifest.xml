@@ -52,7 +52,7 @@
         <activity android:name=".ClassDescription.ChatActivity" />
         <activity android:name=".FollowingListActivity" />
         <activity android:name=".ClassDescription.ClassAttendeesActivity" />
-        <activity android:name=".ClassDescription.InstructorDetailsActivity" /> <!-- added for maps -->
+        <activity android:name=".NavigationFragments.Profile.InstructorDetailsActivity" /> <!-- added for maps -->
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" /> <!-- added for maps -->
