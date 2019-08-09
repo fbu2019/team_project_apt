@@ -31,6 +31,7 @@ import com.parse.ParseUser;
 import org.parceler.Parcels;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -172,7 +173,7 @@ public class ClassAdapterCard extends RecyclerView.Adapter<ClassAdapterCard.View
             }
             else
             {
-                tvCost.setText("$ "+cost+" / hr");
+                tvCost.setText("$ "+ String.format("%.2f", cost) +" / hr");
             }
 
 

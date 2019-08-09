@@ -51,40 +51,41 @@ public class MapFragment extends Fragment{
             @Override
             public void onMapReady(GoogleMap mMap) {
                 mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-
-              //  mMap.setMyLocationEnabled(true);
                 mMap.clear(); //clear old markers
-
-
-                CameraPosition googlePlex = CameraPosition.builder()
-                        .target(new LatLng(37.4530,-122.1817))
-                        .zoom(10)
-
-                        .bearing(0)
-                        .tilt(45)
-                        .build();
-
-                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 2000, null);
-                mMap.setInfoWindowAdapter(new CustomWindowAdapter(getLayoutInflater(), getContext()));
-                mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                    @Override
-                    public void onInfoWindowClick(Marker marker) {
-                        Workshop workshop = (Workshop) marker.getTag();
-                        final Intent profileDetailsIntent = new Intent(getContext(), ClassDetailsActivity.class);
-                        //pass in class that was selected
-                        profileDetailsIntent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(workshop));
-                        startActivity(profileDetailsIntent);
-
-                    }
-                });
-                loadMap(mMap);
-
+                setupCameraPosition(mMap);
+                setupInfoWinfow(mMap);
+                populateClasses(mMap);
             }
         });
 
 
         return rootView;
 
+    }
+
+    private void setupInfoWinfow(GoogleMap mMap) {
+        mMap.setInfoWindowAdapter(new CustomWindowAdapter(getLayoutInflater(), getContext()));
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Workshop workshop = (Workshop) marker.getTag();
+                final Intent profileDetailsIntent = new Intent(getContext(), ClassDetailsActivity.class);
+                //pass in class that was selected
+                profileDetailsIntent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(workshop));
+                startActivity(profileDetailsIntent);
+
+            }
+        });
+    }
+
+    private void setupCameraPosition(GoogleMap mMap) {
+        CameraPosition googlePlex = CameraPosition.builder()
+                .target(new LatLng(37.4530,-122.1817))
+                .zoom(10)
+                .bearing(0)
+                .tilt(45)
+                .build();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 2000, null);
     }
 
 
@@ -94,7 +95,7 @@ public class MapFragment extends Fragment{
 
     }
 
-    public void loadMap(GoogleMap mMap)
+    public void populateClasses(GoogleMap mMap)
     {
         mWorkshops = new ArrayList<>();
         Query parseQuery = new Query();

@@ -279,7 +279,7 @@ public class ClassDetailsActivity extends AppCompatActivity {
         if (cost == 0) {
             tvCost.setText("Free");
         } else {
-            tvCost.setText("$ " + cost);
+            tvCost.setText("$ " + String.format("%.2f", cost));
         }
 
     }
