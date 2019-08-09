@@ -363,7 +363,7 @@ public class CategoryDisplayFragment extends Fragment {
         classAdapter.notifyDataSetChanged();
         Query parseQuery = new Query();
         // query add all classes with all data and sort by time of class and only show new classes
-        parseQuery.getAllClasses().withItems().bySubCategory(categories);
+        parseQuery.getAllClasses().withItems().bySubCategory(categories).getClassesNotTaking();
 
         if(byDate)
         {

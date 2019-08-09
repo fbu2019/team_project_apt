@@ -123,19 +123,19 @@ public class CalendarDayViewFragment extends Fragment implements WeekView.EventC
             switch(w.getCategory())
             {
                 case "Culinary":
-                    event.setColor(getResources().getColor(R.color.color_palette_green));
+                    event.setColor(getResources().getColor(R.color.calendar_culinary));
                     break;
                 case "Fitness":
-                    event.setColor(getResources().getColor(R.color.color_palette_yellow));
+                    event.setColor(getResources().getColor(R.color.calendar_fitness));
                     break;
                 case "Arts/Crafts":
-                    event.setColor(getResources().getColor(R.color.color_palette_orange));
+                    event.setColor(getResources().getColor(R.color.calendar_arts));
                     break;
                 case "Education":
-                    event.setColor(getResources().getColor(R.color.color_palette_light_blue2));
+                    event.setColor(getResources().getColor(R.color.calendar_education));
                     break;
                 case "Other":
-                    event.setColor(getResources().getColor(R.color.color_palette_light_grey));
+                    event.setColor(getResources().getColor(R.color.calendar_other));
                     break;
 
             }

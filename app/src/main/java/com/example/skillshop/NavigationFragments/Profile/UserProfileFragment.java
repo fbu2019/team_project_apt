@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -23,8 +22,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.skillshop.NavigationFragments.Profile.Settings.AddUserPreferences;
-import com.example.skillshop.NavigationFragments.Profile.Settings.DeleteAccountActivity;
 import com.example.skillshop.FollowingListActivity;
 import com.example.skillshop.LoginActivities.LoginActivity;
 import com.example.skillshop.Models.Ratings;
@@ -39,7 +36,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -51,7 +47,6 @@ import com.parse.SaveCallback;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -87,7 +82,7 @@ public class UserProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
 
-        tvUserName = view.findViewById(R.id.nameView);
+        tvUserName = view.findViewById(R.id.tvUsername);
         tvNumberOfFollowers = view.findViewById(R.id.numberOfFollowers);
         tvSkillsAnalysis = view.findViewById(R.id.tvSkillAnalysis);
         setNumFollowers(); //   sets view within method

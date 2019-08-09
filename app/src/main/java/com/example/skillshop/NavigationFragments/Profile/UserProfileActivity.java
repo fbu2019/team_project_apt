@@ -3,21 +3,20 @@ package com.example.skillshop.NavigationFragments.Profile;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.skillshop.Adapters.ClassAdapter;
+import com.example.skillshop.Adapters.ClassAdapterCard;
 import com.example.skillshop.FollowingListActivity;
 import com.example.skillshop.Models.Query;
 import com.example.skillshop.Models.User;
@@ -37,7 +36,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private RecyclerView rvClasses;
     protected ArrayList<Workshop> mWorkshops;
-    protected ClassAdapter classAdapter;
+    protected ClassAdapterCard classAdapter;
 
     private int numberOfFollowers = 0;
     private ParseUser currentUser;
@@ -56,7 +55,7 @@ public class UserProfileActivity extends AppCompatActivity {
         currentUser = Parcels.unwrap(getIntent().getParcelableExtra(User.class.getSimpleName()));
         profilePhotoUrl = currentUser.getString("profilePicUrl");
 
-        tvNameView = findViewById(R.id.nameView);
+        tvNameView = findViewById(R.id.tvUsername);
         tvNameView.setText(currentUser.get("firstName") + " " + currentUser.get("lastName"));
         ivProfileImage = findViewById(R.id.profileImage);
         loadProfilePicture();
@@ -68,7 +67,7 @@ public class UserProfileActivity extends AppCompatActivity {
         tvNumberFollowing.setText(friends.size() + "");
 
 
-        tvPreferences = findViewById(R.id.userPreferences);
+        tvPreferences = findViewById(R.id.tvPreferences);
         ArrayList<String> preferences = (ArrayList<String>) currentUser.get("preferences");
         String preferenceString = "";
         if (preferences != null && preferences.size() > 0) {
@@ -85,8 +84,9 @@ public class UserProfileActivity extends AppCompatActivity {
         }
         tvPreferences.setText(preferenceString);
 
+
+
         connectRecyclerView();
-        populateHomeFeed();
 
         tvNumberFollowers.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +106,31 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
+        setUpNavBar();
+
+
     }
+    private void setUpNavBar() {
+        BottomNavigationView topNavigationBar = findViewById(R.id.top_navigation);
+        topNavigationBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.taking:
+                        populateTaking();
+                        break;
+                    case R.id.teaching:
+                        populateTeaching();
+                        break;
+                    default: break;
+                }
+                return true;
+            }
+        });
+        // default fragment in home fragment
+        topNavigationBar.setSelectedItemId(R.id.taking);
+    }
+
 
     private void loadProfilePicture() {
 
@@ -128,7 +152,7 @@ public class UserProfileActivity extends AppCompatActivity {
         //init the arraylist (data source)
         mWorkshops = new ArrayList<>();
         //construct the adapter from this datasource
-        classAdapter = new ClassAdapter(mWorkshops, UserProfileActivity.this);
+        classAdapter = new ClassAdapterCard(mWorkshops, UserProfileActivity.this);
         //RecyclerView setup (layout manager, use adapter)
         rvClasses.setLayoutManager(new LinearLayoutManager(UserProfileActivity.this));
         //set the adapter
@@ -140,12 +164,11 @@ public class UserProfileActivity extends AppCompatActivity {
         rvClasses.addItemDecoration(dividerItemDecoration);
     }
 
-    public void populateHomeFeed() {
+    public void populateTeaching() {
 
         mWorkshops.clear();
         classAdapter.notifyDataSetChanged();
 
-        ArrayList<String> classes = (ArrayList<String>) ParseUser.getCurrentUser().get("classesTaking");
         Query userClassesQuery = new Query();
         // query add all classes with all data and sort by time of class and only show new classes
         userClassesQuery.getAllClasses().withItems();
@@ -161,6 +184,36 @@ public class UserProfileActivity extends AppCompatActivity {
                             classAdapter.notifyItemInserted(mWorkshops.size() - 1);
                         }
                     }
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void populateTaking() {
+
+        mWorkshops.clear();
+        classAdapter.notifyDataSetChanged();
+
+        Query userClassesQuery = new Query();
+        // query add all classes with all data and sort by time of class and only show new classes
+        userClassesQuery.getAllClasses().withItems();
+
+        userClassesQuery.findInBackground(new FindCallback<Workshop>() {
+            @Override
+            public void done(List<Workshop> objects, ParseException e) {
+                if (e == null) {
+                    for(Workshop workshop : objects)
+
+                        for(String id : (ArrayList<String>) workshop.getStudents()) {
+
+                            if (id.equals(currentUser.getObjectId())) {
+                                mWorkshops.add(workshop);
+                                classAdapter.notifyItemInserted(mWorkshops.size() - 1);
+                            }
+
+                        }
                 } else {
                     e.printStackTrace();
                 }

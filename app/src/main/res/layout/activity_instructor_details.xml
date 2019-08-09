@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ClassDescription.InstructorDetailsActivity">
+    tools:context=".NavigationFragments.Profile.InstructorDetailsActivity">
 
     <ImageView
         android:id="@+id/instructorProfile"
         android:layout_width="135dp"
         android:layout_height="100dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -75,7 +75,7 @@
 
     <TextView
         android:id="@+id/userProvideRating"
-        android:layout_width="280dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:textAlignment="center"
@@ -83,7 +83,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userRating" />
+        app:layout_constraintTop_toBottomOf="@+id/userRating"
+        tools:text="Some text" />
 
     <TextView
         android:id="@+id/numRatings"
@@ -95,7 +96,8 @@
         android:textColor="@color/color_palette_dark_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/instructorAverage" />
+        app:layout_constraintTop_toBottomOf="@+id/instructorAverage"
+        tools:text="Some text" />
 
     <Button
         android:id="@+id/followInstructor"
