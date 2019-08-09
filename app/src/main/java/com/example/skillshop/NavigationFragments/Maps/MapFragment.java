@@ -42,26 +42,28 @@ public class MapFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_maps, container, false);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);  //use SupportMapFragment for using in fragment instead of activity  MapFragment = activity   SupportMapFragment = fragment
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);  //use SuppoprtMapFragment for using in fragment instead of activity  MapFragment = activity   SupportMapFragment = fragment
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @SuppressLint("MissingPermission")
             @Override
             public void onMapReady(GoogleMap mMap) {
                 mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
                 mMap.clear(); //clear old markers
-                setupCameraPosition();
-                setupInfoWindow();
-                getClasses(mMap);
+                setupCameraPosition(mMap);
+                setupInfoWinfow(mMap);
+                populateClasses(mMap);
             }
         });
+
+
         return rootView;
+
     }
 
-    private void setupInfoWindow() {
+    private void setupInfoWinfow(GoogleMap mMap) {
         mMap.setInfoWindowAdapter(new CustomWindowAdapter(getLayoutInflater(), getContext()));
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
@@ -71,18 +73,18 @@ public class MapFragment extends Fragment{
                 //pass in class that was selected
                 profileDetailsIntent.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(workshop));
                 startActivity(profileDetailsIntent);
+
             }
         });
     }
 
-    private void setupCameraPosition() {
+    private void setupCameraPosition(GoogleMap mMap) {
         CameraPosition googlePlex = CameraPosition.builder()
                 .target(new LatLng(37.4530,-122.1817))
                 .zoom(10)
                 .bearing(0)
                 .tilt(45)
                 .build();
-
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 2000, null);
     }
 
@@ -93,7 +95,7 @@ public class MapFragment extends Fragment{
 
     }
 
-    public void getClasses(GoogleMap mMap)
+    public void populateClasses(GoogleMap mMap)
     {
         mWorkshops = new ArrayList<>();
         Query parseQuery = new Query();
@@ -108,27 +110,28 @@ public class MapFragment extends Fragment{
                         Workshop workshopItem = objects.get(i);
                         mWorkshops.add(workshopItem);
 
-                        //Creates point from workshop location to be used for the position of the marker
+                        // Define color of marker icon
                         ParseGeoPoint workshopLocation = workshopItem.getLocation();
                         double lat = workshopLocation.getLatitude();
                         double lon = workshopLocation.getLongitude();
                         LatLng point = new LatLng(lat, lon);
-
+                        String category = workshopItem.getCategory();
 
                         //sets the default marker color
                         BitmapDescriptor defaultMarker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA);
                         //sets the marker color based on category
-                        String category = workshopItem.getCategory();
                         defaultMarker = setMarkerColor(defaultMarker, category);
 
                         Marker marker = mMap.addMarker(new MarkerOptions()
                                 .position(point)
                                 .icon(defaultMarker)
                                 .title(workshopItem.getObjectId())
+                               // .snippet(getRelativeTimeAgo(workshopItem.getDate()))
                         );
 
-                        //adds each workshop item as a tag to be passed to the class details activity when the info window is pressed
                         marker.setTag(workshopItem);
+
+
                     }
                 } else {
                     e.printStackTrace();
