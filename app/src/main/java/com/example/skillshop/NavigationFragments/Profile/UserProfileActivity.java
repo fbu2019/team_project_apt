@@ -11,21 +11,28 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.skillshop.Adapters.ClassAdapterCard;
+import com.example.skillshop.ClassDescription.ClassDetailsActivity;
 import com.example.skillshop.FollowingListActivity;
 import com.example.skillshop.Models.Query;
+import com.example.skillshop.Models.Ratings;
 import com.example.skillshop.Models.User;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.R;
 import com.parse.FindCallback;
+import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
@@ -46,6 +53,12 @@ public class UserProfileActivity extends AppCompatActivity {
     private TextView tvNumberFollowing;
     private TextView tvPreferences;
     private ImageView ivProfileImage;
+    private Button btnFollow;
+
+    private RatingBar rbInstructorAverage;
+
+
+    private float currentRatingAverage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +121,176 @@ public class UserProfileActivity extends AppCompatActivity {
 
         setUpNavBar();
 
+        setUpRating();
 
+        initFollowButton();
+
+        initializeAverageRating(currentUser.getObjectId());
+
+
+    }
+
+    private void initFollowButton() {
+
+        btnFollow = findViewById(R.id.btnFollow);
+
+        if (ParseUser.getCurrentUser().getObjectId().equals(currentUser.getObjectId())) {
+            btnFollow.setVisibility(View.GONE);
+        } else {
+
+            ArrayList<String> myFollowing = (ArrayList<String>) ParseUser.getCurrentUser().get("friends");
+            Boolean isFollowing = myFollowing.contains(currentUser.getObjectId());
+
+            if (isFollowing) {
+                btnFollow.setText("Unfollow");
+                btnFollow.setTextColor(getResources().getColor((R.color.color_palette_dark_grey)));
+                btnFollow.setBackgroundColor(getResources().getColor(R.color.light_gray));
+            }
+            else
+            {
+                btnFollow.setText("Follow");
+                btnFollow.setTextColor(getResources().getColor((R.color.quantum_white_100)));
+                btnFollow.setBackgroundColor(getResources().getColor(R.color.quantum_black_100));
+            }
+
+            btnFollow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    //Gets the list of users being followed by the current user. This has to be done
+                    //each time the follow button is clicked because the list may change if the
+                    //current user clicks multiple times.
+                    ArrayList<String> currentlyFollowing = (ArrayList<String>) ParseUser.getCurrentUser().get("friends");
+                    Boolean isCurrentlyFollowing = currentlyFollowing.contains(currentUser.getObjectId());
+
+                    if (!isCurrentlyFollowing) {
+                        followInstructor(currentlyFollowing, currentUser.getObjectId(), currentUser, ParseUser.getCurrentUser());
+                    } else {
+                        unfollowInstructor(currentlyFollowing, currentUser.getObjectId(), currentUser, ParseUser.getCurrentUser());
+                    }
+
+                }
+            });
+        }
+    }
+
+    private void initializeAverageRating(String instructorID) {
+
+        rbInstructorAverage = findViewById(R.id.rbInstructorAverage);
+
+        Ratings.Query ratingParseQuery = new Ratings.Query();
+        ratingParseQuery.getAllRatings().whereEqualTo("user", currentUser);
+
+        ratingParseQuery.findInBackground(new FindCallback<Ratings>() {
+
+            @Override
+            public void done(List<Ratings> objects, ParseException e) {
+                if (e == null) {
+
+                    if (objects.size() > 0) {
+                        Ratings currentRating = objects.get(0);
+
+                        float avgRating = 0;
+                        if (currentRating.getNumRatings() > 0) {
+                            avgRating = currentRating.getSumRatings() / currentRating.getNumRatings();
+                        }
+
+                        currentRating.setAverageRating((int) avgRating);
+                        currentRatingAverage = (float) avgRating;
+
+                        rbInstructorAverage.setRating(currentRatingAverage);
+                    }
+
+
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void unfollowInstructor(ArrayList<String> currentlyFollowing, String instructorId, ParseUser instructor, ParseUser currentUser) {
+
+        //Removes the attendee from the current user's following list and saves it to parse
+        currentlyFollowing.remove(instructorId);
+        ParseUser.getCurrentUser().put("friends", currentlyFollowing);
+
+        login(ParseUser.getCurrentUser().getUsername(), ParseUser.getCurrentUser().getUsername());
+        ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Toast.makeText(UserProfileActivity.this, "You are no longer following " + instructor.get("firstName"), Toast.LENGTH_LONG).show();
+                } else {
+                    Log.e("InstructorDetails", "error saving");
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        btnFollow.setText("Follow");
+        btnFollow.setTextColor(getResources().getColor((R.color.quantum_white_100)));
+        btnFollow.setBackgroundColor(getResources().getColor(R.color.color_palette_dark_grey));
+        numberOfFollowers--;
+        tvNumberFollowers.setText("" + numberOfFollowers);
+    }
+
+    private void followInstructor(ArrayList<String> currentlyFollowing, String instructorId, ParseUser instructor, ParseUser currentUser) {
+
+        //Adds the attendee to the current user's following list and saves it to parse
+        currentlyFollowing.add(instructorId);
+        ParseUser.getCurrentUser().put("friends", currentlyFollowing);
+
+        login(ParseUser.getCurrentUser().getUsername(), ParseUser.getCurrentUser().getUsername());
+        ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Toast.makeText(UserProfileActivity.this, "You are now following " + instructor.get("firstName"), Toast.LENGTH_LONG).show();
+                } else {
+                    Log.e("InstructorDetails", "error saving");
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        //Resets the following button
+        btnFollow.setText("Unfollow");
+        btnFollow.setTextColor(getResources().getColor((R.color.color_palette_dark_grey)));
+        btnFollow.setBackgroundColor(getResources().getColor(R.color.light_gray));
+        numberOfFollowers++;
+        tvNumberFollowers.setText(numberOfFollowers + "");
+    }
+
+    private void login(String username, String password) {
+
+        Log.i("LoginActivity", "Reached login method");
+        ParseUser.logInInBackground(username, password, new LogInCallback() {
+            @Override
+            public void done(ParseUser user, ParseException e) {
+                if (e == null) {
+                    Log.d("LoginActivity", "Login successful");
+
+                } else {
+                    Log.e("LoginActivity", "Login failure");
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+
+    public void setUpRating()
+    {
+        Button btnRate = findViewById(R.id.btnRate);
+        btnRate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(UserProfileActivity.this, InstructorDetailsActivity.class);
+                i.putExtra(User.class.getSimpleName(), Parcels.wrap(currentUser));
+                startActivity(i);
+            }
+        });
     }
     private void setUpNavBar() {
         BottomNavigationView topNavigationBar = findViewById(R.id.top_navigation);
@@ -130,6 +312,9 @@ public class UserProfileActivity extends AppCompatActivity {
         // default fragment in home fragment
         topNavigationBar.setSelectedItemId(R.id.taking);
     }
+
+
+
 
 
     private void loadProfilePicture() {
@@ -256,5 +441,12 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+
+
+
+
 
 }

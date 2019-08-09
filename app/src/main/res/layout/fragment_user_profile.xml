@@ -46,7 +46,7 @@
             tools:srcCompat="@tools:sample/avatars" />
 
         <RatingBar
-            android:id="@+id/instructorAverage"
+            android:id="@+id/ratingInstructor"
             style="@style/Widget.AppCompat.RatingBar.Small"
             android:layout_width="82dp"
             android:layout_height="17dp"
@@ -66,10 +66,10 @@
             android:layout_marginTop="8dp"
             android:text="100 Following"
             android:textColor="@color/color_palette_dark_grey"
-            app:layout_constraintEnd_toEndOf="@+id/instructorAverage"
+            app:layout_constraintEnd_toEndOf="@+id/ratingInstructor"
             app:layout_constraintHorizontal_bias="0.428"
-            app:layout_constraintStart_toStartOf="@+id/instructorAverage"
-            app:layout_constraintTop_toBottomOf="@+id/instructorAverage" />
+            app:layout_constraintStart_toStartOf="@+id/ratingInstructor"
+            app:layout_constraintTop_toBottomOf="@+id/ratingInstructor" />
 
         <TextView
             android:id="@+id/tvUsername"

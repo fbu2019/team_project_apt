@@ -6,6 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".UserProfile">
 
+    <RatingBar
+        android:id="@+id/rbInstructorAverage"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:backgroundTint="@color/color_palette_yellow"
+        android:progressTint="@color/color_palette_yellow"
+        android:secondaryProgressTint="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@+id/tvUsername"
+        app:layout_constraintStart_toEndOf="@+id/tvUsername"
+        app:layout_constraintTop_toTopOf="@+id/tvUsername"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/btnFollow"
+        android:layout_width="214dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/color_palette_green"
+        android:text="Follow"
+        android:textAllCaps="false"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.88"
+        app:layout_constraintStart_toEndOf="@+id/profileImage"
+        app:layout_constraintTop_toBottomOf="@+id/numberOfFollowers" />
+
     <TextView
         android:id="@+id/tvUsername"
         android:layout_width="wrap_content"
@@ -48,7 +78,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="48dp"
         android:text="Followers"
         app:layout_constraintStart_toEndOf="@+id/profileImage"
         app:layout_constraintTop_toTopOf="parent" />
@@ -99,7 +129,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvPreferences"
         app:menu="@menu/menu_top_navigation" />
@@ -113,6 +142,20 @@
         android:text="Preferences"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvUsername" />
+
+    <Button
+        android:id="@+id/btnRate"
+        android:layout_width="74dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/rounded_button"
+        android:text="Rate this User"
+        android:textAllCaps="false"
+        android:textColor="@color/quantum_white_text"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="@+id/rbInstructorAverage"
+        app:layout_constraintStart_toEndOf="@+id/rbInstructorAverage"
+        app:layout_constraintTop_toTopOf="@+id/rbInstructorAverage" />
 
 
 </android.support.constraint.ConstraintLayout>
