@@ -81,6 +81,7 @@
 
     </string-array>
     <string name="google_maps_api_key">AIzaSyDpivnu2RgJcJdaNe-0IbYKz9-EMTpZKEY</string>
+    <string name="random_profile_image">https://picsum.photos/200</string>
 
 
 </resources>

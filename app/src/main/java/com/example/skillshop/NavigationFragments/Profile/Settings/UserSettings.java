@@ -238,6 +238,10 @@ public class UserSettings extends AppCompatActivity {
                             tvCurrentNumberRatings.setText("Your current average rating is "+(float) userRating.getSumRatings()/userRating.getNumRatings()+". You have been rated by "+userRating.getNumRatings()+" users.");
                         }
 
+                    } else {
+
+                        tvCurrentNumberRatings.setText("You have not yet been rated as an instructor");
+
                     }
 
                 } else {
