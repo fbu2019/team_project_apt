@@ -14,7 +14,7 @@ The following **required** functionality is completed:
 - [x] User can navigate across 4 pages from the home screen after logging in
 - [x] User can view all the classes available to them
 - [x] User can add a class they want to host
-- [ ] User can post a picture of that class that will show up when other users view this course
+- [x] User can post a picture of that class that will show up when other users view this course
 - [x] User can delete a class they have posted
 - [x] User can filter by classes they are signed up for
 - [x] User can filter by classes they are teaching
@@ -28,14 +28,12 @@ The following **required** functionality is completed:
 The following **stretch** features are implemented:
 
 - [x] Have all the classes available show up on a map activity 
-- [ ] User can pay for classes they are interested in taking
-- [ ] Recommendations for classes based on past classes
 - [x] Notifications for user when a class they are involved with changes
-- [ ] Friends graph vizualization
+- [x] Skills graph vizualization
 - [x] In class messaging system
 - [x] Rating system
-- [ ] Users past history in teaching and class taking
-- [ ] User Profile animation
+- [x] User Profile animation
+- [x] Impressive UI 
 
 
 ## Database Models

@@ -150,7 +150,7 @@ public class UserProfileActivity extends AppCompatActivity {
             {
                 btnFollow.setText("Follow");
                 btnFollow.setTextColor(getResources().getColor((R.color.quantum_white_100)));
-                btnFollow.setBackgroundColor(getResources().getColor(R.color.quantum_black_100));
+                btnFollow.setBackgroundColor(getResources().getColor(R.color.color_palette_dark_grey));
             }
 
             btnFollow.setOnClickListener(new View.OnClickListener() {
