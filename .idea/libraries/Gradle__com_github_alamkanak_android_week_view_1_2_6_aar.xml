@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.alamkanak:android-week-view:1.2.6@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5eadc99d07e866e6d03e38758e56517c/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5eadc99d07e866e6d03e38758e56517c/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9b4906baa12cbeb117912655b42d2b2a/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9b4906baa12cbeb117912655b42d2b2a/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
