@@ -34,7 +34,7 @@
         android:layout_width="120dp"
         android:layout_height="34dp"
         android:layout_marginEnd="16dp"
-        android:background="@color/color_palette_green"
+        android:background="@color/color_palette_dark_grey"
         android:text="Follow"
         android:textAllCaps="false"
         android:textColor="#ffffff"
