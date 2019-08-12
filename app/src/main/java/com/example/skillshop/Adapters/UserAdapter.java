@@ -169,7 +169,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 Boolean isFollowing = myFollowing.contains(fellowAttendeeId);
                 if (isFollowing) {
                     btnFollow.setText("Following");
-                    btnFollow.setBackgroundColor(255);
+                    btnFollow.setBackgroundColor(context.getResources().getColor(R.color.light_gray));
+                    btnFollow.setTextColor(context.getResources().getColor((R.color.color_palette_dark_grey)));
 
                 }
 
@@ -203,8 +204,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 public void done(ParseException e) {
                     if (e == null) {
                         Toast.makeText(context, "You are no longer following " + fellowAttendee.get("firstName"), LENGTH_LONG).show();
-                        //todo - make invisible?
-
                     } else {
                         e.printStackTrace();
                     }
@@ -212,7 +211,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             });
             //Resets the following button
             btnFollow.setText("Follow");
-            btnFollow.setBackgroundColor(context.getResources().getColor(R.color.color_palette_green));
+            btnFollow.setTextColor(context.getResources().getColor((R.color.quantum_white_100)));
+            btnFollow.setBackgroundColor(context.getResources().getColor(R.color.color_palette_dark_grey));
         }
 
         private void followAttendee(ArrayList<String> currentlyFollowing, String fellowAttendeeId, ParseUser fellowAttendee, ParseUser currentUser) {
@@ -232,7 +232,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             });
             //Resets the following button
             btnFollow.setText("Following");
-            btnFollow.setBackgroundColor(255);
+            btnFollow.setBackgroundColor(context.getResources().getColor(R.color.light_gray));
+            btnFollow.setTextColor(context.getResources().getColor((R.color.color_palette_dark_grey)));
         }
 
         @Override
