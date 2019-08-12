@@ -91,7 +91,7 @@ public class UserProfileFragment extends Fragment {
         drawer = view.findViewById(R.id.drawer);
         ivProfilePic = view.findViewById(R.id.profilePicture);
         ivUserSettings = view.findViewById(R.id.userSettings);
-        rbUserRating = view.findViewById(R.id.instructorAverage);
+        rbUserRating = view.findViewById(R.id.ratingInstructor);
         rbUserRating.setIsIndicator(true);
         rbUserRating.setNumStars(5);
 

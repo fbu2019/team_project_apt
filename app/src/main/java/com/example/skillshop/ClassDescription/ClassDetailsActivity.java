@@ -14,9 +14,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.skillshop.Adapters.ClassAdapterCard;
+import com.example.skillshop.Models.User;
 import com.example.skillshop.Models.Workshop;
 import com.example.skillshop.NavigationFragments.FragmentHandler;
 import com.example.skillshop.NavigationFragments.Profile.InstructorDetailsActivity;
+import com.example.skillshop.NavigationFragments.Profile.UserProfileActivity;
 import com.example.skillshop.R;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -374,8 +376,8 @@ public class ClassDetailsActivity extends AppCompatActivity {
                     startActivity(i);
 
                 } else {
-                    Intent i = new Intent(ClassDetailsActivity.this, InstructorDetailsActivity.class);
-                    i.putExtra(Workshop.class.getSimpleName(), Parcels.wrap(workshop));
+                    Intent i = new Intent(ClassDetailsActivity.this, UserProfileActivity.class);
+                    i.putExtra(User.class.getSimpleName(), Parcels.wrap(workshop.getTeacher()));
                     startActivity(i);
                     Log.e("ClassDetails", "Starting Activity");
                 }

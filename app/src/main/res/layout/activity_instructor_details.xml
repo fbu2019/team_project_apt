@@ -34,7 +34,7 @@
         app:layout_constraintTop_toBottomOf="@+id/instructorProfile" />
 
     <RatingBar
-        android:id="@+id/instructorAverage"
+        android:id="@+id/ratingInstructor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -49,7 +49,7 @@
         app:layout_constraintTop_toBottomOf="@+id/notRated" />
 
     <RatingBar
-        android:id="@+id/userRating"
+        android:id="@+id/ratingUserInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -83,7 +83,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userRating"
+        app:layout_constraintTop_toBottomOf="@+id/ratingUserInput"
         tools:text="Some text" />
 
     <TextView
@@ -96,7 +96,7 @@
         android:textColor="@color/color_palette_dark_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/instructorAverage"
+        app:layout_constraintTop_toBottomOf="@+id/ratingInstructor"
         tools:text="Some text" />
 
     <Button
