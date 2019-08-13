@@ -35,6 +35,10 @@ The following **stretch** features are implemented:
 - [x] User Profile animation
 - [x] Impressive UI 
 
+## Walkthrough
+
+walkthrough.gif
+
 
 ## Database Models
 
