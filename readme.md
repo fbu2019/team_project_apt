@@ -35,10 +35,13 @@ The following **stretch** features are implemented:
 - [x] User Profile animation
 - [x] Impressive UI 
 
-## Walkthrough
+## Video Walkthrough
 
-walkthrough.gif
+Here's a walkthrough of implemented user stories:
 
+<img src='walkthroughFinal.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Database Models
 
